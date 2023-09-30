@@ -1,0 +1,106 @@
+/* .userItem{
+    background-color: black;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+}
+.name{
+    width: 70%;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: larger;
+    
+}
+.img{
+    width: 70px;
+border-radius: 50%;
+margin-right: 10px;
+}
+.btn{
+    margin-top: 5px;
+    min-width: 79px;
+}
+.btn1{
+    margin-right: 3px;
+    min-width: 79px;
+    margin-top: 5px;
+}
+.chatBtn{
+    margin-left: 5px;
+    min-width: 79px;
+    margin-top: 5px;
+
+}
+.refuseBtn{
+    margin-left: 5px;
+    min-width: 79px;
+    margin-top: 5px;
+
+} */
+
+.userItem{
+    background-color: black;
+    margin: 1%;
+    padding: 1%;
+    padding-bottom: 0px;
+    border-radius: 10px;
+    color: white;
+}
+.name{
+    font-size: 10%;
+    width: 47%;
+    margin-bottom: 0%;
+    padding: 1%;
+    font-size: larger;
+    min-height: max-content;
+    
+}
+.imgAndStatusDiv{
+    width: 15%;
+    /* height: max-content; */
+
+}
+.img{
+width: 100%;
+border-radius: 50%;
+margin-right: 2%;
+}
+.myBtn{
+    margin-top: 1%;
+    min-width: 16%;
+    max-height: 40px;
+}
+.btn1{
+    margin-right: 1%;
+}
+.chatBtn{
+    margin-left: 1%;
+
+
+}
+.refuseBtn{
+    margin-left: 1%;
+}
+.status{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: relative;
+    bottom: 80%;
+    left: 60%;
+}
+.online {
+    background: #9ec94a;
+}
+
+.offline {
+    background: #c4d2e2;
+}
+
+.away {
+    background: #f9be52;
+}
+.busy {
+    background: #fd7274;
+}

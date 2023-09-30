@@ -1,0 +1,21 @@
+
+#headerRow{
+    background-color: blanchedalmond;
+    margin: 10px;
+    border-radius: 10px;
+}
+.colorOfHeader{
+    padding: 0%;
+    padding-top: 30px;
+    border-radius: 10px;
+    max-width: 70%;
+}
+#myPhoto{
+border-radius: 50%;
+    /* position: absolute; */
+    width:70px;
+}
+#photoDiv{
+    width: max-content;
+    padding: 10px;
+}

@@ -1,0 +1,46 @@
+<!-- <div class="col container-fluid">
+  <div class="userItem row" *ngFor="let conv of convs">
+    <img
+      class="img"
+      src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/b7/b3/eb/caption.jpg?w=1200&h=-1&s=1"
+      alt=""
+    />
+
+    <div class="name">{{ conv.name }}</div> -->
+
+<!-- <button
+      id="{{ user._id }}"
+      (click)="operation(user)"
+      [ngClass]="{
+        'btn': true,
+      'btn-success':
+        user.operation=='add' || user.operation == 'accept',
+      'btn-danger': user.operation== 'remove',
+      'btn-warning': user.operation == 'cancel',
+    }"
+    >
+      {{ user.operation }}
+    </button> -->
+
+<!-- </div>
+  <div *ngIf="!done" class="d-flex align-items-center mySpinner">
+    <strong>Loading...</strong>
+    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+  </div>
+  <h1 class="center" *ngIf="noRes">No users found for {{ key }}</h1>
+</div> -->
+
+<div class="container-fluid convContainer" *ngFor="let conv of convs">
+  <div id="{{ conv._id }}" class="conv row">
+    <div class="row photoAndName" (click)="goToConv(conv)">
+      <img src="{{ conv.photo }}" alt="convImg" class="imgConv" />
+      <h4 class="name">{{ conv.name }}</h4>
+    </div>
+    <div class="options" (click)="options(conv)">...</div>
+  </div>
+</div>
+<div *ngIf="!done" class="d-flex align-items-center mySpinner">
+  <strong>Loading...</strong>
+  <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+</div>
+<h1 class="center" *ngIf="noRes">No convs found for "{{ key }}"</h1>

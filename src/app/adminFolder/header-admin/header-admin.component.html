@@ -1,0 +1,13 @@
+<div class="row" id="headerRow">
+  <div id="photoDiv">
+    <img
+      (click)="goToProfile()"
+      id="myPhoto"
+      src="{{ getMyPhoto() }}"
+      alt="MyPhoto"
+    />
+  </div>
+  <h4 class="container colorOfHeader" id="main">
+    <ins>{{ name }} </ins>
+  </h4>
+</div>

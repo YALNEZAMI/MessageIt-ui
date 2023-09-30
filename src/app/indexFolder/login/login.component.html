@@ -1,0 +1,48 @@
+<div
+  class="tab-pane fade show active"
+  id="pills-login"
+  role="tabpanel"
+  aria-labelledby="tab-login"
+>
+  <form (ngSubmit)="login()">
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input
+        [(ngModel)]="data.email"
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        required
+      />
+      <label class="form-label" for="email">Email or username</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input
+        [(ngModel)]="data.password"
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        required
+      />
+      <label class="form-label" for="password">Password</label>
+    </div>
+
+    <div [ngClass]="getAlertClasses()" *ngIf="alert">
+      {{ alertMessage }}
+    </div>
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">
+      <div *ngIf="loginBtn">Login</div>
+      <div *ngIf="!loginBtn" class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </button>
+    <div class="center">
+      <a routerLink="/auth/getCode">Forgot password?</a>
+    </div>
+  </form>
+</div>

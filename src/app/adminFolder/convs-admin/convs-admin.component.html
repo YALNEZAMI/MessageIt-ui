@@ -1,0 +1,22 @@
+<div class="container-fluid convContainer" *ngFor="let conv of convs">
+  <div id="{{ conv._id }}" class="conv row">
+    <div class="row photoAndName" (click)="goToConv(conv)">
+      <div>
+        <img src="{{ conv.photo }}" alt="convImg" class="imgConv" />
+        <div [ngClass]="getStatusClasses(conv)"></div>
+      </div>
+
+      <div class="nameAndLastMsg">
+        <h4 class="name">{{ conv.name }}</h4>
+
+        <h6 class="lastMsg">{{ getLastMessageText(conv) }}</h6>
+      </div>
+    </div>
+    <div class="options" (click)="options(conv)">...</div>
+  </div>
+</div>
+<div *ngIf="!done" class="d-flex align-items-center mySpinner">
+  <strong>Loading...</strong>
+  <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+</div>
+<h1 class="center" *ngIf="noRes">No convs yets !</h1>

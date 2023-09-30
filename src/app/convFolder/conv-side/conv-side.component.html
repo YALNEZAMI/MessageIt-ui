@@ -1,0 +1,52 @@
+<!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3"> -->
+<div class="users-container">
+  <div class="chat-search-box">
+    <div class="input-group">
+      <input
+        (input)="search()"
+        [(ngModel)]="key"
+        type="text"
+        class="form-control"
+        placeholder="Search"
+      />
+      <div class="input-group-btn">
+        <button (click)="search()" type="button" class="btn btn-info">
+          <i class="fa fa-search"
+            ><span class="material-symbols-outlined"> search </span></i
+          >
+        </button>
+      </div>
+      <div
+        *ngIf="spinnerSearchConvs"
+        id="spinnerSearchConvs"
+        class="spinner-border"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+  <div id="fixedUsers" *ngIf="done">
+    <!--status:busy offline away-->
+    <h3 *ngIf="noConvSearched" class="center">no result for "{{ key }}"</h3>
+
+    <ul class="users">
+      <li
+        *ngFor="let conv of getConvs()"
+        (click)="goToConv(conv)"
+        [ngClass]="getConvSideClasses(conv)"
+        class="person"
+        data-chat="person1"
+      >
+        <div class="user">
+          <img src="{{ conv.photo }}" alt="Retail Admin" />
+          <span [ngClass]="getStatusClasses(conv)"></span>
+        </div>
+        <p class="name-time">
+          <span class="name">{{ conv.name }} </span><br />
+          <span>{{ getShortText(conv) }} {{ hour(conv) }}</span>
+        </p>
+      </li>
+    </ul>
+  </div>
+</div>

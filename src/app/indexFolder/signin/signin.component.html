@@ -1,0 +1,86 @@
+<div
+  class="tab-pane fade show active"
+  id="pills-login"
+  role="tabpanel"
+  aria-labelledby="tab-login"
+>
+  <form (ngSubmit)="addUser()">
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input
+        [(ngModel)]="user.firstName"
+        type="test"
+        id="firstName"
+        name="firstName"
+        class="form-control"
+        required
+      />
+      <label class="form-label" for="firstName">First Name</label>
+    </div>
+
+    <div class="form-outline mb-4">
+      <input
+        [(ngModel)]="user.lastName"
+        type="text"
+        id="lastName"
+        name="lastName"
+        class="form-control"
+        required
+      />
+      <label class="form-label" for="lastName">Last name</label>
+    </div>
+
+    <div class="form-outline mb-4">
+      <input
+        [(ngModel)]="user.email"
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        required
+      />
+      <label class="form-label" for="email">Email or username</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input
+        (input)="checkPassword()"
+        [ngClass]="getPasswordClasses()"
+        [(ngModel)]="user.password"
+        type="password"
+        id="password"
+        name="password"
+        class="form-control"
+        required
+      />
+      <label class="form-label" for="password">Password</label>
+    </div>
+    <!-- Confirm Password input -->
+    <div class="form-outline mb-4">
+      <input
+        (input)="checkPassword()"
+        [ngClass]="getPasswordClasses()"
+        [(ngModel)]="user.password2"
+        type="password"
+        id="loginPassword2"
+        name="password2"
+        class="form-control"
+        required
+      />
+      <label class="form-label" for="loginPassword2"
+        >Confirm the password</label
+      >
+    </div>
+    <div [ngClass]="getAlertClasses()" *ngIf="alert">
+      {{ alertMessage }}
+    </div>
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">
+      <div *ngIf="!spinner">register</div>
+      <div *ngIf="spinner" class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </button>
+  </form>
+</div>

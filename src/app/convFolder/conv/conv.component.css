@@ -1,0 +1,21 @@
+#returnToConvs{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+#convHeaderContainer{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    width: 100%;  
+    height: max-content;  
+}
+app-header-conv{
+    width: 100%;
+
+}
+main{
+    padding-top: 120px;
+}

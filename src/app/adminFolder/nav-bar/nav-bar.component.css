@@ -1,0 +1,24 @@
+
+
+ 
+  .navItem {
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    width: 16%;
+    text-align: center;
+  }
+  .navItem:hover {
+    background-color: #ddd;
+  }
+  .active {
+    background-color: #ddd;
+  }
+  #rowContainer{
+    background-color: beige;
+    padding-left: 20px;
+    margin-bottom: 5px;
+    margin-right: 0px;
+  }
+ 

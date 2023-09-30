@@ -1,0 +1,11 @@
+#headerAndNav{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    left: 0;
+    background-color: burlywood;
+}
+#body{
+    margin-top: 160px;
+}

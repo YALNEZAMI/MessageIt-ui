@@ -1,0 +1,88 @@
+<div class="main">
+  <!-- Content wrapper start -->
+  <!-- <div class="content-wrapper"> -->
+  <!-- Row start -->
+  <!-- <div class="row gutters"> -->
+  <div
+    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+    style="padding: 0%"
+  >
+    <div class="card m-0">
+      <!-- Row start -->
+      <div id="convsMessagesRow" class="row no-gutters">
+        <!-- side convs component -->
+        <!-- <div class="users-container"> -->
+        <app-conv-side></app-conv-side>
+        <!-- </div> -->
+        <div
+          id="chatContainer"
+          class="chat-container"
+          #chatContainer
+          (scroll)="updateBottom()"
+        >
+          <div
+            *ngIf="loading"
+            id="msgLoadingSpinner"
+            class="spinner-border"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="chat-box" *ngFor="let msg of getMessages()">
+            <div id="{{ msg._id }}" [ngClass]="getChatClasses(msg)">
+              <div class="chat-avatar">
+                <img
+                  src="{{ msg.sender.photo }}"
+                  alt="{{ msg.sender.firstName }} {{ msg.sender.lastName }}"
+                />
+                <div class="chat-name">{{ msg.sender.lastName }}</div>
+              </div>
+              <div
+                (click)="setMessageClicked(msg._id)"
+                [ngClass]="textClasses(msg)"
+                class="chat-text"
+              >
+                {{ msg.text }}
+              </div>
+              <div class="chat-hour" *ngIf="messageClicked == msg._id">
+                {{ date(msg) }}
+                <span class="fa fa-check-circle"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+      <!-- Row end -->
+    </div>
+  </div>
+  <!-- </div> -->
+  <!-- Row end -->
+  <!-- </div> -->
+  <!-- Content wrapper end -->
+
+  <!--input elements group-->
+  <div *ngIf="done" id="inputElementsGroup">
+    <div [ngClass]="getInputSecondDivClasses()" id="InputSecondDiv">
+      <button
+        (click)="scrollDown()"
+        *ngIf="!isBottom"
+        id="downBtn"
+        class="btn btn-danger"
+      >
+        <span class="material-symbols-outlined">
+          keyboard_double_arrow_down
+        </span>
+      </button>
+    </div>
+    <!--go to bottom btn-->
+
+    <!--input component-->
+    <app-input></app-input>
+  </div>
+
+  <div *ngIf="!done" class="d-flex align-items-center mySpinner">
+    <strong>Loading...</strong>
+    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+  </div>
+</div>

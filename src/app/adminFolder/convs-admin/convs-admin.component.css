@@ -1,0 +1,69 @@
+.convContainer{
+    gap: 10px;
+}
+.conv{
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 5px;
+    background-color: black;
+    color: aliceblue;
+    padding: 10px;
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    cursor: pointer;
+
+}
+.photoAndName{
+    width: 95%;
+}
+.imgConv{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.nameAndLastMsg{
+    width: 75%;
+    height: max-content;
+}
+.name{
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+.lastMsg{
+    margin: 0%;
+    font-size: smaller;
+    color: gray;
+}
+.options{
+    text-align: center;
+    width: 5%;
+    font-size: larger;
+    
+}
+.status{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: relative;
+    bottom: 80%;
+    left: 55%;
+}
+.online {
+    background: #9ec94a;
+}
+
+.offline {
+    background: #c4d2e2;
+}
+
+.away {
+    background: #f9be52;
+}
+.busy {
+    background: #fd7274;
+}
+

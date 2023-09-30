@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+.col{
+    display: flex;
+    flex-direction: column;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+}
+.borderAlert{
+    border: 2px solid red;
+}
+.center{
+    text-align: center;
+}
+html{
+    /* overflow: hidden; */
+    height: 100%;
+    width: 100%;
+}
+.mySpinner{
+   /* margin-top: 30%;
+   width: 50%;
+    margin-left: 25%; */
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    width: 50%;
+
+   
+}

@@ -1,0 +1,13 @@
+#users{
+    padding: 3px;
+    width: 50%;
+    background-color: black;
+}
+#convs{
+    padding: 3px;
+    width: 50%;
+    background-color: aquamarine;
+}
+a{
+    cursor: pointer;
+}

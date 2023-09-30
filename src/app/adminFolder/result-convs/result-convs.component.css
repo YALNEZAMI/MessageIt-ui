@@ -1,0 +1,35 @@
+.convContainer{
+    gap: 10px;
+}
+.conv{
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 5px;
+    background-color: black;
+    color: aliceblue;
+    padding: 10px;
+    border-radius: 10px;
+    padding-left: 20px;
+    cursor: pointer;
+
+}
+.photoAndName{
+    width: 95%;
+}
+.imgConv{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.name{
+    padding-top: 2%;
+    width: 75%;
+}
+.options{
+    text-align: center;
+    width: 5%;
+    font-size: larger;
+    
+}
