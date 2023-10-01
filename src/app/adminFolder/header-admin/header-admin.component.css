@@ -3,8 +3,11 @@
     background-color: blanchedalmond;
     margin: 10px;
     border-radius: 10px;
+    cursor: pointer;
 }
-.colorOfHeader{
+.name{
+    vertical-align:middle;
+    margin-left: 10px;
     padding: 0%;
     padding-top: 30px;
     border-radius: 10px;

@@ -1,13 +1,8 @@
-<div class="row" id="headerRow">
+<div class="row" id="headerRow" (click)="goToProfile()">
   <div id="photoDiv">
-    <img
-      (click)="goToProfile()"
-      id="myPhoto"
-      src="{{ getMyPhoto() }}"
-      alt="MyPhoto"
-    />
+    <img id="myPhoto" src="{{ getMyPhoto() }}" alt="MyPhoto" />
   </div>
-  <h4 class="container colorOfHeader" id="main">
+  <h4 class="container name">
     <ins>{{ name }} </ins>
   </h4>
 </div>

@@ -1,0 +1,20 @@
+<div class="col container">
+  <div
+    (click)="goToMessage(msg)"
+    class="row message"
+    *ngFor="let msg of messages"
+  >
+    <img class="senderPhoto" src="{{ msg.sender.photo }}" alt="senderPhoto" />
+    <div class="nameAndText" class="col">
+      <h6 class="name">
+        {{ msg.sender.firstName + " " + msg.sender.lastName }}
+      </h6>
+      <div class="text">{{ getShortText(msg.text) }}</div>
+    </div>
+    <div class="col dateAndHoure">
+      <div class="date center">{{ getDate(msg.date) }}</div>
+      <div class="houre center">{{ getHoure(msg.date) }}</div>
+    </div>
+  </div>
+</div>
+<h1 id="noRes" *ngIf="noRes">No result for "{{ key }}"</h1>

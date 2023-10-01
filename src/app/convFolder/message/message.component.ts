@@ -23,7 +23,6 @@ export class MessageComponent {
   ref: boolean = false;
   done: boolean = false;
   lastMsg: any;
-  firstMsg: any;
   @ViewChild('chatContainer') chatContainer: ElementRef = new ElementRef('');
   idConv: string = JSON.parse(localStorage.getItem('conv') || '{}')._id;
   me = JSON.parse(localStorage.getItem('user') || '{}');
@@ -37,10 +36,7 @@ export class MessageComponent {
   ) {
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
-      this.messages = [];
-      localStorage.setItem('conv', JSON.stringify(conv));
-      this.limit = 0;
-      this.loadMessages();
+      this.reloadMessages();
     });
     let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
     //get initial messages
@@ -49,45 +45,29 @@ export class MessageComponent {
       .subscribe(async (data: any) => {
         //set global messages and properties
         this.messages = await data;
-
         this.limit += 20;
         this.done = true;
-
-        this.lastMsg = this.messages[this.messages.length - 1];
-        this.firstMsg = this.messages[0];
-        // document.getElementById(this.messages[0]._id) ||
-        // document.createElement('div');
-
-        //scroll to last message
-        // setTimeout(() => {
-        // this.scrollDown();
-        // }, 200);
-
-        let firstMsgHtml: HTMLElement = document.createElement('div');
-        if (this.firstMsg != undefined || this.firstMsg != null) {
-          firstMsgHtml =
-            document.getElementById(this.firstMsg._id) ||
-            document.createElement('div');
-        }
-
-        if (this.firstMsg != undefined || this.firstMsg != null) {
-          const options = {
-            root: null, // Use the viewport as the root
-            rootMargin: '0px', // You can adjust this margin as needed
-            threshold: 0.1, // Adjust the threshold (0.1 means 10% of the target must be visible)
-          };
-          this.handleIntersection = this.handleIntersection.bind(this); // Bind the function
-          const observer = new IntersectionObserver(
-            this.handleIntersection,
-            options
-          );
-          observer.observe(firstMsgHtml);
-        }
-
-        // }, 200);
         setTimeout(() => {
-          this.scrollDown();
-        }, 200);
+          if (this.messages.length > 0) {
+            this.lastMsg =
+              document.getElementById(
+                this.messages[this.messages.length - 1]._id
+              ) || document.createElement('div');
+          }
+        }, 10);
+
+        //if a message is searched
+        if (localStorage.getItem('idMessage') != null) {
+          let idMessage = localStorage.getItem('idMessage') || '';
+          setTimeout(async () => {
+            this.goToMessage(idMessage);
+            localStorage.removeItem('idMessage');
+          }, 100);
+        } else {
+          setTimeout(() => {
+            this.scrollDown();
+          }, 10);
+        }
       });
     //websocket subscribe
     this.messageService.newMessage().subscribe(async (message: any) => {
@@ -97,23 +77,22 @@ export class MessageComponent {
       if (this.isBottom) {
         setTimeout(() => {
           this.scrollDown();
-        }, 100);
+        }, 5);
       } //set the last message
       setTimeout(() => {
-        let element =
-          document.getElementById(realMessage._id) ||
-          document.createElement('div');
-        this.lastMsg = element;
-      }, 100);
+        if (this.messages.length > 0) {
+          let element =
+            document.getElementById(realMessage._id) ||
+            document.createElement('div');
+          this.lastMsg = element;
+        }
+      }, 10);
     });
 
     //get My Messege response
     this.messageService.getMessageResponse().subscribe(async (message: any) => {
       let realMessage = await message;
-      // console.log(realMessage);
-
       this.messages.push(realMessage);
-
       setTimeout(() => {
         if (this.isBottom) {
           this.scrollDown();
@@ -121,7 +100,7 @@ export class MessageComponent {
           this.updateBottom();
         }
       });
-    }, 100);
+    }, 5);
   }
   setMessageClicked(id: string) {
     if (this.messageClicked == id) {
@@ -148,11 +127,37 @@ export class MessageComponent {
   }
   scrollById(id: string) {
     let element = document.getElementById(id) || document.createElement('div');
+
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  goToMessage(id: string) {
+    let msg = document.getElementById(id);
+
+    if (msg == null) {
+      // for (let index = 0; index < 3; index++) {
+
+      this.appendLoadedMessages();
+
+      // }
+      setTimeout(() => {
+        this.goToMessage(id);
+      }, 3000);
+    } else {
+      if (msg) msg.style.borderBottom = '1px solid red';
+      setTimeout(() => {
+        if (msg) msg.style.borderBottom = '0px solid red';
+      }, 3000);
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+  checktop() {
+    let scrollingDiv = this.chatContainer.nativeElement;
+    if (scrollingDiv.scrollTop <= 0) {
+      this.appendLoadedMessages();
+    }
   }
   updateBottom(): void {
     let element = this.chatContainer.nativeElement;
-
     if (element.scrollHeight - element.scrollTop - 51 <= element.clientHeight) {
       this.isBottom = true;
     } else {
@@ -204,24 +209,17 @@ export class MessageComponent {
     };
   }
 
-  async handleIntersection(entries: any, observer: any) {
-    for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i];
-      if (entry.isIntersecting && !this.loading) {
-        this.loadMessages();
-      }
-    }
-  }
   //on the top of the page => load 20 messages if it exist
-  async loadMessages() {
-    this.loading = true;
+  reloadMessages() {
+    //reset variables
+    this.messages = [];
+    this.limit = 0;
+    //reget messages
     let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-
     this.messageService
       .findMessageOfConv(this.limit, idConv)
       .subscribe(async (data: any) => {
         let realData = await data;
-
         //set global messages and properties
         //append loaded messages to the global messages
         let set = new Set();
@@ -229,19 +227,43 @@ export class MessageComponent {
           const element = realData[index];
           set.add(element);
         }
-        for (let index = 0; index < this.getMessages().length; index++) {
-          const element = this.getMessages()[index];
-          set.add(element);
-        }
         this.messages = Array.from(set);
 
         this.limit += 20;
+
         this.done = true;
-        this.lastMsg = this.messages[this.messages.length - 1];
-        this.firstMsg =
-          document.getElementById(this.messages[0]._id) ||
-          document.createElement('div');
+        setTimeout(() => {
+          this.lastMsg =
+            document.getElementById(
+              this.messages[this.messages.length - 1]._id
+            ) || document.createElement('div');
+        }, 10);
+      });
+  }
+
+  //append 20 messages to the global messages
+  //on the top of the page => load 20 messages if it exist
+  async appendLoadedMessages() {
+    this.loading = true;
+    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
+    this.messageService
+      .findMessageOfConv(this.limit, idConv)
+      .subscribe(async (data: any) => {
+        console.log('new', data.length);
+
+        this.messages = await data.concat(this.messages);
+        this.limit += 20;
+        this.done = true;
+        setTimeout(() => {
+          if (this.messages.length > 0) {
+            this.lastMsg =
+              document.getElementById(
+                this.messages[this.messages.length - 1]._id
+              ) || document.createElement('div');
+          }
+        }, 10);
         this.loading = false;
+        console.log(this.messages.length);
       });
   }
   //convert a date to a usable string

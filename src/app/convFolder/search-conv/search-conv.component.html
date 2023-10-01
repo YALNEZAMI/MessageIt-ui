@@ -3,12 +3,13 @@
     <input
       class="form-control"
       type="text"
+      (input)="search()"
       [(ngModel)]="key"
       name="key"
       id="key"
     />
     <button
-      class="btn btn-success"
+      class="btn btn-success searchBtn"
       (click)="search()"
       (ngClass)="
         ({
@@ -29,7 +30,7 @@
         />
       </svg>
     </button>
-    <button id="cancelBtn" class="btn btn-danger" (click)="cancel()">
+    <button class="btn btn-danger cancelBtn" (click)="cancel()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -48,4 +49,5 @@
     </button>
   </div>
 </div>
-<router-outlet></router-outlet>
+<!--SearchResult template -->
+<app-search-result></app-search-result>

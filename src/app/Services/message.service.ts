@@ -10,6 +10,7 @@ import { Message } from '../Interfaces/message.interface';
 export class MessageService {
   transferMessegeSent: any = new Subject<any>();
   transferMessegeResponse: any = new Subject<any>();
+  searchKey: any = new Subject<any>();
 
   uri = env.api_url;
   constructor(private http: HttpClient, private socket: Socket) {}
@@ -48,5 +49,19 @@ export class MessageService {
   }
   setMessageResponse(msg: any) {
     this.transferMessegeResponse.next(msg);
+  }
+  getSearchKey() {
+    return this.searchKey.asObservable();
+  }
+  setSearchKey(key: any) {
+    this.searchKey.next(key);
+    if (key == '') {
+      localStorage.removeItem('keySearchMessages');
+    } else {
+      localStorage.setItem('keySearchMessages', key);
+    }
+  }
+  getMessagesByKey(key: string) {
+    return this.http.get(`${this.uri}/message/search/${key}`);
   }
 }

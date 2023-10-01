@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'src/app/Services/message.service';
 
 @Component({
   selector: 'app-search-conv',
@@ -7,11 +8,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./search-conv.component.css'],
 })
 export class SearchConvComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private messageService: MessageService) {
+    setTimeout(() => {
+      let input = document.getElementById('key');
+      if (input) input.focus();
+      console.log(input);
+    }, 100);
+
+    if (localStorage.getItem('keySearchMessages') != null) {
+      this.key = localStorage.getItem('keySearchMessages') || '';
+    }
+  }
   key: string = '';
-  search() {}
+  search() {
+    this.messageService.setSearchKey(this.key);
+  }
   cancel() {
     this.key = '';
+    localStorage.removeItem('keySearchMessages');
     this.router.navigate(['/conv/messages']);
   }
 }

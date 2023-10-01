@@ -65,6 +65,7 @@ export class ConvService {
     return this.changeConv.asObservable();
   }
   setConvChanged(conv: any) {
+    localStorage.setItem('conv', JSON.stringify(conv));
     this.changeInfosConv.next(conv);
   }
   getConvInfosChanged() {

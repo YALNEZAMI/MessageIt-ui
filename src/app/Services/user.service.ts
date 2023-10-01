@@ -25,6 +25,11 @@ export class UserService {
   }
   setKey(key: string) {
     this.subject.next(key);
+    if (key == '') {
+      localStorage.removeItem('key');
+    } else {
+      localStorage.setItem('key', key);
+    }
   }
   getNameChanged(): Observable<any> {
     return this.nameChangedSubject.asObservable();

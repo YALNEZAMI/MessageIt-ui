@@ -27,14 +27,14 @@ export class ConvsAdminComponent implements OnDestroy {
   ) {
     this.convService.getConvs().subscribe(async (data: any) => {
       let realData = await data;
+      let key = localStorage.getItem('key');
+      console.log(realData.length);
 
       if (realData.length == 0) {
         this.noRes = true;
+      } else {
+        this.noRes = false;
       }
-      // console.log(this.convs);
-      // let double = realData.concat(realData);
-      // let double2 = double.concat(double);
-      // this.convs = double2.concat(double2);
       this.convs = realData;
       this.done = true;
     });
@@ -42,17 +42,21 @@ export class ConvsAdminComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.convs = [];
   }
-  getLastMessageText(conv: Conv) {
+  getLastMessageTextAndHour(conv: Conv) {
     if (conv.lastMessage != null) {
-      return conv.lastMessage.text.slice(0, 20) + '...';
+      let date = new Date(conv.lastMessage.date);
+      let hour = date.getHours();
+      if (hour < 10) hour = Number('0' + hour);
+      let minutes = date.getMinutes();
+      if (minutes < 10) minutes = Number('0' + minutes);
+      return (
+        conv.lastMessage.text.slice(0, 20) + '...' + ' ' + hour + ':' + minutes
+      );
     } else {
       return '';
     }
   }
-  // ngAfterViewInit(): void {
-  //   let myTest: HTMLElement = this.lastMessage.nativeElement;
-  //   console.log(myTest);
-  // }
+
   async goToConv(conv: Conv) {
     localStorage.setItem('conv', JSON.stringify(conv));
     this.router.navigate(['/conv/messages']);

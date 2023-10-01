@@ -42,11 +42,11 @@ margin-right: 2%;
     margin-left: 1%;
 }
 .status{
-    width: 18px;
-    height: 18px;
+    width: 30%;
+    height: 30%;
     border-radius: 50%;
     position: relative;
-    bottom: 80%;
+    bottom: 100%;
     left: 60%;
 }
 .online {

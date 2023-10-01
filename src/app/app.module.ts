@@ -37,6 +37,7 @@ import { RegetPasswordComponent } from './indexFolder/reget-password/reget-passw
 import { ResetPasswordComponent } from './indexFolder/reset-password/reset-password.component';
 import { NotFoundPageComponent } from './indexFolder/not-found-page/not-found-page.component';
 import { ConvSideComponent } from './convFolder/conv-side/conv-side.component';
+import { SearchResultComponent } from './convFolder/search-result/search-result.component';
 const config: SocketIoConfig = { url: env.api_url };
 
 @NgModule({
@@ -71,6 +72,7 @@ const config: SocketIoConfig = { url: env.api_url };
     ResetPasswordComponent,
     NotFoundPageComponent,
     ConvSideComponent,
+    SearchResultComponent,
   ],
   imports: [
     BrowserModule,
