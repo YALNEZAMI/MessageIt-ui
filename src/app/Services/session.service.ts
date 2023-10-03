@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { UserService } from './user.service';
+import { env } from 'src/env';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +11,7 @@ import { UserService } from './user.service';
 export class SessionService {
   user: any;
   conv: any;
-  constructor(private userService: UserService) {}
+  constructor(private router: Router, private http: HttpClient) {}
   getUser() {
     JSON.parse(localStorage.getItem('user') || '{}');
   }
@@ -22,6 +25,26 @@ export class SessionService {
     localStorage.setItem('conv', JSON.stringify(conv));
   }
   async logout() {
-    localStorage.clear();
+    this.offline().subscribe((data: any) => {
+      localStorage.clear();
+      this.router.navigate(['/auth/login']);
+    });
+  }
+  online() {
+    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    let userReturned: any = this.http.patch(
+      `${env.api_url}/user/setStatus/${user._id}`,
+      { status: 'online' }
+    );
+    return userReturned;
+  }
+  offline() {
+    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    let userReturned: any = this.http.patch(
+      `${env.api_url}/user/setStatus/${user._id}`,
+      { status: 'offline' }
+    );
+    console.log(userReturned);
+    return userReturned;
   }
 }

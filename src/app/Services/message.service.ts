@@ -21,7 +21,7 @@ export class MessageService {
     message.conv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
     console.log(message);
     message.vus = [];
-
+    message.vus.push(JSON.parse(localStorage.getItem('user') || '{}')._id);
     return this.http.post(`${this.uri}/message`, message);
   }
   newMessage(): Observable<Message> {

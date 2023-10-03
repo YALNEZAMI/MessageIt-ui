@@ -23,6 +23,8 @@ export class ConvsAdminComponent implements OnDestroy {
   constructor(private convService: ConvService, private router: Router) {
     this.convService.getConvs().subscribe(async (data: any) => {
       let realData = await data;
+      console.log(realData);
+
       if (realData.length == 0) {
         this.noRes = true;
       } else {
@@ -35,16 +37,21 @@ export class ConvsAdminComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.convs = [];
   }
-  getLastMessageTextAndHour(conv: Conv) {
+  getLastMessageHour(conv: Conv) {
     if (conv.lastMessage != null) {
       let date = new Date(conv.lastMessage.date);
       let hour = date.getHours();
       if (hour < 10) hour = Number('0' + hour);
       let minutes = date.getMinutes();
       if (minutes < 10) minutes = Number('0' + minutes);
-      return (
-        conv.lastMessage.text.slice(0, 20) + '...' + ' ' + hour + ':' + minutes
-      );
+      return hour + ':' + minutes;
+    } else {
+      return '';
+    }
+  }
+  getLastMessageText(conv: Conv) {
+    if (conv.lastMessage != null) {
+      return conv.lastMessage.text.slice(0, 20) + '...';
     } else {
       return '';
     }

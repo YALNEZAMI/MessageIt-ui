@@ -8,7 +8,10 @@
 
       <div class="nameAndLastMsg">
         <h4 class="name">{{ conv.name }}</h4>
-        <h6 class="lastMsg">{{ getLastMessageTextAndHour(conv) }}</h6>
+        <h6 class="lastMsg">
+          {{ getLastMessageText(conv) }} <br />
+          at {{ getLastMessageHour(conv) }} by {{ conv.name }}
+        </h6>
       </div>
     </div>
     <div class="options" (click)="options(conv)">

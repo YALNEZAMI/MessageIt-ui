@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Message } from 'src/app/Interfaces/message.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
+import { SessionService } from 'src/app/Services/session.service';
 
 @Component({
   selector: 'app-input',
@@ -10,7 +11,7 @@ import { MessageService } from 'src/app/Services/message.service';
 })
 export class InputComponent {
   constructor(
-    private convService: ConvService,
+    private sessionService: SessionService,
     private messageService: MessageService
   ) {}
   me = JSON.parse(localStorage.getItem('user') || '{}');
@@ -28,6 +29,8 @@ export class InputComponent {
     document.getElementById('files')?.click();
   }
   send() {
+    //online
+    this.sessionService.online().subscribe((data: any) => {});
     //check if message is empty
     if (this.message.text == '' && this.message.files.length == 0) {
       return;

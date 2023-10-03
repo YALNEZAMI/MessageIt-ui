@@ -25,7 +25,7 @@ export class MessageComponent implements OnDestroy {
     private messageService: MessageService,
     private convService: ConvService
   ) {
-    //set vus
+    //initial set vus
     this.messageService.setVus().subscribe((res: any) => {});
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
@@ -44,7 +44,7 @@ export class MessageComponent implements OnDestroy {
         }, 10);
       });
     });
-
+    //if search get seared message and its env else get first 20  messages
     if (localStorage.getItem('idMessage')) {
       this.noMoreDown = false;
       let idMsg = localStorage.getItem('idMessage') || '';
@@ -60,6 +60,8 @@ export class MessageComponent implements OnDestroy {
           this.done = true;
         });
     } else {
+      console.log('test');
+
       //get initial messages without search
       this.messageService
         .findMessageOfConv(this.idConv)
@@ -77,6 +79,8 @@ export class MessageComponent implements OnDestroy {
     this.messageService.newMessage().subscribe(async (message: any) => {
       let realMessage = await message;
       this.messages.push(realMessage);
+      // set new message like vus
+      this.messageService.setVus().subscribe((res: any) => {});
       //scroll down
       if (this.isBottom) {
         setTimeout(() => {

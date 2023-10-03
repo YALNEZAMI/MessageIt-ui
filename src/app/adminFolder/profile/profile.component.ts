@@ -39,7 +39,6 @@ export class ProfileComponent {
   async logout() {
     this.logedout = true;
     this.sessionService.logout();
-    this.router.navigate(['/auth/login']);
   }
   getPhoto() {
     return JSON.parse(localStorage.getItem('user') || '{}').photo;

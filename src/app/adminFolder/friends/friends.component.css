@@ -43,7 +43,8 @@ margin-right: 10px;
     background-color: black;
     margin: 1%;
     padding: 2%;
-    height: 60px;
+    padding-bottom: 0px;
+    max-height: 20%;
     border-radius: 10px;
     color: white;
 }
@@ -58,6 +59,7 @@ margin-right: 10px;
 }
 .imgAndStatusDiv{
     width: 15%;
+
     /* height: max-content; */
 
 }

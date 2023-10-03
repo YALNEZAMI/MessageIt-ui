@@ -1,3 +1,6 @@
+#globalContainer{
+    padding-top: 5px;
+}
 .userItem{
     background-color: black;
     margin: 1%;

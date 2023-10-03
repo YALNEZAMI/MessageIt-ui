@@ -68,6 +68,11 @@ export class ConvSettingsComponent {
   clickPhoto() {
     document.getElementById('convPhotoInput')?.click();
   }
+  group() {
+    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
+    let members = conv.members;
+    return members.length > 2;
+  }
   displayPhoto() {
     let cadrePhoto = document.getElementById('cadrePhoto') as HTMLImageElement;
     if (cadrePhoto.style.display == 'block') {

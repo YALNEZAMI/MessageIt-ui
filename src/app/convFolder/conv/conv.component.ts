@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SessionService } from 'src/app/Services/session.service';
 
 @Component({
   selector: 'app-conv',
   templateUrl: './conv.component.html',
   styleUrls: ['./conv.component.css'],
 })
-export class ConvComponent {
-  constructor(private router: Router) {
+export class ConvComponent implements OnInit {
+  constructor(private router: Router, private sessionService: SessionService) {
     if (localStorage.getItem('conv') == null) {
       this.router.navigate(['admin/convs']);
     }
+  }
+  ngOnInit(): void {
+    // this.sessionService.online().subscribe((data: any) => {});
   }
   returnToConvs() {
     localStorage.removeItem('conv');
