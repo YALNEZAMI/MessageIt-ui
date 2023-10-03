@@ -40,7 +40,7 @@ export class InputComponent {
 
     //send message
     this.messageService.send(message).subscribe((res: any) => {
-      this.messageService.setMessageResponse(res);
+      // this.messageService.setMessageResponse(res);
     });
     this.emptyMessage();
   }

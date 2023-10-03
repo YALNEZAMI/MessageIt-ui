@@ -10,7 +10,6 @@ import { env } from 'src/env';
 export class ConvService {
   uri = env.api_url;
   changeConv: any = new Subject<any>();
-  changeInfosConv: any = new Subject<any>();
 
   constructor(
     private Http: HttpClient // private activatedRoute: ActivatedRoute
@@ -66,14 +65,9 @@ export class ConvService {
   }
   setConvChanged(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
-    this.changeInfosConv.next(conv);
+    this.changeConv.next(conv);
   }
-  getConvInfosChanged() {
-    return this.changeConv.asObservable();
-  }
-  setConvInfosChanged(conv: any) {
-    this.changeInfosConv.next(conv);
-  }
+
   getStatusClassesForConv(conv: any) {
     let members = conv.members;
     let myId = JSON.parse(localStorage.getItem('user') || '{}')._id;

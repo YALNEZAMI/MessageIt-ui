@@ -49,7 +49,7 @@ export class ConvSettingsComponent {
         let conv = JSON.parse(localStorage.getItem('conv') || '{}');
         conv.photo = photo;
         localStorage.setItem('conv', JSON.stringify(conv));
-        this.convService.setConvInfosChanged(conv);
+        this.convService.setConvChanged(conv);
       });
     }
 

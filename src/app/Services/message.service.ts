@@ -14,8 +14,8 @@ export class MessageService {
 
   uri = env.api_url;
   constructor(private http: HttpClient, private socket: Socket) {}
-  findMessageOfConv(limit: number, idConv: string) {
-    return this.http.get(`${this.uri}/message/ofConv/${idConv}/${limit}`);
+  findMessageOfConv(idConv: string) {
+    return this.http.get(`${this.uri}/message/ofConv/${idConv}`);
   }
   send(message: any) {
     message.conv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
@@ -26,14 +26,7 @@ export class MessageService {
   newMessage(): Observable<Message> {
     return new Observable<Message>((Observer) => {
       this.socket.on('newMessage', (message: Message) => {
-        //ignoring my messages
-        if (
-          message.sender._id !=
-          JSON.parse(localStorage.getItem('user') || '{}')._id
-        ) {
-          Observer.next(message);
-          console.log(message);
-        }
+        Observer.next(message);
       });
     });
   }
@@ -44,12 +37,12 @@ export class MessageService {
   setMessageSent(msg: any) {
     this.transferMessegeSent.next(msg);
   }
-  getMessageResponse() {
-    return this.transferMessegeResponse.asObservable();
-  }
-  setMessageResponse(msg: any) {
-    this.transferMessegeResponse.next(msg);
-  }
+  // getMessageResponse() {
+  //   return this.transferMessegeResponse.asObservable();
+  // }
+  // setMessageResponse(msg: any) {
+  //   this.transferMessegeResponse.next(msg);
+  // }
   getSearchKey() {
     return this.searchKey.asObservable();
   }
@@ -63,5 +56,21 @@ export class MessageService {
   }
   getMessagesByKey(key: string) {
     return this.http.get(`${this.uri}/message/search/${key}`);
+  }
+  getRange(idConv: string, idMessage: string) {
+    return this.http.get(`${this.uri}/message/range/${idConv}/${idMessage}`);
+  }
+  appendDown(idConv: string, idMessage: string) {
+    return this.http.get(
+      `${this.uri}/message/appendDown/${idConv}/${idMessage}`
+    );
+  }
+  appendUp(idConv: string, idMessage: string) {
+    return this.http.get(`${this.uri}/message/appendUp/${idConv}/${idMessage}`);
+  }
+  findSearchedMessagePortion(idConv: string, idMessage: string) {
+    return this.http.get(
+      `${this.uri}/message/MessageSearchedGroup/${idConv}/${idMessage}`
+    );
   }
 }

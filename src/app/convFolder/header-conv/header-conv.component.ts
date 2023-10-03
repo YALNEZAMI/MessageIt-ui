@@ -13,10 +13,9 @@ export class HeaderConvComponent {
   conv = JSON.parse(localStorage.getItem('conv') || '{}');
   constructor(private convService: ConvService) {
     //subscribe to change the conversation event
-    this.convService.getConvInfosChanged().subscribe((conv: any) => {
+    this.convService.getConvChanged().subscribe((conv: any) => {
       this.conv = conv;
       this.fillInfo();
-      console.log('conv changed', conv);
     });
     //first filling
     this.fillInfo();

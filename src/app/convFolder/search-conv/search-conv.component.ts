@@ -12,7 +12,6 @@ export class SearchConvComponent {
     setTimeout(() => {
       let input = document.getElementById('key');
       if (input) input.focus();
-      console.log(input);
     }, 100);
 
     if (localStorage.getItem('keySearchMessages') != null) {

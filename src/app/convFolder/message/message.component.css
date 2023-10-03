@@ -1,12 +1,17 @@
 
-.emoji{
-    background-color: #f0f4f8;
-    }
+
     
     .notEmoji{
         background-color: white;
         }
 @media (max-width: 767px) {
+    .emoji{
+        background-color: #2783df;
+        height: max-content;
+        padding: 3px;
+        border-radius: 50%;
+        width: max-content;
+        }
     .users {
         padding: 0;
         overflow-y: auto;
@@ -16,6 +21,13 @@
     }
 }
 @media (min-width: 767px) {
+    .emoji{
+        background-color: #2783df;
+        height: max-content
+        ;
+        padding: 3px;
+        border-radius: 50%;
+        }
     .users {
         padding: 0;
         overflow-y: auto;
@@ -69,7 +81,7 @@
 #downBtn{
     /* position: relative;
     left: 45%; */
-    padding: 0px;
+    padding: 3px;
 }
 /* #InputSecondDiv{
     display: flex;
@@ -82,12 +94,10 @@ margin-right: 15px;
     left: 0px;
     z-index: 2;
     width: 100%;
-    /* margin-left: 20%; */
     min-height: max-content;
     background-color: #f0f4f8;
     border-top: 1px solid #e6ecf3;
-    padding: 10px;
-    padding-left: 15px;
+    padding: 0px 10px 10px 15px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -96,6 +106,7 @@ margin-right: 15px;
     }; */
     .input-second-div{
         display: flex;
+        
     margin-right: 15px;
     justify-content: center;
 
@@ -108,7 +119,8 @@ margin-right: 15px;
 #spinnerSearchConvs{
     margin-left: 5px;
 }
-ul{    background-color: #999999
+ul{    
+    background-color: #999999
 }
 #fixedUsers{
     position: static;

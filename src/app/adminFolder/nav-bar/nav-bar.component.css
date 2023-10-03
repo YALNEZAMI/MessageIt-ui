@@ -6,7 +6,7 @@
     padding: 5px;
     margin: 5px;
     cursor: pointer;
-    width: 16%;
+    width: 17%;
     text-align: center;
   }
   .navItem:hover {
@@ -17,8 +17,8 @@
   }
   #rowContainer{
     background-color: beige;
-    padding-left: 20px;
-    margin-bottom: 5px;
-    margin-right: 0px;
+    padding: 0px 4px;
+    padding-left: 7%;
+   
   }
  

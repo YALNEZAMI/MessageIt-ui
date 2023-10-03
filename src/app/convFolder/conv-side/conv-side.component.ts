@@ -14,14 +14,10 @@ export class ConvSideComponent {
   spinnerSearchConvs: boolean = false;
   private convs: any[] = [];
 
-  constructor(
-    private convService: ConvService,
-    private userService: UserService
-  ) {
+  constructor(private convService: ConvService) {
     //get other convs on the side
     this.convService.getConvs().subscribe(async (data: any) => {
       this.convs = await data;
-
       this.done = true;
     });
   }

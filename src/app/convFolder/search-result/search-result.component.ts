@@ -34,7 +34,6 @@ export class SearchResultComponent {
       } else {
         this.noRes = false;
       }
-      console.log(data);
     });
   }
   getDate(dateString: string) {
@@ -55,11 +54,12 @@ export class SearchResultComponent {
     } else {
       return text;
     }
-    // return text.slice(0, 20) + '...';
   }
   goToMessage(msg: any) {
-    let id = msg._id;
-    localStorage.setItem('idMessage', id);
-    this.router.navigate(['/conv/messages']);
+    let idMsg = msg._id;
+    this.messageService.getRange(msg.conv, idMsg).subscribe((res: any) => {
+      localStorage.setItem('idMessage', idMsg);
+      this.router.navigate(['/conv/messages']);
+    });
   }
 }

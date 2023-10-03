@@ -1,106 +1,93 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
-import { UserService } from 'src/app/Services/user.service';
-import { env } from 'src/env';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css'],
 })
-export class MessageComponent {
+export class MessageComponent implements OnDestroy {
   messageClicked: string = '';
   isBottom: boolean = true;
   loading: boolean = false;
-  limit: number = 0;
+  noMoreUp = false;
+  noMoreDown = true;
   ref: boolean = false;
   done: boolean = false;
-  lastMsg: any;
   @ViewChild('chatContainer') chatContainer: ElementRef = new ElementRef('');
   idConv: string = JSON.parse(localStorage.getItem('conv') || '{}')._id;
   me = JSON.parse(localStorage.getItem('user') || '{}');
+  MoreMessages: boolean = true;
+
   private messages: any[] = [];
   constructor(
     private messageService: MessageService,
-    private convService: ConvService,
-    private userService: UserService,
-    private router: Router,
-    private viewContainerRef: ViewContainerRef
+    private convService: ConvService
   ) {
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
-      this.reloadMessages();
-    });
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    //get initial messages
-    this.messageService
-      .findMessageOfConv(this.limit, idConv)
-      .subscribe(async (data: any) => {
-        //set global messages and properties
-        this.messages = await data;
-        this.limit += 20;
-        this.done = true;
+      localStorage.removeItem('rangeMessageSearched');
+      localStorage.removeItem('idMessage');
+      localStorage.setItem('conv', JSON.stringify(conv));
+      this.idConv = conv._id;
+      this.loading = false;
+      this.done = false;
+      this.messages = [];
+      this.messageService.findMessageOfConv(conv._id).subscribe((msgs: any) => {
+        this.messages = msgs;
         setTimeout(() => {
-          if (this.messages.length > 0) {
-            this.lastMsg =
-              document.getElementById(
-                this.messages[this.messages.length - 1]._id
-              ) || document.createElement('div');
-          }
+          this.scrollDown();
+          this.done = true;
         }, 10);
+      });
+    });
 
-        //if a message is searched
-        if (localStorage.getItem('idMessage') != null) {
-          let idMessage = localStorage.getItem('idMessage') || '';
-          setTimeout(async () => {
-            this.goToMessage(idMessage);
-            localStorage.removeItem('idMessage');
-          }, 100);
-        } else {
+    if (localStorage.getItem('idMessage')) {
+      this.noMoreDown = false;
+      let idMsg = localStorage.getItem('idMessage') || '';
+      this.messageService
+        .findSearchedMessagePortion(this.idConv, idMsg)
+        .subscribe(async (data: any) => {
+          //set global messages and properties
+          this.messages = [];
+          this.messages = await data;
+          setTimeout(() => {
+            this.goToMessage(localStorage.getItem('idMessage') || '');
+          }, 10);
+          this.done = true;
+        });
+    } else {
+      //get initial messages without search
+      this.messageService
+        .findMessageOfConv(this.idConv)
+        .subscribe(async (msgs: any) => {
+          //set global messages and properties
+          this.messages = await msgs;
+          this.done = true;
+          //scroll down
           setTimeout(() => {
             this.scrollDown();
           }, 10);
-        }
-      });
+        });
+    }
     //websocket subscribe
     this.messageService.newMessage().subscribe(async (message: any) => {
       let realMessage = await message;
-      this.messages.push(await message);
+      this.messages.push(realMessage);
       //scroll down
       if (this.isBottom) {
         setTimeout(() => {
           this.scrollDown();
         }, 5);
       } //set the last message
-      setTimeout(() => {
-        if (this.messages.length > 0) {
-          let element =
-            document.getElementById(realMessage._id) ||
-            document.createElement('div');
-          this.lastMsg = element;
-        }
-      }, 10);
     });
 
-    //get My Messege response
-    this.messageService.getMessageResponse().subscribe(async (message: any) => {
-      let realMessage = await message;
-      this.messages.push(realMessage);
-      setTimeout(() => {
-        if (this.isBottom) {
-          this.scrollDown();
-        } else {
-          this.updateBottom();
-        }
-      });
-    }, 5);
+    //update bottom
+    this.updateBottom();
+  }
+  ngOnDestroy(): void {
+    localStorage.removeItem('idMessage');
   }
   setMessageClicked(id: string) {
     if (this.messageClicked == id) {
@@ -113,7 +100,7 @@ export class MessageComponent {
     let height = this.chatContainer.nativeElement.scrollHeight;
     let chatContainer = this.chatContainer.nativeElement;
     chatContainer.scrollTo(0, height);
-    // this.isBottom = true;
+    this.updateBottom();
   }
   scrollDownSmooth() {
     let height = this.chatContainer.nativeElement.scrollHeight;
@@ -123,39 +110,58 @@ export class MessageComponent {
       left: 0,
       behavior: 'smooth',
     });
-    // this.isBottom = true;
   }
   scrollById(id: string) {
     let element = document.getElementById(id) || document.createElement('div');
 
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+  locateMessage(id: string): string {
+    let head = this.messages.slice(0, 3);
+    let tail = this.messages.slice(this.messages.length - 3);
+    for (let i = 0; i < 3; i++) {
+      if (head[i]._id == id) {
+        return 'head';
+      } else if (tail[i]._id == id) {
+        return 'tail';
+      }
+    }
+    return 'body';
+  }
   goToMessage(id: string) {
     let msg = document.getElementById(id);
-
-    if (msg == null) {
-      // for (let index = 0; index < 3; index++) {
-
-      this.appendLoadedMessages();
-
-      // }
-      setTimeout(() => {
-        this.goToMessage(id);
-      }, 3000);
-    } else {
-      if (msg) msg.style.borderBottom = '1px solid red';
+    if (msg != null) {
+      msg.style.borderBottom = '1px solid red';
       setTimeout(() => {
         if (msg) msg.style.borderBottom = '0px solid red';
       }, 3000);
-      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      switch (this.locateMessage(id)) {
+        case 'body':
+          msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          break;
+        case 'head':
+          msg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          break;
+        case 'tail':
+          msg.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+          break;
+
+        default:
+          break;
+      }
     }
   }
+
   checktop() {
     let scrollingDiv = this.chatContainer.nativeElement;
     if (scrollingDiv.scrollTop <= 0) {
-      this.appendLoadedMessages();
+      this.appendUp();
     }
   }
+
   updateBottom(): void {
     let element = this.chatContainer.nativeElement;
     if (element.scrollHeight - element.scrollTop - 51 <= element.clientHeight) {
@@ -208,62 +214,52 @@ export class MessageComponent {
       'input-second-div-focus': this.ref,
     };
   }
-
-  //on the top of the page => load 20 messages if it exist
-  reloadMessages() {
-    //reset variables
-    this.messages = [];
-    this.limit = 0;
-    //reget messages
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    this.messageService
-      .findMessageOfConv(this.limit, idConv)
-      .subscribe(async (data: any) => {
-        let realData = await data;
-        //set global messages and properties
-        //append loaded messages to the global messages
-        let set = new Set();
-        for (let index = 0; index < realData.length; index++) {
-          const element = realData[index];
-          set.add(element);
-        }
-        this.messages = Array.from(set);
-
-        this.limit += 20;
-
-        this.done = true;
-        setTimeout(() => {
-          this.lastMsg =
-            document.getElementById(
-              this.messages[this.messages.length - 1]._id
-            ) || document.createElement('div');
-        }, 10);
-      });
-  }
-
   //append 20 messages to the global messages
   //on the top of the page => load 20 messages if it exist
-  async appendLoadedMessages() {
+  async appendUp() {
+    //checking if there is more result up
+    if (this.noMoreUp) return;
+    //if the hole conv has less than 20 messages ,return because all messages are loaded
+    if (this.messages.length < 20) return;
+    //loading=true to display the up spinner
     this.loading = true;
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
+    //getting the message above the upper message
+    let fristMsgId = this.messages[0]._id;
     this.messageService
-      .findMessageOfConv(this.limit, idConv)
-      .subscribe(async (data: any) => {
-        console.log('new', data.length);
-
-        this.messages = await data.concat(this.messages);
-        this.limit += 20;
-        this.done = true;
-        setTimeout(() => {
-          if (this.messages.length > 0) {
-            this.lastMsg =
-              document.getElementById(
-                this.messages[this.messages.length - 1]._id
-              ) || document.createElement('div');
-          }
-        }, 10);
+      .appendUp(this.idConv, fristMsgId)
+      .subscribe((msgs: any) => {
+        //set noMoreUp to declare avoid make request to get up messages(no result)
+        if (msgs.length == 0) {
+          this.noMoreUp = true;
+        }
+        //append the result at the head
+        this.messages = msgs.concat(this.messages);
+        //loading =false ,to hide the up spinner
         this.loading = false;
-        console.log(this.messages.length);
+      });
+  }
+  //append messages at bottom,down buttom
+  appendDown() {
+    // if no more result ath the bottom,just scroll down
+    if (this.noMoreDown) {
+      this.updateBottom();
+      this.scrollDown();
+      return;
+    }
+    if (this.messages.length < 20) return;
+    let lastMsgId = this.messages[this.messages.length - 1]._id;
+
+    this.messageService
+      .appendDown(this.idConv, lastMsgId)
+      .subscribe((msgs: any) => {
+        if (msgs.length < 20) {
+          this.noMoreDown = true;
+        }
+        this.messages = this.messages.concat(msgs);
+        setTimeout(() => {
+          this.updateBottom();
+          this.scrollDown();
+        }, 10);
       });
   }
   //convert a date to a usable string
