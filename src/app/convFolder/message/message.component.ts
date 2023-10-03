@@ -25,6 +25,8 @@ export class MessageComponent implements OnDestroy {
     private messageService: MessageService,
     private convService: ConvService
   ) {
+    //set vus
+    this.messageService.setVus().subscribe((res: any) => {});
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
       localStorage.removeItem('rangeMessageSearched');

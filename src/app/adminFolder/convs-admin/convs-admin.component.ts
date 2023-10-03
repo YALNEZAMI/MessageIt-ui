@@ -20,16 +20,9 @@ export class ConvsAdminComponent implements OnDestroy {
   done = false;
   noRes = false;
   @ViewChild('lastMessage') lastMessage: ElementRef = new ElementRef('');
-  constructor(
-    private convService: ConvService,
-    private router: Router,
-    private userService: UserService
-  ) {
+  constructor(private convService: ConvService, private router: Router) {
     this.convService.getConvs().subscribe(async (data: any) => {
       let realData = await data;
-      let key = localStorage.getItem('key');
-      console.log(realData.length);
-
       if (realData.length == 0) {
         this.noRes = true;
       } else {

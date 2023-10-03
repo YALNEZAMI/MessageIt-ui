@@ -8,9 +8,5 @@ import { SessionService } from 'src/app/Services/session.service';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent {
-  constructor(private router: Router) {
-    if (localStorage.getItem('user') == null) {
-      router.navigate(['/auth/login']);
-    }
-  }
+  constructor() {}
 }

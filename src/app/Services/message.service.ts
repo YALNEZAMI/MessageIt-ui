@@ -20,6 +20,7 @@ export class MessageService {
   send(message: any) {
     message.conv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
     console.log(message);
+    message.vus = [];
 
     return this.http.post(`${this.uri}/message`, message);
   }
@@ -72,5 +73,10 @@ export class MessageService {
     return this.http.get(
       `${this.uri}/message/MessageSearchedGroup/${idConv}/${idMessage}`
     );
+  }
+  setVus() {
+    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
+    let myId = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    return this.http.patch(`${this.uri}/message/set/vus`, { idConv, myId });
   }
 }
