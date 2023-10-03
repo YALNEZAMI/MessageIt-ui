@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,7 @@ import { Observable, Subject } from 'rxjs';
 export class SessionService {
   user: any;
   conv: any;
-  constructor() {}
+  constructor(private userService: UserService) {}
   getUser() {
     JSON.parse(localStorage.getItem('user') || '{}');
   }
@@ -20,7 +21,7 @@ export class SessionService {
   setConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
   }
-  logout() {
+  async logout() {
     localStorage.clear();
   }
 }

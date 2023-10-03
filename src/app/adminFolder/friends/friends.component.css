@@ -42,8 +42,8 @@ margin-right: 10px;
 .userItem{
     background-color: black;
     margin: 1%;
-    padding: 1%;
-    padding-bottom: 0px;
+    padding: 2%;
+    height: 60px;
     border-radius: 10px;
     color: white;
 }
@@ -83,8 +83,8 @@ margin-right: 2%;
     margin-left: 1%;
 }
 .status{
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     position: relative;
     bottom: 80%;

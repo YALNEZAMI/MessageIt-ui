@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
 import { UserService } from 'src/app/Services/user.service';
-import { env } from 'src/env';
 
 @Component({
   selector: 'app-members',
@@ -11,8 +10,11 @@ import { env } from 'src/env';
   styleUrls: ['./members.component.css'],
 })
 export class MembersComponent {
+  //members of the conv
   members: any[] = [];
+  //done=true to display the members else display a spinner
   done: boolean = false;
+  //noRes=true to display a no result message
   noRes = false;
   constructor(
     private router: Router,
@@ -20,17 +22,20 @@ export class MembersComponent {
     private friendService: FriendService,
     private userService: UserService
   ) {
+    //retrieve the members of the conv
     this.convService.getMembers().subscribe(async (data: any) => {
       this.members = await data;
-
       this.done = true;
-
+      //noRes=true to display a no result message
       if (!this.therIsSomeMembers()) {
         this.noRes = true;
       }
-      console.log(this.members);
     });
   }
+  /**
+   *
+   * @returns true if there is some members expept the user in the conv
+   */
   therIsSomeMembers() {
     for (let index = 0; index < this.members.length; index++) {
       const member = this.members[index];
@@ -40,7 +45,10 @@ export class MembersComponent {
     }
     return false;
   }
-
+  /**
+   *
+   * @returns the members of the conv except the user
+   */
   getThisMembers() {
     let user = this.getMe();
     let res: any[] = [];
@@ -53,15 +61,28 @@ export class MembersComponent {
     }
     return res;
   }
+  /**
+   *
+   * @param user
+   * @returns delete the user from the conv
+   */
   delete(user: any) {
-    //  remove(id: string) {
-    this.friendService.remove(user._id).subscribe((res) => {
-      // console.log(res);
-    });
+    this.friendService.remove(user._id).subscribe((res) => {});
   }
+  /**
+   *
+   * @returns the user from the local storage
+   */
   getMe() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
+  /**
+   *
+   * @param userId
+   * @param operation
+   * @returns after clicking a button,
+   * reset the operation(add,remove...)
+   */
   setOperation(userId: string, operation: string) {
     for (let i = 0; i < this.members.length; i++) {
       const element = this.members[i];
@@ -70,6 +91,11 @@ export class MembersComponent {
       }
     }
   }
+  /**
+   *
+   * @param user
+   * @returns perform the operation(add,remove...) according to the user operation
+   */
   async operation(user: any) {
     switch (user.operation) {
       case 'add':
@@ -120,11 +146,14 @@ export class MembersComponent {
 
       default:
         console.log('default operation');
-
         break;
     }
   }
-
+  /**
+   *
+   * @param user
+   * @returns the content(icon) of the button according to the user operation
+   */
   getContenuBtn(user: any): void {
     const operation: string = user.operation;
     let btn: any;
@@ -169,12 +198,9 @@ export class MembersComponent {
         }
 
         break;
-
-      // default:
-      //   return 'default operation';
-      //   break;
     }
   }
+  //get css classes according to the user status (online,offline...)
   getStatusClasses(user: any) {
     return this.userService.getStatusClassesForUser(user);
   }

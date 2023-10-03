@@ -44,6 +44,14 @@ export class ProfileComponent {
   getPhoto() {
     return JSON.parse(localStorage.getItem('user') || '{}').photo;
   }
+  displayPhoto() {
+    let cadrePhoto = document.getElementById('cadrePhoto') as HTMLImageElement;
+    if (cadrePhoto.style.display == 'block') {
+      cadrePhoto.style.display = 'none';
+    } else {
+      cadrePhoto.style.display = 'block';
+    }
+  }
   updateUser() {
     this.photoSelectedName = '';
     //get input file

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,18 +6,12 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent {
   title = 'front';
 
   constructor(private router: Router) {
     if (localStorage.getItem('user') == null) {
       router.navigate(['auth/login']);
     }
-  }
-  ngOnDestroy(): void {
-    console.log('offline');
-  }
-  redirect() {
-    this.router.navigate(['/index']);
   }
 }
