@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { env } from 'src/env';
-import { Message } from '../Interfaces/message.interface';
+// import { Message } from '../Interfaces/message.interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,23 +12,15 @@ export class MessageService {
   searchKey: any = new Subject<any>();
 
   uri = env.api_url;
-  constructor(private http: HttpClient, private socket: Socket) {}
+  constructor(private http: HttpClient) {}
   findMessageOfConv(idConv: string) {
     return this.http.get(`${this.uri}/message/ofConv/${idConv}`);
   }
   send(message: any) {
     message.conv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    console.log(message);
     message.vus = [];
     message.vus.push(JSON.parse(localStorage.getItem('user') || '{}')._id);
     return this.http.post(`${this.uri}/message`, message);
-  }
-  newMessage(): Observable<Message> {
-    return new Observable<Message>((Observer) => {
-      this.socket.on('newMessage', (message: Message) => {
-        Observer.next(message);
-      });
-    });
   }
 
   getMessageSent() {
@@ -38,12 +29,7 @@ export class MessageService {
   setMessageSent(msg: any) {
     this.transferMessegeSent.next(msg);
   }
-  // getMessageResponse() {
-  //   return this.transferMessegeResponse.asObservable();
-  // }
-  // setMessageResponse(msg: any) {
-  //   this.transferMessegeResponse.next(msg);
-  // }
+
   getSearchKey() {
     return this.searchKey.asObservable();
   }

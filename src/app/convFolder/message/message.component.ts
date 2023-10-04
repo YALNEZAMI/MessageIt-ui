@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-message',
@@ -16,14 +17,15 @@ export class MessageComponent implements OnDestroy {
   ref: boolean = false;
   done: boolean = false;
   @ViewChild('chatContainer') chatContainer: ElementRef = new ElementRef('');
-  idConv: string = JSON.parse(localStorage.getItem('conv') || '{}')._id;
+  conv: any = JSON.parse(localStorage.getItem('conv') || '{}');
   me = JSON.parse(localStorage.getItem('user') || '{}');
   MoreMessages: boolean = true;
 
   private messages: any[] = [];
   constructor(
     private messageService: MessageService,
-    private convService: ConvService
+    private convService: ConvService,
+    private webSocektService: WebSocketService
   ) {
     //initial set vus
     this.messageService.setVus().subscribe((res: any) => {});
@@ -32,7 +34,7 @@ export class MessageComponent implements OnDestroy {
       localStorage.removeItem('rangeMessageSearched');
       localStorage.removeItem('idMessage');
       localStorage.setItem('conv', JSON.stringify(conv));
-      this.idConv = conv._id;
+      this.conv._id = conv._id;
       this.loading = false;
       this.done = false;
       this.messages = [];
@@ -49,7 +51,7 @@ export class MessageComponent implements OnDestroy {
       this.noMoreDown = false;
       let idMsg = localStorage.getItem('idMessage') || '';
       this.messageService
-        .findSearchedMessagePortion(this.idConv, idMsg)
+        .findSearchedMessagePortion(this.conv._id, idMsg)
         .subscribe(async (data: any) => {
           //set global messages and properties
           this.messages = [];
@@ -60,27 +62,33 @@ export class MessageComponent implements OnDestroy {
           this.done = true;
         });
     } else {
-      console.log('test');
-
       //get initial messages without search
       this.messageService
-        .findMessageOfConv(this.idConv)
+        .findMessageOfConv(this.conv._id)
         .subscribe(async (msgs: any) => {
           //set global messages and properties
           this.messages = await msgs;
           this.done = true;
+          //set viewrs photos
+          this.setPhotosOfViewers();
+
           //scroll down
           setTimeout(() => {
             this.scrollDown();
           }, 10);
         });
     }
+
     //websocket subscribe
-    this.messageService.newMessage().subscribe(async (message: any) => {
+    this.webSocektService.newMessage().subscribe(async (message: any) => {
       let realMessage = await message;
       this.messages.push(realMessage);
+
       // set new message like vus
-      this.messageService.setVus().subscribe((res: any) => {});
+      this.messageService.setVus().subscribe((res: any) => {
+        //set viewrs photos
+        this.setPhotosOfViewers();
+      });
       //scroll down
       if (this.isBottom) {
         setTimeout(() => {
@@ -88,10 +96,19 @@ export class MessageComponent implements OnDestroy {
         }, 5);
       } //set the last message
     });
+    //websocket setVus
+    this.webSocektService.setVus().subscribe(async (data: any) => {
+      let realData = await data;
+      if (data.idConv == this.conv._id) {
+        //update User last message seen
+        this.updateViewer(realData.myId);
+      }
+    });
 
     //update bottom
     this.updateBottom();
   }
+  // setThisVus(data: any) {}
   ngOnDestroy(): void {
     localStorage.removeItem('idMessage');
   }
@@ -232,7 +249,7 @@ export class MessageComponent implements OnDestroy {
     //getting the message above the upper message
     let fristMsgId = this.messages[0]._id;
     this.messageService
-      .appendUp(this.idConv, fristMsgId)
+      .appendUp(this.conv._id, fristMsgId)
       .subscribe((msgs: any) => {
         //set noMoreUp to declare avoid make request to get up messages(no result)
         if (msgs.length == 0) {
@@ -256,7 +273,7 @@ export class MessageComponent implements OnDestroy {
     let lastMsgId = this.messages[this.messages.length - 1]._id;
 
     this.messageService
-      .appendDown(this.idConv, lastMsgId)
+      .appendDown(this.conv._id, lastMsgId)
       .subscribe((msgs: any) => {
         if (msgs.length < 20) {
           this.noMoreDown = true;
@@ -270,54 +287,44 @@ export class MessageComponent implements OnDestroy {
   }
   //convert a date to a usable string
   date(msg: any): string {
-    let myid = JSON.parse(localStorage.getItem('user') || '{}')._id;
-    let res = '';
-    if (msg.sender._id == myid) {
-      res =
-        this.add0(this.getTypeDateOf(msg.date).getHours()) +
-        ':' +
-        this.add0(this.getTypeDateOf(msg.date).getMinutes()) +
-        ' ' +
-        this.add0(this.getTypeDateOf(msg.date).getFullYear()) +
-        '-' +
-        this.add0(this.getTypeDateOf(msg.date).getMonth()) +
-        '-' +
-        this.getTypeDateOf(msg.date).getDate();
-    } else {
-      res =
-        this.getTypeDateOf(msg.date).getFullYear() +
-        '-' +
-        this.add0(this.getTypeDateOf(msg.date).getMonth()) +
-        '-' +
-        this.add0(this.getTypeDateOf(msg.date).getDate()) +
-        ' ' +
-        this.add0(this.getTypeDateOf(msg.date).getHours()) +
-        ':' +
-        this.add0(this.getTypeDateOf(msg.date).getMinutes());
-    }
-    return res;
+    return this.getTypeDateOf(msg.date).toLocaleString();
   }
 
-  hour(msg: any): string {
-    let myid = JSON.parse(localStorage.getItem('user') || '{}')._id;
-    let res = '';
-    if (msg.sender._id == myid) {
-      res =
-        this.add0(this.getTypeDateOf(msg.date).getHours()) +
-        ':' +
-        this.add0(this.getTypeDateOf(msg.date).getMinutes());
-    } else {
-      res =
-        this.add0(this.getTypeDateOf(msg.date).getHours()) +
-        ':' +
-        this.add0(this.getTypeDateOf(msg.date).getMinutes());
-    }
-    return res;
-  }
   //add 0 to a number if it's less than 10=> for the month and the day of the date
   add0(str: number) {
     return str < 10 ? '0' + str : str;
   }
-  //change the conversation
-  //empty messages and load the new messages
+  setPhotosOfViewers() {
+    this.messages.map((msg: any) => {
+      msg.lastMsgSeenBy = [];
+    });
+    let res: { member: any; lastMsgSeen: any }[] = [];
+    let members = this.conv.members;
+    for (let i = 0; i < members.length; i++) {
+      const member = members[i];
+      let msgsSeen = this.messages.filter((msg: any) => {
+        return msg.vus.includes(member._id) && member._id != this.me._id;
+      });
+      if (msgsSeen.length > 0)
+        res.push({
+          member: member,
+          lastMsgSeen: msgsSeen[msgsSeen.length - 1],
+        });
+    }
+    for (let i = 0; i < res.length; i++) {
+      const element = res[i];
+      let lasMessageSeen = element.lastMsgSeen;
+      let index = this.messages.indexOf(lasMessageSeen);
+      this.messages[index].lastMsgSeenBy = [];
+      this.messages[index].lastMsgSeenBy.push(element.member);
+    }
+  }
+  updateViewer(id: string) {
+    if (this.messages.length == 0) return;
+    if (this.messages[this.messages.length - 1].lastMsgSeenBy == undefined) {
+      this.messages[this.messages.length - 1].lastMsgSeenBy = [];
+    }
+    this.messages[this.messages.length - 1].vus.push(id);
+    this.setPhotosOfViewers();
+  }
 }

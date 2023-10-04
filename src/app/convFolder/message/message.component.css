@@ -21,6 +21,7 @@
     }
 }
 @media (min-width: 767px) {
+    
     .emoji{
         background-color: #2783df;
         height: max-content
@@ -135,21 +136,44 @@ ul{
     overflow-x: hidden;
     background-color: #999999
 }
-/* .right{
+.right{
     direction: rtl;
-} */
+}
+
+
+
+
+
+
 
 app-conv-side{
     width: 20%;
 }
+.users-container {
+    min-width: 20%;
+    position: relative;
+    padding: 0rem 0;
+    padding-top: 10px;
 
+    border-right: 1px solid #e6ecf3;
+   height: 560px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    background-color: #999999;
+    overflow-y: hidden;
+    max-width: 20%;
+   
+
+}
 
 
 
 .chat-container {
     position: relative;
     padding: 1rem;
-    padding-bottom: 0px;
+    padding-top: 50px;
 }
 
 .chat-container div.chat-left,
@@ -239,6 +263,7 @@ app-conv-side{
 }
 
 @media (max-width: 767px) {
+    
     .chat-container div.chat-left,
     .chat-container div.chat-right {
         flex-direction: column;
@@ -253,9 +278,7 @@ app-conv-side{
         display: flex;
         align-items: center;
     }
-    .chat-container div.chat-left .chat-hour {
-        justify-content: flex-end;
-    }
+   
     .chat-container div.chat-left .chat-name {
         margin-left: 5px;
     }
@@ -265,7 +288,10 @@ app-conv-side{
         align-items: center;
         display: flex;
         justify-content: right;
-        flex-direction: row-reverse;
+        /* flex-direction: row-reverse; */
+    }
+    .chat-container div.chat-left .chat-hour {
+        justify-content: flex-end;
     }
     .chat-container div.chat-right .chat-hour {
         justify-content: flex-end;

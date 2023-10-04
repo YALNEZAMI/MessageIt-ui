@@ -25,8 +25,26 @@
           >
             <span class="sr-only">Loading...</span>
           </div>
-          <div class="chat-box" *ngFor="let msg of getMessages()">
-            <div id="{{ msg._id }}" [ngClass]="getChatClasses(msg)">
+          <!--messages-->
+          <div
+            id="{{ msg._id }}"
+            class="chat-box"
+            *ngFor="let msg of getMessages()"
+          >
+            <div *ngIf="msg.lastMsgSeenBy != undefined">
+              <div
+                style="flex-direction: row-reverse"
+                class="row"
+                *ngFor="let viewerImg of msg.lastMsgSeenBy"
+              >
+                <img
+                  style="width: 15px; height: 15px; margin-left: 5px"
+                  src="{{ viewerImg.photo }}"
+                  alt="dsc"
+                />
+              </div>
+            </div>
+            <div [ngClass]="getChatClasses(msg)">
               <div class="chat-avatar">
                 <img
                   src="{{ msg.sender.photo }}"
@@ -41,6 +59,7 @@
               >
                 {{ msg.text }}
               </div>
+
               <div class="chat-hour" *ngIf="messageClicked == msg._id">
                 {{ date(msg) }}
                 <span class="fa fa-check-circle"></span>

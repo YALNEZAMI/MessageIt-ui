@@ -34,7 +34,6 @@ export class HeaderConvComponent {
       let otherUser = this.conv.members.filter((member: any) => {
         return member._id != this.me._id;
       })[0];
-      console.log(typeof otherUser.lastConnection);
       this.lastConnection = new Date(otherUser.lastConnection);
       this.lastConnection = this.lastConnection.toLocaleString();
     } else {

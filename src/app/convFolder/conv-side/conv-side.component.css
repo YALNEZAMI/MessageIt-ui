@@ -171,13 +171,10 @@ app-conv-side{
     height: max-content;
 }
 .users-container {
-    /* min-width: 20%; */
-    /* margin-top: 10px; */
+   
     position: relative;
     padding: 0rem 0;
-    padding-top: 5px;
-
-    /* padding-bottom: 60px; */
+    padding-top: 15px;
     border-right: 1px solid #e6ecf3;
    height: 560px;
     display: -ms-flexbox;
