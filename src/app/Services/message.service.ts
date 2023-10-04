@@ -49,4 +49,10 @@ export class MessageService {
   setMessageResponse(msg: any) {
     this.transferMessegeResponse.next(msg);
   }
+  deleteMsgForAll(msg: any) {
+    return this.http.delete(`${this.uri}/message/${msg._id}`);
+  }
+  deleteMsgForMe(msg: any) {
+    return this.http.delete(`${this.uri}/message/deleteForMe/${msg._id}`);
+  }
 }

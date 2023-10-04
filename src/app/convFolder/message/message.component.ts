@@ -24,6 +24,8 @@ export class MessageComponent {
   done: boolean = false;
   lastMsg: any;
   firstMsg: any;
+  msgToDelete: any;
+
   @ViewChild('chatContainer') chatContainer: ElementRef = new ElementRef('');
   idConv: string = JSON.parse(localStorage.getItem('conv') || '{}')._id;
   me = JSON.parse(localStorage.getItem('user') || '{}');
@@ -294,6 +296,25 @@ export class MessageComponent {
   add0(str: number) {
     return str < 10 ? '0' + str : str;
   }
-  //change the conversation
-  //empty messages and load the new messages
+  delteOptions(msg: any) {
+    let optionPopupCadre = document.getElementById(
+      'optionPopupCadre'
+    ) as HTMLElement;
+
+    if (optionPopupCadre.style.display == 'block') {
+      optionPopupCadre.style.display = 'none';
+      this.msgToDelete = null;
+    } else {
+      this.msgToDelete = msg;
+      optionPopupCadre.style.display = 'block';
+    }
+  }
+  deleteMsgForAll() {
+    this.messageService
+      .deleteMsgForAll(this.msgToDelete)
+      .subscribe((res) => {});
+  }
+  deleteMsgForMe() {
+    this.messageService.deleteMsgForMe(this.msgToDelete).subscribe((res) => {});
+  }
 }
