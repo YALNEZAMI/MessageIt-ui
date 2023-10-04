@@ -28,4 +28,12 @@ export class WebSocketService {
       });
     });
   }
+  messageDeleted(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('messageDeleted', (id: string) => {
+        //object:{myId:string,idConv:string}
+        Observer.next(id);
+      });
+    });
+  }
 }

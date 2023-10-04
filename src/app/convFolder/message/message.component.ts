@@ -16,6 +16,10 @@ export class MessageComponent implements OnDestroy {
   noMoreDown = true;
   ref: boolean = false;
   done: boolean = false;
+  lastMsg: any;
+  firstMsg: any;
+  msgToDelete: any;
+
   @ViewChild('chatContainer') chatContainer: ElementRef = new ElementRef('');
   conv: any = JSON.parse(localStorage.getItem('conv') || '{}');
   me = JSON.parse(localStorage.getItem('user') || '{}');
@@ -103,6 +107,12 @@ export class MessageComponent implements OnDestroy {
         //update User last message seen
         this.updateViewer(realData.myId);
       }
+    });
+    //websocket message deleted
+    this.webSocektService.messageDeleted().subscribe(async (id: string) => {
+      this.messages = this.messages.filter((msg) => {
+        return msg._id != id;
+      });
     });
 
     //update bottom
@@ -326,5 +336,26 @@ export class MessageComponent implements OnDestroy {
     }
     this.messages[this.messages.length - 1].vus.push(id);
     this.setPhotosOfViewers();
+  }
+  delteOptions(msg: any) {
+    let optionPopupCadre = document.getElementById(
+      'optionPopupCadre'
+    ) as HTMLElement;
+
+    if (optionPopupCadre.style.display == 'block') {
+      optionPopupCadre.style.display = 'none';
+      this.msgToDelete = null;
+    } else {
+      this.msgToDelete = msg;
+      optionPopupCadre.style.display = 'block';
+    }
+  }
+  deleteMsgForAll() {
+    this.messageService
+      .deleteMsgForAll(this.msgToDelete)
+      .subscribe((res) => {});
+  }
+  deleteMsgForMe() {
+    this.messageService.deleteMsgForMe(this.msgToDelete).subscribe((res) => {});
   }
 }

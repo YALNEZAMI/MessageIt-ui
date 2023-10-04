@@ -65,4 +65,10 @@ export class MessageService {
     let myId = JSON.parse(localStorage.getItem('user') || '{}')._id;
     return this.http.patch(`${this.uri}/message/set/vus`, { idConv, myId });
   }
+  deleteMsgForAll(msg: any) {
+    return this.http.delete(`${this.uri}/message/${msg._id}`);
+  }
+  deleteMsgForMe(msg: any) {
+    return this.http.delete(`${this.uri}/message/deleteForMe/${msg._id}`);
+  }
 }
