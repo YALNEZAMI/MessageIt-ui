@@ -26,15 +26,11 @@ export class FriendService {
   }
 
   cancel(id: string) {
-    // console.log('cancel');
-
     return this.Http.delete(
       `${this.uri}/user/friends/cancel/${this.getMyId()}/${id}`
     );
   }
   refuse(id: string) {
-    // console.log('cancel');
-
     return this.Http.delete(
       `${this.uri}/user/friends/refuse/${this.getMyId()}/${id}`
     );

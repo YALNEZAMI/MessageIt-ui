@@ -14,7 +14,8 @@ export class MessageService {
   uri = env.api_url;
   constructor(private http: HttpClient) {}
   findMessageOfConv(idConv: string) {
-    return this.http.get(`${this.uri}/message/ofConv/${idConv}`);
+    let idUser = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    return this.http.get(`${this.uri}/message/ofConv/${idConv}/${idUser}`);
   }
   send(message: any) {
     message.conv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
@@ -42,22 +43,31 @@ export class MessageService {
     }
   }
   getMessagesByKey(key: string) {
-    return this.http.get(`${this.uri}/message/search/${key}`);
+    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
+    return this.http.get(
+      `${this.uri}/message/search/${key}/${idConv}/${userId}`
+    );
   }
   getRange(idConv: string, idMessage: string) {
     return this.http.get(`${this.uri}/message/range/${idConv}/${idMessage}`);
   }
   appendDown(idConv: string, idMessage: string) {
+    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
     return this.http.get(
-      `${this.uri}/message/appendDown/${idConv}/${idMessage}`
+      `${this.uri}/message/appendDown/${idConv}/${idMessage}/${userId}`
     );
   }
   appendUp(idConv: string, idMessage: string) {
-    return this.http.get(`${this.uri}/message/appendUp/${idConv}/${idMessage}`);
+    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    return this.http.get(
+      `${this.uri}/message/appendUp/${idConv}/${idMessage}/${userId}`
+    );
   }
   findSearchedMessagePortion(idConv: string, idMessage: string) {
+    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
     return this.http.get(
-      `${this.uri}/message/MessageSearchedGroup/${idConv}/${idMessage}`
+      `${this.uri}/message/MessageSearchedGroup/${idConv}/${idMessage}/${userId}`
     );
   }
   setVus() {
@@ -69,6 +79,15 @@ export class MessageService {
     return this.http.delete(`${this.uri}/message/${msg._id}`);
   }
   deleteMsgForMe(msg: any) {
-    return this.http.delete(`${this.uri}/message/deleteForMe/${msg._id}`);
+    let idMsg_idUser_MemberLength = {
+      idMsg: msg._id,
+      idUser: JSON.parse(localStorage.getItem('user') || '{}')._id,
+      memberLength: JSON.parse(localStorage.getItem('conv') || '{}').members
+        .length,
+    };
+    return this.http.patch(
+      `${this.uri}/message/delete/ForMe`,
+      idMsg_idUser_MemberLength
+    );
   }
 }

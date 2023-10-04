@@ -36,6 +36,7 @@
     
     .notEmoji{
         background-color: white;
+        height: max-content;
         }
 @media (max-width: 767px) {
     .emoji{

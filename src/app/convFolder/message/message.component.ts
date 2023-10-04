@@ -64,6 +64,8 @@ export class MessageComponent implements OnDestroy {
             this.goToMessage(localStorage.getItem('idMessage') || '');
           }, 10);
           this.done = true;
+          //reinit the idMessage
+          localStorage.removeItem('idMessage');
         });
     } else {
       //get initial messages without search
@@ -86,19 +88,22 @@ export class MessageComponent implements OnDestroy {
     //websocket subscribe
     this.webSocektService.newMessage().subscribe(async (message: any) => {
       let realMessage = await message;
-      this.messages.push(realMessage);
+      let idConv = realMessage.conv;
 
-      // set new message like vus
-      this.messageService.setVus().subscribe((res: any) => {
-        //set viewrs photos
-        this.setPhotosOfViewers();
-      });
-      //scroll down
-      if (this.isBottom) {
-        setTimeout(() => {
-          this.scrollDown();
-        }, 5);
-      } //set the last message
+      if (idConv == this.conv._id) {
+        this.messages.push(realMessage);
+        // set new message like vus
+        this.messageService.setVus().subscribe((res: any) => {
+          //set viewrs photos
+          this.setPhotosOfViewers();
+        });
+        //scroll down
+        if (this.isBottom) {
+          setTimeout(() => {
+            this.scrollDown();
+          }, 5);
+        }
+      }
     });
     //websocket setVus
     this.webSocektService.setVus().subscribe(async (data: any) => {
@@ -109,10 +114,19 @@ export class MessageComponent implements OnDestroy {
       }
     });
     //websocket message deleted
-    this.webSocektService.messageDeleted().subscribe(async (id: string) => {
-      this.messages = this.messages.filter((msg) => {
-        return msg._id != id;
-      });
+    this.webSocektService.messageDeleted().subscribe(async (object: any) => {
+      //object:{idMsg:string,idUser:string,memberLength:number,operation:'deleteForMe'||'deleteForAll}
+      if (object.operation == 'deleteForAll') {
+        this.messages = this.messages.filter((msg) => {
+          return msg._id != object.idMsg;
+        });
+      } else {
+        if (object.idUser == this.me._id && object.operation == 'deleteForMe') {
+          this.messages = this.messages.filter((msg) => {
+            return msg._id != object.idMsg;
+          });
+        }
+      }
     });
 
     //update bottom
@@ -279,7 +293,12 @@ export class MessageComponent implements OnDestroy {
       this.scrollDown();
       return;
     }
-    if (this.messages.length < 20) return;
+    if (this.messages.length < 20) {
+      this.updateBottom();
+      this.scrollDown();
+      this.noMoreDown = true;
+      return;
+    }
     let lastMsgId = this.messages[this.messages.length - 1]._id;
 
     this.messageService
@@ -337,7 +356,12 @@ export class MessageComponent implements OnDestroy {
     this.messages[this.messages.length - 1].vus.push(id);
     this.setPhotosOfViewers();
   }
+  canDeleteMsgForAll = false;
   delteOptions(msg: any) {
+    if (msg != null && msg.sender._id == this.me._id) {
+      this.canDeleteMsgForAll = true;
+    }
+
     let optionPopupCadre = document.getElementById(
       'optionPopupCadre'
     ) as HTMLElement;

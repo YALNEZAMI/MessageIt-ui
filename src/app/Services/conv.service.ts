@@ -35,7 +35,6 @@ export class ConvService {
           JSON.parse(localStorage.getItem('user') || '{}')._id,
         ],
       };
-      // console.log(this.me);
     }
     return this.Http.post(`${this.uri}/conv`, data);
   }

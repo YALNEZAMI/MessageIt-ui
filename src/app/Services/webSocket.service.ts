@@ -30,9 +30,9 @@ export class WebSocketService {
   }
   messageDeleted(): Observable<any> {
     return new Observable<any>((Observer) => {
-      this.socket.on('messageDeleted', (id: string) => {
-        //object:{myId:string,idConv:string}
-        Observer.next(id);
+      // object:{idMsg:string,idUser:string,memberLength:number}
+      this.socket.on('messageDeleted', (object: any) => {
+        Observer.next(object);
       });
     });
   }

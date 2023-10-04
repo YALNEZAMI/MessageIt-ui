@@ -94,10 +94,13 @@
 
   <!--input elements group-->
   <div *ngIf="done" id="inputElementsGroup">
-    <div [ngClass]="getInputSecondDivClasses()" id="InputSecondDiv">
+    <div
+      *ngIf="!isBottom"
+      [ngClass]="getInputSecondDivClasses()"
+      id="InputSecondDiv"
+    >
       <button
         (click)="appendDown()"
-        *ngIf="!isBottom || !noMoreDown"
         id="downBtn"
         [ngClass]="{
           'btn':true,
@@ -150,6 +153,7 @@
   <div (click)="delteOptions(null)" id="optionPopupCadre">
     <div id="optionPopup">
       <div
+        *ngIf="canDeleteMsgForAll"
         (click)="deleteMsgForAll()"
         class="center btn btn-danger"
         id="deleteForAll"

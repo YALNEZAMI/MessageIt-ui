@@ -44,7 +44,6 @@ export class SessionService {
       `${env.api_url}/user/setStatus/${user._id}`,
       { status: 'offline' }
     );
-    console.log(userReturned);
     return userReturned;
   }
 }

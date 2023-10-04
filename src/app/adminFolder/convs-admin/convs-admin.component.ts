@@ -19,11 +19,11 @@ export class ConvsAdminComponent implements OnDestroy {
   convs: Conv[] = [];
   done = false;
   noRes = false;
+  me = JSON.parse(localStorage.getItem('user') || '{}');
   @ViewChild('lastMessage') lastMessage: ElementRef = new ElementRef('');
   constructor(private convService: ConvService, private router: Router) {
     this.convService.getConvs().subscribe(async (data: any) => {
       let realData = await data;
-      console.log(realData);
 
       if (realData.length == 0) {
         this.noRes = true;
@@ -68,5 +68,13 @@ export class ConvsAdminComponent implements OnDestroy {
 
   getStatusClasses(conv: any) {
     return this.convService.getStatusClassesForConv(conv);
+  }
+  getOtherMember(conv: any) {
+    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (conv.members[0]._id == user._id) {
+      return conv.members[1];
+    } else {
+      return conv.members[0];
+    }
   }
 }
