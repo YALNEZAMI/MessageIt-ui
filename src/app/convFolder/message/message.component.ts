@@ -51,47 +51,38 @@ export class MessageComponent {
       .subscribe(async (data: any) => {
         //set global messages and properties
         this.messages = await data;
-
         this.limit += 20;
         this.done = true;
-
         this.lastMsg = this.messages[this.messages.length - 1];
         this.firstMsg = this.messages[0];
-        // document.getElementById(this.messages[0]._id) ||
-        // document.createElement('div');
 
-        //scroll to last message
-        // setTimeout(() => {
-        // this.scrollDown();
-        // }, 200);
+        // let firstMsgHtml: HTMLElement = document.createElement('div');
+        // if (this.firstMsg != undefined || this.firstMsg != null) {
+        //   firstMsgHtml =
+        //     document.getElementById(this.firstMsg._id) ||
+        //     document.createElement('div');
+        // }
 
-        let firstMsgHtml: HTMLElement = document.createElement('div');
-        if (this.firstMsg != undefined || this.firstMsg != null) {
-          firstMsgHtml =
-            document.getElementById(this.firstMsg._id) ||
-            document.createElement('div');
-        }
-
-        if (this.firstMsg != undefined || this.firstMsg != null) {
-          const options = {
-            root: null, // Use the viewport as the root
-            rootMargin: '0px', // You can adjust this margin as needed
-            threshold: 0.1, // Adjust the threshold (0.1 means 10% of the target must be visible)
-          };
-          this.handleIntersection = this.handleIntersection.bind(this); // Bind the function
-          const observer = new IntersectionObserver(
-            this.handleIntersection,
-            options
-          );
-          observer.observe(firstMsgHtml);
-        }
+        // if (this.firstMsg != undefined || this.firstMsg != null) {
+        //   const options = {
+        //     root: null, // Use the viewport as the root
+        //     rootMargin: '0px', // You can adjust this margin as needed
+        //     threshold: 0.1, // Adjust the threshold (0.1 means 10% of the target must be visible)
+        //   };
+        //   this.handleIntersection = this.handleIntersection.bind(this); // Bind the function
+        //   const observer = new IntersectionObserver(
+        //     this.handleIntersection,
+        //     options
+        //   );
+        //   observer.observe(firstMsgHtml);
+        // }
 
         // }, 200);
         setTimeout(() => {
           this.scrollDown();
         }, 200);
       });
-    //websocket subscribe
+    //websocket subscribe to new message
     this.messageService.newMessage().subscribe(async (message: any) => {
       let realMessage = await message;
       this.messages.push(await message);
@@ -108,14 +99,12 @@ export class MessageComponent {
         this.lastMsg = element;
       }, 100);
     });
+    //websocket subscribe to delete message
 
     //get My Messege response
     this.messageService.getMessageResponse().subscribe(async (message: any) => {
       let realMessage = await message;
-      // console.log(realMessage);
-
       this.messages.push(realMessage);
-
       setTimeout(() => {
         if (this.isBottom) {
           this.scrollDown();

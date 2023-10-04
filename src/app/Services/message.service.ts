@@ -14,7 +14,10 @@ export class MessageService {
   uri = env.api_url;
   constructor(private http: HttpClient, private socket: Socket) {}
   findMessageOfConv(limit: number, idConv: string) {
-    return this.http.get(`${this.uri}/message/ofConv/${idConv}/${limit}`);
+    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    return this.http.get(
+      `${this.uri}/message/ofConv/${idConv}/${limit}/${userId}`
+    );
   }
   send(message: any) {
     message.conv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
@@ -53,6 +56,10 @@ export class MessageService {
     return this.http.delete(`${this.uri}/message/${msg._id}`);
   }
   deleteMsgForMe(msg: any) {
-    return this.http.delete(`${this.uri}/message/deleteForMe/${msg._id}`);
+    let memberLength = JSON.parse(localStorage.getItem('conv') || '{}').members
+      .length;
+    return this.http.delete(
+      `${this.uri}/message/deleteForMe/${msg._id}/${memberLength}`
+    );
   }
 }

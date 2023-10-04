@@ -11,6 +11,6 @@ export class AppComponent {
 
   constructor(private router: Router) {}
   redirect() {
-    this.router.navigate(['/index']);
+    this.router.navigate(['auth/login']);
   }
 }
