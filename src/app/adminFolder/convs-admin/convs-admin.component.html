@@ -35,7 +35,7 @@
             getOtherMember(conv).firstName + " " + getOtherMember(conv).lastName
           }}
           offline since
-          {{ getOtherMember(conv).lastConnection }}
+          {{ toLocalString(getOtherMember(conv).lastConnection) }}
         </h6>
       </div>
     </div>

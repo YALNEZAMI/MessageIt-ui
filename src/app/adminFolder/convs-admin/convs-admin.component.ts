@@ -8,8 +8,7 @@ import {
 import { ConvService } from 'src/app/Services/conv.service';
 import { Conv } from '../../Interfaces/conv.interface';
 import { Router } from '@angular/router';
-import { env } from '../../../env';
-import { UserService } from 'src/app/Services/user.service';
+
 @Component({
   selector: 'app-convs-admin',
   templateUrl: './convs-admin.component.html',
@@ -56,6 +55,10 @@ export class ConvsAdminComponent implements OnDestroy {
       return '';
     }
   }
+  toLocalString(dateString: any) {
+    let date = new Date(dateString);
+    return date.toLocaleString();
+  }
 
   async goToConv(conv: Conv) {
     localStorage.setItem('conv', JSON.stringify(conv));
@@ -69,6 +72,7 @@ export class ConvsAdminComponent implements OnDestroy {
   getStatusClasses(conv: any) {
     return this.convService.getStatusClassesForConv(conv);
   }
+
   getOtherMember(conv: any) {
     let user = JSON.parse(localStorage.getItem('user') || '{}');
     if (conv.members[0]._id == user._id) {
