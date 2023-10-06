@@ -17,10 +17,11 @@ export class MessageService {
     return this.http.get(`${this.uri}/message/ofConv/${idConv}/${idUser}`);
   }
   send(message: any) {
-    message.conv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    //the sender is set to a viewer of his message here
-    message.vus = [];
-    message.vus.push(JSON.parse(localStorage.getItem('user') || '{}')._id);
+    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
+    message.conv = {
+      _id: conv._id,
+      members: conv.members,
+    };
     return this.http.post(`${this.uri}/message`, message);
   }
 
