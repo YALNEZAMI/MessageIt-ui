@@ -181,9 +181,9 @@ export class MessageComponent implements OnDestroy {
   goToMessage(id: string) {
     let msg = document.getElementById(id);
     if (msg != null) {
-      msg.style.border = '1px solid red';
+      msg.style.borderBottom = '1px solid red';
       setTimeout(() => {
-        if (msg) msg.style.border = '0px solid red';
+        if (msg) msg.style.borderBottom = '0px solid red';
       }, 3000);
       switch (this.locateMessage(id)) {
         case 'body':
