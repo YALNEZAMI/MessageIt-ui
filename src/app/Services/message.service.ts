@@ -7,9 +7,8 @@ import { env } from 'src/env';
   providedIn: 'root',
 })
 export class MessageService {
-  transferMessegeSent: any = new Subject<any>();
-  transferMessegeResponse: any = new Subject<any>();
   searchKey: any = new Subject<any>();
+  repToMsg: any = new Subject<any>();
 
   uri = env.api_url;
   constructor(private http: HttpClient) {}
@@ -19,16 +18,10 @@ export class MessageService {
   }
   send(message: any) {
     message.conv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
+    //the sender is set to a viewer of his message here
     message.vus = [];
     message.vus.push(JSON.parse(localStorage.getItem('user') || '{}')._id);
     return this.http.post(`${this.uri}/message`, message);
-  }
-
-  getMessageSent() {
-    return this.transferMessegeSent.asObservable();
-  }
-  setMessageSent(msg: any) {
-    this.transferMessegeSent.next(msg);
   }
 
   getSearchKey() {
@@ -89,5 +82,11 @@ export class MessageService {
       `${this.uri}/message/delete/ForMe`,
       idMsg_idUser_MemberLength
     );
+  }
+  setRep(msg: any): void {
+    this.repToMsg.next(msg);
+  }
+  getRep() {
+    return this.repToMsg.asObservable();
   }
 }

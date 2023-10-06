@@ -1,79 +1,93 @@
-<form (ngSubmit)="send()">
-  <div class="row" id="inputContainer">
-    <textarea
-      placeholder="écirir..."
-      (input)="onInput()"
-      [(ngModel)]="message.text"
-      id="textArea"
-      name="textArea"
-      type="textArea"
-      rows="1"
-      class="form-control"
-    ></textarea>
-    <div id="btnsContainer">
-      <input id="files" type="file" name="files" [(ngModel)]="message.files" />
-      <button
-        id="photo_library"
-        (click)="selectFiles()"
-        class="btn btn-success"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-images"
-          viewBox="0 0 16 16"
-        >
-          <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-          <path
-            d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
-          />
-        </svg>
-      </button>
-
-      <!-- <button class="btn btn-primary" type="submit"> -->
-
-      <button
-        class="btn btn-primary"
-        (click)="send()"
-        *ngIf="sendButton"
-        id="sendBtn"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-send"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"
-          />
-        </svg>
-      </button>
-
-      <button
-        class="btn btn-primary"
-        id="likeBtn"
-        (click)="like()"
-        *ngIf="!sendButton"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-star"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
-          />
-        </svg>
-      </button>
-    </div>
-    <!-- </button> -->
+<div id="globalContainer">
+  <div id="rep" class="row">
+    <img id="photoRep" src="{{ photoRep }}" alt="" />
+    <div id="textRep">{{ textRep }}</div>
+    <button (click)="cancelRep()" id="cancelRepBtn" class="btn btn-danger">
+      x
+    </button>
   </div>
-</form>
+  <form (ngSubmit)="send()">
+    <div class="row" id="inputContainer">
+      <textarea
+        placeholder="écirir..."
+        (input)="onInput()"
+        [(ngModel)]="message.text"
+        id="textArea"
+        name="textArea"
+        type="textArea"
+        rows="1"
+        class="form-control"
+      ></textarea>
+      <div id="btnsContainer">
+        <!--input and button of media-->
+        <input
+          id="files"
+          type="file"
+          name="files"
+          [(ngModel)]="message.files"
+        />
+        <button
+          id="photo_library"
+          (click)="selectFiles()"
+          class="btn btn-success"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-images"
+            viewBox="0 0 16 16"
+          >
+            <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+            <path
+              d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
+            />
+          </svg>
+        </button>
+
+        <!-- send button -->
+        <button
+          class="btn btn-primary"
+          (click)="send()"
+          *ngIf="sendButton"
+          id="sendBtn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-send"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"
+            />
+          </svg>
+        </button>
+        <!--like button-->
+        <button
+          class="btn btn-primary"
+          id="likeBtn"
+          (click)="like()"
+          *ngIf="!sendButton"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-star"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
+            />
+          </svg>
+        </button>
+      </div>
+      <!-- </button> -->
+    </div>
+  </form>
+</div>

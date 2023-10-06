@@ -2,67 +2,88 @@
     width: 64%;
 
 } */
-/* #inputContainer{
+#inputContainer{
     gap: 10px;
-    position: fixed;
-    bottom: 0px;
-    right: 3%;
     width: 100%;
     padding: 5px;
-    padding-left:25px;
-
     background-color: #8796af;
-    border-radius: 10px;
-    margin-right: 0px;
-} */
+    margin: 0px;
+}
 #files{
     display: none;
 }
+#rep{
+    display: none;
+    width: 100%;
+    height: max-content;
+    background-color: rgb(94, 98, 101);
+    padding: 4px;
+    margin: 0px;
+}
+#photoRep{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+#textRep{
+    padding: 10px 5px 0 10px;
+    width: 82%;
+    color: wheat;
 
+}
+#cancelRepBtn{
+    padding:0  3px;
+    height: max-content;
+}
 
 @media(min-width:409px){
     #btnsContainer{
         width: 17%;
     }
     #textArea{
-        width: 80%;
+        width: 87%;
         margin-left: 5px;
 
     }
     #sendBtn{
+        text-align: center;
         margin-left: 5%;
 
         max-height: 37px;
     }
     #likeBtn{
+        text-align: center;
         margin-left: 5%;
 
         max-height: 37px;
     }
     #photo_library{
+        text-align: center;
         margin-left: 5%;
         max-height: 37px;
     }
 }
 @media(max-width: 408px){
     #btnsContainer{
-        width: 38%;
+        width: 27%;
     }
     #textArea{
-        margin-left: 5px;
-        width: 55%;
+        width: 70%;
     }
     #sendBtn{
+        text-align: center;
         margin-left: 5%;
 
         max-height: 37px;
     }
     #likeBtn{
+        text-align: center;
         margin-left: 5%;
 
         max-height: 37px;
     }
     #photo_library{
+        text-align: center;
         margin-left: 5%;
         
         max-height: 37px;

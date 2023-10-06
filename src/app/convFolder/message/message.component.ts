@@ -19,7 +19,8 @@ export class MessageComponent implements OnDestroy {
   lastMsg: any;
   firstMsg: any;
   msgToDelete: any;
-
+  //msg to reply to
+  rep: any;
   @ViewChild('chatContainer') chatContainer: ElementRef = new ElementRef('');
   conv: any = JSON.parse(localStorage.getItem('conv') || '{}');
   me = JSON.parse(localStorage.getItem('user') || '{}');
@@ -72,6 +73,8 @@ export class MessageComponent implements OnDestroy {
       this.messageService
         .findMessageOfConv(this.conv._id)
         .subscribe(async (msgs: any) => {
+          console.log(await msgs);
+
           //set global messages and properties
           this.messages = await msgs;
           this.done = true;
@@ -178,9 +181,9 @@ export class MessageComponent implements OnDestroy {
   goToMessage(id: string) {
     let msg = document.getElementById(id);
     if (msg != null) {
-      msg.style.borderBottom = '1px solid red';
+      msg.style.border = '1px solid red';
       setTimeout(() => {
-        if (msg) msg.style.borderBottom = '0px solid red';
+        if (msg) msg.style.border = '0px solid red';
       }, 3000);
       switch (this.locateMessage(id)) {
         case 'body':
@@ -237,6 +240,7 @@ export class MessageComponent implements OnDestroy {
 
     return firstRes;
   }
+
   textClasses(msg: any) {
     let text = msg.text;
 
@@ -261,6 +265,7 @@ export class MessageComponent implements OnDestroy {
       'input-second-div-focus': this.ref,
     };
   }
+
   //append 20 messages to the global messages
   //on the top of the page => load 20 messages if it exist
   async appendUp() {
@@ -381,5 +386,36 @@ export class MessageComponent implements OnDestroy {
   }
   deleteMsgForMe() {
     this.messageService.deleteMsgForMe(this.msgToDelete).subscribe((res) => {});
+  }
+
+  //rep
+  getRepClasses(msg: any) {
+    let idSender = msg.sender._id;
+    let myid = this.me._id;
+    return {
+      bi: true,
+      'bi-box-arrow-in-down-left': idSender == myid,
+      'bi-box-arrow-in-down-right': idSender != myid,
+      rotateTheirRepArrow: idSender != myid,
+    };
+  }
+  getSettingsAndRepClasses(msg: any) {
+    let idSender = msg.sender._id;
+    let myid = this.me._id;
+    return {
+      row: true,
+      marginRightSettingAndRep: idSender == myid,
+      marginLeftSettingAndRep: idSender != myid,
+    };
+  }
+  setRep(msg: any) {
+    this.messageService.setRep(msg);
+  }
+  getRepOfMsgsClasses(msg: any) {
+    return {
+      row: true,
+      repRight: msg.sender._id == this.me._id,
+      repLeft: msg.sender._id != this.me._id,
+    };
   }
 }

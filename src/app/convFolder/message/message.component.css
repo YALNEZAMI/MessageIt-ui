@@ -25,6 +25,51 @@
     margin:5px 10%;
     width: 80%;
 }
+.marginRightSettingAndRep{
+    margin-right: 15px;
+     gap: 5px
+}
+.marginLeftSettingAndRep{
+    margin-left: 15px;
+     gap: 5px
+}
+
+.repDiv{
+    padding-top: 12%;
+    cursor: pointer;
+}
+.rotateTheirRepArrow{
+    transform: rotate(-90deg)
+}
+.repRight{
+    gap: 5px;
+    flex-direction: row-reverse;
+    background-color: rgba(0,0,0,0.5);
+    color: wheat;
+    padding: 5px;
+    width: 50%;
+    margin-left: 50%;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.repLeft{
+    gap: 5px;
+    background-color: rgba(0,0,0,0.5);
+    color: wheat;
+    padding: 5px;
+    width: 50%;
+    margin-right: 50%;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.repSenderPhoto{
+    margin: 0px;
+}
+.repMsgsText{
+    padding-top: 2%;
+}
 .msgSettings{
     padding: 3px;
     margin: 3px;
@@ -132,7 +177,7 @@ margin-right: 15px;
     min-height: max-content;
     background-color: #f0f4f8;
     border-top: 1px solid #e6ecf3;
-    padding: 0px 10px 10px 15px;
+    /* padding: 0px 10px 10px 15px; */
     overflow-y: auto;
     overflow-x: hidden;
 }
