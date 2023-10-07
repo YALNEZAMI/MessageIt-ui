@@ -31,6 +31,7 @@
 border-radius: 50%;
     /* position: absolute; */
     width:70px;
+    height: 70px;
 }
 #photoDiv{
     width: max-content;

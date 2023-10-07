@@ -56,7 +56,10 @@
   
   /* Personnalisez davantage les styles selon vos préférences */
   #convImg{
+    position: relative;
+    left: 20px;
     width: 90px;
+    height: 90px;
     cursor: pointer;
     border-radius: 50%;
     border: 2px solid #333;
@@ -69,8 +72,8 @@
     padding: 2px;
     border-radius: 20%;
     position: relative;
-    top: 30px;
-    right: 30px;
+    top: 27px;
+    left: 0px;
   }
   #cadrePhoto{
     display: none;
@@ -98,15 +101,23 @@
     flex-direction: row-reverse;
   }
   .logoutDiv{
+    max-height: max-content;
     padding: 5px;
-    width: 10%;
+    width: max-content;
   }
   .profilePhotoDiv{
     padding-top: 5px;
-    width: 90%;
+    width: 80%;
   }
   label{
     color:var(--font-color);
+  }
+  #emailHelp{
+    color:var(--font-color);
+  }
+  .successAlert{
+   
+    z-index: 3;
   }
  
   
