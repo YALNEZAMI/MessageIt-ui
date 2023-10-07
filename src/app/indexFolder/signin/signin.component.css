@@ -1,0 +1,7 @@
+label{
+    color: var(--font-color);
+}
+.registerBtn{
+    background-color: var(--bg-color);
+    color: var(--font-color);
+}

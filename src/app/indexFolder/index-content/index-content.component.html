@@ -9,7 +9,11 @@
   <li class="nav-item" role="presentation">
     <a
       routerLink="/auth/login"
-      [ngClass]="{ active: getRoute() == 'login' }"
+      [ngClass]="{
+        'login-navItem': true,
+        myActive: getRoute() == 'login',
+        myInactive: getRoute() != 'login'
+      }"
       class="nav-link"
       role="tab"
       aria-controls="pills-login"
@@ -20,7 +24,10 @@
   <li class="nav-item" role="presentation">
     <a
       routerLink="/auth/signup"
-      [ngClass]="{ active: getRoute() == 'signup' }"
+      [ngClass]="{
+        myActive: getRoute() == 'signup',
+        myInactive: getRoute() != 'signup'
+      }"
       class="nav-link"
       id="tab-register"
       data-mdb-toggle="pill"

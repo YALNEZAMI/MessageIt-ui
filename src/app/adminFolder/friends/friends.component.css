@@ -1,73 +1,15 @@
-/* .userItem{
-    background-color: black;
-    margin: 5px;
-    padding: 5px;
-    border-radius: 10px;
-    color: white;
-}
-.name{
-    width: 70%;
-    margin-bottom: 10px;
-    padding: 5px;
-    font-size: larger;
-    
-}
-.img{
-    width: 70px;
-border-radius: 50%;
-margin-right: 10px;
-}
-.btn{
-    margin-top: 5px;
-    min-width: 79px;
-}
-.btn1{
-    margin-right: 3px;
-    min-width: 79px;
-    margin-top: 5px;
-}
-.chatBtn{
-    margin-left: 5px;
-    min-width: 79px;
-    margin-top: 5px;
-
-}
-.refuseBtn{
-    margin-left: 5px;
-    min-width: 79px;
-    margin-top: 5px;
-
-} */
-
 .userItem{
-    background-color: black;
+    background-color: var(--bg-color);
     margin: 1%;
-    padding: 2%;
+    padding: 5px;
     padding-bottom: 0px;
-    max-height: 20%;
+   height: max-content;
     border-radius: 10px;
-    color: white;
+    color: var(--font-color);
 }
-.name{
-    font-size: 10%;
-    width: 47%;
-    margin-bottom: 0%;
-    padding: 1%;
-    font-size: larger;
-    min-height: max-content;
-    
-}
-.imgAndStatusDiv{
-    width: 15%;
 
-    /* height: max-content; */
 
-}
-.img{
-width: 100%;
-border-radius: 50%;
-margin-right: 2%;
-}
+
 .myBtn{
     margin-top: 1%;
     min-width: 16%;
@@ -78,20 +20,69 @@ margin-right: 2%;
 }
 .chatBtn{
     margin-left: 1%;
-
-
 }
 .refuseBtn{
     margin-left: 1%;
 }
-.status{
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    position: relative;
-    bottom: 80%;
-    left: 60%;
+@media(min-height:767px){
+    .name{
+        font-size: 10%;
+        width: 47%;
+        margin-bottom: 0%;
+        padding: 1%;
+        font-size: larger;
+        height: max-content;
+        
+    }
+    .status{
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        position: relative;
+        bottom: 80%;
+        left: 70%;
+    }
+    .img{
+        width: 70px;
+        border-radius: 50%;
+        margin-right: 2%;
+        }
+        .imgAndStatusDiv{
+            width: max-content;
+            padding-top: 3px;
+            /* height: max-content; */
+        }
 }
+@media(max-height:767px){
+    .name{
+        font-size: 5%;
+        width: 40%;
+        margin-bottom: 0%;
+        padding: 1%;
+        font-size: larger;
+        height: max-content;
+        
+    }
+    .status{
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        position: relative;
+        bottom: 80%;
+        left: 60%;
+    }
+    .img{
+        width: 60px;
+        border-radius: 50%;
+        margin-right: 2%;
+        }
+        .imgAndStatusDiv{
+            width: 70px;
+            padding-top: 3px;
+            /* height: max-content; */
+        }
+}
+
 .online {
     background: #9ec94a;
 }

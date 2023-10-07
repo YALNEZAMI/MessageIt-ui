@@ -3,27 +3,6 @@
     <span class="sr-only">Loading...</span>
   </div>
 
-  <button class="btn btn-warning" (click)="logout()" *ngIf="!logedout">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      class="bi bi-box-arrow-right"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
-      />
-      <path
-        fill-rule="evenodd"
-        d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
-      />
-    </svg>
-  </button>
-
-  <hr />
   <!-- <button class="btn btn-warning" (click)="logout()">logout</button> -->
 </div>
 <div class="alert alert-success" *ngIf="alert">
@@ -31,70 +10,69 @@
 </div>
 <form (ngSubmit)="updateUser()">
   <div id="convImgDiv">
-    <input
-      accept="images/*"
-      type="file"
-      name="convImgInput"
-      id="convImgInput"
-      (change)="selected()"
-    />
-    <img
-      (click)="displayPhoto()"
-      [src]="getPhoto()"
-      alt="convImg"
-      id="convImg"
-    />
-    <div id="cadrePhoto" (click)="displayPhoto()">
-      <img id="photoDisplayed" [src]="getPhoto()" alt="myPhoto" />
+    <div class="logoutDiv">
+      <button
+        class="btn btn-warning logoutBtn"
+        (click)="logout()"
+        *ngIf="!logedout"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-box-arrow-right"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+          />
+          <path
+            fill-rule="evenodd"
+            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+          />
+        </svg>
+      </button>
     </div>
-    <button (click)="clickPhoto()" class="btn btn-primary" id="editPhoto">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-pencil"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
-        />
-      </svg>
-    </button>
+    <div class="profilePhotoDiv">
+      <input
+        accept="images/*"
+        type="file"
+        name="convImgInput"
+        id="convImgInput"
+        (change)="selected()"
+      />
+      <img
+        (click)="displayPhoto()"
+        [src]="getPhoto()"
+        alt="convImg"
+        id="convImg"
+      />
+      <div id="cadrePhoto" (click)="displayPhoto()">
+        <img id="photoDisplayed" [src]="getPhoto()" alt="myPhoto" />
+      </div>
+      <button (click)="clickPhoto()" class="btn btn-primary" id="editPhoto">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-pencil"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+          />
+        </svg>
+      </button>
 
-    <br />
-    <p *ngIf="photoSelectedName != ''">
-      <ins>{{ photoSelectedName }}</ins>
-    </p>
+      <br />
+      <p *ngIf="photoSelectedName != ''">
+        <ins>{{ photoSelectedName }}</ins>
+      </p>
+    </div>
   </div>
-  <!-- <div class="form-group">
-    <select
-      id="statusSelect"
-      [(ngModel)]="user.status"
-      name="status"
-      [ngClass]="{
-      'btn': true,
-      ' btn-success': user.status == 'online',
-      ' btn-danger': user.status == 'offline',
-  }"
-      class="form-select"
-      aria-label="Default select example"
-    >
-      <option
-        [ngClass]="{
-      'btn': true,
-      ' btn-success': user.status == 'online',
-      ' btn-danger': user.status == 'offline',
-  }"
-        value="{{ user.status }}"
-        selected
-      >
-        {{ user.status }}
-      </option>
-      <option class="onlineOption" value="online">online</option>
-      <option class="offlineOption" value="offline">offline</option>
-    </select>
-  </div> -->
 
   <div class="form-group">
     <label for="firstName">First name</label>
@@ -158,7 +136,7 @@
     />
   </div>
 
-  <button type="submit" class="btn btn-success">Update</button>
+  <button type="submit" class="btn btn-success updateBtn">Update</button>
 </form>
 <hr />
 <div class="form-check stylish-checkbox">

@@ -11,3 +11,14 @@ main{
     min-height: 100vh;
     padding-bottom: 56px;
 }
+.myInactive{
+    color: var(--bg-color);
+    background-color: var(--shadow-color);
+    width: 100%;
+    border-radius: 5px;
+
+}
+.myActive{
+    color: var(--font-color);
+    background-color: var(--bg-color);
+}

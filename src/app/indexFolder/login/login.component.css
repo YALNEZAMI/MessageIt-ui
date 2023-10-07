@@ -1,0 +1,15 @@
+.loginBtn{
+    background-color: var(--bg-color);
+    color: var(--font-color);
+}
+label{
+    color: var(--font-color);
+
+}
+.forgotPasswordDiv{
+    text-decoration-line: underline;
+}
+.forgotPasswordLink{
+    color: var(--font-color);
+
+}

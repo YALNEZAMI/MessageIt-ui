@@ -1,0 +1,7 @@
+footer{
+    background-color: var(--bg-color);
+}
+.websiteLinkDiv{
+    color: var(--font-color);
+    text-decoration-line: underline;
+}

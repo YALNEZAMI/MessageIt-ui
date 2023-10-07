@@ -1,26 +1,29 @@
 
-
- 
   .navItem {
     width: 18%;
     border-radius: 10px;
     padding: 3px;
     margin: 0.5%;
     cursor: pointer;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     text-align: center;
     font-size: 80%;
     overflow: hidden;
-    background-color: rgb(122, 122, 81);
+    background-color: var(--bg-color);
+    color: var(--font-color);
   }
   .navItem:hover {
-    background-color: #ddd;
-  }
+    background-color: var(--font-color);
+    color: var(--bg-color);  
+   }
   .active {
-    background-color: #ddd;
+    background-color: var(--font-color);
+    color: var(--bg-color);  
   }
   #rowContainer{
-    background-color: rgb(155, 146, 69);
+    border: 1px solid var(--font-color);
+    padding: 3px;
+    background-color: var(--bg-color);
     padding-left: 20px;
     margin-bottom: 5px;
   }

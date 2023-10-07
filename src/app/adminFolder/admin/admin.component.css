@@ -4,7 +4,7 @@
     width: 100%;
     z-index: 1;
     left: 0;
-    background-color: burlywood;
+    background-color: var(--font-color);
 }
 #body{
     margin-top: 165px;

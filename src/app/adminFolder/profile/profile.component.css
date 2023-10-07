@@ -21,8 +21,19 @@
     background-color: rgb(182, 182, 186);
 }
 #deleteBtn{
+  /* background-color: var(--bg-color); */
+  color: var(--font-color);
     margin-top: 5px;
     width: 100%;
+}
+.updateBtn{
+  /* background-color: var(--bg-color); */
+  /* color: var(--font-color); */
+  max-height: max-content;
+}
+.logoutBtn{
+  /* background-color: var(--bg-color); */
+  color: var(--font-color);
 }
 /* styles.css */
 
@@ -39,6 +50,9 @@
   .form-check-input {
     margin-right: 10px; /* Espacement entre la case à cocher et l'étiquette */
   }
+  label{
+    color: var(--font-color);
+  }
   
   /* Personnalisez davantage les styles selon vos préférences */
   #convImg{
@@ -46,8 +60,11 @@
     cursor: pointer;
     border-radius: 50%;
     border: 2px solid #333;
+    
   }
   #editPhoto{
+    /* background-color: var(--bg-color); */
+    color: var(--font-color);
     cursor: pointer;
     padding: 2px;
     border-radius: 20%;
@@ -75,12 +92,21 @@
     display: none;
   }
   #convImgDiv{
+    margin: 0px;
     text-align: center;
+    display: flex;
+    flex-direction: row-reverse;
   }
-  .onlineOption{
-    background-color: green;
+  .logoutDiv{
+    padding: 5px;
+    width: 10%;
   }
-  .offlineOption{
-    background-color: red;
+  .profilePhotoDiv{
+    padding-top: 5px;
+    width: 90%;
   }
+  label{
+    color:var(--font-color);
+  }
+ 
   

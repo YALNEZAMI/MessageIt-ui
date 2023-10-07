@@ -1,9 +1,9 @@
 .userItem{
-    background-color: black;
+    background-color: var(--font-color);
+    color: var(--bg-color);
     margin: 1%;
     padding: 1%;
     border-radius: 10px;
-    color: white;
 }
 .name{
     font-size: 10%;

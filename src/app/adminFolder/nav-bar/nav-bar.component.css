@@ -6,19 +6,19 @@
     padding: 5px;
     margin: 5px;
     cursor: pointer;
-    width: 17%;
+    width: 16.7%;
     text-align: center;
   }
   .navItem:hover {
-    background-color: #ddd;
+    background-color: var(--font-color);
   }
   .active {
-    background-color: #ddd;
+    background-color: var(--font-color);
   }
   #rowContainer{
-    background-color: beige;
+    background-color: var(--bg-color);
     padding: 0px 4px;
-    padding-left: 7%;
+    padding-left: 4%;
    
   }
  

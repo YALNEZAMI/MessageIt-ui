@@ -8,13 +8,18 @@ import { MailerService } from 'src/app/Services/mailer.service';
   styleUrls: ['./reget-password.component.css'],
 })
 export class RegetPasswordComponent {
+  //loading to have the spinner on getting the code
+  loading = false;
+  //server response
   response = {
     status: 0,
     message: '',
   };
+  //the data sent to the server
   data = {
     email: '',
   };
+  //html element of the email input
   @ViewChild('emailInput') emailInput: ElementRef = new ElementRef('');
   constructor(private mailerService: MailerService, private router: Router) {}
 
@@ -24,11 +29,13 @@ export class RegetPasswordComponent {
       this.emailInput.nativeElement.classList.add('alert-danger');
       return;
     }
-
     localStorage.setItem('email', this.data.email);
     this.mailerService.getCode(this.data).subscribe((res: any) => {
-      if (res.staus == 404) {
+      this.loading = true;
+
+      if (res.status == 404) {
         this.response = res;
+        this.loading = false;
       } else {
         this.router.navigate(['/auth/resetPassword']);
       }

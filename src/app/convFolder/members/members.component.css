@@ -2,12 +2,12 @@
     padding-top: 5px;
 }
 .userItem{
-    background-color: black;
+    background-color: var(--font-color);
     margin: 1%;
     padding: 1%;
     padding-bottom: 3px;
     border-radius: 10px;
-    color: white;
+    color: var(--bg-color);
 }
 .name{
     font-size: 100%;
@@ -45,8 +45,8 @@ margin-right: 2%;
     margin-left: 1%;
 }
 .status{
-    width: 30%;
-    height: 30%;
+    width: 25%;
+    height: 25%;
     border-radius: 50%;
     position: relative;
     bottom: 100%;

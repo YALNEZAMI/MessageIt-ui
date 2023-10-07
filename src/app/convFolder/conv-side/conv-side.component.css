@@ -58,7 +58,7 @@
     height: max-content;
 }
 .conv-selected{
-    background-color: #b0afae;
+    background-color: var(--bg-color);
 
 }
 #msgLoadingSpinner{
@@ -84,7 +84,7 @@ margin-right: 15px;
     width: 100%;
     /* margin-left: 20%; */
     min-height: max-content;
-    background-color: #f0f4f8;
+    background-color: var(--font-color);
     border-top: 1px solid #e6ecf3;
     padding: 10px;
     padding-left: 15px;
@@ -108,7 +108,8 @@ margin-right: 15px;
 #spinnerSearchConvs{
     margin-left: 5px;
 }
-ul{    background-color: #999999
+ul{    
+    background-color: var(--font-color)
 }
 #fixedUsers{
     position: static;
@@ -121,7 +122,7 @@ ul{    background-color: #999999
     height: 560px;
     overflow-y: hidden;
     overflow-x: hidden;
-    background-color: #999999
+    background-color: var(--font-color)
 }
 .right{
     direction: rtl;
@@ -174,14 +175,14 @@ app-conv-side{
    
     position: relative;
     padding: 0rem 0;
-    padding-top: 15px;
+    padding-top: 5px;
     border-right: 1px solid #e6ecf3;
    height: 560px;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
-    background-color: #999999;
+    background-color: var(--font-color);
     overflow-y: hidden;
     /* max-width: 20%; */
    
@@ -198,21 +199,8 @@ app-conv-side{
     cursor: pointer;
     border-bottom: 1px solid #f0f4f8;
 }
-
-.users .person:hover {
-    background-color: #ffffff;
-    /* Fallback Color */
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#e9eff5), to(#ffffff));
-    /* Saf4+, Chrome */
-    background-image: -webkit-linear-gradient(to left, #e9eff5, #ffffff);
-    /* Chrome 10+, Saf5.1+, iOS 5+ */
-    background-image: -moz-linear-gradient(to left, #e9eff5, #ffffff);
-    /* FF3.6 */
-    background-image: -ms-linear-gradient(to left, #e9eff5, #ffffff);
-    /* IE10 */
-    background-image: -o-linear-gradient(to left, #e9eff5, #ffffff);
-    /* Opera 11.10+ */
-    background-image: linear-gradient(to left, #e9eff5, #ffffff);
+.person:hover{
+    background-color: var(--bg-color);
 }
 
 .users .person.active-user {

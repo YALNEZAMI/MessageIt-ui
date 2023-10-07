@@ -1,4 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+*{
+    --bg-color:white;
+    --font-color:rgb(242, 73, 101);
+    --border-color:rgb(228, 48, 78);
+    --link-color:blue;
+    --shadow-color:rgba(235, 149, 179, 0.5);
+}
+
 .col{
     display: flex;
     flex-direction: column;
@@ -14,7 +22,7 @@
     text-align: center;
 }
 html{
-    /* overflow: hidden; */
+    overflow-x: hidden;
     height: 100%;
     width: 100%;
 }

@@ -2,7 +2,10 @@
 <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
   <li class="nav-item" role="presentation">
     <a
-      [ngClass]="{ active: getUserOrConv() == 'users' }"
+      [ngClass]="{
+        myActive: getUserOrConv() == 'users',
+        myInactive: getUserOrConv() != 'users'
+      }"
       class="nav-link"
       routerLink="/admin/search/users"
       role="tab"
@@ -11,10 +14,13 @@
       >Users</a
     >
   </li>
-  <li class="nav-item" role="presentation">
+  <li class="nav-item registerNav" role="presentation">
     <a
       routerLink="/admin/search/convs"
-      [ngClass]="{ active: getUserOrConv() == 'convs' }"
+      [ngClass]="{
+        myActive: getUserOrConv() == 'convs',
+        myInactive: getUserOrConv() != 'convs'
+      }"
       class="nav-link"
       id="tab-register"
       data-mdb-toggle="pill"

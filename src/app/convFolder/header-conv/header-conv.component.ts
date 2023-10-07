@@ -10,6 +10,7 @@ export class HeaderConvComponent {
   name: string = '';
   photo: string = '';
   lastConnection: any;
+  status: string = '';
   me: any;
   conv = JSON.parse(localStorage.getItem('conv') || '{}');
   constructor(private convService: ConvService) {
@@ -34,8 +35,13 @@ export class HeaderConvComponent {
       let otherUser = this.conv.members.filter((member: any) => {
         return member._id != this.me._id;
       })[0];
+      this.status = otherUser.status;
       this.lastConnection = new Date(otherUser.lastConnection);
-      this.lastConnection = this.lastConnection.toLocaleString();
+      if (this.status == 'online') {
+        this.lastConnection = this.status;
+      } else {
+        this.lastConnection = 'Since ' + this.lastConnection.toLocaleString();
+      }
     } else {
       this.lastConnection = '';
     }
