@@ -1,31 +1,72 @@
 #globalContainer{
-    padding-top: 5px;
+    padding-top: 15px;
 }
 .userItem{
     background-color: var(--font-color);
     margin: 1%;
     padding: 1%;
-    padding-bottom: 3px;
+    padding-bottom: 0px;
     border-radius: 10px;
     color: var(--bg-color);
 }
-.name{
-    font-size: 100%;
-    width: 50%;
-    margin-bottom: 0%;
-    padding: 1%;
-    font-size: larger;
-    
-}
-.imgAndStatusDiv{
-    width: 15%;
-    /* height: max-content; */
 
+@media (min-height:767px) {
+    .name{
+        font-size: 100%;
+        width: 50%;
+        margin-bottom: 0%;
+        padding: 1%;
+        font-size: larger;
+        
+    }
+    .imgAndStatusDiv{
+        width: max-content;
+        /* height: max-content; */
+    
+    }
+    .img{
+    width: 70px;
+    border-radius: 50%;
+    margin-right: 2%;
+    }
+    .status{
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        position: relative;
+        bottom: 85%;
+        left: 67%;
+    }
 }
-.img{
-width: 100%;
-border-radius: 50%;
-margin-right: 2%;
+@media (max-height:767px) {
+    .name{
+        font-size: 100%;
+        width: 45%;
+        margin-bottom: 0%;
+        padding: 1%;
+        padding-top: 10px;
+        font-size: larger;
+        
+    }
+    .imgAndStatusDiv{
+        width: max-content;
+        /* padding-top: 10px ; */
+        /* height: max-content; */
+    }
+    .img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 2%;
+    }
+    .status{
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        position: relative;
+        bottom: 80%;
+        left: 67%;
+    }
 }
 
  .myBtn{
@@ -44,14 +85,7 @@ margin-right: 2%;
 .refuseBtn{
     margin-left: 1%;
 }
-.status{
-    width: 25%;
-    height: 25%;
-    border-radius: 50%;
-    position: relative;
-    bottom: 100%;
-    left: 60%;
-}
+
 .online {
     background: #9ec94a;
 }

@@ -1,12 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 *{
-    --bg-color:white;
-    --font-color:rgb(242, 73, 101);
+    --bg-color:rgb(126, 28, 92);/*dark one*/
+    --font-color:white;/*light one*/
     --border-color:rgb(228, 48, 78);
     --link-color:blue;
     --shadow-color:rgba(235, 149, 179, 0.5);
 }
-
+body{
+    background-color: rgba(75, 47, 56, 0.5);
+}
 .col{
     display: flex;
     flex-direction: column;

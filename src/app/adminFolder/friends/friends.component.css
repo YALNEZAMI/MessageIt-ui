@@ -47,11 +47,11 @@
         border-radius: 50%;
         margin-right: 2%;
         }
-        .imgAndStatusDiv{
+    .imgAndStatusDiv{
             width: max-content;
             padding-top: 3px;
             /* height: max-content; */
-        }
+    }
 }
 @media(max-height:767px){
     .name{
