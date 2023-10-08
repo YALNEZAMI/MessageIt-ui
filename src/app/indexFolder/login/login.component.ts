@@ -39,6 +39,7 @@ export class LoginComponent {
         this.loginBtn = true;
       });
     } else {
+      this.loginBtn = true;
       this.lanceAlert('Please fill all the fields !');
     }
   }

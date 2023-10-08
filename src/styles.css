@@ -1,13 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 *{
-    --bg-color:rgb(126, 28, 92);/*dark one*/
-    --font-color:white;/*light one*/
+    --bg-color:rgb(246, 79, 162);/*dark one*/
+    --font-color:rgb(15, 13, 13);/*light one*/
     --border-color:rgb(228, 48, 78);
     --link-color:blue;
     --shadow-color:rgba(235, 149, 179, 0.5);
 }
 body{
-    background-color: rgba(75, 47, 56, 0.5);
+    background-color: rgba(173, 171, 172, 0.5);
 }
 .col{
     display: flex;
