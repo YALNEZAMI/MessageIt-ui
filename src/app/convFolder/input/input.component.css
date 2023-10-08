@@ -6,7 +6,7 @@
     gap: 10px;
     width: 100%;
     padding: 5px;
-    background-color: var(--shadow-color);
+    background-color: var(--bg-color);
     margin: 0px;
 }
 #files{
@@ -16,7 +16,7 @@
     display: none;
     width: 100%;
     height: max-content;
-    background-color: var(--bg-color);
+    background-color: var(--font-color);
     padding: 4px;
     margin: 0px;
 }
@@ -28,7 +28,7 @@
 #textRep{
     padding: 10px 5px 0 10px;
     width: 82%;
-    color: var(--font-color);
+    color: var(--bg-color);
 
 }
 #cancelRepBtn{
@@ -43,6 +43,8 @@
     #textArea{
         width: 87%;
         margin-left: 5px;
+        background-color: var(--font-color);
+        color: var(--bg-color);
 
     }
     #sendBtn{
@@ -69,6 +71,8 @@
     }
     #textArea{
         width: 70%;
+        background-color: var(--font-color);
+        color: var(--bg-color);
     }
     #sendBtn{
         text-align: center;

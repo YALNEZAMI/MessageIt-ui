@@ -1,4 +1,8 @@
 
+.btn-info{
+    background-color: var(--bg-color);
+    color: var(--font-color);
+}
 .emoji{
     background-color: #f0f4f8;
     }
@@ -14,17 +18,15 @@
         /* padding-bottom: 35px; */
         /* min-height: 700px; */
     }
+    
 }
 @media (min-width: 600px) {
     .users {
         padding: 0;
         overflow-y: auto;
         height: 500px;
-
-        /* max-height: 550px; */
-        /* padding-bottom: 45px; */
-        /* min-height: 700px; */
     }
+   
 }
 .main{
     width: 100%;
@@ -137,6 +139,7 @@ ul{
     -moz-border-radius: 3px 0 0 0;
     border-radius: 3px 0 0 0;
     padding: .75rem 1rem;
+    margin-top: 10px;
 }
 
 .chat-search-box .input-group .form-control {
@@ -195,7 +198,7 @@ app-conv-side{
 .users .person {
     position: relative;
     width: 100%;
-    padding: 10px 1rem;
+    padding: 10px 5px;
     cursor: pointer;
     border-bottom: 1px solid #f0f4f8;
 }
@@ -239,8 +242,8 @@ app-conv-side{
 }
 
 .users .person .user .status {
-    width: 10px;
-    height: 10px;
+    width: 13px;
+    height: 13px;
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
     border-radius: 100px;
@@ -270,6 +273,7 @@ app-conv-side{
     font-weight: 600;
     font-size: .85rem;
     display: inline-block;
+    width: 50%;
 }
 
 .users .person p.name-time .time {
@@ -280,9 +284,19 @@ app-conv-side{
 }
 
 @media (max-width: 600px) {
-    .users .person .user img {
+    .users .person {
+        position: relative;
         width: 100%;
-        height: 100%;
+        padding: 10% 10%;
+        text-align: center;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f4f8;
+    }
+    .users .person .user img {
+        
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
     }
     .users .person p.name-time {
         display: none;

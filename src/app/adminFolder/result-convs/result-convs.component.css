@@ -5,8 +5,8 @@
     width: 98%;
     margin-left: 1%;
     margin-top: 5px;
-    background-color: black;
-    color: aliceblue;
+    background-color: var(--font-color);
+    color: var(--bg-color);
     padding: 10px;
     border-radius: 10px;
     padding-left: 20px;

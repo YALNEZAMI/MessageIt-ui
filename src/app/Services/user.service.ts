@@ -47,7 +47,7 @@ export class UserService {
 
     return res;
   }
-  getPhoto2(photo: string) {
+  setPhotoLinkForHtml(photo: string) {
     if (
       !photo.includes(env.api_url) ||
       photo == env.defaultProfilePhoto ||
@@ -77,6 +77,8 @@ export class UserService {
     return this.http.post(`${this.uri}/user/uploadProfilePhoto/${id}`, fd);
   }
   updateInfos(user: any) {
+    console.log('user to update', user);
+
     let userReturned: any = this.http.patch(
       `${this.uri}/user/${user._id}`,
       user

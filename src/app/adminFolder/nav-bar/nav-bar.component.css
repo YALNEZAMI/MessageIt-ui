@@ -8,6 +8,7 @@
     cursor: pointer;
     width: 16.7%;
     text-align: center;
+    color: var(--third-color);
   }
   .navItem:hover {
     background-color: var(--font-color);

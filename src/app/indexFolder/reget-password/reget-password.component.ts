@@ -24,7 +24,7 @@ export class RegetPasswordComponent {
   constructor(private mailerService: MailerService, private router: Router) {}
 
   getCode() {
-    if (this.data.email == '') {
+    if (this.data.email == '' || !this.data.email.includes('@')) {
       this.emailInput.nativeElement.classList.add('alert');
       this.emailInput.nativeElement.classList.add('alert-danger');
       return;
@@ -32,7 +32,6 @@ export class RegetPasswordComponent {
     localStorage.setItem('email', this.data.email);
     this.mailerService.getCode(this.data).subscribe((res: any) => {
       this.loading = true;
-
       if (res.status == 404) {
         this.response = res;
         this.loading = false;

@@ -17,6 +17,7 @@ export class ConvSideComponent {
   constructor(private convService: ConvService) {
     //get other convs on the side
     this.convService.getConvs().subscribe(async (data: any) => {
+      console.log(await data);
       this.convs = await data;
       this.done = true;
     });

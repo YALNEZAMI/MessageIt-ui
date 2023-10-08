@@ -21,6 +21,10 @@ export class ProfileComponent {
   alert: boolean = false;
   noRes = false;
   done = true;
+  response: any = {
+    status: 200,
+    message: 'password is so short',
+  };
   constructor(
     private router: Router,
     private userService: UserService,
@@ -52,6 +56,11 @@ export class ProfileComponent {
     }
   }
   updateUser() {
+    //check email
+    if (!this.user.email.includes('@')) {
+      this.lanceAlert({ status: 404, message: 'Please,use your real email !' });
+      return;
+    }
     this.photoSelectedName = '';
     //get input file
     let inputImg = document.getElementById('convImgInput') as HTMLInputElement;
@@ -70,9 +79,11 @@ export class ProfileComponent {
     //delete password if empty
     if (this.user.password == '') {
       delete this.user.password;
+      delete this.user.password2;
     }
 
     let userUpdated: any;
+
     this.userService.updateInfos(this.user).subscribe(async (res: any) => {
       userUpdated = await res;
       localStorage.setItem('user', JSON.stringify(userUpdated));
@@ -99,6 +110,10 @@ export class ProfileComponent {
       }, 2000);
     });
     inputImg.files = null;
+    this.lanceAlert({
+      status: 200,
+      message: 'Your profile has been updated Successfully !',
+    });
   }
   delete() {
     this.userService.delete(this.user).subscribe((res) => {
@@ -115,5 +130,23 @@ export class ProfileComponent {
     let input = document.getElementById('convImgInput') as HTMLInputElement;
     this.photoSelectedName = input.files?.item(0)?.name || '';
     // this.photoSelectedName = this.photo.files?.item(0)?.name || '';
+  }
+  lanceAlert(response: any) {
+    this.alert = true;
+    this.response.status = response.status;
+    this.response.message = response.message;
+    setTimeout(() => {
+      this.alert = false;
+      this.response.status = 200;
+      this.response.message = '';
+    }, 3000);
+  }
+  getAlertClasses() {
+    return {
+      'text-center': true,
+      alert: true,
+      'alert-success': this.response.status == 200,
+      'alert-danger': this.response.status != 200,
+    };
   }
 }

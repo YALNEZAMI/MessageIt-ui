@@ -5,19 +5,38 @@
     padding: 1%;
     border-radius: 10px;
 }
-.name{
-    font-size: 10%;
-    width: 47%;
-    margin-bottom: 2%;
-    padding: 1%;
-    font-size: larger;
-    
+
+@media(min-height:767px){
+    .img{
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        margin-right: 2%;
+    }
+    .name{
+        font-size: 10%;
+        width: 47%;
+        margin-bottom: 2%;
+        padding: 1%;
+        font-size: larger;
+    }
 }
-.img{
-    width: 11%;
-border-radius: 50%;
-margin-right: 2%;
+@media(max-height:767px){
+    .img{
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 2%;
+    }
+    .name{
+        width: 45%;
+        margin-bottom: 2%;
+        padding: 1%;
+        padding-top: 10px;
+        font-size: 90%;
+    }
 }
+
 .myBtn{
     margin-top: 1%;
     min-width: 16%;

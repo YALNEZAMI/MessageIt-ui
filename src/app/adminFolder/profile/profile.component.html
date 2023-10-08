@@ -1,20 +1,14 @@
-<div id="lougoutContainer">
-  <div *ngIf="logedout" class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-
-  <!-- <button class="btn btn-warning" (click)="logout()">logout</button> -->
-</div>
+<div id="lougoutContainer"></div>
 
 <form (ngSubmit)="updateUser()">
   <div id="convImgDiv">
     <div class="logoutDiv">
-      <button
-        class="btn btn-warning logoutBtn"
-        (click)="logout()"
-        *ngIf="!logedout"
-      >
+      <button class="btn btn-warning logoutBtn" (click)="logout()">
+        <div *ngIf="logedout" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
         <svg
+          *ngIf="!logedout"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -139,8 +133,8 @@
     />
   </div>
   <button type="submit" class="btn btn-success updateBtn">Update</button>
-  <div class="alert alert-success successAlert" *ngIf="alert">
-    Your profile has been updated succesfully
+  <div [ngClass]="getAlertClasses()" *ngIf="alert">
+    {{ response.message }}
   </div>
 </form>
 <hr />

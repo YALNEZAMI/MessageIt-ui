@@ -14,8 +14,17 @@
     margin-right: 10px;
     margin-left: 10px;
 }
-#name{
-padding-top: 1%;
+
+@media (min-height:767px) {
+    #name{
+        padding-top: 1%;
+        } 
+}
+@media (max-height:767px) {
+    #name{
+        padding-top: 1%;
+        font-size: 140%;
+        } 
 }
 
 .lastConnection{

@@ -2,6 +2,7 @@
 *{
     --bg-color:rgb(246, 79, 162);/*dark one*/
     --font-color:rgb(15, 13, 13);/*light one*/
+    --third-color:white;
     --border-color:rgb(228, 48, 78);
     --link-color:blue;
     --shadow-color:rgba(235, 149, 179, 0.5);

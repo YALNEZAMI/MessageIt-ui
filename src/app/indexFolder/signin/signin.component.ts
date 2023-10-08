@@ -34,43 +34,55 @@ export class SigninComponent {
     private router: Router
   ) {}
   async addUser() {
-    this.spinner = true;
-    if (
-      this.user.firstName != '' &&
-      this.user.lastName != '' &&
-      this.user.email != '' &&
-      this.user.password != '' &&
-      this.user.password2 != ''
-    ) {
-      if (this.user.password == this.user.password2) {
-        this.userService.addUser(this.user).subscribe(async (res: any) => {
-          this.response = res;
-          this.success = (await res.status) == 200;
-          if (this.success) {
-            let user = await this.response.user;
-            this.sessionService.setUser(user);
-            this.router.navigate(['admin/convs']);
-            // this.user = {
-            //   photo: '',
-            //   firstName: '',
-            //   lastName: '',
-            //   email: '',
-            //   password: '',
-            //   password2: '',
-            // };
-          }
-          this.lanceAlert(this.response.message);
-        });
-      } else {
-        this.passwordDontMatch = true;
-        this.success = false;
-        this.lanceAlert('Passwords do not match !');
-      }
-    } else {
-      this.success = false;
-      this.lanceAlert('Please fill all the fields !');
+    if (!this.user.email.includes('@')) {
+      //email check
+      this.lanceAlert('Please,use you real email !');
+      return;
     }
-    this.spinner = false;
+    if (
+      //miss fileds
+      this.user.firstName == '' &&
+      this.user.lastName == '' &&
+      this.user.email == '' &&
+      this.user.password == '' &&
+      this.user.password2 == ''
+    ) {
+      this.lanceAlert('Please fill all the fields !');
+      return;
+    } else if (this.user.password.length < 6) {
+      //short password
+      this.lanceAlert('Password so short (minimum 6 digits) !');
+      return;
+    } else if (this.user.password != this.user.password2) {
+      //passwords dont match
+      this.lanceAlert('Passwords do not match !');
+      return;
+    } else if (!this.user.email.includes('@')) {
+      //email check
+      this.lanceAlert('Please,use you real email !');
+      return;
+    } else {
+      console.log('a');
+
+      this.spinner = true; //activing spinner during the operation
+      //registering
+      this.userService.addUser(this.user).subscribe(async (res: any) => {
+        console.log(res);
+
+        this.response = res;
+        this.success = (await res.status) == 200;
+        if (this.success) {
+          // if adding success, go to admin with user as token
+          let user = await this.response.user;
+          this.sessionService.setUser(user);
+          this.router.navigate(['admin/convs']);
+        } else {
+          // if adding failed, display the server message
+          this.lanceAlert(this.response.message);
+          this.spinner = false;
+        }
+      });
+    }
   }
   lanceAlert(msg: string) {
     this.getAlertClasses();
