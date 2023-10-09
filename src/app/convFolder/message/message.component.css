@@ -21,9 +21,23 @@
     margin:0px 10%;
     width: 80%;
 }
+
 #deleteForMe{
     margin:5px 10%;
     width: 80%;
+}
+.imgSent{
+    border-radius: 5px;
+    width: 45%;
+    height:60%
+
+}
+.myPhotoSentContainer{
+    width: 70%;
+  gap: 5px;
+}
+.otherPhotoSentContainer{
+    gap: 5px;
 }
 .marginRightSettingAndRep{
     margin-right: 15px;
@@ -263,7 +277,7 @@ app-conv-side{
     margin-bottom: 40px;
 }
 
-.chat-container div img {
+.chat-container div .img {
     width: 48px;
     height: 48px;
     -webkit-border-radius: 30px;
@@ -341,14 +355,14 @@ app-conv-side{
     margin: 0 15px 0 0;
 }
 
-@media (max-width: 767px) {
+/* @media (min-width: 7px) { */
     
     .chat-container div.chat-left,
     .chat-container div.chat-right {
         flex-direction: column;
         margin-bottom: 30px;
     }
-    .chat-container div img {
+    .chat-container div .img {
         width: 32px;
         height: 32px;
     }
@@ -379,7 +393,7 @@ app-conv-side{
     .chat-container div .chat-text {
         font-size: .8rem;
     }
-}
+/* } */
 
 .chat-form {
     padding: 15px;

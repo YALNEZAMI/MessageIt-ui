@@ -225,7 +225,15 @@ export class MessageComponent implements OnDestroy {
   getMessages() {
     return this.messages;
   }
+  getImgSentContainer(msg: any) {
+    let idUser = msg.sender._id;
 
+    return {
+      row: true,
+      myPhotoSentContainer: idUser == this.me._id,
+      otherPhotoSentContainer: idUser != this.me._id,
+    };
+  }
   getChatClasses(msg: any) {
     let idUser = msg.sender._id;
 
