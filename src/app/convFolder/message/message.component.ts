@@ -73,8 +73,6 @@ export class MessageComponent implements OnDestroy {
       this.messageService
         .findMessageOfConv(this.conv._id)
         .subscribe(async (msgs: any) => {
-          console.log(await msgs);
-
           //set global messages and properties
           this.messages = await msgs;
           this.done = true;

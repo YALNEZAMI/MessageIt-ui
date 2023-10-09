@@ -2,6 +2,18 @@
     width: 64%;
 
 } */
+.filesNumber{
+    background-color: var(--third-color);
+    color: var(--font-color);
+    border-radius: 20px;
+    border: 1px solid var(--font-color);
+    width: max-content;
+    padding:3px 10px;
+    font-size: smaller;
+    position: relative;
+    bottom: 35px;
+    right: 55%;
+}
 #inputContainer{
     gap: 10px;
     width: 100%;
@@ -50,16 +62,18 @@
     #sendBtn{
         text-align: center;
         margin-left: 5%;
-
+        border: 1px solid var(--font-color);
         max-height: 37px;
     }
     #likeBtn{
         text-align: center;
         margin-left: 5%;
-
+        border: 1px solid var(--font-color);
         max-height: 37px;
     }
     #photo_library{
+        border: 1px solid var(--font-color);
+
         text-align: center;
         margin-left: 5%;
         max-height: 37px;
@@ -77,19 +91,20 @@
     #sendBtn{
         text-align: center;
         margin-left: 5%;
-
+        border: 1px solid var(--font-color);
         max-height: 37px;
     }
     #likeBtn{
         text-align: center;
         margin-left: 5%;
-
         max-height: 37px;
+        border: 1px solid var(--font-color);
     }
     #photo_library{
         text-align: center;
         margin-left: 5%;
-        
+        border: 1px solid var(--font-color);
+
         max-height: 37px;
     }
 }
@@ -104,14 +119,13 @@
     #sendBtn{
         width: 40%;
         margin-left: 5%;
-
+        border: 1px solid var(--font-color);
         max-height: 37px;
     }
     #likeBtn{
         width: 40%;
-
         margin-left: 5%;
-
+        border: 1px solid var(--font-color);
         /* max-height: 40px; */
         height: max-content;
         padding-bottom: 5px;
@@ -121,7 +135,8 @@
         width: 40%;
 
         margin-left: 5%;
-        
+        border: 1px solid var(--font-color);
+
         max-height: 37px;
     }
 }

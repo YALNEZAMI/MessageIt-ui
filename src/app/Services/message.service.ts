@@ -24,6 +24,14 @@ export class MessageService {
     };
     return this.http.post(`${this.uri}/message`, message);
   }
+  sendFiles(files: any) {
+    console.log(typeof files);
+    let formData = new FormData();
+    for (let file in files) {
+      formData.append('files', file);
+    }
+    return this.http.post(`${this.uri}/message/files`, formData);
+  }
 
   getSearchKey() {
     return this.searchKey.asObservable();
