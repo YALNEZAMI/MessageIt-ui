@@ -1,7 +1,7 @@
 export interface Message {
   conv: string;
   text: string;
-  files: any[];
+  files: File[];
   date: Date;
   ref: string;
   invisiblity: string[];

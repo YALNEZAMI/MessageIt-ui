@@ -22,15 +22,14 @@ export class MessageService {
       _id: conv._id,
       members: conv.members,
     };
-    return this.http.post(`${this.uri}/message`, message);
-  }
-  sendFiles(files: any) {
-    console.log(typeof files);
+    //files
     let formData = new FormData();
-    for (let file in files) {
+    for (let i = 0; i <= 10; i++) {
+      const file = message.files[i];
       formData.append('files', file);
     }
-    return this.http.post(`${this.uri}/message/files`, formData);
+    formData.append('message', JSON.stringify(message));
+    return this.http.post(`${this.uri}/message`, formData);
   }
 
   getSearchKey() {

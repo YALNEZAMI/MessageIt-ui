@@ -12,7 +12,6 @@ import { SessionService } from 'src/app/Services/session.service';
 export class InputComponent {
   me = JSON.parse(localStorage.getItem('user') || '{}');
   fileInput: any;
-  filesNumber: number = 0;
   message: Message = {
     conv: '',
     text: '',
@@ -25,10 +24,7 @@ export class InputComponent {
   sendButton: boolean = false;
   photoRep: string = 'http://localhost:3000/user/uploads/user.png';
   textRep: string = 'error';
-  constructor(
-    private sessionService: SessionService,
-    private messageService: MessageService
-  ) {
+  constructor(private messageService: MessageService) {
     //set inputfile
     setTimeout(() => {
       this.fileInput = document.getElementById('files') as HTMLInputElement;
@@ -42,48 +38,38 @@ export class InputComponent {
   }
 
   selectFiles() {
-    setTimeout(() => {
-      this.fileInput.click();
-      // document.getElementById('files')?.click();
-    }, 100);
+    this.fileInput.click();
   }
-  mediasChange() {
+  mediasChange(event: any) {
     if (this.fileInput.files != null) {
       if (this.fileInput.files.length != 0) {
         this.sendButton = true;
-        this.filesNumber = this.fileInput.files.length;
+        this.message.files = event.target.files;
       }
     }
   }
   reinitMedias() {
     this.fileInput.value = '';
-    this.filesNumber = 0;
+    this.message.files = [];
   }
   getFilesBtnClasses() {
     return {
       btn: true,
-      'btn-success': this.filesNumber == 0,
-      'btn-danger': this.filesNumber != 0,
+      'btn-success': this.message.files.length == 0,
+      'btn-danger': this.message.files.length != 0,
     };
   }
 
   send() {
     //check if message is empty
-    if (this.message.text == '' && this.filesNumber == 0) {
+    if (this.message.text == '' && this.message.files.length == 0) {
       return;
     }
-    //send files
-    if (this.filesNumber != 0) {
-      this.messageService
-        .sendFiles(this.fileInput.files)
-        .subscribe((res) => {});
-    }
-
     //send message
-    this.messageService.send(this.message).subscribe((res: any) => {});
+    this.messageService.send(this.message).subscribe(async (msg: any) => {});
+
     //empty message
     this.reinitRep();
-    this.reinitMedias();
     this.emptyMessage();
   }
   emptyMessage() {
