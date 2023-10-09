@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 *{
-    --bg-color:rgb(246, 79, 162);/*dark one*/
+    --bg-color:rgb(47, 124, 247);/*dark one*/
     --font-color:rgb(15, 13, 13);/*light one*/
-    --third-color:white;
+    --third-color:white;/*always white*/
     --border-color:rgb(228, 48, 78);
     --link-color:blue;
-    --shadow-color:rgba(235, 149, 179, 0.5);
+    --shadow-color:rgba(124, 121, 189, 0.5);
 }
 body{
     background-color: rgba(173, 171, 172, 0.5);

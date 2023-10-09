@@ -30,8 +30,8 @@ export class RegetPasswordComponent {
       return;
     }
     localStorage.setItem('email', this.data.email);
+    this.loading = true;
     this.mailerService.getCode(this.data).subscribe((res: any) => {
-      this.loading = true;
       if (res.status == 404) {
         this.response = res;
         this.loading = false;

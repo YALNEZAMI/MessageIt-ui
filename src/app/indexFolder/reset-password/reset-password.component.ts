@@ -8,6 +8,7 @@ import { UserService } from 'src/app/Services/user.service';
   styleUrls: ['./reset-password.component.css'],
 })
 export class ResetPasswordComponent {
+  loading = false;
   response = {
     status: 200,
     message: '',
@@ -39,8 +40,10 @@ export class ResetPasswordComponent {
       this.lanceAlert('Password code must have 6 digits !');
       return;
     }
+    this.loading = true;
     this.userService.resetPassword(this.data).subscribe(async (res: any) => {
       if (res.status != 200) {
+        this.loading = false;
         this.lanceAlert(await res.message);
       } else {
         this.router.navigate(['/auth/login']);
