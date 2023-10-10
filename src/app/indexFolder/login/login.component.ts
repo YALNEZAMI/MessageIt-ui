@@ -32,7 +32,6 @@ export class LoginComponent {
           this.lanceAlert(res.message);
         } else {
           this.sessionService.setUser(res.user);
-
           this.router.navigate(['admin/convs']);
         }
 

@@ -4,4 +4,7 @@ footer{
 .websiteLinkDiv{
     color: var(--font-color);
     text-decoration-line: underline;
+} 
+.websiteLink{
+    color: var(--third-color);
 }

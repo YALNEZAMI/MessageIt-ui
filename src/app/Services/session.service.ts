@@ -20,6 +20,8 @@ export class SessionService {
   }
   setUser(user: any) {
     localStorage.setItem('user', JSON.stringify(user));
+    //set status online
+    this.online().subscribe((data: any) => {});
   }
   setConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
@@ -33,7 +35,7 @@ export class SessionService {
   online() {
     let user = JSON.parse(localStorage.getItem('user') || '{}');
     let userReturned: any = this.http.patch(
-      `${env.api_url}/user/setStatus/${user._id}`,
+      `${env.api_url}/session/setStatus/${user._id}`,
       { status: 'online' }
     );
     return userReturned;
@@ -41,7 +43,7 @@ export class SessionService {
   offline() {
     let user = JSON.parse(localStorage.getItem('user') || '{}');
     let userReturned: any = this.http.patch(
-      `${env.api_url}/user/setStatus/${user._id}`,
+      `${env.api_url}/session/setStatus/${user._id}`,
       { status: 'offline' }
     );
     return userReturned;
