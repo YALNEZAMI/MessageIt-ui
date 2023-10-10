@@ -26,15 +26,17 @@
     margin:5px 10%;
     width: 80%;
 }
+.cadrePhotoDisplayed{
+}
 .imgSent{
     border-radius: 5px;
     width: 45%;
     height:60%
-
+ 
 }
 .myPhotoSentContainer{
     width: 70%;
-  gap: 5px;
+    gap: 5px;
 }
 .otherPhotoSentContainer{
     gap: 5px;
@@ -117,8 +119,8 @@
     
     .emoji{
         background-color: #2783df;
-        height: max-content
-        ;
+        height: max-content;
+        width: max-content;
         padding: 3px;
         border-radius: 50%;
         }
@@ -177,11 +179,12 @@
     left: 45%; */
     padding: 3px;
 }
-/* #InputSecondDiv{
+#InputSecondDiv{
+    background-color: transparent;
     display: flex;
     flex-direction:row-reverse;
 margin-right: 15px;
-} */
+}
 #inputElementsGroup{
     position: fixed;
     bottom: 0px;
@@ -189,8 +192,8 @@ margin-right: 15px;
     z-index: 2;
     width: 100%;
     min-height: max-content;
-    background-color: #f0f4f8;
-    border-top: 1px solid #e6ecf3;
+    background-color: transparent;
+    /* border-top: 1px solid #e6ecf3; */
     /* padding: 0px 10px 10px 15px; */
     overflow-y: auto;
     overflow-x: hidden;
@@ -283,6 +286,7 @@ app-conv-side{
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
     border-radius: 30px;
+    border:1px solid var(--bg-color)
 }
 
 .chat-container div .chat-avatar {
@@ -365,6 +369,8 @@ app-conv-side{
     .chat-container div .img {
         width: 32px;
         height: 32px;
+        border:1px solid var(--bg-color)
+
     }
     .chat-container div.chat-left .chat-avatar {
         margin: 0 0 5px 0;
