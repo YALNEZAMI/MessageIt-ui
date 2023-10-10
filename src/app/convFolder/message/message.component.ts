@@ -49,7 +49,7 @@ export class MessageComponent implements OnDestroy {
         setTimeout(() => {
           this.scrollDown();
           this.done = true;
-        }, 10);
+        }, 100);
       });
     });
     //if search get seared message and its env else get first 20  messages
@@ -83,7 +83,7 @@ export class MessageComponent implements OnDestroy {
           //scroll down
           setTimeout(() => {
             this.scrollDown();
-          }, 10);
+          }, 100);
         });
     }
 
@@ -135,9 +135,7 @@ export class MessageComponent implements OnDestroy {
     this.updateBottom();
   }
   // setThisVus(data: any) {}
-  ngOnDestroy(): void {
-    localStorage.removeItem('idMessage');
-  }
+  ngOnDestroy(): void {}
   displayPhoto(file: string) {
     let cadrePhotoDisplayed = document.getElementById(
       'cadrePhotoDisplayed'
@@ -162,6 +160,8 @@ export class MessageComponent implements OnDestroy {
     }
   }
   scrollDown() {
+    console.log('down');
+
     let height = this.chatContainer.nativeElement.scrollHeight;
     let chatContainer = this.chatContainer.nativeElement;
     chatContainer.scrollTo(0, height);
@@ -339,7 +339,7 @@ export class MessageComponent implements OnDestroy {
         setTimeout(() => {
           this.updateBottom();
           this.scrollDown();
-        }, 10);
+        }, 100);
       });
   }
   //convert a date to a usable string
