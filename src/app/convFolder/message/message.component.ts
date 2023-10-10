@@ -56,7 +56,6 @@ export class MessageComponent implements OnDestroy {
     if (localStorage.getItem('idMessage')) {
       this.noMoreDown = false;
       let idMsg = localStorage.getItem('idMessage') || '';
-      console.log(this.conv._id, idMsg);
 
       this.messageService
         .findSearchedMessagePortion(this.conv._id, idMsg)
@@ -64,7 +63,6 @@ export class MessageComponent implements OnDestroy {
           //set global messages and properties
           this.messages = [];
           this.messages = await data;
-          console.log(this.messages);
 
           setTimeout(() => {
             this.goToMessage(localStorage.getItem('idMessage') || '');
@@ -139,6 +137,7 @@ export class MessageComponent implements OnDestroy {
     //update bottom
     this.updateBottom();
   }
+
   // setThisVus(data: any) {}
   ngOnDestroy(): void {}
   displayPhoto(file: string) {
@@ -201,10 +200,16 @@ export class MessageComponent implements OnDestroy {
   goToMessage(id: string) {
     let msg = document.getElementById(id);
     if (msg != null) {
-      msg.style.borderBottom = '1px solid red';
+      msg.style.background = 'var(--shadow-color)';
+
       setTimeout(() => {
-        if (msg) msg.style.borderBottom = '0px solid red';
+        if (msg) msg.style.background = 'transparent';
       }, 3000);
+      //if no more than 5 messages just scroll down
+      if (this.messages.length < 5) {
+        this.scrollDownSmooth();
+        return;
+      }
       switch (this.locateMessage(id)) {
         case 'body':
           msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -437,6 +442,9 @@ export class MessageComponent implements OnDestroy {
     };
   }
   setRep(msg: any) {
+    if (msg.text == '') {
+      msg.text = 'files';
+    }
     this.messageService.setRep(msg);
   }
   getRepOfMsgsClasses(msg: any) {

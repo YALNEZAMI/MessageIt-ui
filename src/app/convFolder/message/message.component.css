@@ -61,6 +61,7 @@
 .myPhotoSentContainer{
     width: 70%;
     gap: 5px;
+    padding-right: 10px;
 }
 .otherPhotoSentContainer{
     gap: 5px;
@@ -84,8 +85,8 @@
 .repRight{
     gap: 5px;
     flex-direction: row-reverse;
-    background-color: rgba(0,0,0,0.5);
-    color: wheat;
+    background-color: var(--shadow-color);
+    color: var(--font-color);
     padding: 5px;
     width: 50%;
     margin-left: 50%;
@@ -95,8 +96,8 @@
 }
 .repLeft{
     gap: 5px;
-    background-color: rgba(0,0,0,0.5);
-    color: wheat;
+    background-color: var(--shadow-color);
+    color: var(--font-color);
     padding: 5px;
     width: 50%;
     margin-right: 50%;
@@ -106,6 +107,9 @@
 }
 .repSenderPhoto{
     margin: 0px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }
 .repMsgsText{
     padding-top: 2%;
