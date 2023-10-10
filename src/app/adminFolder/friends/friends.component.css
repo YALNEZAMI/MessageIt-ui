@@ -1,11 +1,11 @@
 .userItem{
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-admin);
     margin: 1%;
     padding: 5px;
     padding-bottom: 0px;
    height: max-content;
     border-radius: 10px;
-    color: var(--font-color);
+    color: var(--font-color-admin);
 }
 
 

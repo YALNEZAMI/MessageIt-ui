@@ -12,10 +12,10 @@ a{
     cursor: pointer;
 }
 .myActive{
-    background-color: var(--bg-color);
-    color: var(--font-color);
+    background-color: var(--bg-color-admin);
+    color: var(--font-color-admin);
 }
 .myInactive{
-    background-color: var(--shadow-color);
-    color: var(--bg-color);
+    background-color: var(--shadow-color-admin);
+    color: var(--bg-color-admin);
 }

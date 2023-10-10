@@ -1,6 +1,6 @@
 #cf{
-    background-color: var(--bg-color);
-    color: var(--font-color);  
+    background-color: var(--bg-color-conv);
+    color: var(--font-color-conv);  
     padding: 10px;
     width: 100%;
     margin: 0px;

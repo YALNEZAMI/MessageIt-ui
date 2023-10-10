@@ -9,8 +9,8 @@
     width: 98%;
     margin-left: 1%;
     margin-top: 5px;
-    background-color: var(--font-color);
-    color: var(--bg-color);
+    background-color: var(--font-color-admin);
+    color: var(--bg-color-admin);
     padding: 10px;
     border-radius: 10px;
     padding-left: 20px;
@@ -40,7 +40,7 @@
 .lastMsg{
     margin: 0%;
     font-size: smaller;
-    color: var(--bg-color);
+    color: var(--bg-color-admin);
 }
 .options{
     text-align: center;

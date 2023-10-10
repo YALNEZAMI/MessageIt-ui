@@ -2,12 +2,12 @@
     padding-top: 15px;
 }
 .userItem{
-    background-color: var(--font-color);
+    background-color: var(--font-color-conv);
     margin: 1%;
     padding: 1%;
     padding-bottom: 0px;
     border-radius: 10px;
-    color: var(--bg-color);
+    color: var(--bg-color-conv);
 }
 
 @media (min-height:767px) {

@@ -8,16 +8,16 @@
     cursor: pointer;
     width: 16.7%;
     text-align: center;
-    color: var(--third-color);
+    color: var(--third-color-admin);
   }
   .navItem:hover {
-    background-color: var(--font-color);
+    background-color: var(--font-color-admin);
   }
   .active {
-    background-color: var(--font-color);
+    background-color: var(--font-color-admin);
   }
   #rowContainer{
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-admin);
     padding: 0px 4px;
     padding-left: 4%;
    

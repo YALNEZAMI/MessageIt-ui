@@ -1,7 +1,7 @@
 
 .btn-info{
-    background-color: var(--bg-color);
-    color: var(--font-color);
+    background-color: var(--bg-color-conv);
+    color: var(--font-color-conv);
 }
 .emoji{
     background-color: #f0f4f8;
@@ -60,7 +60,7 @@
     height: max-content;
 }
 .conv-selected{
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-conv);
 
 }
 #msgLoadingSpinner{
@@ -86,7 +86,7 @@ margin-right: 15px;
     width: 100%;
     /* margin-left: 20%; */
     min-height: max-content;
-    background-color: var(--font-color);
+    background-color: var(--font-color-conv);
     border-top: 1px solid #e6ecf3;
     padding: 10px;
     padding-left: 15px;
@@ -111,7 +111,7 @@ margin-right: 15px;
     margin-left: 5px;
 }
 ul{    
-    background-color: var(--font-color)
+    background-color: var(--font-color-conv)
 }
 #fixedUsers{
     position: static;
@@ -124,7 +124,7 @@ ul{
     height: 560px;
     overflow-y: hidden;
     overflow-x: hidden;
-    background-color: var(--font-color)
+    background-color: var(--font-color-conv)
 }
 .right{
     direction: rtl;
@@ -185,7 +185,7 @@ app-conv-side{
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
-    background-color: var(--font-color);
+    background-color: var(--font-color-conv);
     overflow-y: hidden;
     /* max-width: 20%; */
    
@@ -203,7 +203,7 @@ app-conv-side{
     border-bottom: 1px solid #f0f4f8;
 }
 .person:hover{
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-conv);
 }
 
 .users .person.active-user {
@@ -274,7 +274,7 @@ app-conv-side{
     font-size: .85rem;
     display: inline-block;
     width: 50%;
-    color: var(--third-color);
+    color: var(--third-color-conv);
 
 }
 

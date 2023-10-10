@@ -9,21 +9,21 @@
     text-align: center;
     font-size: 80%;
     overflow: hidden;
-    background-color: var(--bg-color);
-    color: var(--font-color);
+    background-color: var(--bg-color-conv);
+    color: var(--font-color-conv);
   }
   .navItem:hover {
-    background-color: var(--font-color);
-    color: var(--bg-color);  
+    background-color: var(--font-color-conv);
+    color: var(--bg-color-conv);  
    }
   .active {
-    background-color: var(--font-color);
-    color: var(--bg-color);  
+    background-color: var(--font-color-conv);
+    color: var(--bg-color-conv);  
   }
   #rowContainer{
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--font-color-conv);
     padding: 3px;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-conv);
     padding-left: 20px;
     margin-bottom: 5px;
   }

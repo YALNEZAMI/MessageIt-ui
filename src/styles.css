@@ -6,6 +6,20 @@
     --border-color:rgb(228, 48, 78);
     --link-color:blue;
     --shadow-color:rgba(124, 121, 189, 0.5);
+
+    --bg-color-admin:rgb(47, 124, 247);/*dark one*/
+    --font-color-admin:rgb(15, 13, 13);/*light one*/
+    --third-color-admin:white;/*always white*/
+    --border-color-admin:rgb(228, 48, 78);
+    --link-color-admin:blue;
+    --shadow-color-admin:rgba(124, 121, 189, 0.5);
+
+    --bg-color-conv:rgb(47, 124, 247);/*dark one*/
+    --font-color-conv:rgb(15, 13, 13);/*light one*/
+    --third-color-conv:white;/*always white*/
+    --border-color-conv:rgb(228, 48, 78);
+    --link-color-conv:blue;
+    --shadow-color-conv:rgba(124, 121, 189, 0.5);
 }
 body{
     background-color: rgba(173, 171, 172, 0.5);

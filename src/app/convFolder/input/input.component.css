@@ -3,10 +3,10 @@
 
 } */
 .filesNumber{
-    background-color: var(--third-color);
-    color: var(--font-color);
+    background-color: var(--third-color-conv);
+    color: var(--font-color-conv);
     border-radius: 20px;
-    border: 1px solid var(--font-color);
+    border: 1px solid var(--font-color-conv);
     width: max-content;
     padding:3px 10px;
     font-size: smaller;
@@ -26,7 +26,7 @@
     gap: 5px;
     width: 100%;
     padding: 5px;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color-conv);
     margin: 0px;
 }
 #files{
@@ -36,7 +36,7 @@
     display: none;
     width: 100%;
     height: max-content;
-    background-color: var(--font-color);
+    background-color: var(--font-color-conv);
     padding: 4px;
     margin: 0px;
 }
@@ -48,7 +48,7 @@
 #textRep{
     padding: 10px 5px 0 10px;
     width: 82%;
-    color: var(--bg-color);
+    color: var(--bg-color-conv);
 
 }
 #cancelRepBtn{
@@ -63,24 +63,24 @@
     #textArea{
         width: 87%;
         margin-left: 5px;
-        background-color: var(--font-color);
-        color: var(--bg-color);
+        background-color: var(--font-color-conv);
+        color: var(--bg-color-conv);
 
     }
     #sendBtn{
         text-align: center;
         margin-left: 5%;
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
         max-height: 37px;
     }
     #likeBtn{
         text-align: center;
         margin-left: 5%;
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
         max-height: 37px;
     }
     #photo_library{
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
 
         text-align: center;
         margin-left: 5%;
@@ -93,25 +93,25 @@
     }
     #textArea{
         width: 70%;
-        background-color: var(--font-color);
-        color: var(--bg-color);
+        background-color: var(--font-color-conv);
+        color: var(--bg-color-conv);
     }
     #sendBtn{
         text-align: center;
         margin-left: 5%;
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
         max-height: 37px;
     }
     #likeBtn{
         text-align: center;
         margin-left: 5%;
         max-height: 37px;
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
     }
     #photo_library{
         text-align: center;
         margin-left: 5%;
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
 
         max-height: 37px;
     }
@@ -127,13 +127,13 @@
     #sendBtn{
         width: 40%;
         margin-left: 5%;
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
         max-height: 37px;
     }
     #likeBtn{
         width: 40%;
         margin-left: 5%;
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
         /* max-height: 40px; */
         height: max-content;
         padding-bottom: 5px;
@@ -143,7 +143,7 @@
         width: 40%;
 
         margin-left: 5%;
-        border: 1px solid var(--font-color);
+        border: 1px solid var(--font-color-conv);
 
         max-height: 37px;
     }

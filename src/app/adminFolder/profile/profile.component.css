@@ -22,18 +22,16 @@
 }
 #deleteBtn{
   /* background-color: var(--bg-color); */
-  color: var(--font-color);
+  color: var(--font-color-admin);
     margin-top: 5px;
     width: 100%;
 }
 .updateBtn{
-  /* background-color: var(--bg-color); */
-  /* color: var(--font-color); */
+  
   max-height: max-content;
 }
 .logoutBtn{
-  /* background-color: var(--bg-color); */
-  color: var(--font-color);
+  color: var(--font-color-admin);
 }
 /* styles.css */
 
@@ -51,7 +49,7 @@
     margin-right: 10px; /* Espacement entre la case à cocher et l'étiquette */
   }
   label{
-    color: var(--font-color);
+    color: var(--font-color-admin);
   }
   
   /* Personnalisez davantage les styles selon vos préférences */
@@ -66,8 +64,7 @@
     
   }
   #editPhoto{
-    /* background-color: var(--bg-color); */
-    color: var(--font-color);
+    color: var(--font-color-admin);
     cursor: pointer;
     padding: 2px;
     border-radius: 20%;
@@ -110,10 +107,10 @@
     width: 80%;
   }
   label{
-    color:var(--font-color);
+    color:var(--font-color-admin);
   }
   #emailHelp{
-    color:var(--font-color);
+    color:var(--font-color-admin);
   }
  
  

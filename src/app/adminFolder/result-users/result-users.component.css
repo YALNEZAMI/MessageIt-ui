@@ -1,6 +1,6 @@
 .userItem{
-    background-color: var(--font-color);
-    color: var(--bg-color);
+    background-color: var(--font-color-admin);
+    color: var(--bg-color-admin);
     margin: 1%;
     padding: 1%;
     border-radius: 10px;
