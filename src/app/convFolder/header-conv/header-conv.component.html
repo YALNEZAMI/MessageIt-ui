@@ -1,5 +1,6 @@
 <div class="row" id="cf">
   <img id="photoConv" src="{{ photo }}" alt="" />
+  <div id="status" [ngClass]="getStatusClasses()"></div>
   <div class="col">
     <h3 id="name">
       <ins>{{ name }}</ins>

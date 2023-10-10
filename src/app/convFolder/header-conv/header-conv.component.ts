@@ -46,4 +46,10 @@ export class HeaderConvComponent {
       this.lastConnection = '';
     }
   }
+  getStatusClasses() {
+    return {
+      online: this.status == 'online',
+      offline: this.status != 'online',
+    };
+  }
 }

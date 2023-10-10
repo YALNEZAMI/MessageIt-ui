@@ -31,3 +31,20 @@
     text-decoration-line: underline;
     margin-bottom: 0px;
 }
+.online{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: relative;
+    right: 30px;
+    background-color:#9ec94a ;
+    
+}
+.offline{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: relative;
+    right: 30px;
+    background-color: #c4d2e2;
+}
