@@ -9,6 +9,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrls: ['./message.component.css'],
 })
 export class MessageComponent implements OnDestroy {
+  photoDisplayedUrl: string = '';
   messageClicked: string = '';
   isBottom: boolean = true;
   loading: boolean = false;
@@ -48,19 +49,23 @@ export class MessageComponent implements OnDestroy {
         setTimeout(() => {
           this.scrollDown();
           this.done = true;
-        }, 10);
+        }, 100);
       });
     });
     //if search get seared message and its env else get first 20  messages
     if (localStorage.getItem('idMessage')) {
       this.noMoreDown = false;
       let idMsg = localStorage.getItem('idMessage') || '';
+      console.log(this.conv._id, idMsg);
+
       this.messageService
         .findSearchedMessagePortion(this.conv._id, idMsg)
         .subscribe(async (data: any) => {
           //set global messages and properties
           this.messages = [];
           this.messages = await data;
+          console.log(this.messages);
+
           setTimeout(() => {
             this.goToMessage(localStorage.getItem('idMessage') || '');
           }, 10);
@@ -75,6 +80,7 @@ export class MessageComponent implements OnDestroy {
         .subscribe(async (msgs: any) => {
           //set global messages and properties
           this.messages = await msgs;
+
           this.done = true;
           //set viewrs photos
           this.setPhotosOfViewers();
@@ -82,7 +88,7 @@ export class MessageComponent implements OnDestroy {
           //scroll down
           setTimeout(() => {
             this.scrollDown();
-          }, 10);
+          }, 100);
         });
     }
 
@@ -134,8 +140,22 @@ export class MessageComponent implements OnDestroy {
     this.updateBottom();
   }
   // setThisVus(data: any) {}
-  ngOnDestroy(): void {
-    localStorage.removeItem('idMessage');
+  ngOnDestroy(): void {}
+  displayPhoto(file: string) {
+    let cadrePhotoDisplayed = document.getElementById(
+      'cadrePhotoDisplayed'
+    ) as HTMLElement;
+    let photoDisplayed = document.getElementById(
+      'photoDisplayed'
+    ) as HTMLImageElement;
+    if (cadrePhotoDisplayed.style.display == 'block') {
+      cadrePhotoDisplayed.style.display = 'none';
+      photoDisplayed.src = '';
+
+      return;
+    }
+    cadrePhotoDisplayed.style.display = 'block';
+    photoDisplayed.src = file;
   }
   setMessageClicked(id: string) {
     if (this.messageClicked == id) {
@@ -145,10 +165,12 @@ export class MessageComponent implements OnDestroy {
     }
   }
   scrollDown() {
-    let height = this.chatContainer.nativeElement.scrollHeight;
-    let chatContainer = this.chatContainer.nativeElement;
-    chatContainer.scrollTo(0, height);
-    this.updateBottom();
+    setTimeout(() => {
+      let height = this.chatContainer.nativeElement.scrollHeight;
+      let chatContainer = this.chatContainer.nativeElement;
+      chatContainer.scrollTo(0, height);
+      this.updateBottom();
+    }, 10);
   }
   scrollDownSmooth() {
     let height = this.chatContainer.nativeElement.scrollHeight;
@@ -225,7 +247,15 @@ export class MessageComponent implements OnDestroy {
   getMessages() {
     return this.messages;
   }
+  getImgSentContainer(msg: any) {
+    let idUser = msg.sender._id;
 
+    return {
+      row: true,
+      myPhotoSentContainer: idUser == this.me._id,
+      otherPhotoSentContainer: idUser != this.me._id,
+    };
+  }
   getChatClasses(msg: any) {
     let idUser = msg.sender._id;
 
@@ -314,7 +344,7 @@ export class MessageComponent implements OnDestroy {
         setTimeout(() => {
           this.updateBottom();
           this.scrollDown();
-        }, 10);
+        }, 100);
       });
   }
   //convert a date to a usable string

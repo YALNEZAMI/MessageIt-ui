@@ -22,7 +22,14 @@ export class MessageService {
       _id: conv._id,
       members: conv.members,
     };
-    return this.http.post(`${this.uri}/message`, message);
+    //files
+    let formData = new FormData();
+    for (let i = 0; i <= 10; i++) {
+      const file = message.files[i];
+      formData.append('files', file);
+    }
+    formData.append('message', JSON.stringify(message));
+    return this.http.post(`${this.uri}/message`, formData);
   }
 
   getSearchKey() {
@@ -89,5 +96,10 @@ export class MessageService {
   }
   getRep() {
     return this.repToMsg.asObservable();
+  }
+  getMedias() {
+    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
+    let idUser = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    return this.http.get(`${this.uri}/message/medias/${idConv}/${idUser}`);
   }
 }

@@ -1,3 +1,15 @@
 #globalContainer{
     padding-top: 5px;
+    padding-left: 5px;
+
+    gap: 5px;
+    margin: 0px;
+    margin-top: 3%;
+}
+.media{
+    width: 32%;
+
+}
+.img{
+    width: 100%;
 }

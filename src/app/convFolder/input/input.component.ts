@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Message } from 'src/app/Interfaces/message.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
@@ -11,22 +11,25 @@ import { SessionService } from 'src/app/Services/session.service';
 })
 export class InputComponent {
   me = JSON.parse(localStorage.getItem('user') || '{}');
+  fileInput: any;
   message: Message = {
     conv: '',
     text: '',
     files: [],
     date: new Date(),
     ref: '',
-    invisiblity: [],
+    visibility: [],
     sender: JSON.parse(localStorage.getItem('user') || '{}')._id,
   };
   sendButton: boolean = false;
   photoRep: string = 'http://localhost:3000/user/uploads/user.png';
   textRep: string = 'error';
-  constructor(
-    private sessionService: SessionService,
-    private messageService: MessageService
-  ) {
+  constructor(private messageService: MessageService) {
+    //set inputfile
+    setTimeout(() => {
+      this.fileInput = document.getElementById('files') as HTMLInputElement;
+    }, 100);
+
     //get msg id to rep to
     this.messageService.getRep().subscribe((msg: any) => {
       this.message.ref = msg._id;
@@ -35,19 +38,36 @@ export class InputComponent {
   }
 
   selectFiles() {
-    document.getElementById('files')?.click();
+    this.fileInput.click();
   }
+  mediasChange(event: any) {
+    if (this.fileInput.files != null) {
+      if (this.fileInput.files.length != 0) {
+        this.sendButton = true;
+        this.message.files = event.target.files;
+      }
+    }
+  }
+  reinitMedias() {
+    this.fileInput.value = '';
+    this.message.files = [];
+  }
+  getFilesBtnClasses() {
+    return {
+      btn: true,
+      'btn-success': this.message.files.length == 0,
+      'btn-danger': this.message.files.length != 0,
+    };
+  }
+
   send() {
-    //online
-    this.sessionService.online().subscribe((data: any) => {});
     //check if message is empty
     if (this.message.text == '' && this.message.files.length == 0) {
       return;
     }
     //send message
-    this.messageService.send(this.message).subscribe((res: any) => {
-      // this.messageService.setMessageResponse(res);
-    });
+    this.messageService.send(this.message).subscribe(async (msg: any) => {});
+
     //empty message
     this.reinitRep();
     this.emptyMessage();

@@ -1,1 +1,10 @@
-<div id="globalContainer"><p>conv-medias works!</p></div>
+<div id="globalContainer" class="row">
+  <div class="media" *ngFor="let media of medias">
+    <img
+      (click)="goToMsg(media.msg)"
+      class="img"
+      src="{{ media.file }}"
+      alt=""
+    />
+  </div>
+</div>
