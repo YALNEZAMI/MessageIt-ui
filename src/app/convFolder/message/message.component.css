@@ -42,6 +42,15 @@
     margin-top: 25%;
     margin-left: 25%;
 }
+#downloadPhotoDisplayed{
+    width: 100%;
+    background-color: var(--bg-color);
+    color: var(--font-color);
+    text-decoration-line: underline;
+}
+#downloadPhotoDisplayedDiv{
+    margin-top: 10px;
+}
 .imgSent{
     border-radius: 5px;
     width: 45%;
