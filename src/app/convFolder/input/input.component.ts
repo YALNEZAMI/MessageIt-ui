@@ -12,6 +12,7 @@ import { SessionService } from 'src/app/Services/session.service';
 export class InputComponent {
   me = JSON.parse(localStorage.getItem('user') || '{}');
   fileInput: any;
+  emoji: string = '';
   message: Message = {
     conv: '',
     text: '',
@@ -24,7 +25,12 @@ export class InputComponent {
   sendButton: boolean = false;
   photoRep: string = 'http://localhost:3000/user/uploads/user.png';
   textRep: string = 'error';
-  constructor(private messageService: MessageService) {
+  constructor(
+    private messageService: MessageService,
+    private convService: ConvService
+  ) {
+    //set emoji
+    this.emoji = this.convService.getEmoji();
     //set inputfile
     setTimeout(() => {
       this.fileInput = document.getElementById('files') as HTMLInputElement;
@@ -78,7 +84,7 @@ export class InputComponent {
     this.sendButton = false;
   }
   like() {
-    this.message.text = '⭐';
+    this.message.text = this.emoji;
     this.send();
   }
   onInput() {

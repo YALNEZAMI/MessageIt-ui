@@ -19,3 +19,6 @@ app-header-conv{
 main{
     padding-top: 115px;
 }
+#convContainer{
+    min-height: 100vh;
+}

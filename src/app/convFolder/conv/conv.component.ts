@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
 
 @Component({
@@ -8,14 +9,18 @@ import { SessionService } from 'src/app/Services/session.service';
   styleUrls: ['./conv.component.css'],
 })
 export class ConvComponent implements OnInit {
-  constructor(private router: Router, private sessionService: SessionService) {
+  constructor(
+    private router: Router,
+    private sessionService: SessionService,
+    private convService: ConvService
+  ) {
     this.sessionService.online().subscribe((data: any) => {});
     if (localStorage.getItem('conv') == null) {
       this.router.navigate(['admin/convs']);
     }
   }
   ngOnInit(): void {
-    // this.sessionService.online().subscribe((data: any) => {});
+    this.convService.setTheme();
   }
   returnToConvs() {
     localStorage.removeItem('conv');

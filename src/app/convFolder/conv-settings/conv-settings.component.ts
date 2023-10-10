@@ -18,12 +18,17 @@ export class ConvSettingsComponent {
     description: this.conv.description,
   };
   file: any;
+  themes = ['basic', 'love', 'spring'];
+  selectedTheme = this.themes[0];
   constructor(
     private router: Router,
     private friendService: FriendService,
     private convService: ConvService,
     private userService: UserService
-  ) {}
+  ) {
+    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
+    this.selectedTheme = conv.theme;
+  }
 
   leaveConv() {
     let blockBtn = document.getElementById('blockBtn');
@@ -56,12 +61,14 @@ export class ConvSettingsComponent {
     let conv = {
       name: this.convInfos.name,
       description: this.convInfos.description,
+      theme: this.selectedTheme,
     };
     this.convService.update(conv).subscribe(async (res: any) => {
       console.log(res);
       this.convInfos = res;
       this.convInfos.photo = res.photo;
       localStorage.setItem('conv', JSON.stringify(res));
+      this.convService.setConvChanged(res);
     });
     fileInput.files = null;
   }
@@ -80,5 +87,21 @@ export class ConvSettingsComponent {
     } else {
       cadrePhoto.style.display = 'block';
     }
+  }
+  getSelectThemeClasses() {
+    return {
+      selectpicker: true,
+
+      'bg-light': this.selectedTheme == 'basic',
+      'bg-danger': this.selectedTheme == 'love',
+      'bg-success': this.selectedTheme == 'spring',
+    };
+  }
+  getThemeClass(theme: string) {
+    return {
+      'bg-light': theme == 'basic',
+      'bg-danger': theme == 'love',
+      'bg-success': theme == 'spring',
+    };
   }
 }

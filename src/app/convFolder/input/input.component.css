@@ -103,6 +103,8 @@
         max-height: 37px;
     }
     #likeBtn{
+        max-width: 41.6px;
+
         text-align: center;
         margin-left: 5%;
         max-height: 37px;
@@ -132,6 +134,7 @@
     }
     #likeBtn{
         width: 40%;
+
         margin-left: 5%;
         border: 1px solid var(--font-color-conv);
         /* max-height: 40px; */

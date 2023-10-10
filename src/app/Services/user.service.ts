@@ -102,4 +102,49 @@ export class UserService {
       ' offline': user.status == 'offline',
     };
   }
+  setTheme() {
+    let theme = JSON.parse(localStorage.getItem('user') || '{}').theme;
+    let doc = document.documentElement;
+    let adminContainer = document.getElementById(
+      'adminContainer'
+    ) as HTMLElement;
+    if (theme == undefined) {
+      theme = 'basic';
+    }
+    switch (theme) {
+      case 'basic':
+        adminContainer.style.backgroundColor = 'var(--bg-body-color)';
+        doc.style.setProperty('--bg-color-admin', 'var(--bg-color)');
+        doc.style.setProperty('--font-color-admin', 'var(--font-color)');
+        doc.style.setProperty('--third-color-admin', 'var(--third-color)');
+        doc.style.setProperty('--shadow-color-admin', 'var(--shadow-color)');
+
+        break;
+      case 'love':
+        adminContainer.style.backgroundColor = 'rgba(255, 0, 0,0.3)';
+        doc.style.setProperty('--bg-color-admin', 'rgb(255, 105, 180)');
+        doc.style.setProperty('--font-color-admin', 'white');
+        doc.style.setProperty('--third-color-admin', 'black');
+        doc.style.setProperty(
+          '--shadow-color-admin',
+          'rgba(124, 121, 189, 0.5)'
+        );
+
+        break;
+      case 'spring':
+        adminContainer.style.backgroundColor = 'rgba(0, 255, 0, 0.3)';
+        doc.style.setProperty('--bg-color-admin', 'green');
+        doc.style.setProperty('--font-color-admin', 'white');
+        doc.style.setProperty('--third-color-admin', 'black');
+        doc.style.setProperty(
+          '--shadow-color-admin',
+          'rgba(124, 121, 189, 0.5)'
+        );
+
+        break;
+
+      default:
+        break;
+    }
+  }
 }

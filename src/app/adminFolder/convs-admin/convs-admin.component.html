@@ -10,13 +10,7 @@
         <div class="nameAndLastMsg">
           <h4 class="name">{{ conv.name }}</h4>
 
-          <h6
-            class="lastMsg"
-            *ngIf="
-              getLastMessageText(conv) != '' &&
-              conv.lastMessage.sender._id != me._id
-            "
-          >
+          <h6 class="lastMsg" *ngIf="getLastMessageText(conv) != ''">
             {{ getLastMessageText(conv) }} <br />
             at {{ getLastMessageHour(conv) }} by
             {{
@@ -29,7 +23,9 @@
             class="lastMsg"
             *ngIf="
               getLastMessageText(conv) == '' ||
-              (conv.lastMessage.sender._id == me._id && conv.members.length < 3)
+              (conv.lastMessage.sender._id == me._id &&
+                conv.members.length < 3 &&
+                getOtherMember(conv).status != 'online')
             "
           >
             {{

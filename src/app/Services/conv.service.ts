@@ -64,6 +64,8 @@ export class ConvService {
   }
   setConvChanged(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
+    //set theme
+    this.setTheme();
     this.changeConv.next(conv);
   }
 
@@ -103,5 +105,67 @@ export class ConvService {
     dataForm.append('file', file);
     let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
     return this.Http.patch(`${this.uri}/conv/photo/${idConv}`, dataForm);
+  }
+  getEmoji() {
+    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
+    switch (conv.theme) {
+      case 'basic':
+        return '👍';
+        break;
+      case 'love':
+        return '❤️';
+        break;
+      case 'spring':
+        return '🌸';
+        break;
+
+      default:
+        return '👍';
+
+        break;
+    }
+  }
+  setTheme() {
+    let theme = JSON.parse(localStorage.getItem('conv') || '{}').theme;
+    let doc = document.documentElement;
+    let convContainer = document.getElementById('convContainer') as HTMLElement;
+    if (theme == undefined) {
+      theme = 'basic';
+    }
+    switch (theme) {
+      case 'basic':
+        convContainer.style.backgroundColor = 'var(--bg-body-color)';
+        doc.style.setProperty('--bg-color-conv', 'var(--bg-color)');
+        doc.style.setProperty('--font-color-conv', 'var(--font-color)');
+        doc.style.setProperty('--third-color-conv', 'var(--third-color)');
+        doc.style.setProperty('--shadow-color-conv', 'var(--shadow-color)');
+        break;
+      case 'love':
+        convContainer.style.backgroundColor = 'rgba(255, 0, 0,0.3)';
+        doc.style.setProperty('--bg-color-conv', 'rgb(255, 105, 180)');
+        doc.style.setProperty('--font-color-conv', 'white');
+        doc.style.setProperty('--third-color-conv', 'black');
+        doc.style.setProperty(
+          '--shadow-color-conv',
+          'rgba(124, 121, 189, 0.5)'
+        );
+
+        break;
+      case 'spring':
+        convContainer.style.backgroundColor = 'rgba(0, 255, 0, 0.3)';
+
+        doc.style.setProperty('--bg-color-conv', 'green');
+        doc.style.setProperty('--font-color-conv', 'white');
+        doc.style.setProperty('--third-color-conv', 'black');
+        doc.style.setProperty(
+          '--shadow-color-conv',
+          'rgba(124, 121, 189, 0.5)'
+        );
+
+        break;
+
+      default:
+        break;
+    }
   }
 }

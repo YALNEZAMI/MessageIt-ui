@@ -1,10 +1,12 @@
-<button (click)="returnToConvs()" id="returnToConvs" class="btn-danger">
-  x
-</button>
-<div id="convHeaderContainer">
-  <app-header-conv></app-header-conv>
-  <app-conv-nav></app-conv-nav>
+<div id="convContainer">
+  <button (click)="returnToConvs()" id="returnToConvs" class="btn-danger">
+    x
+  </button>
+  <div id="convHeaderContainer">
+    <app-header-conv></app-header-conv>
+    <app-conv-nav></app-conv-nav>
+  </div>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
 </div>
-<main>
-  <router-outlet></router-outlet>
-</main>

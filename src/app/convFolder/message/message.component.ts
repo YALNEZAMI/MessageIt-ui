@@ -276,10 +276,8 @@ export class MessageComponent implements OnDestroy {
 
   textClasses(msg: any) {
     let text = msg.text;
-
-    let emoji = ['👍', '⭐'];
+    let emoji = ['👍', '🌸', '❤️'];
     let res;
-
     if (emoji.includes(text)) {
       res = {
         emoji: true,

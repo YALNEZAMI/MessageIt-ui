@@ -29,6 +29,7 @@ export class MessageService {
       formData.append('files', file);
     }
     formData.append('message', JSON.stringify(message));
+
     return this.http.post(`${this.uri}/message`, formData);
   }
 

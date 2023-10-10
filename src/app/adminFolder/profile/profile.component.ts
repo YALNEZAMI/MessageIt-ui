@@ -101,6 +101,7 @@ export class ProfileComponent {
     this.userService.updateInfos(this.user).subscribe(async (res: any) => {
       userUpdated = await res;
       localStorage.setItem('user', JSON.stringify(userUpdated));
+      this.userService.setTheme();
       this.user = userUpdated;
       this.userService.setNameChanged(
         userUpdated.firstName + ' ' + userUpdated.lastName
