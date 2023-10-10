@@ -274,13 +274,15 @@ app-conv-side{
     font-size: .85rem;
     display: inline-block;
     width: 50%;
+    color: var(--third-color);
+
 }
 
 .users .person p.name-time .time {
     font-weight: 400;
     font-size: .7rem;
     text-align: right;
-    color: #8796af;
+    /* color: #8796af; */
 }
 
 @media (max-width: 600px) {
