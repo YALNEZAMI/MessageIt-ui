@@ -26,13 +26,28 @@
     margin:5px 10%;
     width: 80%;
 }
-.cadrePhotoDisplayed{
+.cadre{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--shadow-color);
+    z-index: 2;
+}
+.photoDisplayed{
+    width: 50%;
+    height: 50%;
+    margin-top: 25%;
+    margin-left: 25%;
 }
 .imgSent{
     border-radius: 5px;
     width: 45%;
-    height:60%
- 
+    height:60%;
+    cursor: pointer;
+
 }
 .myPhotoSentContainer{
     width: 70%;

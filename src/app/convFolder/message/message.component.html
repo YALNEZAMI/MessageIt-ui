@@ -1,6 +1,11 @@
 <div class="main">
-  <div class="cadrePhotoDisplayed">
-    <img class="photoDisplayed" src="{{ photoDisplayedUrl }}" alt="" />
+  <div (click)="displayPhoto('')" id="cadrePhotoDisplayed" class="cadre">
+    <img
+      id="photoDisplayed"
+      class="photoDisplayed"
+      src="{{ photoDisplayedUrl }}"
+      alt=""
+    />
   </div>
   <div
     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
@@ -109,6 +114,7 @@
               <div [ngClass]="getImgSentContainer(msg)">
                 <img
                   *ngFor="let file of msg.files"
+                  (click)="displayPhoto(file)"
                   class="imgSent"
                   src="{{ file }}"
                   alt=""

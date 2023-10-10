@@ -9,6 +9,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrls: ['./message.component.css'],
 })
 export class MessageComponent implements OnDestroy {
+  photoDisplayedUrl: string = '';
   messageClicked: string = '';
   isBottom: boolean = true;
   loading: boolean = false;
@@ -136,6 +137,22 @@ export class MessageComponent implements OnDestroy {
   // setThisVus(data: any) {}
   ngOnDestroy(): void {
     localStorage.removeItem('idMessage');
+  }
+  displayPhoto(file: string) {
+    let cadrePhotoDisplayed = document.getElementById(
+      'cadrePhotoDisplayed'
+    ) as HTMLElement;
+    let photoDisplayed = document.getElementById(
+      'photoDisplayed'
+    ) as HTMLImageElement;
+    if (cadrePhotoDisplayed.style.display == 'block') {
+      cadrePhotoDisplayed.style.display = 'none';
+      photoDisplayed.src = '';
+
+      return;
+    }
+    cadrePhotoDisplayed.style.display = 'block';
+    photoDisplayed.src = file;
   }
   setMessageClicked(id: string) {
     if (this.messageClicked == id) {
