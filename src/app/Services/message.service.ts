@@ -97,4 +97,9 @@ export class MessageService {
   getRep() {
     return this.repToMsg.asObservable();
   }
+  getMedias() {
+    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
+    let idUser = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    return this.http.get(`${this.uri}/message/medias/${idConv}/${idUser}`);
+  }
 }
