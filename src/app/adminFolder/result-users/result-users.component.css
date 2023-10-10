@@ -5,7 +5,13 @@
     padding: 1%;
     border-radius: 10px;
 }
+.noRes{
+    color: var(--font-color-admin);
 
+}
+.mySpinner{
+    color: var(--font-color-admin);
+}
 @media(min-height:767px){
     .img{
         width: 90px;

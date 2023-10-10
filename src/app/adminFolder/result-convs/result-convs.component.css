@@ -1,3 +1,10 @@
+.noRes{
+    color: var(--font-color-admin);
+
+}
+.mySpinner{
+    color: var(--font-color-admin);
+}
 .convContainer{
     gap: 10px;
 }

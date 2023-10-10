@@ -2,6 +2,9 @@
     min-height: 560px;
 
 }
+.mySpinner{
+    color: var(--font-color-admin);
+}
 .convContainer{
     gap: 10px;
 }

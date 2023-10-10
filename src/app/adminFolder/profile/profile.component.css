@@ -25,6 +25,9 @@
 #selectTheme{
   margin: 5px;
 }
+.awareMessage{
+  color: var(--font-color-admin);
+}
 .updateBtn{
   
   max-height: max-content;

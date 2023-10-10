@@ -34,3 +34,10 @@ margin-right: 2%;
 .refuseBtn{
     margin-left: 1%;
 }
+.noRes{
+    color: var(--font-color-admin);
+
+}
+.mySpinner{
+    color: var(--font-color-admin);
+}

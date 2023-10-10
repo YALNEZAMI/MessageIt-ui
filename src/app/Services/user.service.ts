@@ -121,7 +121,7 @@ export class UserService {
 
         break;
       case 'love':
-        adminContainer.style.backgroundColor = 'rgba(255, 0, 0,0.3)';
+        adminContainer.style.backgroundColor = 'rgba(255, 105, 180,0.3)';
         doc.style.setProperty('--bg-color-admin', 'rgb(255, 105, 180)');
         doc.style.setProperty('--font-color-admin', 'white');
         doc.style.setProperty('--third-color-admin', 'black');
@@ -136,6 +136,17 @@ export class UserService {
         doc.style.setProperty('--bg-color-admin', 'green');
         doc.style.setProperty('--font-color-admin', 'white');
         doc.style.setProperty('--third-color-admin', 'black');
+        doc.style.setProperty(
+          '--shadow-color-admin',
+          'rgba(124, 121, 189, 0.5)'
+        );
+
+        break;
+      case 'panda':
+        adminContainer.style.backgroundColor = 'black';
+        doc.style.setProperty('--bg-color-admin', 'black');
+        doc.style.setProperty('--font-color-admin', 'white');
+        doc.style.setProperty('--third-color-admin', 'gray');
         doc.style.setProperty(
           '--shadow-color-admin',
           'rgba(124, 121, 189, 0.5)'

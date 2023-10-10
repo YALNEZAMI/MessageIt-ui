@@ -61,9 +61,10 @@
       </svg>
     </button>
   </div>
-  <div *ngIf="!done" class="d-flex align-items-center mySpinner">
-    <strong>Loading...</strong>
-    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+  <div *ngIf="!done" class="center mySpinner">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
   </div>
-  <h3 class="center" *ngIf="noRes"><ins>No notifications yet !</ins></h3>
+  <h3 class="center noRes" *ngIf="noRes"><ins>No notifications yet !</ins></h3>
 </div>

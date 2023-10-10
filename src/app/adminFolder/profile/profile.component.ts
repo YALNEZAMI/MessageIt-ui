@@ -14,7 +14,7 @@ export class ProfileComponent {
   @ViewChild('deleteBtn') deleteBtn: ElementRef = new ElementRef('');
   @ViewChild('password') password: ElementRef = new ElementRef('');
   @ViewChild('password2') password2: ElementRef = new ElementRef('');
-  themes: string[] = ['basic', 'love', 'spring'];
+  themes: string[] = ['basic', 'love', 'spring', 'panda'];
   selectedTheme: string;
   deleteCheck: boolean = false;
   photoSelectedName = '';
@@ -171,6 +171,8 @@ export class ProfileComponent {
       'bg-light': this.selectedTheme == 'basic',
       'bg-danger': this.selectedTheme == 'love',
       'bg-success': this.selectedTheme == 'spring',
+      'bg-dark': this.selectedTheme == 'panda',
+      'text-light': this.selectedTheme == 'panda',
     };
   }
   getThemeClass(theme: string) {
@@ -178,6 +180,8 @@ export class ProfileComponent {
       'bg-light': theme == 'basic',
       'bg-danger': theme == 'love',
       'bg-success': theme == 'spring',
+      'bg-dark': theme == 'panda',
+      'text-light': theme == 'panda',
     };
   }
 }
