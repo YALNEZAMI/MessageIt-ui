@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MessageService } from 'src/app/Services/message.service';
 
 @Component({
@@ -9,14 +10,18 @@ import { MessageService } from 'src/app/Services/message.service';
 export class ConvMediasComponent {
   msgs: any[] = [];
   medias: any[] = [];
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: MessageService, private router: Router) {
     this.messageService.getMedias().subscribe((data: any) => {
       this.msgs = data;
       for (let msg of this.msgs) {
         for (let file of msg.files) {
-          this.medias.push(file);
+          this.medias.push({ file: file, msg: msg });
         }
       }
     });
+  }
+  goToMsg(msg: any) {
+    localStorage.setItem('idMessage', msg._id);
+    this.router.navigate(['/conv/messages']);
   }
 }

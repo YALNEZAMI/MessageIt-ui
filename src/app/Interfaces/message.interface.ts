@@ -4,6 +4,6 @@ export interface Message {
   files: File[];
   date: Date;
   ref: string;
-  invisiblity: string[];
+  visibility: string[];
   sender: { _id: string };
 }

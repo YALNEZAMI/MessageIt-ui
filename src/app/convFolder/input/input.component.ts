@@ -18,7 +18,7 @@ export class InputComponent {
     files: [],
     date: new Date(),
     ref: '',
-    invisiblity: [],
+    visibility: [],
     sender: JSON.parse(localStorage.getItem('user') || '{}')._id,
   };
   sendButton: boolean = false;

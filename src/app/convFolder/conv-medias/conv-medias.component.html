@@ -1,5 +1,10 @@
 <div id="globalContainer" class="row">
   <div class="media" *ngFor="let media of medias">
-    <img class="img" src="{{ media }}" alt="" />
+    <img
+      (click)="goToMsg(media.msg)"
+      class="img"
+      src="{{ media.file }}"
+      alt=""
+    />
   </div>
 </div>

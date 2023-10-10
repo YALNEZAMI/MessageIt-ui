@@ -56,12 +56,16 @@ export class MessageComponent implements OnDestroy {
     if (localStorage.getItem('idMessage')) {
       this.noMoreDown = false;
       let idMsg = localStorage.getItem('idMessage') || '';
+      console.log(this.conv._id, idMsg);
+
       this.messageService
         .findSearchedMessagePortion(this.conv._id, idMsg)
         .subscribe(async (data: any) => {
           //set global messages and properties
           this.messages = [];
           this.messages = await data;
+          console.log(this.messages);
+
           setTimeout(() => {
             this.goToMessage(localStorage.getItem('idMessage') || '');
           }, 10);
@@ -76,6 +80,7 @@ export class MessageComponent implements OnDestroy {
         .subscribe(async (msgs: any) => {
           //set global messages and properties
           this.messages = await msgs;
+
           this.done = true;
           //set viewrs photos
           this.setPhotosOfViewers();
@@ -160,12 +165,12 @@ export class MessageComponent implements OnDestroy {
     }
   }
   scrollDown() {
-    console.log('down');
-
-    let height = this.chatContainer.nativeElement.scrollHeight;
-    let chatContainer = this.chatContainer.nativeElement;
-    chatContainer.scrollTo(0, height);
-    this.updateBottom();
+    setTimeout(() => {
+      let height = this.chatContainer.nativeElement.scrollHeight;
+      let chatContainer = this.chatContainer.nativeElement;
+      chatContainer.scrollTo(0, height);
+      this.updateBottom();
+    }, 10);
   }
   scrollDownSmooth() {
     let height = this.chatContainer.nativeElement.scrollHeight;
