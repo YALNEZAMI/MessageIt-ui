@@ -7,5 +7,6 @@
     background-color: var(--font-color-admin);
 }
 #body{
-    margin-top: 175px;
+    padding-top: 175px;
+    min-height: 100vh;
 }

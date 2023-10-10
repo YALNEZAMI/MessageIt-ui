@@ -1,8 +1,4 @@
-#lougoutContainer{
-    width: 100%;
-    text-align: right;
-    margin-top: 10px;
-}
+
 #material-symbols-outlined {
     border: 1px solid red;
     border-radius: 10px;
@@ -25,6 +21,9 @@
   color: var(--font-color-admin);
     margin-top: 5px;
     width: 100%;
+}
+#selectTheme{
+  margin: 5px;
 }
 .updateBtn{
   

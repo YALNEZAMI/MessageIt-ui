@@ -9,6 +9,7 @@ import { SessionService } from 'src/app/Services/session.service';
 })
 export class ConvComponent implements OnInit {
   constructor(private router: Router, private sessionService: SessionService) {
+    this.sessionService.online().subscribe((data: any) => {});
     if (localStorage.getItem('conv') == null) {
       this.router.navigate(['admin/convs']);
     }

@@ -1,167 +1,185 @@
-<div id="lougoutContainer"></div>
-
-<form (ngSubmit)="updateUser()">
-  <div id="convImgDiv">
-    <div class="logoutDiv">
-      <button class="btn btn-warning logoutBtn" (click)="logout()">
-        <div *ngIf="logedout" class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-        <svg
-          *ngIf="!logedout"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-box-arrow-right"
-          viewBox="0 0 16 16"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
-          />
-          <path
-            fill-rule="evenodd"
-            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
-          />
-        </svg>
-      </button>
-    </div>
-    <div class="profilePhotoDiv">
-      <input
-        accept="image/*"
-        type="file"
-        name="convImgInput"
-        id="convImgInput"
-        (change)="selected()"
-      />
-      <img
-        (click)="displayPhoto()"
-        [src]="getPhoto()"
-        alt="convImg"
-        id="convImg"
-      />
-      <div id="cadrePhoto" (click)="displayPhoto()">
-        <img id="photoDisplayed" [src]="getPhoto()" alt="myPhoto" />
+<div id="profileComponent">
+  <form (ngSubmit)="updateUser()">
+    <div id="convImgDiv">
+      <div class="logoutDiv">
+        <button class="btn btn-warning logoutBtn" (click)="logout()">
+          <div *ngIf="logedout" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <svg
+            *ngIf="!logedout"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-box-arrow-right"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+            />
+          </svg>
+        </button>
       </div>
-      <button
-        type="button"
-        (click)="clickPhoto()"
-        class="btn btn-primary"
-        id="editPhoto"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-pencil"
-          viewBox="0 0 16 16"
+      <div class="profilePhotoDiv">
+        <input
+          accept="image/*"
+          type="file"
+          name="convImgInput"
+          id="convImgInput"
+          (change)="selected()"
+        />
+        <img
+          (click)="displayPhoto()"
+          [src]="getPhoto()"
+          alt="convImg"
+          id="convImg"
+        />
+        <div id="cadrePhoto" (click)="displayPhoto()">
+          <img id="photoDisplayed" [src]="getPhoto()" alt="myPhoto" />
+        </div>
+        <button
+          type="button"
+          (click)="clickPhoto()"
+          class="btn btn-primary"
+          id="editPhoto"
         >
-          <path
-            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
-          />
-        </svg>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-pencil"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+            />
+          </svg>
+        </button>
 
-      <br />
-      <p *ngIf="photoSelectedName != ''">
-        <ins>{{ photoSelectedName }}</ins>
-      </p>
+        <br />
+        <p *ngIf="photoSelectedName != ''">
+          <ins>{{ photoSelectedName }}</ins>
+        </p>
+      </div>
     </div>
+    <div class="form-group">
+      <label for="selectTheme">Theme:</label>
+
+      <select
+        name="selectTheme"
+        [(ngModel)]="selectedTheme"
+        id="selectTheme"
+        [ngClass]="getSelectThemeClasses()"
+      >
+        <option
+          *ngFor="let theme of themes"
+          [value]="theme"
+          [id]="theme"
+          [ngClass]="getThemeClass(theme)"
+        >
+          {{ theme }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="firstName">First name</label>
+      <input
+        [(ngModel)]="user.firstName"
+        type="text"
+        class="form-control"
+        id="firstName"
+        name="firstName"
+        placeholder="Your new first name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last name</label>
+      <input
+        [(ngModel)]="user.lastName"
+        type="text"
+        class="form-control"
+        id="lastName"
+        name="lastName"
+        placeholder="Your last name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input
+        [(ngModel)]="user.email"
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        aria-describedby="emailHelp"
+        placeholder="Enter email"
+      />
+      <small id="emailHelp" class="form-text"
+        >We'll never share your email with anyone else.</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        #password
+        [(ngModel)]="user.password"
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+    </div>
+    <div class="form-group">
+      <label for="password2">Repeat password</label>
+      <input
+        #password2
+        [(ngModel)]="user.password2"
+        type="password"
+        class="form-control"
+        id="password2"
+        name="password2"
+        placeholder="Confirm your password"
+      />
+    </div>
+    <button type="submit" class="btn btn-success updateBtn">Update</button>
+    <div [ngClass]="getAlertClasses()" *ngIf="alert">
+      {{ response.message }}
+    </div>
+  </form>
+  <hr />
+  <div class="form-check stylish-checkbox">
+    <input
+      [(ngModel)]="deleteCheck"
+      class="form-check-input"
+      type="checkbox"
+      value=""
+      id="checkDelete"
+    />
+    <label class="form-check-label" for="checkDelete">
+      I am aware that this action is going to delete my account.
+    </label>
   </div>
 
-  <div class="form-group">
-    <label for="firstName">First name</label>
-    <input
-      [(ngModel)]="user.firstName"
-      type="text"
-      class="form-control"
-      id="firstName"
-      name="firstName"
-      placeholder="Your new first name"
-    />
+  <button
+    [disabled]="!deleteCheck"
+    #deleteBtn
+    id="deleteBtn"
+    class="btn btn-danger"
+    (click)="delete()"
+  >
+    Delete the account
+  </button>
+  <hr />
+  <div *ngIf="!done" class="d-flex align-items-center mySpinner">
+    <strong>Loading...</strong>
+    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
-  <div class="form-group">
-    <label for="lastName">Last name</label>
-    <input
-      [(ngModel)]="user.lastName"
-      type="text"
-      class="form-control"
-      id="lastName"
-      name="lastName"
-      placeholder="Your last name"
-    />
-  </div>
-  <div class="form-group">
-    <label for="email">Email address</label>
-    <input
-      [(ngModel)]="user.email"
-      type="email"
-      class="form-control"
-      id="email"
-      name="email"
-      aria-describedby="emailHelp"
-      placeholder="Enter email"
-    />
-    <small id="emailHelp" class="form-text"
-      >We'll never share your email with anyone else.</small
-    >
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      #password
-      [(ngModel)]="user.password"
-      type="password"
-      class="form-control"
-      id="password"
-      name="password"
-      placeholder="Password"
-    />
-  </div>
-  <div class="form-group">
-    <label for="password2">Repeat password</label>
-    <input
-      #password2
-      [(ngModel)]="user.password2"
-      type="password"
-      class="form-control"
-      id="password2"
-      name="password2"
-      placeholder="Confirm your password"
-    />
-  </div>
-  <button type="submit" class="btn btn-success updateBtn">Update</button>
-  <div [ngClass]="getAlertClasses()" *ngIf="alert">
-    {{ response.message }}
-  </div>
-</form>
-<hr />
-<div class="form-check stylish-checkbox">
-  <input
-    [(ngModel)]="deleteCheck"
-    class="form-check-input"
-    type="checkbox"
-    value=""
-    id="checkDelete"
-  />
-  <label class="form-check-label" for="checkDelete">
-    I am aware that this action is going to delete my account.
-  </label>
-</div>
-
-<button
-  [disabled]="!deleteCheck"
-  #deleteBtn
-  id="deleteBtn"
-  class="btn btn-danger"
-  (click)="delete()"
->
-  Delete the account
-</button>
-<hr />
-<div *ngIf="!done" class="d-flex align-items-center mySpinner">
-  <strong>Loading...</strong>
-  <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
 </div>

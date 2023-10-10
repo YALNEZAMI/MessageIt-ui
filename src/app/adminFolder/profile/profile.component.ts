@@ -14,6 +14,8 @@ export class ProfileComponent {
   @ViewChild('deleteBtn') deleteBtn: ElementRef = new ElementRef('');
   @ViewChild('password') password: ElementRef = new ElementRef('');
   @ViewChild('password2') password2: ElementRef = new ElementRef('');
+  themes: string[] = ['basic', 'love', 'spring'];
+  selectedTheme: string;
   deleteCheck: boolean = false;
   photoSelectedName = '';
   user: any;
@@ -25,11 +27,21 @@ export class ProfileComponent {
     status: 200,
     message: 'password is so short',
   };
+
   constructor(
     private router: Router,
     private userService: UserService,
     private sessionService: SessionService
   ) {
+    if (JSON.parse(localStorage.getItem('user') || '{}').theme != undefined) {
+      this.selectedTheme = JSON.parse(
+        localStorage.getItem('user') || '{}'
+      ).theme;
+    } else {
+      this.selectedTheme = 'basic';
+    }
+    this.selectedTheme =
+      JSON.parse(localStorage.getItem('user') || '{}').theme || 'basic';
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
   }
   getDifferentStatus() {
@@ -83,6 +95,8 @@ export class ProfileComponent {
     }
 
     let userUpdated: any;
+    //set them
+    this.user.theme = this.selectedTheme;
 
     this.userService.updateInfos(this.user).subscribe(async (res: any) => {
       userUpdated = await res;
@@ -147,6 +161,22 @@ export class ProfileComponent {
       alert: true,
       'alert-success': this.response.status == 200,
       'alert-danger': this.response.status != 200,
+    };
+  }
+  getSelectThemeClasses() {
+    return {
+      selectpicker: true,
+
+      'bg-light': this.selectedTheme == 'basic',
+      'bg-danger': this.selectedTheme == 'love',
+      'bg-success': this.selectedTheme == 'spring',
+    };
+  }
+  getThemeClass(theme: string) {
+    return {
+      'bg-light': theme == 'basic',
+      'bg-danger': theme == 'love',
+      'bg-success': theme == 'spring',
     };
   }
 }
