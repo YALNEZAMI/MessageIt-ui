@@ -71,8 +71,14 @@ export class InputComponent {
     if (this.message.text == '' && this.message.files.length == 0) {
       return;
     }
+
     //send message
-    this.messageService.send(this.message).subscribe(async (msg: any) => {});
+    this.messageService.send(this.message).subscribe(async (msg: any) => {
+      if (msg.text == '') {
+        msg.text = 'files';
+      }
+      this.convService.update({ lastMessage: msg });
+    });
 
     //empty message
     this.reinitRep();

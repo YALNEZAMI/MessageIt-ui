@@ -100,6 +100,7 @@ export class ConvService {
     let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
     return this.Http.patch(`${this.uri}/conv/${idConv}`, conv);
   }
+  setLastMsg(msg: any) {}
   updatePhoto(file: any) {
     let dataForm = new FormData();
     dataForm.append('file', file);

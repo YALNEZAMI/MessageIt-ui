@@ -24,6 +24,11 @@
 }
 #selectTheme{
   margin: 5px;
+  max-height: 30px;
+}
+#labelSelectTheme{
+  height: max-content;
+  margin-bottom: 0px;
 }
 .awareMessage{
   color: var(--font-color-admin);
@@ -34,6 +39,7 @@
 }
 .logoutBtn{
   color: var(--font-color-admin);
+  max-height: 50px;
 }
 /* styles.css */
 
@@ -56,10 +62,8 @@
   
   /* Personnalisez davantage les styles selon vos préférences */
   #convImg{
-    position: relative;
-    left: 20px;
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     cursor: pointer;
     border-radius: 50%;
     border: 2px solid #333;
@@ -72,7 +76,7 @@
     border-radius: 20%;
     position: relative;
     top: 27px;
-    left: 0px;
+    right: 20px;
   }
   #cadrePhoto{
     display: none;
@@ -100,13 +104,19 @@
     flex-direction: row-reverse;
   }
   .logoutDiv{
+    margin:0px;
+    width: 25%;
+    direction: rtl;
     max-height: max-content;
-    padding: 5px;
-    width: max-content;
   }
   .profilePhotoDiv{
     padding-top: 5px;
-    width: 80%;
+    width: 50%;
+  }
+  .selectThemeDiv{
+    padding-right: 13%;
+    padding-top: 5px;
+    width: 25%;
   }
   label{
     color:var(--font-color-admin);

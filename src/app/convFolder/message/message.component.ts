@@ -90,7 +90,7 @@ export class MessageComponent implements OnDestroy {
         });
     }
 
-    //websocket subscribe
+    //websocket subscribe for new message
     this.webSocektService.newMessage().subscribe(async (message: any) => {
       let realMessage = await message;
       let idConv = realMessage.conv;
@@ -103,10 +103,14 @@ export class MessageComponent implements OnDestroy {
           this.setPhotosOfViewers();
         });
         //scroll down
+        let timeToWait = 50;
+        if (realMessage.files.length > 0) {
+          timeToWait *= realMessage.files.length;
+        }
         if (this.isBottom) {
           setTimeout(() => {
             this.scrollDown();
-          }, 5);
+          }, timeToWait);
         }
       }
     });
