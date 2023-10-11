@@ -23,7 +23,6 @@ export class ConvsAdminComponent implements OnDestroy {
   constructor(private convService: ConvService, private router: Router) {
     this.convService.getConvs().subscribe(async (data: any) => {
       let realData = await data;
-      console.log(realData);
 
       if (realData.length == 0) {
         this.noRes = true;
@@ -51,6 +50,7 @@ export class ConvsAdminComponent implements OnDestroy {
   }
   getLastMessageText(conv: Conv) {
     if (conv.lastMessage != null) {
+      if (conv.lastMessage.text.length < 20) return conv.lastMessage.text;
       return conv.lastMessage.text.slice(0, 20) + '...';
     } else {
       return '';
@@ -73,9 +73,22 @@ export class ConvsAdminComponent implements OnDestroy {
   getStatusClasses(conv: any) {
     return this.convService.getStatusClassesForConv(conv);
   }
-
+  getLastMsgSender(conv: any) {
+    if (conv.lastMessage != null) {
+      if (conv.lastMessage.sender._id == this.me._id) {
+        conv.lastMessage.sender.firstName = 'You';
+        conv.lastMessage.sender.lastName = '';
+        return conv.lastMessage.sender;
+      } else {
+        return conv.lastMessage.sender;
+      }
+    } else {
+      return '';
+    }
+  }
   getOtherMember(conv: any) {
     let user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (conv.members.length == 1) return conv.members[0];
     if (conv.members[0]._id == user._id) {
       return conv.members[1];
     } else {
@@ -83,6 +96,9 @@ export class ConvsAdminComponent implements OnDestroy {
     }
   }
   getOtherMemberStatus(conv: any) {
+    if (conv.members.length == 1) {
+      return 'online';
+    }
     let otherMember = this.getOtherMember(conv);
     return otherMember.status;
   }

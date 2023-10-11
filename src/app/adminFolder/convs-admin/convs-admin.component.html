@@ -14,9 +14,9 @@
             {{ getLastMessageText(conv) }} <br />
             at {{ getLastMessageHour(conv) }} by
             {{
-              conv.lastMessage.sender.firstName +
+              getLastMsgSender(conv).firstName +
                 " " +
-                conv.lastMessage.sender.lastName
+                getLastMsgSender(conv).lastName
             }}
           </h6>
           <h6
@@ -35,15 +35,26 @@
             offline since
             {{ toLocalString(getOtherMember(conv).lastConnection) }}
           </h6>
-          <h6 class="lastMsg" *ngIf="conv.members.length != 1">
-            <div
-              *ngIf="
-                getLastMessageText(conv) == '' &&
-                getOtherMemberStatus(conv) == 'online'
-              "
-            >
-              online
+          <h6
+            class="lastMsg"
+            *ngIf="
+              getLastMessageText(conv) == '' &&
+              getOtherMemberStatus(conv) == 'online'
+            "
+          >
+            online
+          </h6>
+          <h6 class="lastMsg" *ngIf="conv.members.length > 2">
+            <div *ngIf="getLastMessageText(conv) != ''">
+              {{ getLastMessageText(conv) }} <br />
+              at {{ getLastMessageHour(conv) }} by
+              {{
+                getLastMsgSender(conv).firstName +
+                  " " +
+                  getLastMsgSender(conv).lastName
+              }}
             </div>
+            <div *ngIf="getLastMessageText(conv) == ''">New Groupe</div>
           </h6>
         </div>
       </div>

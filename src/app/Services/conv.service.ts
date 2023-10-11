@@ -80,9 +80,10 @@ export class ConvService {
       }
     }
     if (otherMember == null) {
+      otherMember = { status: 'online' };
       return {
         status: true,
-        // ' online': otherMember.status == 'online',
+        ' online': otherMember.status == 'online',
         // ' busy': otherMember.status == 'busy',
         // ' away': otherMember.status == 'away',
         ' offline': otherMember.status == 'offline',
