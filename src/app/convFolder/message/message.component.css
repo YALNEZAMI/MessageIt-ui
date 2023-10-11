@@ -120,16 +120,20 @@
     cursor: pointer;
 }
 .emoji{
-    background-color: #f0f4f8;
+    background-color: var(--bg-color-conv);
+    color: var(--font-color-conv);
     }
     
     .notEmoji{
-        background-color: white;
+        background-color: var(--bg-color-conv);
+        color: var(--font-color-conv);
+
         height: max-content;
         }
 @media (max-width: 767px) {
     .emoji{
-        background-color: #2783df;
+        background-color: var(--bg-color-conv);
+        color: var(--font-color-conv);
         height: max-content;
         padding: 3px;
         border-radius: 50%;
@@ -146,7 +150,8 @@
 @media (min-width: 767px) {
     
     .emoji{
-        background-color: #2783df;
+        background-color: var(--bg-color-conv);
+        color: var(--font-color-conv);
         height: max-content;
         width: max-content;
         padding: 3px;
@@ -168,7 +173,7 @@
     padding-bottom:45px ;
     min-height: 600px;
     max-height: 550px;
-    background-color: #f0f4f8;
+    background-color: var(--font-color-conv);
     overflow-y: hidden;
 
 
@@ -181,6 +186,8 @@
     max-height: 550px;
     overflow-y: auto;
     overflow-x: hidden;
+    background-color: var(--font-color-conv);
+
     
 
 }

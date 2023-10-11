@@ -8,6 +8,7 @@ import { MessageService } from 'src/app/Services/message.service';
   styleUrls: ['./search-result.component.css'],
 })
 export class SearchResultComponent {
+  done = true;
   noRes = false;
   key: string = '';
   messages: any[] = [];
@@ -27,6 +28,8 @@ export class SearchResultComponent {
       this.noRes = false;
       return;
     }
+    this.done = false;
+
     this.messageService.getMessagesByKey(this.key).subscribe((data: any) => {
       this.messages = data;
       if (this.messages.length == 0) {
@@ -34,6 +37,7 @@ export class SearchResultComponent {
       } else {
         this.noRes = false;
       }
+      this.done = true;
     });
   }
   getDate(dateString: string) {

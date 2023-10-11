@@ -23,6 +23,10 @@
     font-size: 15px;
 }
 #noRes{
+    color: var(--font-color-conv);
     text-align: center;
     text-decoration-line: underline;
+}
+.mySpinner{
+    color: var(--font-color-conv);
 }

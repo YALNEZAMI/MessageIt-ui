@@ -13,10 +13,10 @@
     width: 100%;
 }
 .noRes{
-    color: var(--font-color-admin);
+    color: var(--font-color-conv);
     width: 100%;
 
 }
 .mySpinner{
-    color: var(--font-color-admin);
+    color: var(--font-color-conv);
 }

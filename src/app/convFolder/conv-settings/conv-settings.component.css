@@ -48,3 +48,6 @@ margin-top: 25%;
 #selectTheme{
     margin: 5px;
   }
+  label{
+    color:var(--font-color-conv);
+  }

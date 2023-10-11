@@ -1,6 +1,12 @@
 #globalContainer{
     padding-top: 30px;
 }
+.noRes{
+    color: var(--font-color-conv);
+}
+.mySpinner{
+    color: var(--font-color-conv);
+}
 .userItem{
     background-color: var(--font-color-conv);
     margin: 1%;

@@ -18,7 +18,7 @@ export class ConvSettingsComponent {
     description: this.conv.description,
   };
   file: any;
-  themes = ['basic', 'love', 'spring'];
+  themes = ['basic', 'love', 'spring', 'panda'];
   selectedTheme = this.themes[0];
   constructor(
     private router: Router,
@@ -95,6 +95,7 @@ export class ConvSettingsComponent {
       'bg-light': this.selectedTheme == 'basic',
       'bg-danger': this.selectedTheme == 'love',
       'bg-success': this.selectedTheme == 'spring',
+      'bg-dark': this.selectedTheme == 'dark',
     };
   }
   getThemeClass(theme: string) {
@@ -102,6 +103,7 @@ export class ConvSettingsComponent {
       'bg-light': theme == 'basic',
       'bg-danger': theme == 'love',
       'bg-success': theme == 'spring',
+      'bg-dark': theme == 'panda',
     };
   }
 }

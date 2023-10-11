@@ -120,6 +120,9 @@ export class ConvService {
       case 'spring':
         return '🌸';
         break;
+      case 'panda':
+        return '🐼';
+        break;
 
       default:
         return '👍';
@@ -159,6 +162,17 @@ export class ConvService {
         doc.style.setProperty('--bg-color-conv', 'green');
         doc.style.setProperty('--font-color-conv', 'white');
         doc.style.setProperty('--third-color-conv', 'black');
+        doc.style.setProperty(
+          '--shadow-color-conv',
+          'rgba(124, 121, 189, 0.5)'
+        );
+
+        break;
+      case 'panda':
+        convContainer.style.backgroundColor = 'black';
+        doc.style.setProperty('--bg-color-conv', 'black');
+        doc.style.setProperty('--font-color-conv', 'white');
+        doc.style.setProperty('--third-color-conv', 'gray');
         doc.style.setProperty(
           '--shadow-color-conv',
           'rgba(124, 121, 189, 0.5)'

@@ -92,7 +92,9 @@ export class UserService {
   delete(user: any) {
     return this.http.delete(`${this.uri}/user/${user._id}`);
   }
-
+  getById(id: string) {
+    return this.http.get(`${this.uri}/user/${id}`);
+  }
   getStatusClassesForUser(user: any) {
     return {
       status: true,
