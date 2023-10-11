@@ -125,5 +125,8 @@
     color:var(--font-color-admin);
   }
  
+  .photoSelectedName{
+    padding-right: 15px;
+  }
  
   
