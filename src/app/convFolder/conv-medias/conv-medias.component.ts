@@ -8,6 +8,7 @@ import { MessageService } from 'src/app/Services/message.service';
   styleUrls: ['./conv-medias.component.css'],
 })
 export class ConvMediasComponent {
+  done = false;
   msgs: any[] = [];
   medias: any[] = [];
   constructor(private messageService: MessageService, private router: Router) {
@@ -18,6 +19,7 @@ export class ConvMediasComponent {
           this.medias.push({ file: file, msg: msg });
         }
       }
+      this.done = true;
     });
   }
   goToMsg(msg: any) {
