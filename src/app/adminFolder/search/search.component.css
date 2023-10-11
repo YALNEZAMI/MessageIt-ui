@@ -17,5 +17,5 @@ a{
 }
 .myInactive{
     background-color: var(--shadow-color-admin);
-    color: var(--bg-color-admin);
+    color: var(--bg-third-admin);
 }

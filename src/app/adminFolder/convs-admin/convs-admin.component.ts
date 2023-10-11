@@ -23,6 +23,7 @@ export class ConvsAdminComponent implements OnDestroy {
   constructor(private convService: ConvService, private router: Router) {
     this.convService.getConvs().subscribe(async (data: any) => {
       let realData = await data;
+      console.log(realData);
 
       if (realData.length == 0) {
         this.noRes = true;
@@ -80,5 +81,9 @@ export class ConvsAdminComponent implements OnDestroy {
     } else {
       return conv.members[0];
     }
+  }
+  getOtherMemberStatus(conv: any) {
+    let otherMember = this.getOtherMember(conv);
+    return otherMember.status;
   }
 }
