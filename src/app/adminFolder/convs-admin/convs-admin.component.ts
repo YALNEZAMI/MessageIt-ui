@@ -76,7 +76,7 @@ export class ConvsAdminComponent implements OnDestroy {
   getLastMsgSender(conv: any) {
     if (conv.lastMessage != null) {
       if (conv.lastMessage.sender._id == this.me._id) {
-        conv.lastMessage.sender.firstName = 'You';
+        conv.lastMessage.sender.firstName = 'you';
         conv.lastMessage.sender.lastName = '';
         return conv.lastMessage.sender;
       } else {
