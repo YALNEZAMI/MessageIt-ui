@@ -111,7 +111,6 @@ export class ProfileComponent {
         this.userService
           .uploadConvImg(inputImg.files?.item(0), userUpdated._id)
           .subscribe(async (res: any) => {
-            // console.log(this.getPhoto(await res.photo));
             userUpdated.photo = await res.photo;
             localStorage.setItem('user', JSON.stringify(userUpdated));
             this.user = userUpdated;

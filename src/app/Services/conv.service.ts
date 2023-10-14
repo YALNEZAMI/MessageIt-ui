@@ -137,6 +137,7 @@ export class ConvService {
     if (theme == undefined) {
       theme = 'basic';
     }
+
     switch (theme) {
       case 'basic':
         convContainer.style.backgroundColor = 'var(--bg-body-color)';
