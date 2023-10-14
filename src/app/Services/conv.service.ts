@@ -140,10 +140,10 @@ export class ConvService {
     switch (theme) {
       case 'basic':
         convContainer.style.backgroundColor = 'var(--bg-body-color)';
-        doc.style.setProperty('--bg-color-conv', 'var(--bg-color)');
-        doc.style.setProperty('--font-color-conv', 'var(--font-color)');
-        doc.style.setProperty('--third-color-conv', 'var(--third-color)');
-        doc.style.setProperty('--shadow-color-conv', 'var(--shadow-color)');
+        // doc.style.setProperty('--bg-color-conv', 'var(--bg-color)');
+        // doc.style.setProperty('--font-color-conv', 'var(--font-color)');
+        // doc.style.setProperty('--third-color-conv', 'var(--third-color)');
+        // doc.style.setProperty('--shadow-color-conv', 'var(--shadow-color)');
         break;
       case 'love':
         convContainer.style.backgroundColor = 'rgba(255, 0, 0,0.3)';

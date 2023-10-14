@@ -77,8 +77,6 @@ export class UserService {
     return this.http.post(`${this.uri}/user/uploadProfilePhoto/${id}`, fd);
   }
   updateInfos(user: any) {
-    console.log('user to update', user);
-
     let userReturned: any = this.http.patch(
       `${this.uri}/user/${user._id}`,
       user
@@ -116,10 +114,10 @@ export class UserService {
     switch (theme) {
       case 'basic':
         adminContainer.style.backgroundColor = 'var(--bg-body-color)';
-        doc.style.setProperty('--bg-color-admin', 'var(--bg-color)');
-        doc.style.setProperty('--font-color-admin', 'var(--font-color)');
-        doc.style.setProperty('--third-color-admin', 'var(--third-color)');
-        doc.style.setProperty('--shadow-color-admin', 'var(--shadow-color)');
+        // doc.style.setProperty('--bg-color-admin', 'var(--bg-color)');
+        // doc.style.setProperty('--font-color-admin', 'var(--font-color)');
+        // doc.style.setProperty('--third-color-admin', 'var(--third-color)');
+        // doc.style.setProperty('--shadow-color-admin', 'var(--shadow-color)');
 
         break;
       case 'love':

@@ -107,7 +107,7 @@ export class ProfileComponent {
         userUpdated.firstName + ' ' + userUpdated.lastName
       );
 
-      if (inputImg.files?.item(0) != null) {
+      if (inputImg.files?.length != 0) {
         this.userService
           .uploadConvImg(inputImg.files?.item(0), userUpdated._id)
           .subscribe(async (res: any) => {
@@ -183,5 +183,12 @@ export class ProfileComponent {
       'bg-dark': theme == 'panda',
       'text-light': theme == 'panda',
     };
+  }
+  unselectProfilePhoto() {
+    let profilePhotoForm = document.getElementById(
+      'profilePhotoForm'
+    ) as HTMLFormElement;
+    profilePhotoForm.reset();
+    this.photoSelectedName = '';
   }
 }

@@ -45,6 +45,9 @@
             <span class="sr-only">Loading...</span>
           </div>
           <!--messages-->
+          <h3 *ngIf="getMessages().length == 0" class="center noRes">
+            <ins>no messages yet !</ins>
+          </h3>
           <div
             id="{{ msg._id }}"
             class="chat-box"

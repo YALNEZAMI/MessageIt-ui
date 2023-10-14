@@ -39,7 +39,8 @@
 }
 .logoutBtn{
   color: var(--font-color-admin);
-  max-height: 50px;
+  height: max-content;
+  padding: 7px;
 }
 /* styles.css */
 
@@ -129,4 +130,7 @@
     padding-right: 15px;
   }
  
-  
+  #unselectProfilePhoto{
+    padding:2px 5px;
+    height: max-content;
+  }

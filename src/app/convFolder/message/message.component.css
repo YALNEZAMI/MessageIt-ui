@@ -1,6 +1,12 @@
 app-conv-side{
     background-color: var(--font-color-conv);
 }
+.mySpinner{
+    color:var(--bg-color-conv);
+}
+.noRes{
+    color: var(--bg-color-conv);
+}
 #optionPopupCadre{
     display: none;
     position: fixed;
@@ -79,6 +85,7 @@ app-conv-side{
 }
 
 .repDiv{
+    color: var(--bg-color-conv);
     padding-top: 12%;
     cursor: pointer;
 }
