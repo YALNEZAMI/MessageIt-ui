@@ -4,14 +4,17 @@
       <div class="row photoAndName" (click)="goToConv(conv)">
         <div>
           <img src="{{ conv.photo }}" alt="convImg" class="imgConv" />
-          <div [ngClass]="getStatusClasses(conv)"></div>
+          <div
+            *ngIf="conv.members.length < 3"
+            [ngClass]="getStatusClasses(conv)"
+          ></div>
         </div>
 
         <div class="nameAndLastMsg">
           <h4 class="name">{{ conv.name }}</h4>
 
           <h6 class="lastMsg" *ngIf="getLastMessageText(conv) != ''">
-            {{ getLastMessageText(conv) }} <br />
+            {{ getLastMessageText(conv) }}
             at {{ getLastMessageHour(conv) }} by
             {{
               getLastMsgSender(conv).firstName +
@@ -44,17 +47,11 @@
           >
             online
           </h6>
-          <h6 class="lastMsg" *ngIf="conv.members.length > 2">
-            <div *ngIf="getLastMessageText(conv) != ''">
-              {{ getLastMessageText(conv) }} <br />
-              at {{ getLastMessageHour(conv) }} by
-              {{
-                getLastMsgSender(conv).firstName +
-                  " " +
-                  getLastMsgSender(conv).lastName
-              }}
-            </div>
-            <div *ngIf="getLastMessageText(conv) == ''">New Groupe</div>
+          <h6
+            class="lastMsg"
+            *ngIf="conv.members.length > 2 && getLastMessageText(conv) == ''"
+          >
+            <div>New Groupe</div>
           </h6>
         </div>
       </div>

@@ -9,28 +9,13 @@
     background-color: var(--font-color-admin);
     margin: 1%;
     padding: 5px;
-    padding-bottom: 0px;
-   height: max-content;
+    height: max-content;
     border-radius: 10px;
     color: var(--bg-color-admin);
+    cursor: pointer;
 }
 
 
-
-.myBtn{
-    margin-top: 1%;
-    min-width: 16%;
-    max-height: 40px;
-}
-.btn1{
-    margin-right: 1%;
-}
-.chatBtn{
-    margin-left: 1%;
-}
-.refuseBtn{
-    margin-left: 1%;
-}
 @media(min-height:767px){
     .name{
         font-size: 10%;
@@ -41,23 +26,16 @@
         height: max-content;
         
     }
-    .status{
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        position: relative;
-        bottom: 80%;
-        left: 70%;
-    }
+    
     .img{
         width: 70px;
-        height: 70px;
         border-radius: 50%;
         margin-right: 2%;
         }
     .imgAndStatusDiv{
             width: max-content;
             padding-top: 3px;
+            /* height: max-content; */
     }
 }
 @media(max-height:767px){
@@ -70,37 +48,36 @@
         height: max-content;
         
     }
-    .status{
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        position: relative;
-        bottom: 80%;
-        left: 60%;
-    }
+  
     .img{
         width: 60px;
-        height: 60px;
         border-radius: 50%;
         margin-right: 2%;
-    }
-    .imgAndStatusDiv{
-        width: 70px;
-        padding-top: 3px;
-    }
+        }
+        .imgAndStatusDiv{
+            width: 70px;
+            padding-top: 3px;
+            /* height: max-content; */
+        }
 }
-
-.online {
-    background: #9ec94a;
+.UnselectedDiv{
+padding-top: 10px;
+color: var(--shadow-color-admin);
+height: max-content;
 }
-
-.offline {
-    background: #c4d2e2;
+.selectedDiv{
+    padding-top: 10px;
+    color: var(--bg-color-admin);
+    height: max-content;
 }
-
-.away {
-    background: #f9be52;
+.form{
+    margin: 0px;
+    gap: 5px;
+    padding: 5px 10px;
 }
-.busy {
-    background: #fd7274;
+#makeGroupeBtn{
+    width: max-content;
+}
+#groupeName{
+    width: 70%;
 }

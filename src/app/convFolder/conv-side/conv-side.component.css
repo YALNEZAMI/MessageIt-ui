@@ -84,8 +84,6 @@ margin-right: 15px;
     left: 0px;
     z-index: 2;
     width: 100%;
-    /* margin-left: 20%; */
-    min-height: max-content;
     background-color: var(--font-color-conv);
     border-top: 1px solid #e6ecf3;
     padding: 10px;
@@ -118,10 +116,7 @@ ul{
     top: 112px;
     left: 0px;
     width:100%;  
-    /* min-height: 85%; */
-    /* max-height: 90%; */
-    /* padding-bottom: 50px; */
-    height: 560px;
+    height: 570px;
     overflow-y: hidden;
     overflow-x: hidden;
     background-color: var(--font-color-conv)
@@ -175,12 +170,12 @@ app-conv-side{
     height: max-content;
 }
 .users-container {
-   
     position: relative;
     padding: 0rem 0;
     padding-top: 5px;
+    padding-bottom: 48px;
     border-right: 1px solid #e6ecf3;
-   height: 560px;
+    height: 100vh;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;

@@ -47,4 +47,9 @@ export class FriendService {
     let id = this.getMyId();
     return this.Http.get(`${this.uri}/user/myFriends/${id}`);
   }
+  makeGroupe(conv: any) {
+    //add me
+    conv.members.push(this.getMyId());
+    return this.Http.post(`${this.uri}/conv/groupe`, conv);
+  }
 }

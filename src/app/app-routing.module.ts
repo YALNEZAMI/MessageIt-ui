@@ -21,6 +21,7 @@ import { SigninComponent } from './indexFolder/signin/signin.component';
 import { RegetPasswordComponent } from './indexFolder/reget-password/reget-password.component';
 import { ResetPasswordComponent } from './indexFolder/reset-password/reset-password.component';
 import { NotFoundPageComponent } from './indexFolder/not-found-page/not-found-page.component';
+import { GroupeComponent } from './adminFolder/groupe/groupe.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -50,6 +51,7 @@ const routes: Routes = [
 
       { path: 'notifs', component: NotifsComponent },
       { path: 'friends', component: FriendsComponent },
+      { path: 'groupe', component: GroupeComponent },
 
       { path: 'profile', component: ProfileComponent },
     ],

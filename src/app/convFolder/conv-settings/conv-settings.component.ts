@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
-import { FriendService } from 'src/app/Services/friend.service';
-import { UserService } from 'src/app/Services/user.service';
-import { env } from 'src/env';
 
 @Component({
   selector: 'app-conv-settings',
@@ -20,12 +17,8 @@ export class ConvSettingsComponent {
   file: any;
   themes = ['basic', 'love', 'spring', 'panda'];
   selectedTheme = this.themes[0];
-  constructor(
-    private router: Router,
-    private friendService: FriendService,
-    private convService: ConvService,
-    private userService: UserService
-  ) {
+  fileSelectedName = '';
+  constructor(private router: Router, private convService: ConvService) {
     let conv = JSON.parse(localStorage.getItem('conv') || '{}');
     this.selectedTheme = conv.theme;
   }
@@ -105,5 +98,14 @@ export class ConvSettingsComponent {
       'bg-success': theme == 'spring',
       'bg-dark': theme == 'panda',
     };
+  }
+  fillSelectedFileName() {
+    let fileInput = document.getElementById(
+      'convPhotoInput'
+    ) as HTMLInputElement;
+    if (fileInput.files?.item(0) != null) {
+      this.file = fileInput.files?.item(0);
+      this.fileSelectedName = this.file.name;
+    }
   }
 }

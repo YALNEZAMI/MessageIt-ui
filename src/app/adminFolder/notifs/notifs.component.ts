@@ -22,11 +22,7 @@ export class NotifsComponent {
   ) {
     this.friendService.findreqSentToMe().subscribe(async (data: any) => {
       this.addRequests = await data;
-      for (let index = 0; index < this.addRequests.length; index++) {
-        const element = this.addRequests[index];
-        element.photo = this.getPhoto(element.photo);
-        // this.getContenuBtn(element);
-      }
+
       this.done = true;
       if (this.addRequests.length == 0) {
         this.noRes = true;

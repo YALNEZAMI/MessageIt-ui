@@ -1,7 +1,11 @@
 <div id="globalContainer">
   <form (ngSubmit)="update()">
     <div id="convPhotoDiv" class="center">
-      <input type="file" id="convPhotoInput" />
+      <input
+        type="file"
+        id="convPhotoInput"
+        (change)="fillSelectedFileName()"
+      />
       <img
         (click)="displayPhoto()"
         id="convPhoto"
@@ -30,6 +34,9 @@
       <div id="cadrePhoto" (click)="displayPhoto()">
         <img id="photoDisplayed" [src]="convInfos.photo" alt="myPhoto" />
       </div>
+      <span class="center"
+        ><ins>{{ fileSelectedName }}</ins></span
+      >
     </div>
     <div class="form-group">
       <label for="selectTheme">Theme:</label>
