@@ -72,13 +72,15 @@ export class MessageService {
       `${this.uri}/message/MessageSearchedGroup/${idConv}/${idMessage}/${userId}`
     );
   }
+  //set conv like seen by me
   setVus() {
     let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
     let myId = JSON.parse(localStorage.getItem('user') || '{}')._id;
     return this.http.patch(`${this.uri}/message/set/vus`, { idConv, myId });
   }
   deleteMsgForAll(msg: any) {
-    return this.http.delete(`${this.uri}/message/${msg._id}`);
+    let myId = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    return this.http.delete(`${this.uri}/message/${msg._id}/${myId}`);
   }
   deleteMsgForMe(msg: any) {
     let idMsg_idUser_MemberLength = {

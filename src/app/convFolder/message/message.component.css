@@ -191,7 +191,7 @@ app-conv-side{
 }
 #chatContainer{
     width: 80%;
-    height: 570px;
+    height: 577px;
     overflow-y: auto;
     overflow-x: hidden;
     background-color: var(--font-color-conv);

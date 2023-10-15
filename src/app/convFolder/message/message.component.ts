@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
@@ -8,7 +8,8 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css'],
 })
-export class MessageComponent implements OnDestroy {
+export class MessageComponent implements OnInit {
+  canDeleteMsgForAll = false; //if the user can delete the message for all
   photoDisplayedUrl: string = '';
   messageClicked: string = '';
   isBottom: boolean = true;
@@ -26,14 +27,14 @@ export class MessageComponent implements OnDestroy {
   conv: any = JSON.parse(localStorage.getItem('conv') || '{}');
   me = JSON.parse(localStorage.getItem('user') || '{}');
   MoreMessages: boolean = true;
-
+  private members = this.conv.members;
   private messages: any[] = [];
   constructor(
     private messageService: MessageService,
     private convService: ConvService,
     private webSocektService: WebSocketService
   ) {
-    //initial set vus
+    //set conv like seen by me
     this.messageService.setVus().subscribe((res: any) => {});
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
@@ -80,8 +81,10 @@ export class MessageComponent implements OnDestroy {
           this.messages = await msgs;
 
           this.done = true;
+          this.setViewers();
+
           //set viewrs photos
-          this.setPhotosOfViewers();
+          // this.setPhotosOfViewers();
 
           //scroll down
           setTimeout(() => {
@@ -97,12 +100,12 @@ export class MessageComponent implements OnDestroy {
 
       if (idConv == this.conv._id) {
         this.messages.push(realMessage);
-        // set new message like vus
+        // on new message, set the conv like seen by me
         this.messageService.setVus().subscribe((res: any) => {
           //set viewrs photos
-          this.setPhotosOfViewers();
+          // this.setPhotosOfViewers();
         });
-        //scroll down
+        //scroll down, according to msg size (loading time if files ++)
         let timeToWait = 50;
         if (realMessage.files.length > 0) {
           timeToWait *= realMessage.files.length;
@@ -114,12 +117,10 @@ export class MessageComponent implements OnDestroy {
         }
       }
     });
-    //websocket setVus
+    //websocket updating vus
     this.webSocektService.setVus().subscribe(async (data: any) => {
-      let realData = await data;
       if (data.idConv == this.conv._id) {
-        //update User last message seen
-        this.updateViewer(realData.myId);
+        this.updateViewers(data);
       }
     });
     //websocket message deleted
@@ -141,9 +142,34 @@ export class MessageComponent implements OnDestroy {
     //update bottom
     this.updateBottom();
   }
-
+  ngOnInit(): void {
+    this.setViewers();
+  }
+  getMembers() {
+    return this.members;
+  }
+  updateViewers(object: {
+    idConv: string;
+    myId: string; //idUser
+  }) {
+    this.members.map((member: any) => {
+      if (member._id == object.myId) {
+        member.lastMsgSeen = this.messages[this.messages.length - 1];
+      }
+    });
+  }
+  setViewers() {
+    for (let i = 0; i < this.members.length; i++) {
+      const member = this.members[i];
+      for (let i = 0; i < this.messages.length; i++) {
+        const msg = this.messages[i];
+        if (msg.vus.includes(member._id) && member._id != this.me._id) {
+          member.lastMsgSeen = msg;
+        }
+      }
+    }
+  }
   // setThisVus(data: any) {}
-  ngOnDestroy(): void {}
   displayPhoto(file: string) {
     let cadrePhotoDisplayed = document.getElementById(
       'cadrePhotoDisplayed'
@@ -363,40 +389,45 @@ export class MessageComponent implements OnDestroy {
   add0(str: number) {
     return str < 10 ? '0' + str : str;
   }
-  setPhotosOfViewers() {
-    this.messages.map((msg: any) => {
-      msg.lastMsgSeenBy = [];
-    });
-    let res: { member: any; lastMsgSeen: any }[] = [];
-    let members = this.conv.members;
-    for (let i = 0; i < members.length; i++) {
-      const member = members[i];
-      let msgsSeen = this.messages.filter((msg: any) => {
-        return msg.vus.includes(member._id) && member._id != this.me._id;
-      });
-      if (msgsSeen.length > 0)
-        res.push({
-          member: member,
-          lastMsgSeen: msgsSeen[msgsSeen.length - 1],
-        });
-    }
-    for (let i = 0; i < res.length; i++) {
-      const element = res[i];
-      let lasMessageSeen = element.lastMsgSeen;
-      let index = this.messages.indexOf(lasMessageSeen);
-      this.messages[index].lastMsgSeenBy = [];
-      this.messages[index].lastMsgSeenBy.push(element.member);
-    }
-  }
-  updateViewer(id: string) {
-    if (this.messages.length == 0) return;
-    if (this.messages[this.messages.length - 1].lastMsgSeenBy == undefined) {
-      this.messages[this.messages.length - 1].lastMsgSeenBy = [];
-    }
-    this.messages[this.messages.length - 1].vus.push(id);
-    this.setPhotosOfViewers();
-  }
-  canDeleteMsgForAll = false;
+
+  // //set viewrs photos
+  // setPhotosOfViewers() {
+  //   this.messages.map((msg: any) => {
+  //     msg.lastMsgSeenBy = [];
+  //   });
+  //   //TODO:viewvers photos
+  //   let res: { member: any; lastMsgSeen: any }[] = [];
+  //   let members = this.conv.members;
+  //   for (let i = 0; i < members.length; i++) {
+  //     const member = members[i];
+  //     let msgsSeen = this.messages.filter((msg: any) => {
+  //       return msg.vus.includes(member._id) && member._id != this.me._id;
+  //     });
+  //     if (msgsSeen.length > 0)
+  //       res.push({
+  //         member: member,
+  //         lastMsgSeen: msgsSeen[msgsSeen.length - 1],
+  //       });
+  //   }
+  //   for (let i = 0; i < res.length; i++) {
+  //     const element = res[i];
+  //     let lasMessageSeen = element.lastMsgSeen;
+  //     let index = this.messages.indexOf(lasMessageSeen);
+  //     this.messages[index].lastMsgSeenBy = [];
+  //     this.messages[index].lastMsgSeenBy.push(element.member);
+  //   }
+  // }
+  // updateViewer(id: string) {
+  //   if (this.messages.length == 0) return;
+  //   if (this.messages[this.messages.length - 1].lastMsgSeenBy == undefined) {
+  //     this.messages[this.messages.length - 1].lastMsgSeenBy = [];
+  //   }
+  //   //no double
+  //   if (this.messages[this.messages.length - 1].vus.includes(id)) return;
+  //   this.messages[this.messages.length - 1].vus.push(id);
+  //   this.setPhotosOfViewers();
+  //   this.setMessageViewerPaires();
+  // }
   delteOptions(msg: any) {
     if (msg != null && msg.sender._id == this.me._id) {
       this.canDeleteMsgForAll = true;

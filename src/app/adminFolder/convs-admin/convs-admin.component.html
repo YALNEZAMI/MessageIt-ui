@@ -42,7 +42,8 @@
             class="lastMsg"
             *ngIf="
               getLastMessageText(conv) == '' &&
-              getOtherMemberStatus(conv) == 'online'
+              getOtherMemberStatus(conv) == 'online' &&
+              conv.members.length < 3
             "
           >
             online

@@ -105,6 +105,7 @@ export class UserService {
   setTheme() {
     let theme = JSON.parse(localStorage.getItem('user') || '{}').theme;
     let doc = document.documentElement;
+    // TODO: no such elemnt cant style null
     let adminContainer = document.getElementById(
       'adminContainer'
     ) as HTMLElement;

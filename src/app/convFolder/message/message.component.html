@@ -45,7 +45,7 @@
             <span class="sr-only">Loading...</span>
           </div>
           <!--messages-->
-          <h3 *ngIf="getMessages().length == 0" class="center noRes">
+          <h3 *ngIf="getMessages().length == 0 && done" class="center noRes">
             <ins>no messages yet !</ins>
           </h3>
           <div
@@ -53,18 +53,21 @@
             class="chat-box"
             *ngFor="let msg of getMessages()"
           >
-            <div *ngIf="msg.lastMsgSeenBy != undefined">
-              <div
-                style="flex-direction: row-reverse"
-                class="row"
-                *ngFor="let viewerImg of msg.lastMsgSeenBy"
-              >
-                <img
-                  class="img"
-                  style="width: 15px; height: 15px; margin-left: 5px"
-                  src="{{ viewerImg.photo }}"
-                  alt="dsc"
-                />
+            <div style="flex-direction: row-reverse" class="row">
+              <div *ngFor="let member of getMembers()">
+                <div
+                  *ngIf="
+                    member.lastMsgSeen != undefined && member._id != me._id
+                  "
+                >
+                  <img
+                    *ngIf="member.lastMsgSeen._id == msg._id"
+                    class="img"
+                    style="width: 15px; height: 15px; margin-left: 5px"
+                    src="{{ member.photo }}"
+                    alt="dsc"
+                  />
+                </div>
               </div>
             </div>
             <div [ngClass]="getChatClasses(msg)">

@@ -94,13 +94,12 @@ export class ProfileComponent {
       delete this.user.password2;
     }
 
-    let userUpdated: any;
     //set them
     this.user.theme = this.selectedTheme;
 
-    this.userService.updateInfos(this.user).subscribe(async (res: any) => {
-      userUpdated = await res;
+    this.userService.updateInfos(this.user).subscribe((userUpdated: any) => {
       localStorage.setItem('user', JSON.stringify(userUpdated));
+
       this.userService.setTheme();
       this.user = userUpdated;
       this.userService.setNameChanged(
