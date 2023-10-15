@@ -36,4 +36,12 @@ export class WebSocketService {
       });
     });
   }
+  typing(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      // object:{idConv:string,user:any}
+      this.socket.on('typing', (object: any) => {
+        Observer.next(object);
+      });
+    });
+  }
 }

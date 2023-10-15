@@ -68,11 +68,8 @@ export class NotifsComponent {
       case 'chat':
         this.convService.createConv(user._id).subscribe(async (data: any) => {
           try {
-            let realData = await data;
-            realData.photo = await this.getPhoto(realData.photo);
-
-            localStorage.setItem('conv', JSON.stringify(realData));
-
+            let conv = await data;
+            localStorage.setItem('conv', JSON.stringify(conv));
             this.router.navigate(['/conv/messages']);
           } catch (error) {
             console.log(error);
@@ -87,19 +84,6 @@ export class NotifsComponent {
     }
   }
 
-  getPhoto(photo: string) {
-    if (
-      photo == null ||
-      photo == undefined ||
-      photo == '' ||
-      photo == ' ' ||
-      photo == 'user.png'
-    ) {
-      return `${env.api_url}/user/uploads/user.png`;
-    } else {
-      return `${env.api_url}/user/uploads/${photo}`;
-    }
-  }
   getContenuBtn(user: any): void {
     const operation: string = user.operation;
     let btn: any;

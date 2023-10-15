@@ -5,6 +5,9 @@
     <h3 id="name">
       <ins>{{ name }}</ins>
     </h3>
-    <p class="lastConnection">{{ lastConnection }}</p>
+    <p class="lastConnection" *ngIf="!typing">
+      {{ lastConnection }}
+    </p>
+    <div *ngIf="typing">{{ typer.firstName + " " + typer.lastName }} ...</div>
   </div>
 </div>

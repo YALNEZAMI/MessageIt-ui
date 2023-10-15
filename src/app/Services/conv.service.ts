@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { env } from 'src/env';
 
@@ -10,54 +9,53 @@ import { env } from 'src/env';
 export class ConvService {
   uri = env.api_url;
   changeConv: any = new Subject<any>();
-
   constructor(
     private Http: HttpClient // private activatedRoute: ActivatedRoute
   ) {}
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+  getThisConv() {
+    return JSON.parse(localStorage.getItem('conv') || '{}');
+  }
   getConvsByKey(key: string) {
-    let myid = JSON.parse(localStorage.getItem('user') || '{}')._id;
-
-    return this.Http.get(`${this.uri}/conv/search/${key}/${myid}`);
+    return this.Http.get(
+      `${this.uri}/conv/search/${key}/${this.getThisUser()._id}`
+    );
   }
   getConvsSearched(key: string) {
-    let myid: string = '';
-    if (localStorage.getItem('user') != null) {
-      myid = JSON.parse(localStorage.getItem('user') || '{}')._id;
-    }
-    return this.Http.get(`${this.uri}/conv/search/${key}/${myid}`);
+    return this.Http.get(
+      `${this.uri}/conv/search/${key}/${this.getThisUser()._id}`
+    );
   }
   createConv(friend1: any) {
     let data = {};
     if (localStorage.getItem('user') != null) {
       data = {
-        members: [
-          friend1,
-          JSON.parse(localStorage.getItem('user') || '{}')._id,
-        ],
+        members: [friend1, this.getThisUser()._id],
       };
     }
     return this.Http.post(`${this.uri}/conv`, data);
   }
   getConvs() {
-    let myid = 'lckdsklncjnkjfnvdn';
-    myid = JSON.parse(localStorage.getItem('user') || '{}')._id;
-
-    let convs = this.Http.get(`${this.uri}/conv/myConvs/${myid}`);
-    return convs;
+    return this.Http.get(`${this.uri}/conv/myConvs/${this.getThisUser()._id}`);
   }
   getConv(idConv: string) {
     return this.Http.get(`${this.uri}/conv/${idConv}`);
   }
   leaveConv() {
-    let myid = JSON.parse(localStorage.getItem('user') || '{}')._id;
-    let convid = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    //:idUser/:idConv
-    return this.Http.delete(`${this.uri}/conv/leave/${myid}/${convid}`);
+    return this.Http.delete(
+      `${this.uri}/conv/leave/${this.getThisUser()._id}/${
+        this.getThisConv()._id
+      }`
+    );
   }
   getMembers() {
-    let me = JSON.parse(localStorage.getItem('user') || '{}');
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    return this.Http.get(`${this.uri}/conv/members/${idConv}/${me._id}`);
+    return this.Http.get(
+      `${this.uri}/conv/members/${this.getThisConv()._id}/${
+        this.getThisUser()._id
+      }`
+    );
   }
   getConvChanged() {
     return this.changeConv.asObservable();
@@ -71,10 +69,9 @@ export class ConvService {
 
   getStatusClassesForConv(conv: any) {
     let members = conv.members;
-    let myId = JSON.parse(localStorage.getItem('user') || '{}')._id;
     let otherMember = null;
     for (let member of members) {
-      if (member._id != myId && member != null) {
+      if (member._id != this.getThisUser()._id && member != null) {
         otherMember = member;
         break;
       }
@@ -98,19 +95,18 @@ export class ConvService {
     };
   }
   update(conv: any) {
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    return this.Http.patch(`${this.uri}/conv/${idConv}`, conv);
+    return this.Http.patch(`${this.uri}/conv/${this.getThisConv()._id}`, conv);
   }
-  setLastMsg(msg: any) {}
   updatePhoto(file: any) {
     let dataForm = new FormData();
     dataForm.append('file', file);
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    return this.Http.patch(`${this.uri}/conv/photo/${idConv}`, dataForm);
+    return this.Http.patch(
+      `${this.uri}/conv/photo/${this.getThisConv()._id}`,
+      dataForm
+    );
   }
   getEmoji() {
-    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
-    switch (conv.theme) {
+    switch (this.getThisConv().theme) {
       case 'basic':
         return '👍';
         break;
@@ -131,7 +127,7 @@ export class ConvService {
     }
   }
   setTheme() {
-    let theme = JSON.parse(localStorage.getItem('conv') || '{}').theme;
+    let theme = this.getThisConv().theme;
     let doc = document.documentElement;
     let convContainer = document.getElementById('convContainer') as HTMLElement;
     if (theme == undefined) {
@@ -140,14 +136,16 @@ export class ConvService {
 
     switch (theme) {
       case 'basic':
-        convContainer.style.backgroundColor = 'var(--bg-body-color)';
+        if (convContainer)
+          convContainer.style.backgroundColor = 'var(--bg-body-color)';
         // doc.style.setProperty('--bg-color-conv', 'var(--bg-color)');
         // doc.style.setProperty('--font-color-conv', 'var(--font-color)');
         // doc.style.setProperty('--third-color-conv', 'var(--third-color)');
         // doc.style.setProperty('--shadow-color-conv', 'var(--shadow-color)');
         break;
       case 'love':
-        convContainer.style.backgroundColor = 'rgba(255, 0, 0,0.3)';
+        if (convContainer)
+          convContainer.style.backgroundColor = 'rgba(255, 0, 0,0.3)';
         doc.style.setProperty('--bg-color-conv', 'rgb(255, 105, 180)');
         doc.style.setProperty('--font-color-conv', 'white');
         doc.style.setProperty('--third-color-conv', 'black');
@@ -158,8 +156,8 @@ export class ConvService {
 
         break;
       case 'spring':
-        convContainer.style.backgroundColor = 'rgba(0, 255, 0, 0.3)';
-
+        if (convContainer)
+          convContainer.style.backgroundColor = 'rgba(0, 255, 0, 0.3)';
         doc.style.setProperty('--bg-color-conv', 'green');
         doc.style.setProperty('--font-color-conv', 'white');
         doc.style.setProperty('--third-color-conv', 'black');
@@ -170,7 +168,7 @@ export class ConvService {
 
         break;
       case 'panda':
-        convContainer.style.backgroundColor = 'black';
+        if (convContainer) convContainer.style.backgroundColor = 'black';
         doc.style.setProperty('--bg-color-conv', 'black');
         doc.style.setProperty('--font-color-conv', 'white');
         doc.style.setProperty('--third-color-conv', 'gray');
@@ -184,5 +182,11 @@ export class ConvService {
       default:
         break;
     }
+  }
+  typing() {
+    return this.Http.post(`${this.uri}/conv/typing`, {
+      idConv: this.getThisConv()._id,
+      user: this.getThisUser(),
+    });
   }
 }

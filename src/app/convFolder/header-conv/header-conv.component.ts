@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { UserService } from 'src/app/Services/user.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-header-conv',
@@ -8,47 +9,61 @@ import { UserService } from 'src/app/Services/user.service';
   styleUrls: ['./header-conv.component.css'],
 })
 export class HeaderConvComponent {
+  typing: boolean = false;
+  typer: any;
   name: string = '';
   photo: string = '';
   lastConnection: any;
   status: string = '';
-  me: any;
-  conv = JSON.parse(localStorage.getItem('conv') || '{}');
+  me: any = JSON.parse(localStorage.getItem('user') || '{}');
+  private conv: any;
   constructor(
     private convService: ConvService,
-    private userService: UserService
+    private webSocketService: WebSocketService
   ) {
-    this.me = JSON.parse(localStorage.getItem('user') || '{}');
+    //subscribe to typing event
+    this.webSocketService.typing().subscribe((object: any) => {
+      //object: {idConv: string, user: any}
+      if (
+        object.idConv == this.getThisConv()._id &&
+        object.user._id != this.me._id
+      ) {
+        this.typing = true;
+        this.typer = object.user;
+
+        setTimeout(() => {
+          this.typing = false;
+        }, 2000);
+      }
+    });
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
-      this.conv = conv;
+      this.setThisConv(conv);
       this.fillInfo();
     });
     //first filling
     this.fillInfo();
     this.convService.getConvChanged().subscribe((conv: any) => {
-      this.conv = conv;
+      this.setThisConv(conv);
       this.fillInfo();
     });
   }
+  getThisConv() {
+    return JSON.parse(localStorage.getItem('conv') || '{}');
+  }
+  setThisConv(conv: any) {
+    localStorage.setItem('conv', JSON.stringify(conv));
+  }
 
   fillInfo() {
-    this.name = this.conv.name;
-    this.photo = this.conv.photo;
-    if (this.conv.members.length == 2) {
-      let otherUser: any =
-        //  {};
-        // this.userService
-        //   .getById(
-        this.conv.members.filter((member: any) => {
-          return member._id != this.me._id;
-        })[0];
-      // )
-      // .subscribe((user: any) => {
-      //   otherUser = user;
-      // });
-      this.status = otherUser.status;
+    this.name = this.getThisConv().name;
+    this.photo = this.getThisConv().photo;
+    if (this.getThisConv().members.length == 2) {
+      let otherUser: any = this.getThisConv().members.filter((member: any) => {
+        return member._id != this.me._id;
+      })[0];
 
+      this.status = otherUser.status;
       this.lastConnection = new Date(otherUser.lastConnection);
       if (this.status == 'online') {
         this.lastConnection = this.status;

@@ -12,11 +12,11 @@ export class SessionService {
   user: any;
   conv: any;
   constructor(private router: Router, private http: HttpClient) {}
-  getUser() {
-    JSON.parse(localStorage.getItem('user') || '{}');
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
   }
-  getConv() {
-    JSON.parse(localStorage.getItem('conv') || '{}');
+  getThisConv() {
+    return JSON.parse(localStorage.getItem('conv') || '{}');
   }
   setUser(user: any) {
     localStorage.setItem('user', JSON.stringify(user));
@@ -33,17 +33,15 @@ export class SessionService {
     });
   }
   online() {
-    let user = JSON.parse(localStorage.getItem('user') || '{}');
     let userReturned: any = this.http.patch(
-      `${env.api_url}/session/setStatus/${user._id}`,
+      `${env.api_url}/session/setStatus/${this.getThisUser()._id}`,
       { status: 'online' }
     );
     return userReturned;
   }
   offline() {
-    let user = JSON.parse(localStorage.getItem('user') || '{}');
     let userReturned: any = this.http.patch(
-      `${env.api_url}/session/setStatus/${user._id}`,
+      `${env.api_url}/session/setStatus/${this.getThisUser()._id}`,
       { status: 'offline' }
     );
     return userReturned;

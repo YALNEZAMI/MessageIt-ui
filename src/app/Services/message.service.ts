@@ -9,19 +9,21 @@ import { env } from 'src/env';
 export class MessageService {
   searchKey: any = new Subject<any>();
   repToMsg: any = new Subject<any>();
-
   uri = env.api_url;
   constructor(private http: HttpClient) {}
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+  getThisConv() {
+    return JSON.parse(localStorage.getItem('conv') || '{}');
+  }
   findMessageOfConv(idConv: string) {
-    let idUser = JSON.parse(localStorage.getItem('user') || '{}')._id;
-    return this.http.get(`${this.uri}/message/ofConv/${idConv}/${idUser}`);
+    return this.http.get(
+      `${this.uri}/message/ofConv/${idConv}/${this.getThisUser()._id}`
+    );
   }
   send(message: any) {
-    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
-    message.conv = {
-      _id: conv._id,
-      members: conv.members,
-    };
+    message.conv = this.getThisConv();
     //files
     let formData = new FormData();
     for (let i = 0; i <= 10; i++) {
@@ -45,49 +47,51 @@ export class MessageService {
     }
   }
   getMessagesByKey(key: string) {
-    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
     return this.http.get(
-      `${this.uri}/message/search/${key}/${idConv}/${userId}`
+      `${this.uri}/message/search/${key}/${this.getThisConv()._id}/${
+        this.getThisUser()._id
+      }`
     );
   }
   getRange(idConv: string, idMessage: string) {
     return this.http.get(`${this.uri}/message/range/${idConv}/${idMessage}`);
   }
   appendDown(idConv: string, idMessage: string) {
-    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
     return this.http.get(
-      `${this.uri}/message/appendDown/${idConv}/${idMessage}/${userId}`
+      `${this.uri}/message/appendDown/${idConv}/${idMessage}/${
+        this.getThisUser()._id
+      }`
     );
   }
   appendUp(idConv: string, idMessage: string) {
-    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
     return this.http.get(
-      `${this.uri}/message/appendUp/${idConv}/${idMessage}/${userId}`
+      `${this.uri}/message/appendUp/${idConv}/${idMessage}/${
+        this.getThisUser()._id
+      }`
     );
   }
   findSearchedMessagePortion(idConv: string, idMessage: string) {
-    let userId = JSON.parse(localStorage.getItem('user') || '{}')._id;
     return this.http.get(
-      `${this.uri}/message/MessageSearchedGroup/${idConv}/${idMessage}/${userId}`
+      `${this.uri}/message/MessageSearchedGroup/${idConv}/${idMessage}/${
+        this.getThisUser()._id
+      }`
     );
   }
   //set conv like seen by me
   setVus() {
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    let myId = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    let idConv = this.getThisConv()._id;
+    let myId = this.getThisUser()._id;
     return this.http.patch(`${this.uri}/message/set/vus`, { idConv, myId });
   }
   deleteMsgForAll(msg: any) {
-    let myId = JSON.parse(localStorage.getItem('user') || '{}')._id;
+    let myId = this.getThisUser()._id;
     return this.http.delete(`${this.uri}/message/${msg._id}/${myId}`);
   }
   deleteMsgForMe(msg: any) {
     let idMsg_idUser_MemberLength = {
       idMsg: msg._id,
-      idUser: JSON.parse(localStorage.getItem('user') || '{}')._id,
-      memberLength: JSON.parse(localStorage.getItem('conv') || '{}').members
-        .length,
+      idUser: this.getThisUser()._id,
+      memberLength: this.getThisConv().members.length,
     };
     return this.http.patch(
       `${this.uri}/message/delete/ForMe`,
@@ -101,8 +105,10 @@ export class MessageService {
     return this.repToMsg.asObservable();
   }
   getMedias() {
-    let idConv = JSON.parse(localStorage.getItem('conv') || '{}')._id;
-    let idUser = JSON.parse(localStorage.getItem('user') || '{}')._id;
-    return this.http.get(`${this.uri}/message/medias/${idConv}/${idUser}`);
+    return this.http.get(
+      `${this.uri}/message/medias/${this.getThisConv()._id}/${
+        this.getThisUser()._id
+      }`
+    );
   }
 }

@@ -100,6 +100,9 @@ export class InputComponent {
       this.sendButton = true;
     }
   }
+  typing() {
+    this.convService.typing().subscribe((res) => {});
+  }
   fillRep(msg: any) {
     if (msg != null) {
       this.photoRep = msg.sender.photo;

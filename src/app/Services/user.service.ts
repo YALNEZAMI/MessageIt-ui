@@ -19,6 +19,9 @@ export class UserService {
   private nameChangedSubject = new Subject<any>();
 
   constructor(private http: HttpClient) {}
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+  }
 
   getKey(): Observable<any> {
     return this.subject.asObservable();
@@ -44,7 +47,6 @@ export class UserService {
     let res = this.http.get(
       `${this.uri}/user/login/${data.email}/${data.password}`
     );
-
     return res;
   }
   setPhotoLinkForHtml(photo: string) {
@@ -62,13 +64,8 @@ export class UserService {
     }
   }
   getUsersSearched(key: string) {
-    let user: string | null = localStorage.getItem('user');
-    let myid;
-    if (user != null) {
-      myid = JSON.parse(user)._id;
-    }
-    let users = this.http.get(`${this.uri}/user/search/${key}/${myid}`);
-    return users;
+    let myid = this.getThisUser()._id;
+    return this.http.get(`${this.uri}/user/search/${key}/${myid}`);
   }
   uploadConvImg(inputImg: any, id: string) {
     let fd = new FormData();
@@ -103,7 +100,7 @@ export class UserService {
     };
   }
   setTheme() {
-    let theme = JSON.parse(localStorage.getItem('user') || '{}').theme;
+    let theme = this.getThisUser().theme;
     let doc = document.documentElement;
     // TODO: no such elemnt cant style null
     let adminContainer = document.getElementById(
@@ -114,7 +111,8 @@ export class UserService {
     }
     switch (theme) {
       case 'basic':
-        adminContainer.style.backgroundColor = 'var(--bg-body-color)';
+        if (adminContainer)
+          adminContainer.style.backgroundColor = 'var(--bg-body-color)';
         // doc.style.setProperty('--bg-color-admin', 'var(--bg-color)');
         // doc.style.setProperty('--font-color-admin', 'var(--font-color)');
         // doc.style.setProperty('--third-color-admin', 'var(--third-color)');
@@ -122,7 +120,8 @@ export class UserService {
 
         break;
       case 'love':
-        adminContainer.style.backgroundColor = 'rgba(255, 105, 180,0.3)';
+        if (adminContainer)
+          adminContainer.style.backgroundColor = 'rgba(255, 105, 180,0.3)';
         doc.style.setProperty('--bg-color-admin', 'rgb(255, 105, 180)');
         doc.style.setProperty('--font-color-admin', 'white');
         doc.style.setProperty('--third-color-admin', 'black');
@@ -133,7 +132,8 @@ export class UserService {
 
         break;
       case 'spring':
-        adminContainer.style.backgroundColor = 'rgba(0, 255, 0, 0.3)';
+        if (adminContainer)
+          adminContainer.style.backgroundColor = 'rgba(0, 255, 0, 0.3)';
         doc.style.setProperty('--bg-color-admin', 'green');
         doc.style.setProperty('--font-color-admin', 'white');
         doc.style.setProperty('--third-color-admin', 'black');
@@ -144,7 +144,7 @@ export class UserService {
 
         break;
       case 'panda':
-        adminContainer.style.backgroundColor = 'black';
+        if (adminContainer) adminContainer.style.backgroundColor = 'black';
         doc.style.setProperty('--bg-color-admin', 'black');
         doc.style.setProperty('--font-color-admin', 'white');
         doc.style.setProperty('--third-color-admin', 'gray');

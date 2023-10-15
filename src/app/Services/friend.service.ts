@@ -5,14 +5,10 @@ import { env } from 'src/env';
 @Injectable()
 export class FriendService {
   uri = env.api_url;
-  user = localStorage.getItem('user');
-
   constructor(private Http: HttpClient) {}
 
   getMyId() {
-    if (this.user != null) {
-      return JSON.parse(this.user)._id;
-    }
+    return JSON.parse(localStorage.getItem('user') || '{}')._id;
   }
   add(id: string) {
     let body: { sender: string; reciever: string } = {

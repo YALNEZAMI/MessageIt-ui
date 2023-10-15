@@ -390,44 +390,6 @@ export class MessageComponent implements OnInit {
     return str < 10 ? '0' + str : str;
   }
 
-  // //set viewrs photos
-  // setPhotosOfViewers() {
-  //   this.messages.map((msg: any) => {
-  //     msg.lastMsgSeenBy = [];
-  //   });
-  //   //TODO:viewvers photos
-  //   let res: { member: any; lastMsgSeen: any }[] = [];
-  //   let members = this.conv.members;
-  //   for (let i = 0; i < members.length; i++) {
-  //     const member = members[i];
-  //     let msgsSeen = this.messages.filter((msg: any) => {
-  //       return msg.vus.includes(member._id) && member._id != this.me._id;
-  //     });
-  //     if (msgsSeen.length > 0)
-  //       res.push({
-  //         member: member,
-  //         lastMsgSeen: msgsSeen[msgsSeen.length - 1],
-  //       });
-  //   }
-  //   for (let i = 0; i < res.length; i++) {
-  //     const element = res[i];
-  //     let lasMessageSeen = element.lastMsgSeen;
-  //     let index = this.messages.indexOf(lasMessageSeen);
-  //     this.messages[index].lastMsgSeenBy = [];
-  //     this.messages[index].lastMsgSeenBy.push(element.member);
-  //   }
-  // }
-  // updateViewer(id: string) {
-  //   if (this.messages.length == 0) return;
-  //   if (this.messages[this.messages.length - 1].lastMsgSeenBy == undefined) {
-  //     this.messages[this.messages.length - 1].lastMsgSeenBy = [];
-  //   }
-  //   //no double
-  //   if (this.messages[this.messages.length - 1].vus.includes(id)) return;
-  //   this.messages[this.messages.length - 1].vus.push(id);
-  //   this.setPhotosOfViewers();
-  //   this.setMessageViewerPaires();
-  // }
   delteOptions(msg: any) {
     if (msg != null && msg.sender._id == this.me._id) {
       this.canDeleteMsgForAll = true;
