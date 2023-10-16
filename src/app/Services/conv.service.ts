@@ -136,16 +136,18 @@ export class ConvService {
 
     switch (theme) {
       case 'basic':
-        if (convContainer)
+        if (convContainer) {
           convContainer.style.backgroundColor = 'var(--bg-body-color)';
-        // doc.style.setProperty('--bg-color-conv', 'var(--bg-color)');
-        // doc.style.setProperty('--font-color-conv', 'var(--font-color)');
-        // doc.style.setProperty('--third-color-conv', 'var(--third-color)');
-        // doc.style.setProperty('--shadow-color-conv', 'var(--shadow-color)');
+        }
+        doc.style.setProperty('--bg-color-conv', 'var(--bg-color)');
+        doc.style.setProperty('--font-color-conv', 'var(--font-color)');
+        doc.style.setProperty('--third-color-conv', 'var(--third-color)');
+        doc.style.setProperty('--shadow-color-conv', 'var(--shadow-color)');
         break;
       case 'love':
-        if (convContainer)
+        if (convContainer) {
           convContainer.style.backgroundColor = 'rgba(255, 0, 0,0.3)';
+        }
         doc.style.setProperty('--bg-color-conv', 'rgb(255, 105, 180)');
         doc.style.setProperty('--font-color-conv', 'white');
         doc.style.setProperty('--third-color-conv', 'black');
@@ -156,8 +158,9 @@ export class ConvService {
 
         break;
       case 'spring':
-        if (convContainer)
+        if (convContainer) {
           convContainer.style.backgroundColor = 'rgba(0, 255, 0, 0.3)';
+        }
         doc.style.setProperty('--bg-color-conv', 'green');
         doc.style.setProperty('--font-color-conv', 'white');
         doc.style.setProperty('--third-color-conv', 'black');
@@ -168,7 +171,9 @@ export class ConvService {
 
         break;
       case 'panda':
-        if (convContainer) convContainer.style.backgroundColor = 'black';
+        if (convContainer) {
+          convContainer.style.backgroundColor = 'black';
+        }
         doc.style.setProperty('--bg-color-conv', 'black');
         doc.style.setProperty('--font-color-conv', 'white');
         doc.style.setProperty('--third-color-conv', 'gray');

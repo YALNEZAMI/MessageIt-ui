@@ -101,8 +101,8 @@ export class UserService {
   }
   setTheme() {
     let theme = this.getThisUser().theme;
+
     let doc = document.documentElement;
-    // TODO: no such elemnt cant style null
     let adminContainer = document.getElementById(
       'adminContainer'
     ) as HTMLElement;
@@ -111,17 +111,19 @@ export class UserService {
     }
     switch (theme) {
       case 'basic':
-        if (adminContainer)
+        if (adminContainer) {
           adminContainer.style.backgroundColor = 'var(--bg-body-color)';
-        // doc.style.setProperty('--bg-color-admin', 'var(--bg-color)');
-        // doc.style.setProperty('--font-color-admin', 'var(--font-color)');
-        // doc.style.setProperty('--third-color-admin', 'var(--third-color)');
-        // doc.style.setProperty('--shadow-color-admin', 'var(--shadow-color)');
+        }
+        doc.style.setProperty('--bg-color-admin', 'var(--bg-color)');
+        doc.style.setProperty('--font-color-admin', 'var(--font-color)');
+        doc.style.setProperty('--third-color-admin', 'var(--third-color)');
+        doc.style.setProperty('--shadow-color-admin', 'var(--shadow-color)');
 
         break;
       case 'love':
-        if (adminContainer)
+        if (adminContainer) {
           adminContainer.style.backgroundColor = 'rgba(255, 105, 180,0.3)';
+        }
         doc.style.setProperty('--bg-color-admin', 'rgb(255, 105, 180)');
         doc.style.setProperty('--font-color-admin', 'white');
         doc.style.setProperty('--third-color-admin', 'black');
@@ -132,8 +134,9 @@ export class UserService {
 
         break;
       case 'spring':
-        if (adminContainer)
+        if (adminContainer) {
           adminContainer.style.backgroundColor = 'rgba(0, 255, 0, 0.3)';
+        }
         doc.style.setProperty('--bg-color-admin', 'green');
         doc.style.setProperty('--font-color-admin', 'white');
         doc.style.setProperty('--third-color-admin', 'black');
@@ -144,7 +147,9 @@ export class UserService {
 
         break;
       case 'panda':
-        if (adminContainer) adminContainer.style.backgroundColor = 'black';
+        if (adminContainer) {
+          adminContainer.style.backgroundColor = 'black';
+        }
         doc.style.setProperty('--bg-color-admin', 'black');
         doc.style.setProperty('--font-color-admin', 'white');
         doc.style.setProperty('--third-color-admin', 'gray');

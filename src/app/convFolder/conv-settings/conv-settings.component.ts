@@ -8,6 +8,7 @@ import { ConvService } from 'src/app/Services/conv.service';
   styleUrls: ['./conv-settings.component.css'],
 })
 export class ConvSettingsComponent {
+  //TODO:add a member to the group
   conv = JSON.parse(localStorage.getItem('conv') || '{}');
   convInfos: any = {
     photo: this.conv.photo,

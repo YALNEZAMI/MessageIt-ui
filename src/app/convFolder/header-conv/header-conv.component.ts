@@ -30,12 +30,11 @@ export class HeaderConvComponent {
       ) {
         this.typing = true;
         this.typer = object.user;
-
-        setTimeout(() => {
-          this.typing = false;
-        }, 2000);
       }
     });
+    setInterval(() => {
+      this.typing = false;
+    }, 3000);
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
       this.setThisConv(conv);

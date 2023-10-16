@@ -99,7 +99,6 @@ export class ProfileComponent {
 
     this.userService.updateInfos(this.user).subscribe((userUpdated: any) => {
       localStorage.setItem('user', JSON.stringify(userUpdated));
-
       this.userService.setTheme();
       this.user = userUpdated;
       this.userService.setNameChanged(
