@@ -22,4 +22,19 @@
     padding-left: 4%;
    
   }
- 
+  #notif{
+    position: relative;
+  }
+ #nbrNotifs{
+  background-color: var(--font-color-admin);
+  color: var(--bg-color-admin);
+  width: fit-content;
+  height: fit-content;
+  font-size:xx-small;
+  padding: 0px 5px;
+  border-radius: 50%;
+  position: absolute;
+  top: 10%;
+  left: 55%;
+  z-index: 3;
+ }

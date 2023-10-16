@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-notifs',
@@ -18,17 +19,28 @@ export class NotifsComponent {
   constructor(
     private friendService: FriendService,
     private router: Router,
-    private convService: ConvService
+    private convService: ConvService,
+    private webSocketService: WebSocketService
   ) {
     this.friendService.findreqSentToMe().subscribe(async (data: any) => {
       this.addRequests = await data;
-
       this.done = true;
       if (this.addRequests.length == 0) {
         this.noRes = true;
       }
     });
+    this.webSocketService.onAddFriend().subscribe((data: any) => {
+      if (data.reciever._id == this.getThisUser()._id) {
+        this.addRequests.push(data.sender);
+        this.noRes = false;
+      }
+    });
   }
+  //get current user form local storage
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+  //set next operation after performing one
   setOperation(userId: string, operation: string) {
     for (let i = 0; i < this.addRequests.length; i++) {
       const element = this.addRequests[i];
@@ -37,8 +49,10 @@ export class NotifsComponent {
       }
     }
   }
-
+  //perform an operation
   async operation(user: any) {
+    //decrement the number of notifications
+    this.friendService.setNbrNotifs(this.addRequests.length - 1);
     switch (user.operation) {
       case 'add':
         this.friendService.add(user._id).subscribe((data: any) => {
@@ -83,7 +97,7 @@ export class NotifsComponent {
         break;
     }
   }
-
+  //get the content of the button according to the operation
   getContenuBtn(user: any): void {
     const operation: string = user.operation;
     let btn: any;

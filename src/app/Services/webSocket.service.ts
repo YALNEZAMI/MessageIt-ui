@@ -46,4 +46,20 @@ export class WebSocketService {
       });
     });
   }
+  onAddFriend(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      // object:{idConv:string,user:any}
+      this.socket.on('addFriend', (object: any) => {
+        Observer.next(object);
+      });
+    });
+  }
+  onCancelFriend(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      // object:{idConv:string,user:any}
+      this.socket.on('cancelFriend', (object: any) => {
+        Observer.next(object);
+      });
+    });
+  }
 }
