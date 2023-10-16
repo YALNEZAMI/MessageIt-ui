@@ -1,11 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { env } from 'src/env';
+import { WebSocketService } from './webSocket.service';
 
 @Injectable()
 export class FriendService {
   uri = env.api_url;
-  constructor(private Http: HttpClient) {}
+  constructor(
+    private Http: HttpClient,
+    private webSocketService: WebSocketService
+  ) {}
 
   getMyId() {
     return JSON.parse(localStorage.getItem('user') || '{}')._id;

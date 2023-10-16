@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable, Subject } from 'rxjs';
+// import {  WebSocketSubject } from 'rxjs/webSocket';
+
 import { Message } from '../Interfaces/message.interface';
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,9 @@ export class WebSocketService {
   transferMessegeSent: any = new Subject<any>();
   transferMessegeResponse: any = new Subject<any>();
   searchKey: any = new Subject<any>();
-  constructor(private socket: Socket) {}
+  constructor(
+    private socket: Socket // private websocketSubject: WebSocketSubject<any>
+  ) {}
 
   newMessage(): Observable<Message> {
     return new Observable<Message>((Observer) => {

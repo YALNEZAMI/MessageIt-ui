@@ -1,6 +1,5 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-// import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,7 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent {
+  notifExist = false;
   constructor(private router: Router) {}
+
   goToNotifs() {
     this.router.navigate(['admin/notifs']);
   }
