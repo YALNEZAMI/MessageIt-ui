@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
-import { env } from 'src/env';
 
 @Component({
   selector: 'app-notifs',
@@ -10,6 +9,7 @@ import { env } from 'src/env';
   styleUrls: ['./notifs.component.css'],
 })
 export class NotifsComponent {
+  //TODO: websocket
   me = JSON.parse(localStorage.getItem('user') || '{}');
   addRequests: any[] = [];
   done = false;

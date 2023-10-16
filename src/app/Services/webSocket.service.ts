@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable, Subject } from 'rxjs';
-import { env } from 'src/env';
 import { Message } from '../Interfaces/message.interface';
 @Injectable({
   providedIn: 'root',
@@ -10,7 +9,6 @@ export class WebSocketService {
   transferMessegeSent: any = new Subject<any>();
   transferMessegeResponse: any = new Subject<any>();
   searchKey: any = new Subject<any>();
-  uri = env.api_url;
   constructor(private socket: Socket) {}
 
   newMessage(): Observable<Message> {

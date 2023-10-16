@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./convs-admin.component.css'],
 })
 export class ConvsAdminComponent implements OnDestroy {
+  //TODO: websocket and sort by lastmessage date
   convs: Conv[] = [];
   done = false;
   noRes = false;

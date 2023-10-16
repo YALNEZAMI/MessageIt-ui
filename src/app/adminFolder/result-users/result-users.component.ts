@@ -5,7 +5,6 @@ import { FriendService } from '../../Services/friend.service';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { Subscription } from 'rxjs';
-import { env } from 'src/env';
 
 @Component({
   selector: 'app-result-users',
@@ -13,17 +12,15 @@ import { env } from 'src/env';
   styleUrls: ['./result-users.component.css'],
 })
 export class ResultUsersComponent implements OnDestroy {
-  // keyUser: string = '';
   userOperationType = '';
   noRes = false;
   done: boolean = true;
   key: string = '';
-  // @Output() usersSearched = new EventEmitter<any[]>();
   users: any[] = [];
   keySubscription = new Subscription();
   constructor(
     private userService: UserService,
-    private FriendService: FriendService,
+    private friendService: FriendService,
     private convService: ConvService,
     private router: Router
   ) {
@@ -88,27 +85,27 @@ export class ResultUsersComponent implements OnDestroy {
   async operation(user: any) {
     switch (user.operation) {
       case 'add':
-        this.FriendService.add(user._id).subscribe((data: any) => {
+        this.friendService.add(user._id).subscribe((data: any) => {
           this.setOperation(user._id, 'cancel');
         });
         break;
       case 'remove':
-        this.FriendService.remove(user._id).subscribe((data: any) => {
+        this.friendService.remove(user._id).subscribe((data: any) => {
           this.setOperation(user._id, 'add');
         });
         break;
       case 'cancel':
-        this.FriendService.cancel(user._id).subscribe((data: any) => {
+        this.friendService.cancel(user._id).subscribe((data: any) => {
           this.setOperation(user._id, 'add');
         });
         break;
       case 'refuse':
-        this.FriendService.refuse(user._id).subscribe((data: any) => {
+        this.friendService.refuse(user._id).subscribe((data: any) => {
           this.setOperation(user._id, 'add');
         });
         break;
       case 'accept':
-        this.FriendService.accept(user._id).subscribe((data: any) => {
+        this.friendService.accept(user._id).subscribe((data: any) => {
           this.setOperation(user._id, 'remove');
         });
         break;
