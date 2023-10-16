@@ -55,8 +55,20 @@
           <span [ngClass]="getStatusClasses(conv)"></span>
         </div>
         <p class="name-time">
-          <span class="name">{{ conv.name }} </span><br />
-          <span>{{ getShortText(conv) }} {{ hour(conv) }}</span>
+          <span
+            [ngClass]="{
+              lastMsg: lastMsgIsSeen(conv),
+              lastMsgNotSeen: !lastMsgIsSeen(conv)
+            }"
+            >{{ conv.name }} </span
+          ><br />
+          <span
+            [ngClass]="{
+              lastMsg: lastMsgIsSeen(conv),
+              lastMsgNotSeen: !lastMsgIsSeen(conv)
+            }"
+            >{{ getShortText(conv) }} {{ hour(conv) }}</span
+          >
         </p>
       </li>
     </ul>

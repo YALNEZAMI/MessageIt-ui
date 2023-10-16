@@ -25,7 +25,6 @@ export class MessageComponent implements OnInit {
   rep: any;
   @ViewChild('chatContainer') chatContainer: ElementRef = new ElementRef('');
   conv: any = JSON.parse(localStorage.getItem('conv') || '{}');
-  me = JSON.parse(localStorage.getItem('user') || '{}');
   MoreMessages: boolean = true;
   private members = this.conv.members;
   private messages: any[] = [];
@@ -47,6 +46,9 @@ export class MessageComponent implements OnInit {
       this.messages = [];
       this.messageService.findMessageOfConv(conv._id).subscribe((msgs: any) => {
         this.messages = msgs;
+        //set conv like seen by me
+        this.messageService.setVus().subscribe((res: any) => {});
+
         setTimeout(() => {
           this.scrollDown();
           this.done = true;
@@ -101,10 +103,7 @@ export class MessageComponent implements OnInit {
       if (idConv == this.conv._id) {
         this.messages.push(realMessage);
         // on new message, set the conv like seen by me
-        this.messageService.setVus().subscribe((res: any) => {
-          //set viewrs photos
-          // this.setPhotosOfViewers();
-        });
+        this.messageService.setVus().subscribe((res: any) => {});
         //scroll down, according to msg size (loading time if files ++)
         let timeToWait = 50;
         if (realMessage.files.length > 0) {
@@ -131,7 +130,10 @@ export class MessageComponent implements OnInit {
           return msg._id != object.idMsg;
         });
       } else {
-        if (object.idUser == this.me._id && object.operation == 'deleteForMe') {
+        if (
+          object.idUser == this.getThisUser()._id &&
+          object.operation == 'deleteForMe'
+        ) {
           this.messages = this.messages.filter((msg) => {
             return msg._id != object.idMsg;
           });
@@ -144,6 +146,9 @@ export class MessageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.setViewers();
+  }
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
   }
   getMembers() {
     return this.members;
@@ -163,7 +168,10 @@ export class MessageComponent implements OnInit {
       const member = this.members[i];
       for (let i = 0; i < this.messages.length; i++) {
         const msg = this.messages[i];
-        if (msg.vus.includes(member._id) && member._id != this.me._id) {
+        if (
+          msg.vus.includes(member._id) &&
+          member._id != this.getThisUser()._id
+        ) {
           member.lastMsgSeen = msg;
         }
       }
@@ -287,8 +295,8 @@ export class MessageComponent implements OnInit {
 
     return {
       row: true,
-      myPhotoSentContainer: idUser == this.me._id,
-      otherPhotoSentContainer: idUser != this.me._id,
+      myPhotoSentContainer: idUser == this.getThisUser()._id,
+      otherPhotoSentContainer: idUser != this.getThisUser()._id,
     };
   }
   getChatClasses(msg: any) {
@@ -296,9 +304,9 @@ export class MessageComponent implements OnInit {
 
     let firstRes = {
       emoji: false,
-      right: idUser == this.me._id,
-      'chat-right': idUser == this.me._id,
-      'chat-left': idUser != this.me._id,
+      right: idUser == this.getThisUser()._id,
+      'chat-right': idUser == this.getThisUser()._id,
+      'chat-left': idUser != this.getThisUser()._id,
     };
 
     return firstRes;
@@ -391,7 +399,7 @@ export class MessageComponent implements OnInit {
   }
 
   delteOptions(msg: any) {
-    if (msg != null && msg.sender._id == this.me._id) {
+    if (msg != null && msg.sender._id == this.getThisUser()._id) {
       this.canDeleteMsgForAll = true;
     }
 
@@ -419,7 +427,7 @@ export class MessageComponent implements OnInit {
   //rep
   getRepClasses(msg: any) {
     let idSender = msg.sender._id;
-    let myid = this.me._id;
+    let myid = this.getThisUser()._id;
     return {
       bi: true,
       'bi-box-arrow-in-down-left': idSender == myid,
@@ -429,7 +437,7 @@ export class MessageComponent implements OnInit {
   }
   getSettingsAndRepClasses(msg: any) {
     let idSender = msg.sender._id;
-    let myid = this.me._id;
+    let myid = this.getThisUser()._id;
     return {
       row: true,
       marginRightSettingAndRep: idSender == myid,
@@ -445,8 +453,8 @@ export class MessageComponent implements OnInit {
   getRepOfMsgsClasses(msg: any) {
     return {
       row: true,
-      repRight: msg.sender._id == this.me._id,
-      repLeft: msg.sender._id != this.me._id,
+      repRight: msg.sender._id == this.getThisUser()._id,
+      repLeft: msg.sender._id != this.getThisUser()._id,
     };
   }
 }

@@ -82,6 +82,8 @@ export class NotifsComponent {
         this.convService.createConv(user._id).subscribe(async (data: any) => {
           try {
             let conv = await data;
+            console.log(conv);
+
             localStorage.setItem('conv', JSON.stringify(conv));
             this.router.navigate(['/conv/messages']);
           } catch (error) {

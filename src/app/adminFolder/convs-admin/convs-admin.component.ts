@@ -1,41 +1,62 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { Conv } from '../../Interfaces/conv.interface';
 import { Router } from '@angular/router';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-convs-admin',
   templateUrl: './convs-admin.component.html',
   styleUrls: ['./convs-admin.component.css'],
 })
-export class ConvsAdminComponent implements OnDestroy {
+export class ConvsAdminComponent implements OnInit {
   //TODO: websocket and sort by lastmessage date
   convs: Conv[] = [];
   done = false;
   noRes = false;
-  me = JSON.parse(localStorage.getItem('user') || '{}');
   @ViewChild('lastMessage') lastMessage: ElementRef = new ElementRef('');
-  constructor(private convService: ConvService, private router: Router) {
+  constructor(
+    private convService: ConvService,
+    private router: Router,
+    private webSocketService: WebSocketService
+  ) {
     this.convService.getConvs().subscribe(async (data: any) => {
-      let realData = await data;
+      this.convs = await data;
 
-      if (realData.length == 0) {
+      if (this.convs.length == 0) {
         this.noRes = true;
       } else {
         this.noRes = false;
       }
-      this.convs = realData;
       this.done = true;
     });
   }
-  ngOnDestroy(): void {
-    this.convs = [];
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+  setAtTop(id: string) {
+    let convs = this.convs;
+    let conv: any = convs.find((conv: any) => conv._id == id);
+    convs = convs.filter((conv: any) => conv._id != id);
+    convs.unshift(conv);
+    this.convs = convs;
+  }
+  ngOnInit(): void {
+    //set the last message with web socket
+    this.webSocketService.onLastMsg().subscribe((msg: any) => {
+      this.convs.map((conv: any) => {
+        if (conv._id == msg.conv) {
+          conv.lastMessage = msg;
+
+          //resort the convs
+          this.setAtTop(conv._id);
+        }
+      });
+    });
+  }
+  lastMsgIsSeen(conv: any) {
+    let lastMsg = conv.lastMessage;
+    return lastMsg.vus.includes(this.getThisUser()._id);
   }
   getLastMessageHour(conv: Conv) {
     if (conv.lastMessage != null) {
@@ -76,7 +97,7 @@ export class ConvsAdminComponent implements OnDestroy {
   }
   getLastMsgSender(conv: any) {
     if (conv.lastMessage != null) {
-      if (conv.lastMessage.sender._id == this.me._id) {
+      if (conv.lastMessage.sender._id == this.getThisUser()._id) {
         conv.lastMessage.sender.firstName = 'you';
         conv.lastMessage.sender.lastName = '';
         return conv.lastMessage.sender;

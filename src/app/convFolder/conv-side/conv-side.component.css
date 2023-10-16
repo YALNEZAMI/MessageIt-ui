@@ -1,4 +1,11 @@
 
+.lastMsg{
+    font-weight: lighter;
+
+}
+.lastMsgNotSeen{
+    font-weight: bold;
+}
 .btn-info{
     background-color: var(--bg-color-conv);
     color: var(--font-color-conv);

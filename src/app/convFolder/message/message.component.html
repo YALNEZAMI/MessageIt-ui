@@ -57,7 +57,8 @@
               <div *ngFor="let member of getMembers()">
                 <div
                   *ngIf="
-                    member.lastMsgSeen != undefined && member._id != me._id
+                    member.lastMsgSeen != undefined &&
+                    member._id != getThisUser()._id
                   "
                 >
                   <img

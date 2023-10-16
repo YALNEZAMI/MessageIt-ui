@@ -1,24 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { UserService } from 'src/app/Services/user.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-conv-side',
   templateUrl: './conv-side.component.html',
   styleUrls: ['./conv-side.component.css'],
 })
-export class ConvSideComponent {
+export class ConvSideComponent implements OnInit {
   noConvSearched: boolean = false;
   done = false;
   key: string = '';
   spinnerSearchConvs: boolean = false;
   private convs: any[] = [];
 
-  constructor(private convService: ConvService) {
+  constructor(
+    private convService: ConvService,
+    private webSocketService: WebSocketService
+  ) {
     //get other convs on the side
     this.convService.getConvs().subscribe(async (data: any) => {
       this.convs = await data;
       this.done = true;
+    });
+  }
+  getThisConv() {
+    return JSON.parse(localStorage.getItem('conv') || '{}');
+  }
+  setAtTop(id: string) {
+    let convs = this.convs;
+    let conv: any = convs.find((conv: any) => conv._id == id);
+    convs = convs.filter((conv: any) => conv._id != id);
+    convs.unshift(conv);
+    this.convs = convs;
+  }
+  ngOnInit(): void {
+    //set the last message with web socket
+    this.webSocketService.onLastMsg().subscribe((msg: any) => {
+      this.convs.map((conv: any) => {
+        if (conv._id == msg.conv && this.getThisConv()._id != msg.conv) {
+          conv.lastMessage = msg;
+
+          //resort the convs
+          this.setAtTop(conv._id);
+        }
+      });
     });
   }
   search() {
@@ -81,6 +108,9 @@ export class ConvSideComponent {
   //change the conversation
   //empty messages and load the new messages
   goToConv(conv: any) {
+    if (conv.lastMessage != null) {
+      conv.lastMessage.vus.push(this.getThisUser()._id);
+    }
     this.convService.setConvChanged(conv);
   }
   getShortText(conv: any) {
@@ -93,5 +123,12 @@ export class ConvSideComponent {
   }
   getStatusClasses(conv: any) {
     return this.convService.getStatusClassesForConv(conv);
+  }
+  lastMsgIsSeen(conv: any) {
+    let lastMsg = conv.lastMessage;
+    return lastMsg.vus.includes(this.getThisUser()._id);
+  }
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
   }
 }

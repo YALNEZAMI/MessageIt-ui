@@ -13,7 +13,13 @@
         <div class="nameAndLastMsg">
           <h4 class="name">{{ conv.name }}</h4>
 
-          <h6 class="lastMsg" *ngIf="getLastMessageText(conv) != ''">
+          <h6
+            [ngClass]="{
+              lastMsg: lastMsgIsSeen(conv),
+              lastMsgNotSeen: !lastMsgIsSeen(conv)
+            }"
+            *ngIf="getLastMessageText(conv) != ''"
+          >
             {{ getLastMessageText(conv) }}
             at {{ getLastMessageHour(conv) }} by
             {{
@@ -23,7 +29,7 @@
             }}
           </h6>
           <h6
-            class="lastMsg"
+            class="lastConnection"
             *ngIf="
               getLastMessageText(conv) == '' &&
               conv.members.length < 3 &&
@@ -39,7 +45,7 @@
             {{ toLocalString(getOtherMember(conv).lastConnection) }}
           </h6>
           <h6
-            class="lastMsg"
+            class="onLineWord"
             *ngIf="
               getLastMessageText(conv) == '' &&
               getOtherMemberStatus(conv) == 'online' &&
@@ -76,5 +82,5 @@
     <strong>Loading...</strong>
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
-  <h1 class="center" *ngIf="noRes"><ins>No convs yets !</ins></h1>
+  <h1 class="center noRes" *ngIf="noRes"><ins>No convs yets !</ins></h1>
 </div>

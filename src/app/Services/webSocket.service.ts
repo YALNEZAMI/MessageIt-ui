@@ -48,7 +48,6 @@ export class WebSocketService {
   }
   onAddFriend(): Observable<any> {
     return new Observable<any>((Observer) => {
-      // object:{idConv:string,user:any}
       this.socket.on('addFriend', (object: any) => {
         Observer.next(object);
       });
@@ -56,9 +55,15 @@ export class WebSocketService {
   }
   onCancelFriend(): Observable<any> {
     return new Observable<any>((Observer) => {
-      // object:{idConv:string,user:any}
       this.socket.on('cancelFriend', (object: any) => {
         Observer.next(object);
+      });
+    });
+  }
+  onLastMsg(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('lastMsg', (msg: any) => {
+        Observer.next(msg);
       });
     });
   }

@@ -2,6 +2,9 @@
     min-height: 560px;
 
 }
+.noRes{
+    color: var(--third-color-admin);
+}
 .mySpinner{
     color: var(--font-color-admin);
 }
@@ -46,6 +49,22 @@
     height: max-content;
 }
 .lastMsg{
+    margin: 0%;
+    font-size: smaller;
+    color: var(--bg-color-admin);
+}
+.lastMsgNotSeen{
+    margin: 0%;
+    font-size: smaller;
+    font-weight: bold;
+    color: var(--bg-color-admin);
+}
+.lastConnection{
+    margin: 0%;
+    font-size: smaller;
+    color: var(--bg-color-admin);
+}
+.onLineWord{
     margin: 0%;
     font-size: smaller;
     color: var(--bg-color-admin);
