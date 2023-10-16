@@ -10,7 +10,6 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrls: ['./notifs.component.css'],
 })
 export class NotifsComponent {
-  //TODO: websocket
   me = JSON.parse(localStorage.getItem('user') || '{}');
   addRequests: any[] = [];
   done = false;
