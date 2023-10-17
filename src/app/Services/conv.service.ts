@@ -28,14 +28,13 @@ export class ConvService {
       `${this.uri}/conv/search/${key}/${this.getThisUser()._id}`
     );
   }
+  //create a private conversation
   createConv(friend1: any) {
-    let data = {};
-    if (localStorage.getItem('user') != null) {
-      data = {
-        members: [friend1, this.getThisUser()._id],
-      };
-    }
-    return this.Http.post(`${this.uri}/conv`, data);
+    const conv: any = {
+      type: 'private',
+      members: [friend1, this.getThisUser()._id],
+    };
+    return this.Http.post(`${this.uri}/conv`, conv);
   }
   getConvs() {
     return this.Http.get(`${this.uri}/conv/myConvs/${this.getThisUser()._id}`);
@@ -192,6 +191,18 @@ export class ConvService {
     return this.Http.post(`${this.uri}/conv/typing`, {
       idConv: this.getThisConv()._id,
       user: this.getThisUser(),
+    });
+  }
+  removeFromGroupe(idUser: string) {
+    return this.Http.delete(
+      `${this.uri}/conv/removeFromGroupe/${idUser}/${this.getThisUser()._id}/${
+        this.getThisConv()._id
+      }`
+    );
+  }
+  setMembers(members: any) {
+    return this.Http.patch(`${this.uri}/conv/${this.getThisConv()._id}`, {
+      members: members,
     });
   }
 }
