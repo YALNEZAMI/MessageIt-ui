@@ -34,7 +34,6 @@ export class MessageComponent implements OnInit {
     private convService: ConvService,
     private webSocektService: WebSocketService
   ) {
-    //TODO: files rep
     //set conv like seen by me
     this.messageService.setVus().subscribe((res: any) => {});
     //subscribe to change the conversation event
