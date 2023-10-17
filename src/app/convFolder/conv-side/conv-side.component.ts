@@ -24,6 +24,14 @@ export class ConvSideComponent implements OnInit {
       this.convs = await data;
       this.done = true;
     });
+    //subscribe to new convs
+    this.webSocketService.onCreateConv().subscribe((conv: any) => {
+      for (let member of conv.members) {
+        if (member._id == this.getThisUser()._id) {
+          this.convs.unshift(conv);
+        }
+      }
+    });
   }
   getThisConv() {
     return JSON.parse(localStorage.getItem('conv') || '{}');
@@ -83,9 +91,7 @@ export class ConvSideComponent implements OnInit {
         conv._id == JSON.parse(localStorage.getItem('conv') || '{}')._id,
     };
   }
-  getConvs() {
-    return this.convs;
-  }
+
   hour(conv: any): string {
     let msg = conv.lastMessage;
     if (msg == null) {
@@ -144,5 +150,14 @@ export class ConvSideComponent implements OnInit {
   }
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+  getThisConvs() {
+    for (let i = 0; i < this.convs.length; i++) {
+      const conv = this.convs[i];
+      if (conv.members.length == 2) {
+        this.convs[i] = this.convService.setNameAndPhoto(conv);
+      }
+    }
+    return this.convs;
   }
 }

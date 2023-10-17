@@ -16,7 +16,6 @@ export class HeaderConvComponent {
   lastConnection: any;
   status: string = '';
   me: any = JSON.parse(localStorage.getItem('user') || '{}');
-  private conv: any;
   constructor(
     private convService: ConvService,
     private webSocketService: WebSocketService
@@ -48,9 +47,10 @@ export class HeaderConvComponent {
     });
   }
   getThisConv() {
-    return this.convService.setNameAndPhoto(
+    let conv = this.convService.setNameAndPhoto(
       JSON.parse(localStorage.getItem('conv') || '{}')
     );
+    return conv;
   }
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
@@ -76,9 +76,6 @@ export class HeaderConvComponent {
     }
   }
   getStatusClasses() {
-    return {
-      online: this.status == 'online',
-      offline: this.status != 'online',
-    };
+    return this.convService.getStatusClassesForConv(this.getThisConv());
   }
 }

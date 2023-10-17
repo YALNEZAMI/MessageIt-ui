@@ -69,29 +69,17 @@ export class ConvService {
 
   getStatusClassesForConv(conv: any) {
     let members = conv.members;
-    let otherMember = null;
     for (let member of members) {
-      if (member._id != this.getThisUser()._id && member != null) {
-        otherMember = member;
-        break;
+      if (member._id != this.getThisUser()._id && member.status == 'online') {
+        return {
+          status: true,
+          ' online': true,
+        };
       }
-    }
-    if (otherMember == null) {
-      otherMember = { status: 'online' };
-      return {
-        status: true,
-        ' online': otherMember.status == 'online',
-        // ' busy': otherMember.status == 'busy',
-        // ' away': otherMember.status == 'away',
-        ' offline': otherMember.status == 'offline',
-      };
     }
     return {
       status: true,
-      ' online': otherMember.status == 'online',
-      ' busy': otherMember.status == 'busy',
-      ' away': otherMember.status == 'away',
-      ' offline': otherMember.status == 'offline',
+      ' offline': true,
     };
   }
   update(conv: any) {

@@ -44,7 +44,7 @@
 
     <ul class="users">
       <li
-        *ngFor="let conv of getConvs()"
+        *ngFor="let conv of getThisConvs()"
         (click)="goToConv(conv)"
         [ngClass]="getConvSideClasses(conv)"
         class="person"

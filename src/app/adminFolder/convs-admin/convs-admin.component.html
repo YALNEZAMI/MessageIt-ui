@@ -7,10 +7,7 @@
       <div class="row photoAndName" (click)="goToConv(conv)">
         <div>
           <img src="{{ conv.photo }}" alt="convImg" class="imgConv" />
-          <div
-            *ngIf="conv.members.length < 3"
-            [ngClass]="getStatusClasses(conv)"
-          ></div>
+          <div [ngClass]="getStatusClasses(conv)"></div>
         </div>
 
         <div class="nameAndLastMsg">

@@ -121,6 +121,9 @@ export class ConvsAdminComponent implements OnInit {
   }
 
   getStatusClasses(conv: any) {
+    if (conv.name == 'n') {
+      this.convService.getStatusClassesForConv(conv);
+    }
     return this.convService.getStatusClassesForConv(conv);
   }
   getLastMsgSender(conv: any) {
