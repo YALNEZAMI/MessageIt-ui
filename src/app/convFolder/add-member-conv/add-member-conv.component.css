@@ -1,0 +1,88 @@
+.noRes{
+    color: var(--font-color-admin);
+
+}
+.mySpinner{
+    color: var(--font-color-admin);
+}
+#addMemberGlobal{
+    padding-top: 15px;
+}
+.userItem{
+    background-color: var(--font-color-admin);
+    margin: 1%;
+    padding: 5px;
+    height: max-content;
+    border-radius: 10px;
+    color: var(--bg-color-admin);
+    cursor: pointer;
+}
+
+
+@media(min-height:767px){
+    .name{
+        font-size: 10%;
+        width: 47%;
+        margin-bottom: 0%;
+        padding: 1%;
+        font-size: larger;
+        height: max-content;
+        
+    }
+    
+    .img{
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        margin-right: 2%;
+        }
+    .imgAndStatusDiv{
+            width: max-content;
+            padding-top: 3px;
+            /* height: max-content; */
+    }
+}
+@media(max-height:767px){
+    .name{
+        font-size: 5%;
+        width: 40%;
+        margin-bottom: 0%;
+        padding: 1%;
+        font-size: larger;
+        height: max-content;
+        
+    }
+  
+    .img{
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 2%;
+        }
+        .imgAndStatusDiv{
+            width: 70px;
+            padding-top: 3px;
+            /* height: max-content; */
+        }
+}
+.UnselectedDiv{
+padding-top: 10px;
+color: var(--shadow-color-admin);
+height: max-content;
+}
+.selectedDiv{
+    padding-top: 10px;
+    color: var(--bg-color-admin);
+    height: max-content;
+}
+.form{
+    margin: 0px;
+    gap: 5px;
+    padding: 5px 10px;
+}
+#makeGroupeBtn{
+    width: 96%;
+}
+#groupeName{
+    width: 70%;
+}

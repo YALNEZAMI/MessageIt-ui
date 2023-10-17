@@ -39,6 +39,7 @@ import { NotFoundPageComponent } from './indexFolder/not-found-page/not-found-pa
 import { ConvSideComponent } from './convFolder/conv-side/conv-side.component';
 import { SearchResultComponent } from './convFolder/search-result/search-result.component';
 import { GroupeComponent } from './adminFolder/groupe/groupe.component';
+import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-conv.component';
 const config: SocketIoConfig = { url: env.api_url };
 
 @NgModule({
@@ -75,6 +76,7 @@ const config: SocketIoConfig = { url: env.api_url };
     ConvSideComponent,
     SearchResultComponent,
     GroupeComponent,
+    AddMemberConvComponent,
   ],
   imports: [
     BrowserModule,

@@ -225,6 +225,7 @@ export class MembersComponent {
       }
     }
   }
+
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
   }
@@ -235,5 +236,11 @@ export class MembersComponent {
       //remove the user from the list
       document.getElementById(user._id)?.remove();
     });
+  }
+  isGroupe() {
+    return this.getThisConv().type == 'groupe';
+  }
+  goToAddMembers() {
+    this.router.navigate(['/conv/addMembers']);
   }
 }

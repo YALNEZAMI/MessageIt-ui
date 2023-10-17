@@ -200,4 +200,9 @@ export class ConvService {
       }`
     );
   }
+  setMembers(members: any) {
+    return this.Http.patch(`${this.uri}/conv/${this.getThisConv()._id}`, {
+      members: members,
+    });
+  }
 }

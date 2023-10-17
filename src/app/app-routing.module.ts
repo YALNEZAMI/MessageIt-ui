@@ -22,6 +22,7 @@ import { RegetPasswordComponent } from './indexFolder/reget-password/reget-passw
 import { ResetPasswordComponent } from './indexFolder/reset-password/reset-password.component';
 import { NotFoundPageComponent } from './indexFolder/not-found-page/not-found-page.component';
 import { GroupeComponent } from './adminFolder/groupe/groupe.component';
+import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-conv.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -66,6 +67,7 @@ const routes: Routes = [
       { path: 'medias', component: ConvMediasComponent },
       { path: 'settings', component: ConvSettingsComponent },
       { path: 'members', component: MembersComponent },
+      { path: 'addMembers', component: AddMemberConvComponent },
     ],
   },
   { path: '**', component: NotFoundPageComponent },
