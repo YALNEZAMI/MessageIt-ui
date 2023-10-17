@@ -74,6 +74,7 @@
     width: 5%;
     height: max-content;
     font-size: larger;
+    cursor: pointer;
     
 }
 .status{

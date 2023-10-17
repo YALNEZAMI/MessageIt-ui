@@ -136,6 +136,9 @@ export class ConvSideComponent implements OnInit {
     return this.convService.getStatusClassesForConv(conv);
   }
   lastMsgIsSeen(conv: any) {
+    if (conv.lastMessage == null || conv.lastMessage == undefined) {
+      return false;
+    }
     let lastMsg = conv.lastMessage;
     return lastMsg.vus.includes(this.getThisUser()._id);
   }

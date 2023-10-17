@@ -39,7 +39,7 @@ export class MembersComponent {
   therIsSomeMembers() {
     for (let index = 0; index < this.members.length; index++) {
       const member = this.members[index];
-      if (member != null && member._id != this.getMe()._id) {
+      if (member != null && member._id != this.getThisUser()._id) {
         return true;
       }
     }
@@ -50,7 +50,7 @@ export class MembersComponent {
    * @returns the members of the conv except the user
    */
   getThisMembers() {
-    let user = this.getMe();
+    let user = this.getThisUser();
     let res: any[] = [];
     for (let member of this.members) {
       if (member != null) {
@@ -73,7 +73,7 @@ export class MembersComponent {
    *
    * @returns the user from the local storage
    */
-  getMe() {
+  getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
   /**
@@ -203,5 +203,37 @@ export class MembersComponent {
   //get css classes according to the user status (online,offline...)
   getStatusClasses(user: any) {
     return this.userService.getStatusClassesForUser(user);
+  }
+  getThisConv() {
+    return JSON.parse(localStorage.getItem('conv') || '{}');
+  }
+  isAdmin(id: string) {
+    let admins = this.getThisConv().admins;
+    if (!admins) {
+      return false;
+    } else {
+      return admins.includes(id);
+    }
+  }
+  options(user: any) {
+    let div = document.getElementById(user._id + '-options');
+    if (div != null) {
+      if (div.style.display == 'block') {
+        div.style.display = 'none';
+      } else {
+        div.style.display = 'block';
+      }
+    }
+  }
+  setThisConv(conv: any) {
+    localStorage.setItem('conv', JSON.stringify(conv));
+  }
+  removeFromGroupe(user: any) {
+    this.convService.removeFromGroupe(user._id).subscribe((conv: any) => {
+      //update the conv in the local storage
+      this.setThisConv(conv);
+      //remove the user from the list
+      document.getElementById(user._id)?.remove();
+    });
   }
 }

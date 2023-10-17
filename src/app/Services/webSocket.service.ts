@@ -67,4 +67,14 @@ export class WebSocketService {
       });
     });
   }
+  onRemoveFromGroupe(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on(
+        'removeFromGroupe',
+        (object: { idUser: string; idConv: string }) => {
+          Observer.next(object);
+        }
+      );
+    });
+  }
 }

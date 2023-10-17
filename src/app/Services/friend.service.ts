@@ -52,6 +52,11 @@ export class FriendService {
   makeGroupe(conv: any) {
     //add me
     conv.members.push(this.getMyId());
+    //set type
+    conv.type = 'groupe';
+    //set admin
+    conv.admins = [];
+    conv.admins.push(this.getMyId());
     return this.Http.post(`${this.uri}/conv/groupe`, conv);
   }
   setNbrNotifs(nbr: number) {
