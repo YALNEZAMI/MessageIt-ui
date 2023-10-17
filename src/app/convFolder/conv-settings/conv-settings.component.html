@@ -57,7 +57,7 @@
         </option>
       </select>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="isGroupe()">
       <label for="convName">Conversation name</label>
       <input
         [(ngModel)]="convInfos.name"

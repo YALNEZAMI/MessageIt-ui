@@ -48,7 +48,9 @@ export class HeaderConvComponent {
     });
   }
   getThisConv() {
-    return JSON.parse(localStorage.getItem('conv') || '{}');
+    return this.convService.setNameAndPhoto(
+      JSON.parse(localStorage.getItem('conv') || '{}')
+    );
   }
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));

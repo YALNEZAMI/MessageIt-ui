@@ -77,4 +77,11 @@ export class WebSocketService {
       );
     });
   }
+  onCreateConv(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('createConv', (conv: any) => {
+        Observer.next(conv);
+      });
+    });
+  }
 }

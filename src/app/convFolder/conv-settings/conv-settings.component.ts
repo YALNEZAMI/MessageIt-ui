@@ -8,8 +8,6 @@ import { ConvService } from 'src/app/Services/conv.service';
   styleUrls: ['./conv-settings.component.css'],
 })
 export class ConvSettingsComponent {
-  //TODO:add a member to the group
-  //TODO : admin to remove member
   conv = JSON.parse(localStorage.getItem('conv') || '{}');
   convInfos: any = {
     photo: this.conv.photo,
@@ -82,6 +80,10 @@ export class ConvSettingsComponent {
     } else {
       cadrePhoto.style.display = 'block';
     }
+  }
+  isGroupe() {
+    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
+    return conv.type == 'groupe';
   }
   getSelectThemeClasses() {
     return {

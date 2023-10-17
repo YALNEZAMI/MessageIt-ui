@@ -1,5 +1,8 @@
 <div id="globalContainer">
-  <div class="container-fluid convContainer" *ngFor="let conv of convs">
+  <div
+    class="container-fluid convContainer"
+    *ngFor="let conv of getThisConvs()"
+  >
     <div id="{{ conv._id }}" class="conv row">
       <div class="row photoAndName" (click)="goToConv(conv)">
         <div>

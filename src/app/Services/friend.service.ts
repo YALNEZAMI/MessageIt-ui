@@ -57,6 +57,8 @@ export class FriendService {
     //set admin
     conv.admins = [];
     conv.admins.push(this.getMyId());
+    //set createdAt
+    conv.createdAt = new Date();
     return this.Http.post(`${this.uri}/conv/groupe`, conv);
   }
   setNbrNotifs(nbr: number) {

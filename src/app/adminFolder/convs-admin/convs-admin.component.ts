@@ -10,7 +10,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrls: ['./convs-admin.component.css'],
 })
 export class ConvsAdminComponent implements OnInit {
-  convs: Conv[] = [];
+  private convs: Conv[] = [];
   done = false;
   noRes = false;
   @ViewChild('lastMessage') lastMessage: ElementRef = new ElementRef('');
@@ -19,9 +19,17 @@ export class ConvsAdminComponent implements OnInit {
     private router: Router,
     private webSocketService: WebSocketService
   ) {
+    //subscribe to new convs
+    this.webSocketService.onCreateConv().subscribe((conv: any) => {
+      for (let member of conv.members) {
+        if (member._id == this.getThisUser()._id) {
+          this.convs.unshift(conv);
+          this.noRes = false;
+        }
+      }
+    });
     this.convService.getConvs().subscribe(async (data: any) => {
       this.convs = await data;
-
       if (this.convs.length == 0) {
         this.noRes = true;
       } else {
@@ -30,6 +38,16 @@ export class ConvsAdminComponent implements OnInit {
       this.done = true;
     });
   }
+  getThisConvs() {
+    for (let i = 0; i < this.convs.length; i++) {
+      const conv = this.convs[i];
+      if (conv.members.length == 2) {
+        this.convs[i] = this.convService.setNameAndPhoto(conv);
+      }
+    }
+    return this.convs;
+  }
+
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }

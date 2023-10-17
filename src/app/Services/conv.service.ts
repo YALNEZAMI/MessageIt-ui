@@ -33,6 +33,7 @@ export class ConvService {
     const conv: any = {
       type: 'private',
       members: [friend1, this.getThisUser()._id],
+      createdAt: new Date(),
     };
     return this.Http.post(`${this.uri}/conv`, conv);
   }
@@ -204,5 +205,46 @@ export class ConvService {
     return this.Http.patch(`${this.uri}/conv/${this.getThisConv()._id}`, {
       members: members,
     });
+  }
+  getOtherMember(conv: any) {
+    if (conv.members.length != 2) return conv;
+    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (conv.members.length == 1) return conv.members[0];
+    if (conv.members[0]._id == user._id) {
+      return conv.members[1];
+    } else {
+      return conv.members[0];
+    }
+  }
+  setNameAndPhoto(conv: any) {
+    const me = this.getThisUser();
+    let friend = this.getOtherMember(conv);
+    if (conv.members.length == 1) {
+      conv.name = me.firstName + ' ' + me.lastName;
+      conv.photo = me.photo;
+    }
+    if (conv.members.length == 2) {
+      if ((conv.members.length = 2)) {
+        if (conv.members[0]._id == me._id) {
+          if (friend != null) {
+            conv.name = friend.firstName + ' ' + friend.lastName;
+            conv.photo = friend.photo;
+          } else {
+            conv.name = me.firstName + ' ' + me.lastName;
+            conv.photo = me.photo;
+          }
+        } else {
+          if (friend != null) {
+            conv.name = friend.firstName + ' ' + friend.lastName;
+            conv.photo = friend.photo;
+          } else {
+            conv.photo = me.photo;
+            conv.name = me.firstName + ' ' + me.lastName;
+          }
+        }
+      }
+    }
+
+    return conv;
   }
 }
