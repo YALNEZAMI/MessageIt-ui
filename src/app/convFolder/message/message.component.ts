@@ -28,11 +28,13 @@ export class MessageComponent implements OnInit {
   MoreMessages: boolean = true;
   private members = this.conv.members;
   private messages: any[] = [];
+  //TODO: reaction
   constructor(
     private messageService: MessageService,
     private convService: ConvService,
     private webSocektService: WebSocketService
   ) {
+    //TODO: files rep
     //set conv like seen by me
     this.messageService.setVus().subscribe((res: any) => {});
     //subscribe to change the conversation event
@@ -445,9 +447,6 @@ export class MessageComponent implements OnInit {
     };
   }
   setRep(msg: any) {
-    if (msg.text == '') {
-      msg.text = 'files';
-    }
     this.messageService.setRep(msg);
   }
   getRepOfMsgsClasses(msg: any) {

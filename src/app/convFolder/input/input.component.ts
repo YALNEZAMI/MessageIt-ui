@@ -23,8 +23,8 @@ export class InputComponent {
     sender: JSON.parse(localStorage.getItem('user') || '{}')._id,
   };
   sendButton: boolean = false;
-  photoRep: string = 'http://localhost:3000/user/uploads/user.png';
-  textRep: string = 'error';
+  photoRep: string = '';
+  textRep: string = '';
   constructor(
     private messageService: MessageService,
     private convService: ConvService
@@ -104,10 +104,15 @@ export class InputComponent {
     this.convService.typing().subscribe((res) => {});
   }
   fillRep(msg: any) {
+    let rep = document.getElementById('rep') as HTMLElement;
     if (msg != null) {
       this.photoRep = msg.sender.photo;
       this.textRep = msg.text;
-      let rep = document.getElementById('rep') as HTMLElement;
+      if (this.textRep.length > 20) {
+        this.textRep = this.textRep.slice(0, 20) + '...';
+      } else if (this.textRep == '') {
+        this.textRep = 'files';
+      }
       rep.style.display = 'flex';
     }
   }
