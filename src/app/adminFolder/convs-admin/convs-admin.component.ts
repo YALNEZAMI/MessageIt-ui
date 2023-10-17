@@ -46,7 +46,15 @@ export class ConvsAdminComponent implements OnInit {
       this.convs.map((conv: any) => {
         if (conv._id == msg.conv) {
           conv.lastMessage = msg;
-
+          //set last message sender status as online
+          conv.members.map((member: any) => {
+            if (
+              member._id == msg.sender._id &&
+              member._id != this.getThisUser()._id
+            ) {
+              member.status = 'online';
+            }
+          });
           //resort the convs
           this.setAtTop(conv._id);
         }
@@ -71,6 +79,9 @@ export class ConvsAdminComponent implements OnInit {
   }
   getLastMessageText(conv: Conv) {
     if (conv.lastMessage != null) {
+      if (conv.lastMessage.text == '') {
+        conv.lastMessage.text = 'files';
+      }
       if (conv.lastMessage.text.length < 20) return conv.lastMessage.text;
       return conv.lastMessage.text.slice(0, 20) + '...';
     } else {

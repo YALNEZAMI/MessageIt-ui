@@ -65,11 +65,11 @@ app-conv-side{
     width: 45%;
     height:60%;
     cursor: pointer;
+    margin: 3px;
 }
 .myPhotoSentContainer{
     width: 70%;
     gap: 5px;
-    padding-right: 10px;
 }
 .otherPhotoSentContainer{
     gap: 5px;

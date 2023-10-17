@@ -41,7 +41,15 @@ export class ConvSideComponent implements OnInit {
       this.convs.map((conv: any) => {
         if (conv._id == msg.conv && this.getThisConv()._id != msg.conv) {
           conv.lastMessage = msg;
-
+          //set last message sender status as online
+          conv.members.map((member: any) => {
+            if (
+              member._id == msg.sender._id &&
+              member._id != this.getThisUser()._id
+            ) {
+              member.status = 'online';
+            }
+          });
           //resort the convs
           this.setAtTop(conv._id);
         }
@@ -116,9 +124,12 @@ export class ConvSideComponent implements OnInit {
   getShortText(conv: any) {
     let lasMessage = conv.lastMessage;
     if (lasMessage == null) {
-      return '';
+      return 'new conv';
     }
     let text = lasMessage.text;
+    if (text == '') {
+      return (text = 'files');
+    }
     return text.length > 10 ? text.substring(0, 10) + '...' : text;
   }
   getStatusClasses(conv: any) {
