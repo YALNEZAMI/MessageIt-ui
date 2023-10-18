@@ -178,6 +178,7 @@ export class ProfileComponent {
   }
   getThemeClass(theme: string) {
     return {
+      'text-dark': theme != 'panda',
       'bg-light': theme == 'basic',
       'bg-danger': theme == 'love',
       'bg-success': theme == 'spring',

@@ -30,6 +30,9 @@
   height: max-content;
   margin-bottom: 0px;
 }
+.textThirdColor{
+  color: red;
+}
 .awareMessage{
   color: var(--font-color-admin);
 }
