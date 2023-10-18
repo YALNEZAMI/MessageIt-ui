@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-add-member-conv',
@@ -17,7 +18,8 @@ export class AddMemberConvComponent {
   constructor(
     private friendService: FriendService,
     private router: Router,
-    private convService: ConvService
+    private convService: ConvService,
+    private webSocketService: WebSocketService
   ) {
     this.friendService.getFriendsToAdd().subscribe((friends: any) => {
       this.friends = friends;
@@ -26,6 +28,18 @@ export class AddMemberConvComponent {
       }
       this.done = true;
     });
+    //subscribe to add member to groupe event
+    this.webSocketService
+      .onAddMemberToGroupe()
+      .subscribe((convAndNewMembers: any) => {
+        if (convAndNewMembers.conv._id == this.getThisConv()._id) {
+          let newMembers = convAndNewMembers.members;
+          for (let member of newMembers) {
+            this.friends = this.friends.filter((user) => user._id != member);
+            document.getElementById(member)?.remove();
+          }
+        }
+      });
   }
 
   getFriends() {

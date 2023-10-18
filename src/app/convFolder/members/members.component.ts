@@ -51,6 +51,15 @@ export class MembersComponent {
           this.noRes = false;
         }
       });
+    //subscribe to leave conv
+    this.webSocketService
+      .onLeavingConv()
+      .subscribe((convAndLeaver: { conv: any; leaver: any }) => {
+        if (convAndLeaver.conv._id == this.getThisConv()._id) {
+          this.members = convAndLeaver.conv.members;
+          this.noRes = false;
+        }
+      });
   }
 
   /**
