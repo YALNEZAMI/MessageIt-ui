@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/Interfaces/User.interface';
+import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { UserService } from 'src/app/Services/user.service';
 import { env } from 'src/env';
@@ -31,7 +32,8 @@ export class ProfileComponent {
   constructor(
     private router: Router,
     private userService: UserService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private convService: ConvService
   ) {
     if (JSON.parse(localStorage.getItem('user') || '{}').theme != undefined) {
       this.selectedTheme = JSON.parse(
@@ -128,10 +130,12 @@ export class ProfileComponent {
     });
   }
   delete() {
-    this.userService.delete(this.user).subscribe((res) => {
-      localStorage.removeItem('user');
-      localStorage.removeItem('conv');
-      this.router.navigate(['/auth']);
+    this.convService.leaveAllConvs().subscribe((res) => {
+      this.userService.delete(this.user).subscribe((res) => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('conv');
+        this.router.navigate(['/auth']);
+      });
     });
   }
   clickPhoto() {

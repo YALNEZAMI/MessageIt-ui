@@ -239,4 +239,9 @@ export class ConvService {
 
     return conv;
   }
+  leaveAllConvs() {
+    return this.Http.delete(
+      `${this.uri}/conv/leaveAll/${this.getThisUser()._id}`
+    );
+  }
 }
