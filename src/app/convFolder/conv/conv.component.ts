@@ -16,6 +16,7 @@ export class ConvComponent implements OnInit {
     private convService: ConvService,
     private webSocketService: WebSocketService
   ) {
+    //set the user online
     this.sessionService.online().subscribe((data: any) => {});
     if (localStorage.getItem('conv') == null) {
       this.router.navigate(['admin/convs']);
@@ -23,11 +24,11 @@ export class ConvComponent implements OnInit {
     //websocket of delete from groupe
     this.webSocketService
       .onRemoveFromGroupe()
-      .subscribe((object: { idUser: string; idConv: string }) => {
+      .subscribe((object: { idUser: string; conv: any }) => {
         //if the current user is removed from the current conv
         if (
           object.idUser == this.getThisUser()._id &&
-          object.idConv == this.getThisConv()._id
+          object.conv._id == this.getThisConv()._id
         ) {
           //remove the conv from the local storage
           localStorage.removeItem('conv');
@@ -35,6 +36,15 @@ export class ConvComponent implements OnInit {
           this.router.navigate(['admin/convs']);
         }
       });
+    //subscribe to leaving the conv event
+    this.webSocketService.onLeavingConv().subscribe((conv: any) => {
+      if (conv._id == this.getThisConv()._id) {
+        this.setThisConv(conv);
+      }
+    });
+  }
+  setThisConv(conv: any) {
+    localStorage.setItem('conv', JSON.stringify(conv));
   }
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');

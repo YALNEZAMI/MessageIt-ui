@@ -15,7 +15,9 @@ export class WebSocketService {
   constructor(
     private socket: Socket // private websocketSubject: WebSocketSubject<any>
   ) {}
-
+  setThisConv(conv: any) {
+    localStorage.setItem('conv', JSON.stringify(conv));
+  }
   newMessage(): Observable<Message> {
     return new Observable<Message>((Observer) => {
       this.socket.on('newMessage', (message: Message) => {
@@ -72,7 +74,9 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on(
         'removeFromGroupe',
-        (object: { idUser: string; idConv: string }) => {
+        (object: { idUser: string; conv: any }) => {
+          //set the new conv
+          this.setThisConv(object.conv);
           Observer.next(object);
         }
       );
@@ -81,6 +85,9 @@ export class WebSocketService {
   onCreateConv(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('createConv', (conv: any) => {
+        //set the new conv
+        this.setThisConv(conv);
+
         Observer.next(conv);
       });
     });
@@ -88,8 +95,22 @@ export class WebSocketService {
   onAddMemberToGroupe(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('addMemberToGroupe', (convAndNewMembers: any) => {
+        //set the new conv
+        this.setThisConv(convAndNewMembers.conv);
         Observer.next(convAndNewMembers);
       });
+    });
+  }
+  onLeavingConv(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on(
+        'leaveConv',
+        (convAndLeaver: { conv: any; leaver: any }) => {
+          //set the new conv
+          this.setThisConv(convAndLeaver.conv);
+          Observer.next(convAndLeaver);
+        }
+      );
     });
   }
 }

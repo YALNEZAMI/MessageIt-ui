@@ -52,7 +52,6 @@ export class FriendService {
   getFriendsToAdd() {
     let membersIds = [];
     let conv = this.getThisConv();
-    console.log(conv);
 
     for (let member of conv.members) {
       membersIds.push(member._id);

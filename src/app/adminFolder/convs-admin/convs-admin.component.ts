@@ -23,10 +23,6 @@ export class ConvsAdminComponent implements OnInit {
     this.webSocketService
       .onAddMemberToGroupe()
       .subscribe((convAndNewMembers: any) => {
-        console.log('members', convAndNewMembers.members);
-        console.log('myid', this.getThisUser()._id);
-        console.log();
-
         let conv = convAndNewMembers.conv;
         let newMembers = convAndNewMembers.members;
         if (newMembers.includes(this.getThisUser()._id)) {

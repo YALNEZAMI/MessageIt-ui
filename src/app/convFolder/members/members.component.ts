@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
 import { UserService } from 'src/app/Services/user.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-members',
@@ -20,7 +21,8 @@ export class MembersComponent {
     private router: Router,
     private convService: ConvService,
     private friendService: FriendService,
-    private userService: UserService
+    private userService: UserService,
+    private webSocketService: WebSocketService
   ) {
     //retrieve the members of the conv
     this.convService.getMembers().subscribe(async (data: any) => {
@@ -31,7 +33,26 @@ export class MembersComponent {
         this.noRes = true;
       }
     });
+    //subscribe to add member to groupe event
+    this.webSocketService
+      .onAddMemberToGroupe()
+      .subscribe((convAndNewMembers: any) => {
+        if (convAndNewMembers.conv._id == this.getThisConv()._id) {
+          this.members = convAndNewMembers.conv.members;
+          this.noRes = false;
+        }
+      });
+    //subscribe to remove member from groupe event
+    this.webSocketService
+      .onRemoveFromGroupe()
+      .subscribe((obj: { idUser: string; conv: any }) => {
+        if (obj.conv._id == this.getThisConv()._id) {
+          this.members = obj.conv.members;
+          this.noRes = false;
+        }
+      });
   }
+
   /**
    *
    * @returns true if there is some members expept the user in the conv
@@ -51,8 +72,9 @@ export class MembersComponent {
    */
   getThisMembers() {
     let user = this.getThisUser();
+    let members = this.members;
     let res: any[] = [];
-    for (let member of this.members) {
+    for (let member of members) {
       if (member != null) {
         if (member._id != user._id) {
           res.push(member);
