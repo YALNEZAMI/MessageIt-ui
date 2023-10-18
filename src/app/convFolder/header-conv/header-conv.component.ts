@@ -55,7 +55,9 @@ export class HeaderConvComponent {
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
   }
-
+  isGroupe() {
+    return this.getThisConv().type == 'groupe';
+  }
   fillInfo() {
     this.name = this.getThisConv().name;
     this.photo = this.getThisConv().photo;

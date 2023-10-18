@@ -19,6 +19,16 @@ export class ConvSideComponent implements OnInit {
     private convService: ConvService,
     private webSocketService: WebSocketService
   ) {
+    //subscribe to add member to groupe event
+    this.webSocketService
+      .onAddMemberToGroupe()
+      .subscribe((convAndNewMembers: any) => {
+        let conv = convAndNewMembers.conv;
+        let newMembers = convAndNewMembers.members;
+        if (newMembers.includes(this.getThisUser()._id)) {
+          this.convs.unshift(conv);
+        }
+      });
     //get other convs on the side
     this.convService.getConvs().subscribe(async (data: any) => {
       this.convs = await data;

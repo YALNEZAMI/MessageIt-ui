@@ -19,9 +19,8 @@ export class AddMemberConvComponent {
     private router: Router,
     private convService: ConvService
   ) {
-    this.friendService.getMyFriends().subscribe((friends: any) => {
+    this.friendService.getFriendsToAdd().subscribe((friends: any) => {
       this.friends = friends;
-
       if (this.friends.length == 0) {
         this.noRes = true;
       }
@@ -30,12 +29,6 @@ export class AddMemberConvComponent {
   }
 
   getFriends() {
-    this.friends = this.friends.filter((friend: any) => {
-      !this.getThisConv().members.includes(friend._id);
-    });
-    if (this.friends.length == 0) {
-      this.noRes = true;
-    }
     return this.friends;
   }
   getSelectedFriends() {
@@ -49,22 +42,34 @@ export class AddMemberConvComponent {
     }
   }
   addMembers() {
-    this.convService.setMembers(this.getMembers()).subscribe((data: any) => {
-      this.router.navigate(['/conv/members']);
+    let membersIds = this.getNewMembers();
+
+    this.convService.addMembers(membersIds).subscribe((conv: any) => {
+      this.setThisConv(conv);
+      for (let member of conv.members) {
+        this.friends = this.friends.filter((user) => user._id != member._id);
+        document.getElementById(member._id)?.remove();
+      }
+      // this.router.navigate(['/conv/members']);
     });
+  }
+  setThisConv(conv: any) {
+    localStorage.setItem('conv', JSON.stringify(conv));
+  }
+  getThisUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
   }
   getThisConv() {
     return JSON.parse(localStorage.getItem('conv') || '{}');
   }
-  getMembers() {
-    let members: string[] = this.getThisConv().members;
-    let idsArray: string[] = [];
-    members.forEach((member: any) => {
-      idsArray.push(member._id);
-    });
+  getNewMembers() {
+    let setMembers = new Set();
+
     this.selectedFriends.forEach((user) => {
-      idsArray.push(user._id);
+      setMembers.add(user._id);
     });
-    return idsArray;
+
+    let array = Array.from(setMembers);
+    return array;
   }
 }

@@ -8,6 +8,7 @@ import { Message } from '../Interfaces/message.interface';
   providedIn: 'root',
 })
 export class WebSocketService {
+  //TODO: add member event to add conv to added users
   transferMessegeSent: any = new Subject<any>();
   transferMessegeResponse: any = new Subject<any>();
   searchKey: any = new Subject<any>();
@@ -81,6 +82,13 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on('createConv', (conv: any) => {
         Observer.next(conv);
+      });
+    });
+  }
+  onAddMemberToGroupe(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('addMemberToGroupe', (convAndNewMembers: any) => {
+        Observer.next(convAndNewMembers);
       });
     });
   }

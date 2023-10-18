@@ -7,15 +7,16 @@
       id="makeGroupeBtn"
       type="submit"
     >
+      {{ getFriends().length }}
       Add
     </button>
   </form>
 
   <div
-    id="{{ user._id }}"
     class="userItem row"
     *ngFor="let user of getFriends()"
     (click)="selectUser(user)"
+    [id]="user._id"
   >
     <div class="imgAndStatusDiv">
       <img class="img" src="{{ user.photo }}" alt="userPhoto" />
@@ -49,7 +50,10 @@
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
 
-  <div class="center noRes" *ngIf="noRes && done">
+  <div
+    class="center noRes"
+    *ngIf="(noRes && done) || (done && getFriends().length == 0)"
+  >
     <ins>No body to add !</ins>
   </div>
 </div>

@@ -19,6 +19,21 @@ export class ConvsAdminComponent implements OnInit {
     private router: Router,
     private webSocketService: WebSocketService
   ) {
+    //subscribe to add member to groupe event
+    this.webSocketService
+      .onAddMemberToGroupe()
+      .subscribe((convAndNewMembers: any) => {
+        console.log('members', convAndNewMembers.members);
+        console.log('myid', this.getThisUser()._id);
+        console.log();
+
+        let conv = convAndNewMembers.conv;
+        let newMembers = convAndNewMembers.members;
+        if (newMembers.includes(this.getThisUser()._id)) {
+          this.convs.unshift(conv);
+          this.noRes = false;
+        }
+      });
     //subscribe to new convs
     this.webSocketService.onCreateConv().subscribe((conv: any) => {
       for (let member of conv.members) {

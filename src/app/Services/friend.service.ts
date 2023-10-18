@@ -49,6 +49,23 @@ export class FriendService {
     let id = this.getMyId();
     return this.Http.get(`${this.uri}/user/myFriends/${id}`);
   }
+  getFriendsToAdd() {
+    let membersIds = [];
+    let conv = this.getThisConv();
+    console.log(conv);
+
+    for (let member of conv.members) {
+      membersIds.push(member._id);
+    }
+
+    return this.Http.post(
+      `${this.uri}/user/friendsToAdd/${this.getMyId()}`,
+      membersIds
+    );
+  }
+  getThisConv() {
+    return JSON.parse(localStorage.getItem('conv') || '{}');
+  }
   makeGroupe(conv: any) {
     //add me
     conv.members.push(this.getMyId());

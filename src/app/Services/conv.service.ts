@@ -189,10 +189,12 @@ export class ConvService {
       }`
     );
   }
-  setMembers(members: any) {
-    return this.Http.patch(`${this.uri}/conv/${this.getThisConv()._id}`, {
-      members: members,
-    });
+  addMembers(members: any) {
+    return this.Http.patch(
+      `${this.uri}/conv/addMembers/${this.getThisConv()._id}`,
+
+      members
+    );
   }
   getOtherMember(conv: any) {
     if (conv.members.length != 2) return conv;
@@ -205,6 +207,8 @@ export class ConvService {
     }
   }
   setNameAndPhoto(conv: any) {
+    //if groupe reutrn
+    if (conv.type == 'groupe') return conv;
     const me = this.getThisUser();
     let friend = this.getOtherMember(conv);
     if (conv.members.length == 1) {
