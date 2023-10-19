@@ -41,8 +41,8 @@ body{
     text-align: center;
 }
 html{
-    overflow-x: hidden;
-    min-height: 100%;
+    overflow: hidden;
+    
     min-width: 100%;
 }
 .mySpinner{

@@ -148,7 +148,7 @@ export class UserService {
         break;
       case 'panda':
         if (adminContainer) {
-          adminContainer.style.backgroundColor = 'black';
+          adminContainer.style.backgroundColor = 'rgb(61, 71, 73)';
         }
         doc.style.setProperty('--bg-color-admin', 'black');
         doc.style.setProperty('--font-color-admin', 'white');

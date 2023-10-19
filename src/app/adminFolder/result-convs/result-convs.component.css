@@ -1,3 +1,10 @@
+#globalContainer{
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 480px;
+    overflow-y: auto;
+    padding-bottom: 5px;
+}
 .noRes{
     color: var(--font-color-admin);
 

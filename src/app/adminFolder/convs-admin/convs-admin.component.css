@@ -1,5 +1,7 @@
 #globalContainer{
-    min-height: 560px;
+    height: 560px;
+    overflow-y: auto;
+    padding-bottom: 10px;
 
 }
 .noRes{

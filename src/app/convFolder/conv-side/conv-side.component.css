@@ -60,6 +60,7 @@
 #convsMessagesRow{
     width: 100%;
     min-height: 1000px;
+
 }
 .chat-box{
    display: flex;

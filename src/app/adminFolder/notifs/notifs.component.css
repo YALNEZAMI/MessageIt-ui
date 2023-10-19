@@ -1,3 +1,10 @@
+#notifsComponent{
+    padding-left: 5px;
+  padding-right: 5px;
+  height: 560px;
+    overflow-y: auto;
+    padding-bottom: 5px;
+}
 .userItem{
     background-color: black;
     margin: 1%;
