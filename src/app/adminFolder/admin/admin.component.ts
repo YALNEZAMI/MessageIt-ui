@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'src/app/Services/message.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { UserService } from 'src/app/Services/user.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-admin',
@@ -10,9 +12,20 @@ import { UserService } from 'src/app/Services/user.service';
 export class AdminComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
-    private userService: UserService
+    private userService: UserService,
+    private webSocketService: WebSocketService,
+    private messageService: MessageService
   ) {
-    this.sessionService.online().subscribe((data: any) => {});
+    if (localStorage.getItem('user') != null) {
+      this.sessionService.online().subscribe((data: any) => {});
+      this.webSocketService.newMessage().subscribe((message: any) => {
+        //set current user as reciever
+
+        this.messageService.setReciever(message._id).subscribe((data: any) => {
+          console.log(data);
+        });
+      });
+    }
   }
   ngOnInit(): void {
     this.userService.setTheme();

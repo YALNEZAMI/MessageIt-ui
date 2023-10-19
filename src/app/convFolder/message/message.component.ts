@@ -86,9 +86,6 @@ export class MessageComponent implements OnInit {
           this.done = true;
           this.setViewers();
 
-          //set viewrs photos
-          // this.setPhotosOfViewers();
-
           //scroll down
           setTimeout(() => {
             this.scrollDown();
@@ -120,6 +117,8 @@ export class MessageComponent implements OnInit {
     //websocket updating vus
     this.webSocektService.setVus().subscribe(async (data: any) => {
       if (data.idConv == this.conv._id) {
+        console.log(data);
+
         this.updateViewers(data);
       }
     });
@@ -140,6 +139,14 @@ export class MessageComponent implements OnInit {
           });
         }
       }
+    });
+    //subscribe to recieve event
+    this.webSocektService.onRecievedMessage().subscribe((message: any) => {
+      this.messages.map((msg) => {
+        if (msg._id == message._id) {
+          msg.recievedBy = message.recievedBy;
+        }
+      });
     });
 
     //update bottom
@@ -163,10 +170,17 @@ export class MessageComponent implements OnInit {
         member.lastMsgSeen = this.messages[this.messages.length - 1];
       }
     });
+    this.messages.map((msg) => {
+      if (msg.conv == object.idConv && !msg.vus.includes(object.myId)) {
+        msg.vus.push(object.myId);
+      }
+    });
     if (this.isBottom) {
       this.scrollDown();
     }
   }
+
+  //set me as viewer of the conv
   setViewers() {
     for (let i = 0; i < this.members.length; i++) {
       const member = this.members[i];
@@ -457,5 +471,8 @@ export class MessageComponent implements OnInit {
       repRight: msg.sender._id == this.getThisUser()._id,
       repLeft: msg.sender._id != this.getThisUser()._id,
     };
+  }
+  isLastMsg(msg: any) {
+    return msg._id == this.messages[this.messages.length - 1]._id;
   }
 }

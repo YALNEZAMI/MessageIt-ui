@@ -1,6 +1,17 @@
 app-conv-side{
     background-color: var(--font-color-conv);
 }
+.sentMark{
+    color: var(--bg-color-conv);
+}
+.recievedMark{
+    color: var(--bg-color-conv);
+}
+.statusRow{
+    margin: 0px;
+    padding-right: 3px;
+    padding-left: 3px;
+}
 .mySpinner{
     color:var(--bg-color-conv);
 }
@@ -301,7 +312,7 @@ app-conv-side{
 
 .chat-container {
     position: relative;
-    padding: 1rem;
+    padding: 10px;
     padding-top: 25px;
 }
 
@@ -397,7 +408,7 @@ app-conv-side{
     .chat-container div.chat-left,
     .chat-container div.chat-right {
         flex-direction: column;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
     }
     .chat-container div .img {
         width: 32px;

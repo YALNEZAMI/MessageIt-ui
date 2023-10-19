@@ -24,6 +24,8 @@ export class MessageService {
   }
   send(message: any) {
     message.conv = this.getThisConv();
+    //set recievedBy
+    message.recievedBy = [this.getThisUser()._id];
     //files
     let formData = new FormData();
     for (let i = 0; i <= 10; i++) {
@@ -110,5 +112,14 @@ export class MessageService {
         this.getThisUser()._id
       }`
     );
+  }
+  setReciever(idMessage: string) {
+    let idReciever = this.getThisUser()._id;
+
+    let req = this.http.patch(`${this.uri}/message/set/recievedBy`, {
+      idMessage: idMessage,
+      idReciever: idReciever,
+    });
+    return req;
   }
 }

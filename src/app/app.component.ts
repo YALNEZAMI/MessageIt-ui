@@ -1,8 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { env } from 'src/env';
-import { UserService } from './Services/user.service';
 import { SessionService } from './Services/session.service';
 
 @Component({
@@ -13,9 +9,9 @@ import { SessionService } from './Services/session.service';
 export class AppComponent implements OnDestroy {
   title = 'front';
 
-  constructor(private router: Router, private sessionService: SessionService) {
+  constructor(private sessionService: SessionService) {
     if (localStorage.getItem('user') == null) {
-      router.navigate(['auth/login']);
+      this.sessionService.logout();
     }
   }
   ngOnDestroy(): void {}

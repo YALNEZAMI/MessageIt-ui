@@ -113,4 +113,12 @@ export class WebSocketService {
       );
     });
   }
+  onRecievedMessage(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('recievedMessage', (message: any) => {
+        //set the new conv
+        Observer.next(message);
+      });
+    });
+  }
 }
