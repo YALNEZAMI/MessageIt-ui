@@ -4,6 +4,9 @@
     gap: 5px;
     margin: 0px;
     margin-top: 3%;
+    height: 560px;
+    overflow-y: auto;
+    padding-bottom: 5px;
 }
 .media{
     width: 32%;
