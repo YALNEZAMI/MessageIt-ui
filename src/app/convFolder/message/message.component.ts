@@ -163,6 +163,9 @@ export class MessageComponent implements OnInit {
         member.lastMsgSeen = this.messages[this.messages.length - 1];
       }
     });
+    if (this.isBottom) {
+      this.scrollDown();
+    }
   }
   setViewers() {
     for (let i = 0; i < this.members.length; i++) {
