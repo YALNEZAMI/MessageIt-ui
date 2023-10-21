@@ -26,10 +26,16 @@ export class SessionService {
   setConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
   }
+
   async logout() {
     this.offline().subscribe((data: any) => {
-      localStorage.clear();
-      this.router.navigate(['/auth/login']);
+      setTimeout(() => {
+        this.router.navigate(['/auth/login']);
+      }, 500);
+
+      setTimeout(() => {
+        localStorage.clear();
+      }, 1000);
     });
   }
   online() {

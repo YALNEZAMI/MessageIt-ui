@@ -57,7 +57,6 @@ export class ConvSettingsComponent {
       theme: this.selectedTheme,
     };
     this.convService.update(conv).subscribe(async (res: any) => {
-      console.log(res);
       this.convInfos = res;
       this.convInfos.photo = res.photo;
       localStorage.setItem('conv', JSON.stringify(res));

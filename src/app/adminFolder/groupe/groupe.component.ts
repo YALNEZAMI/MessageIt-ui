@@ -22,7 +22,6 @@ export class GroupeComponent {
       this.friends = friends;
 
       if (this.friends.length == 0) {
-        console.log('no friends');
         this.noRes = true;
       }
       this.done = true;

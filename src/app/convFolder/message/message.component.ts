@@ -21,6 +21,7 @@ export class MessageComponent implements OnInit {
   lastMsg: any;
   firstMsg: any;
   msgToDelete: any;
+  thereIsViewvers: boolean = false;
   //msg to reply to
   rep: any;
   @ViewChild('chatContainer') chatContainer: ElementRef = new ElementRef('');
@@ -99,6 +100,8 @@ export class MessageComponent implements OnInit {
       let idConv = realMessage.conv;
 
       if (idConv == this.conv._id) {
+        //set therisViewers to false
+        this.setThereIsViewvers(false);
         this.messages.push(realMessage);
         // on new message, set the conv like seen by me
         this.messageService.setVus().subscribe((res: any) => {});
@@ -114,12 +117,17 @@ export class MessageComponent implements OnInit {
         }
       }
     });
+    //TODO : websocket subscribe for new reaction
     //websocket updating vus
     this.webSocektService.setVus().subscribe(async (data: any) => {
       if (data.idConv == this.conv._id) {
-        console.log(data);
-
         this.updateViewers(data);
+        let idUser = data.myId;
+        if (idUser != this.getThisUser()._id) {
+          //set there is viewers to true
+          this.setThereIsViewvers(true);
+          setTimeout(() => {}, 1000);
+        }
       }
     });
     //websocket message deleted
@@ -178,6 +186,12 @@ export class MessageComponent implements OnInit {
     if (this.isBottom) {
       this.scrollDown();
     }
+  }
+  setThereIsViewvers(bool: boolean) {
+    this.thereIsViewvers = bool;
+  }
+  getThereIsViewvers() {
+    return this.thereIsViewvers;
   }
 
   //set me as viewer of the conv
@@ -434,12 +448,16 @@ export class MessageComponent implements OnInit {
     }
   }
   deleteMsgForAll() {
-    this.messageService
-      .deleteMsgForAll(this.msgToDelete)
-      .subscribe((res) => {});
+    this.messageService.deleteMsgForAll(this.msgToDelete).subscribe((res) => {
+      //update photo viewers
+      this.setViewers();
+    });
   }
   deleteMsgForMe() {
-    this.messageService.deleteMsgForMe(this.msgToDelete).subscribe((res) => {});
+    this.messageService.deleteMsgForMe(this.msgToDelete).subscribe((res) => {
+      //update photo viewers
+      this.setViewers();
+    });
   }
 
   //rep

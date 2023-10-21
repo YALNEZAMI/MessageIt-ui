@@ -58,6 +58,7 @@
               <div
                 class="sentMark"
                 *ngIf="
+                  !getThereIsViewvers() &&
                   msg.sender._id == getThisUser()._id &&
                   isLastMsg(msg) &&
                   msg.recievedBy.length == 1
@@ -83,6 +84,7 @@
               <div
                 class="recievedMark"
                 *ngIf="
+                  !getThereIsViewvers() &&
                   msg.sender._id == getThisUser()._id &&
                   isLastMsg(msg) &&
                   msg.recievedBy.length > 1 &&

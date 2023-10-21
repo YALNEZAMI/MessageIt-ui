@@ -62,13 +62,9 @@ export class SigninComponent {
       this.lanceAlert('Please,use you real email !');
       return;
     } else {
-      console.log('a');
-
       this.spinner = true; //activing spinner during the operation
       //registering
       this.userService.addUser(this.user).subscribe(async (res: any) => {
-        console.log(res);
-
         this.response = res;
         this.success = (await res.status) == 200;
         if (this.success) {

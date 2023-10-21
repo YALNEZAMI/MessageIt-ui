@@ -75,10 +75,11 @@ height: max-content;
 .form{
     margin: 0px;
     gap: 5px;
-    padding: 5px 10px;
+    padding: 5px 5px;
 }
 #makeGroupeBtn{
     width: max-content;
+
 }
 #groupeName{
     width: 70%;

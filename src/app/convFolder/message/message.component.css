@@ -68,8 +68,8 @@ app-conv-side{
 }
 .imgSent{
     border-radius: 5px;
-    width: 45%;
-    height:60%;
+    width: 80px;
+    height:80px;
     cursor: pointer;
     margin: 3px;
 }

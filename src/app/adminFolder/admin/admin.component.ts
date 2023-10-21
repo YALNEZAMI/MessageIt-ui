@@ -20,10 +20,9 @@ export class AdminComponent implements OnInit {
       this.sessionService.online().subscribe((data: any) => {});
       this.webSocketService.newMessage().subscribe((message: any) => {
         //set current user as reciever
-
-        this.messageService.setReciever(message._id).subscribe((data: any) => {
-          console.log(data);
-        });
+        this.messageService
+          .setReciever(message._id)
+          .subscribe((data: any) => {});
       });
     }
   }

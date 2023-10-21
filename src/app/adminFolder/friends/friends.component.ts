@@ -24,7 +24,6 @@ export class FriendsComponent {
       this.users = friends;
 
       if (this.users.length == 0) {
-        console.log('no friends');
         this.noRes = true;
       }
       this.done = true;
