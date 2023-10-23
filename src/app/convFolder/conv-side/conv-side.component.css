@@ -3,6 +3,9 @@
     font-weight: lighter;
 
 }
+.noRes{
+    color: var(--bg-color-conv);
+}
 .lastMsgNotSeen{
     font-weight: bold;
 }
@@ -115,6 +118,7 @@ margin-right: 15px;
     }
 #spinnerSearchConvs{
     margin-left: 5px;
+    color: var(--bg-color-conv);
 }
 ul{    
     background-color: var(--font-color-conv)

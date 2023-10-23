@@ -40,7 +40,9 @@
   </div>
   <div id="fixedUsers" *ngIf="done">
     <!--status:busy offline away-->
-    <h3 *ngIf="noConvSearched" class="center">no result for "{{ key }}"</h3>
+    <h3 *ngIf="noConvSearched" class="center noRes">
+      no result for "{{ key }}"
+    </h3>
 
     <ul class="users">
       <li
