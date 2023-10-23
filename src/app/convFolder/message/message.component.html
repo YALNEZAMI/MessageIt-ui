@@ -227,7 +227,10 @@
                     [id]="msg._id + '-reactionsContainer'"
                   >
                     <div
-                      class="reactionEmojis"
+                      [ngClass]="{
+                        reactionEmojis: true,
+                        reactionSelected: reaction == getMyReaction(msg)
+                      }"
                       *ngFor="let reaction of availablerReactions"
                       (click)="addReaction(msg, reaction)"
                     >

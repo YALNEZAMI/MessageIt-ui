@@ -78,7 +78,7 @@ background-color: var(--font-color-conv);
     gap: 5px;
 }
 .imgReacter{
-    width: 13%;
+    width: 30px;
     height: 30px;
     border-radius: 50%;
 }
@@ -87,6 +87,9 @@ background-color: var(--font-color-conv);
     width: 60%;
     color: var(--bg-color-conv);
     font-size: 80%;
+}
+.reactionSelected{
+    background-color: var(--font-color-conv);
 }
 #reactersCadre{
     display: none;

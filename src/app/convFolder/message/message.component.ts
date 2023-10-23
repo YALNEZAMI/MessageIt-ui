@@ -508,6 +508,16 @@ export class MessageComponent implements OnInit {
   isLastMsg(msg: any) {
     return msg._id == this.messages[this.messages.length - 1]._id;
   }
+  getMyReaction(msg: any) {
+    let reactions = msg.reactions;
+    for (let i = 0; i < reactions.length; i++) {
+      const reaction = reactions[i];
+      if (reaction.user._id == this.getThisUser()._id) {
+        return reaction.type;
+      }
+    }
+    return '';
+  }
   displayReactions(msg: any) {
     let reactionsContainer = document.getElementById(
       msg._id + '-reactionsContainer'
@@ -519,19 +529,16 @@ export class MessageComponent implements OnInit {
     }
   }
   displayReacters(msg: any) {
-    //display the div
     let reacterCadre = document.getElementById('reactersCadre') as HTMLElement;
     if (reacterCadre.style.display == 'block') {
+      //hide the div
       reacterCadre.style.display = 'none';
-      console.log('none');
     } else {
-      console.log(reacterCadre);
-
       //fill infos
       if (msg != null) {
         this.reacters = msg.reactions;
       }
-
+      //display the div
       reacterCadre.style.display = 'block';
     }
   }
