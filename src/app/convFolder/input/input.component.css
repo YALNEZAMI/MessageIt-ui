@@ -53,8 +53,10 @@
 
 }
 #cancelRepBtn{
-    padding:0  3px;
-    height: max-content;
+    color:var(--bg-color-conv);
+    cursor: pointer;
+    /* padding:0  3px; */
+    /* height: max-content; */
 }
 
 @media(min-width:409px){

@@ -18,6 +18,58 @@ app-conv-side{
 .noRes{
     color: var(--bg-color-conv);
 }
+.dateOfMessage{
+    color: var(--bg-color-conv);
+}
+.reactionRow{
+    flex-direction: row-reverse;
+    margin: 0px;
+    padding-right: 1px;
+    padding-left: 1px;
+    gap: 1px;
+    font-size: small;
+}
+.emojisRow{
+    margin: 0px;
+    margin-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+.addReaction{
+    color: var(--bg-color-conv);
+    cursor: pointer;
+
+}
+.allReactions{
+    display: none;
+    background-color: var(--bg-color-conv);
+    border-radius: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 3px;
+    gap: 5px;
+    width: max-content;
+}
+.reactionEmojis{
+    border-radius: 50%;
+    padding: 3px;
+}
+.reactionEmojis:hover{
+background-color: var(--font-color-conv);
+}
+.nbrOfReactions{
+    position: absolute;
+    top: 13px;
+    left: 13px;
+    font-size: 50%;
+    padding: 2px;
+    color: var(--font-color-conv);
+    background-color: var(--shadow-color-conv);
+    border-radius: 20px;
+}
+.reactionTypeAndNbr{
+    position: relative;
+}
 #optionPopupCadre{
     display: none;
     position: fixed;
@@ -219,7 +271,7 @@ app-conv-side{
     background-color: var(--font-color-conv);
 }
 .chat-box{
-   display: flex;
+    display: flex;
     flex-direction:column-reverse;
     height: max-content;
 }
@@ -321,8 +373,9 @@ app-conv-side{
     display: flex;
     flex: 1;
     flex-direction: row;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
 }
+
 
 .chat-container div .img {
     width: 48px;
@@ -384,6 +437,7 @@ app-conv-side{
 }
 
 .chat-container div .chat-hour {
+    color: var(--bg-color-conv);
     padding: 0;
     margin-bottom: 5px;
     font-size: .75rem;
@@ -408,7 +462,7 @@ app-conv-side{
     .chat-container div.chat-left,
     .chat-container div.chat-right {
         flex-direction: column;
-        margin-bottom: 10px;
+        /* margin-bottom: 10px; */
     }
     .chat-container div .img {
         width: 32px;

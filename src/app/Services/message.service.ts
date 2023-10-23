@@ -122,4 +122,12 @@ export class MessageService {
     });
     return req;
   }
+  addReaction(idMessage: string, type: string) {
+    const reaction = {
+      type: type,
+      user: this.getThisUser()._id,
+      message: idMessage,
+    };
+    return this.http.post(`${this.uri}/reaction`, reaction);
+  }
 }

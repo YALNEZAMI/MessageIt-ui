@@ -9,6 +9,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrls: ['./message.component.css'],
 })
 export class MessageComponent implements OnInit {
+  reactions = ['👍', '❤️', '🌸', '🐼'];
   canDeleteMsgForAll = false; //if the user can delete the message for all
   photoDisplayedUrl: string = '';
   messageClicked: string = '';
@@ -29,12 +30,26 @@ export class MessageComponent implements OnInit {
   MoreMessages: boolean = true;
   private members = this.conv.members;
   private messages: any[] = [];
-  //TODO: reaction
   constructor(
     private messageService: MessageService,
     private convService: ConvService,
     private webSocektService: WebSocketService
   ) {
+    //subscribe to reactions
+    this.webSocektService.onReaction().subscribe((reaction: any) => {
+      this.messages.map((msg: any) => {
+        if (msg._id == reaction.message) {
+          msg.reactions.map((reac: any) => {
+            if (reac.user._id == reaction.user) {
+              reac.type = reaction.type;
+            } else {
+              reac = reaction;
+            }
+          });
+        }
+      });
+    });
+
     //set conv like seen by me
     this.messageService.setVus().subscribe((res: any) => {});
     //subscribe to change the conversation event
@@ -117,7 +132,6 @@ export class MessageComponent implements OnInit {
         }
       }
     });
-    //TODO : websocket subscribe for new reaction
     //websocket updating vus
     this.webSocektService.setVus().subscribe(async (data: any) => {
       if (data.idConv == this.conv._id) {
@@ -492,5 +506,40 @@ export class MessageComponent implements OnInit {
   }
   isLastMsg(msg: any) {
     return msg._id == this.messages[this.messages.length - 1]._id;
+  }
+  displayReactions(msg: any) {
+    let reactionsContainer = document.getElementById(
+      msg._id + '-reactionsContainer'
+    ) as HTMLElement;
+    if (reactionsContainer.style.display == 'flex') {
+      reactionsContainer.style.display = 'none';
+    } else {
+      reactionsContainer.style.display = 'flex';
+    }
+  }
+  addReaction(msg: any, reaction: any) {
+    this.displayReactions(msg);
+    this.messageService.addReaction(msg._id, reaction).subscribe((res) => {});
+  }
+  getReactions(msg: any) {
+    let reactions = new Set();
+    for (let i = 0; i < msg.reactions.length; i++) {
+      const reaction = msg.reactions[i];
+      reactions.add(reaction.type);
+    }
+    let res: any[] = Array.from(reactions);
+
+    return res;
+  }
+  getNbrOfReaction(type: string) {
+    let nbr = 0;
+    this.messages.map((msg) => {
+      msg.reactions.map((reaction: any) => {
+        if (reaction.type == type) {
+          nbr++;
+        }
+      });
+    });
+    return nbr;
   }
 }
