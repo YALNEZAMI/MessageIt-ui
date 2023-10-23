@@ -64,7 +64,7 @@ background-color: var(--font-color-conv);
     font-size: 50%;
     padding: 2px;
     color: var(--font-color-conv);
-    background-color: var(--shadow-color-conv);
+    background-color: var(--bg-color-conv);
     border-radius: 20px;
 }
 .reactionTypeAndNbr{
@@ -84,7 +84,7 @@ background-color: var(--font-color-conv);
 }
 .reacterName{
     padding-top: 3px;
-    width: 60%;
+    width: 80%;
     color: var(--bg-color-conv);
     font-size: 80%;
 }
@@ -311,6 +311,7 @@ background-color: var(--font-color-conv);
     background-color: var(--font-color-conv);
 }
 .chat-box{
+    margin-top: 9px;
     display: flex;
     flex-direction:column-reverse;
     height: max-content;

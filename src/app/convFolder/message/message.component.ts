@@ -39,12 +39,16 @@ export class MessageComponent implements OnInit {
     //subscribe to reactions
     this.webSocektService.onReaction().subscribe((reaction: any) => {
       this.messages.map((msg: any) => {
-        if (msg._id == reaction.message) {
+        if (msg._id == reaction.message._id) {
+          if (msg.reactions.length == 0) {
+            msg.reactions.push(reaction);
+            return;
+          }
           msg.reactions.map((reac: any) => {
-            if (reac.user._id == reaction.user) {
+            if (reac.user._id == reaction.user._id) {
               reac.type = reaction.type;
             } else {
-              reac = reaction;
+              msg.reactions.push(reaction);
             }
           });
         }
@@ -544,7 +548,7 @@ export class MessageComponent implements OnInit {
   }
   addReaction(msg: any, reaction: any) {
     this.displayReactions(msg);
-    this.messageService.addReaction(msg._id, reaction).subscribe((res) => {});
+    this.messageService.addReaction(msg, reaction).subscribe((res) => {});
   }
   getReactions(msg: any) {
     let reactions = new Set();

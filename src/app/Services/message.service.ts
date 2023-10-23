@@ -122,11 +122,11 @@ export class MessageService {
     });
     return req;
   }
-  addReaction(idMessage: string, type: string) {
+  addReaction(msg: any, type: string) {
     const reaction = {
       type: type,
-      user: this.getThisUser()._id,
-      message: idMessage,
+      user: this.getThisUser(),
+      message: msg,
     };
     return this.http.post(`${this.uri}/reaction`, reaction);
   }
