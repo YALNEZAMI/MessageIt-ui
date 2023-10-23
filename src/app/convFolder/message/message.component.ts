@@ -38,19 +38,29 @@ export class MessageComponent implements OnInit {
   ) {
     //subscribe to reactions
     this.webSocektService.onReaction().subscribe((reaction: any) => {
+      //if we are in different conv return
+      if (this.convService.getThisConv()._id != reaction.message.conv) return;
       this.messages.map((msg: any) => {
         if (msg._id == reaction.message._id) {
-          if (msg.reactions.length == 0) {
-            msg.reactions.push(reaction);
-            return;
-          }
-          msg.reactions.map((reac: any) => {
-            if (reac.user._id == reaction.user._id) {
-              reac.type = reaction.type;
-            } else {
+          if (reaction.type == 'none') {
+            //delete reaction case
+            msg.reactions = msg.reactions.filter((reac: any) => {
+              return reac.user._id != reaction.user._id;
+            });
+          } else {
+            let add = true;
+            msg.reactions.map((reac: any) => {
+              if (reac.user._id == reaction.user._id) {
+                //update reaction case
+                reac.type = reaction.type;
+                add = false;
+              }
+            });
+            if (add) {
+              //add reaction case
               msg.reactions.push(reaction);
             }
-          });
+          }
         }
       });
     });
