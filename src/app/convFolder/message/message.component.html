@@ -1,4 +1,16 @@
 <div class="main">
+  <div id="reactersCadre" (click)="displayReacters(null)">
+    <div id="reacters" class="col">
+      <div class="reactersDiv row" *ngFor="let reacter of reacters">
+        <img [src]="reacter.user.photo" class="imgReacter" alt="" />
+        <div class="reacterName">
+          {{ reacter.user.firstName }} {{ reacter.user.lastName }}
+        </div>
+        <div>{{ reacter.type }}</div>
+      </div>
+    </div>
+  </div>
+
   <div (click)="displayPhoto('')" id="cadrePhotoDisplayed" class="cadre">
     <img
       id="photoDisplayed"
@@ -216,13 +228,14 @@
                   >
                     <div
                       class="reactionEmojis"
-                      *ngFor="let reaction of reactions"
+                      *ngFor="let reaction of availablerReactions"
                       (click)="addReaction(msg, reaction)"
                     >
                       {{ reaction }}
                     </div>
                   </div>
                   <div
+                    (click)="displayReacters(msg)"
                     class="reactionTypeAndNbr"
                     *ngFor="let reaction of getReactions(msg)"
                   >

@@ -9,7 +9,8 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrls: ['./message.component.css'],
 })
 export class MessageComponent implements OnInit {
-  reactions = ['👍', '❤️', '🌸', '🐼'];
+  availablerReactions = ['👍', '❤️', '🌸', '🐼'];
+  reacters: any[] = [];
   canDeleteMsgForAll = false; //if the user can delete the message for all
   photoDisplayedUrl: string = '';
   messageClicked: string = '';
@@ -515,6 +516,23 @@ export class MessageComponent implements OnInit {
       reactionsContainer.style.display = 'none';
     } else {
       reactionsContainer.style.display = 'flex';
+    }
+  }
+  displayReacters(msg: any) {
+    //display the div
+    let reacterCadre = document.getElementById('reactersCadre') as HTMLElement;
+    if (reacterCadre.style.display == 'block') {
+      reacterCadre.style.display = 'none';
+      console.log('none');
+    } else {
+      console.log(reacterCadre);
+
+      //fill infos
+      if (msg != null) {
+        this.reacters = msg.reactions;
+      }
+
+      reacterCadre.style.display = 'block';
     }
   }
   addReaction(msg: any, reaction: any) {
