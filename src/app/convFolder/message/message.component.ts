@@ -9,7 +9,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrls: ['./message.component.css'],
 })
 export class MessageComponent implements OnInit {
-  availablerReactions = ['👍', '❤️', '🌸', '🐼'];
+  availablerReactions = ['👍', '❤️', '😂', '😯', '😢', '😡'];
   reacters: any[] = [];
   canDeleteMsgForAll = false; //if the user can delete the message for all
   photoDisplayedUrl: string = '';
