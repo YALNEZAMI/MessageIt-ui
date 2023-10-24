@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
 import { UserService } from 'src/app/Services/user.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 import { env } from 'src/env';
 
 @Component({
@@ -18,8 +19,17 @@ export class FriendsComponent {
     private friendService: FriendService,
     private convService: ConvService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private webSocketService: WebSocketService
   ) {
+    //statusChange websocket subscription
+    this.webSocketService.statusChange().subscribe((user: any) => {
+      this.users.map((currentUser: any) => {
+        if (currentUser._id == user._id) {
+          currentUser.status = user.status;
+        }
+      });
+    });
     this.friendService.getMyFriends().subscribe((friends) => {
       this.users = friends;
 

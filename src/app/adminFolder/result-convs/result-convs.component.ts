@@ -4,6 +4,7 @@ import { env } from '../../../env';
 import { UserService } from 'src/app/Services/user.service';
 import { Conv } from 'src/app/Interfaces/conv.interface';
 import { Router } from '@angular/router';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-result-convs',
@@ -18,8 +19,19 @@ export class ResultConvsComponent {
   constructor(
     private convService: ConvService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private webSocketService: WebSocketService
   ) {
+    //statusChange websocket subscription
+    this.webSocketService.statusChange().subscribe((user: any) => {
+      this.convs.map((conv: any) => {
+        conv.members.map((member: any) => {
+          if (member._id == user._id) {
+            member.status = user.status;
+          }
+        });
+      });
+    });
     this.firstSearch();
     this.userService.getKey().subscribe(async (key: any) => {
       this.convs = [];

@@ -21,6 +21,14 @@ export class NotifsComponent {
     private convService: ConvService,
     private webSocketService: WebSocketService
   ) {
+    //statusChange websocket subscription
+    this.webSocketService.statusChange().subscribe((user: any) => {
+      this.addRequests.map((currentUser: any) => {
+        if (currentUser._id == user._id) {
+          currentUser.status = user.status;
+        }
+      });
+    });
     this.friendService.findreqSentToMe().subscribe(async (data: any) => {
       this.addRequests = await data;
       this.done = true;

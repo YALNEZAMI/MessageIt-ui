@@ -65,8 +65,6 @@ export class MessageComponent implements OnInit {
       });
     });
 
-    //set conv like seen by me
-    this.messageService.setVus().subscribe((res: any) => {});
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
       localStorage.removeItem('rangeMessageSearched');
@@ -87,6 +85,9 @@ export class MessageComponent implements OnInit {
         }, 100);
       });
     });
+    //set conv like seen by me
+    this.messageService.setVus().subscribe((res: any) => {});
+
     //if search get seared message and its env else get first 20  messages
     if (localStorage.getItem('idMessage')) {
       this.noMoreDown = false;

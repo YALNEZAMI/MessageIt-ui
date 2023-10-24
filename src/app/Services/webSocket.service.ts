@@ -126,4 +126,13 @@ export class WebSocketService {
       });
     });
   }
+  statusChange(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('statusChange', (user: any) => {
+        //set local storage user
+        localStorage.setItem('user', JSON.stringify(user));
+        Observer.next(user);
+      });
+    });
+  }
 }

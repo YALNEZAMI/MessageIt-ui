@@ -24,6 +24,14 @@ export class MembersComponent {
     private userService: UserService,
     private webSocketService: WebSocketService
   ) {
+    //statusChange websocket subscription
+    this.webSocketService.statusChange().subscribe((user: any) => {
+      this.members.map((member: any) => {
+        if (member._id == user._id) {
+          member.status = user.status;
+        }
+      });
+    });
     //retrieve the members of the conv
     this.convService.getMembers().subscribe(async (data: any) => {
       this.members = await data;

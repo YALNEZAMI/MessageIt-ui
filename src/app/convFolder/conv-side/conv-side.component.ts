@@ -19,6 +19,16 @@ export class ConvSideComponent implements OnInit {
     private convService: ConvService,
     private webSocketService: WebSocketService
   ) {
+    //statusChange websocket subscription
+    this.webSocketService.statusChange().subscribe((user: any) => {
+      this.convs.map((conv: any) => {
+        conv.members.map((member: any) => {
+          if (member._id == user._id) {
+            member.status = user.status;
+          }
+        });
+      });
+    });
     //subscribe to add member to groupe event
     this.webSocketService
       .onAddMemberToGroupe()
