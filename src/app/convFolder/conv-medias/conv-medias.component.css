@@ -9,10 +9,12 @@
     padding-bottom: 5px;
 }
 .media{
-    width: 32%;
+    width: 30vw;
+    height: 33vh;
 
 }
 .img{
+    height: 100%;
     width: 100%;
     cursor: pointer;
 }

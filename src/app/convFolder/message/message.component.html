@@ -194,13 +194,26 @@
                 {{ msg.text }}
               </div>
               <div [ngClass]="getImgSentContainer(msg)">
-                <img
-                  *ngFor="let file of msg.files"
-                  (click)="displayPhoto(file)"
-                  class="imgSent"
-                  src="{{ file }}"
-                  alt=""
-                />
+                <div *ngFor="let file of msg.files">
+                  <img
+                    (click)="displayPhoto(file)"
+                    *ngIf="fileType(file) == 'img'"
+                    class="imgSent"
+                    [src]="file"
+                    alt=""
+                  />
+
+                  <video
+                    class="videoSent"
+                    *ngIf="fileType(file) == 'video'"
+                    controls
+                    [src]="file"
+                    type="video/*"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+
                 <!-- {{ file }} -->
               </div>
               <div class="reactionRow row">

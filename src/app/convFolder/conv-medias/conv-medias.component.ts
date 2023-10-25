@@ -26,4 +26,7 @@ export class ConvMediasComponent {
     localStorage.setItem('idMessage', msg._id);
     this.router.navigate(['/conv/messages']);
   }
+  fileType(file: string) {
+    return this.messageService.fileType(file);
+  }
 }

@@ -584,4 +584,7 @@ export class MessageComponent implements OnInit {
     });
     return nbr;
   }
+  fileType(file: string) {
+    return this.messageService.fileType(file);
+  }
 }

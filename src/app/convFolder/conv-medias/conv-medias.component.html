@@ -1,11 +1,21 @@
 <div id="globalContainer" class="row">
-  <div class="media" *ngFor="let media of medias">
+  <div class="media" *ngFor="let media of medias" (click)="goToMsg(media.msg)">
     <img
-      (click)="goToMsg(media.msg)"
+      *ngIf="fileType(media.file) == 'img'"
       class="img"
-      src="{{ media.file }}"
+      [src]="media.file"
       alt=""
     />
+
+    <video
+      class="img"
+      *ngIf="fileType(media.file) == 'video'"
+      controls
+      [src]="media.file"
+      type="video/*"
+    >
+      Your browser does not support the video tag.
+    </video>
   </div>
   <div *ngIf="!done" class="d-flex align-items-center mySpinner">
     <strong>Loading...</strong>

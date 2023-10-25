@@ -131,4 +131,19 @@ export class MessageService {
     };
     return this.http.post(`${this.uri}/reaction`, reaction);
   }
+  fileType(file: string) {
+    let photo = ['jpg', 'png', 'jpeg', 'gif', 'svg'];
+    let video = ['mp4', 'mkv', 'avi', 'webm'];
+    let audio = ['mp3', 'wav', 'ogg'];
+    let doc = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'];
+    let split = file.split('.');
+    let extension = split[split.length - 1];
+    if (photo.includes(extension)) {
+      return 'img';
+    } else if (video.includes(extension)) {
+      return 'video';
+    } else {
+      return 'not supported';
+    }
+  }
 }
