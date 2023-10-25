@@ -49,11 +49,9 @@ const routes: Routes = [
           { path: 'convs', component: ResultConvsComponent },
         ],
       },
-
       { path: 'notifs', component: NotifsComponent },
       { path: 'friends', component: FriendsComponent },
       { path: 'groupe', component: GroupeComponent },
-
       { path: 'profile', component: ProfileComponent },
     ],
   },

@@ -2,7 +2,11 @@
   <form (ngSubmit)="updateUser()">
     <div id="convImgDiv">
       <div class="logoutDiv row">
-        <button class="btn btn-warning logoutBtn" (click)="logout()">
+        <button
+          type="button"
+          class="btn btn-warning logoutBtn"
+          (click)="logout()"
+        >
           <div *ngIf="logedout" class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
           </div>

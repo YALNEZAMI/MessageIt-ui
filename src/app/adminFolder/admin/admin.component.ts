@@ -16,15 +16,11 @@ export class AdminComponent implements OnInit {
     private webSocketService: WebSocketService,
     private messageService: MessageService
   ) {
-    if (localStorage.getItem('user') != null) {
-      this.sessionService.online().subscribe((data: any) => {});
-      this.webSocketService.newMessage().subscribe((message: any) => {
-        //set current user as reciever
-        this.messageService
-          .setReciever(message._id)
-          .subscribe((data: any) => {});
-      });
-    }
+    this.sessionService.online().subscribe((data: any) => {});
+    this.webSocketService.newMessage().subscribe((message: any) => {
+      //set current user as reciever
+      this.messageService.setReciever(message._id).subscribe((data: any) => {});
+    });
   }
   ngOnInit(): void {
     this.userService.setTheme();

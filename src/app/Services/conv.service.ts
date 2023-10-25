@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { env } from 'src/env';
 
@@ -9,9 +10,16 @@ import { env } from 'src/env';
 export class ConvService {
   uri = env.api_url;
   changeConv: any = new Subject<any>();
-  constructor(
-    private Http: HttpClient // private activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private Http: HttpClient, private router: Router) {
+    //gards
+    if (this.getThisConv() == null) {
+      if (this.getThisUser() == null) {
+        this.router.navigate(['/auth/login']);
+      } else {
+        this.router.navigate(['/admin/convs']);
+      }
+    }
+  }
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }

@@ -35,16 +35,13 @@ export class ProfileComponent {
     private sessionService: SessionService,
     private convService: ConvService
   ) {
-    if (JSON.parse(localStorage.getItem('user') || '{}').theme != undefined) {
-      this.selectedTheme = JSON.parse(
-        localStorage.getItem('user') || '{}'
-      ).theme;
+    this.user = this.sessionService.getThisUser();
+
+    if (this.user.theme != undefined && this.user.theme != '') {
+      this.selectedTheme = this.user.theme;
     } else {
       this.selectedTheme = 'basic';
     }
-    this.selectedTheme =
-      JSON.parse(localStorage.getItem('user') || '{}').theme || 'basic';
-    this.user = JSON.parse(localStorage.getItem('user') || '{}');
   }
   getDifferentStatus() {
     if (this.user.status == 'online') {

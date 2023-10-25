@@ -18,10 +18,10 @@ export class UserService {
   uri = env.api_url;
   private subject = new Subject<any>();
   private nameChangedSubject = new Subject<any>();
-  //TODO guards
   //TODO admin set admin
   //TODO notif in conv [add to group, remove from groupe, change name, change photo,change theme]
   constructor(private http: HttpClient, router: Router) {
+    //guards
     if (this.getThisUser() == null) {
       router.navigate(['/auth/login']);
     }

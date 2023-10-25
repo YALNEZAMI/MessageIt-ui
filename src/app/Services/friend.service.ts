@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { env } from 'src/env';
 import { WebSocketService } from './webSocket.service';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class FriendService {
@@ -10,43 +11,53 @@ export class FriendService {
   nbrNotifChanged: Subject<any> = new Subject<any>();
   constructor(
     private Http: HttpClient,
-    private webSocketService: WebSocketService
-  ) {}
-
-  getMyId() {
-    return JSON.parse(localStorage.getItem('user') || '{}')._id;
+    private webSocketService: WebSocketService,
+    private router: Router
+  ) {
+    if (this.getThisUser() == null) {
+      this.router.navigate(['/auth/login']);
+    }
   }
+  getThisUser() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user;
+  }
+
   add(id: string) {
     let body: { sender: string; reciever: string } = {
-      sender: this.getMyId(),
+      sender: this.getThisUser()._id,
       reciever: id,
     };
     return this.Http.post(`${this.uri}/user/friends`, body);
   }
   remove(id: string) {
-    return this.Http.delete(`${this.uri}/user/friends/${this.getMyId()}/${id}`);
+    return this.Http.delete(
+      `${this.uri}/user/friends/${this.getThisUser()._id}/${id}`
+    );
   }
 
   cancel(id: string) {
     return this.Http.delete(
-      `${this.uri}/user/friends/cancel/${this.getMyId()}/${id}`
+      `${this.uri}/user/friends/cancel/${this.getThisUser()._id}/${id}`
     );
   }
   refuse(id: string) {
     return this.Http.delete(
-      `${this.uri}/user/friends/refuse/${this.getMyId()}/${id}`
+      `${this.uri}/user/friends/refuse/${this.getThisUser()._id}/${id}`
     );
   }
   accept(id: string) {
     return this.Http.delete(
-      `${this.uri}/user/friends/accept/${this.getMyId()}/${id}`
+      `${this.uri}/user/friends/accept/${this.getThisUser()._id}/${id}`
     );
   }
   findreqSentToMe() {
-    return this.Http.get(`${this.uri}/user/findreqSentToMe/${this.getMyId()}`);
+    return this.Http.get(
+      `${this.uri}/user/findreqSentToMe/${this.getThisUser()._id}`
+    );
   }
   getMyFriends() {
-    let id = this.getMyId();
+    let id = this.getThisUser()._id;
     return this.Http.get(`${this.uri}/user/myFriends/${id}`);
   }
   getFriendsToAdd() {
@@ -58,7 +69,7 @@ export class FriendService {
     }
 
     return this.Http.post(
-      `${this.uri}/user/friendsToAdd/${this.getMyId()}`,
+      `${this.uri}/user/friendsToAdd/${this.getThisUser()._id}`,
       membersIds
     );
   }
@@ -67,12 +78,12 @@ export class FriendService {
   }
   makeGroupe(conv: any) {
     //add me
-    conv.members.push(this.getMyId());
+    conv.members.push(this.getThisUser()._id);
     //set type
     conv.type = 'groupe';
     //set admin
     conv.admins = [];
-    conv.admins.push(this.getMyId());
+    conv.admins.push(this.getThisUser()._id);
     //set createdAt
     conv.createdAt = new Date();
     return this.Http.post(`${this.uri}/conv/groupe`, conv);
