@@ -104,7 +104,7 @@ export class MessageComponent implements OnInit {
           setTimeout(() => {
             this.goToMessage(localStorage.getItem('idMessage') || '');
             localStorage.removeItem('idMessage');
-          }, 10);
+          }, 100);
           this.done = true;
           //reinit the idMessage
         });
@@ -299,18 +299,16 @@ export class MessageComponent implements OnInit {
     return 'body';
   }
   goToMessage(id: string) {
-    console.log(id);
-
     let msg = document.getElementById(id);
-    console.log(msg);
 
     if (msg != null) {
       msg.style.background = 'var(--shadow-color)';
 
       setTimeout(() => {
         if (msg) msg.style.background = 'transparent';
-      }, 3000);
+      }, 2000);
       //if no more than 5 messages just scroll down
+
       if (this.messages.length < 5) {
         this.scrollDownSmooth();
         return;
