@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { env } from '../../env';
 import { Observable, Subject } from 'rxjs';
+import { Router } from '@angular/router';
 export interface User {
   _id: string;
   firstName: string;
@@ -17,8 +18,14 @@ export class UserService {
   uri = env.api_url;
   private subject = new Subject<any>();
   private nameChangedSubject = new Subject<any>();
-
-  constructor(private http: HttpClient) {}
+  //TODO guards
+  //TODO admin set admin
+  //TODO notif in conv [add to group, remove from groupe, change name, change photo,change theme]
+  constructor(private http: HttpClient, router: Router) {
+    if (this.getThisUser() == null) {
+      router.navigate(['/auth/login']);
+    }
+  }
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }

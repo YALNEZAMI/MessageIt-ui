@@ -8,6 +8,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css'],
 })
+//TODO locate message after searching
 export class MessageComponent implements OnInit {
   availablerReactions = ['👍', '❤️', '😂', '😯', '😢', '😡'];
   reacters: any[] = [];

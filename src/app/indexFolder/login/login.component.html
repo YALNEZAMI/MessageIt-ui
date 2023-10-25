@@ -35,7 +35,11 @@
       {{ alertMessage }}
     </div>
     <!-- Submit button -->
-    <button type="submit" class="btn loginBtn btn-block mb-4">
+    <button
+      [disabled]="!loginBtn"
+      type="submit"
+      class="btn loginBtn btn-block mb-4"
+    >
       <div *ngIf="loginBtn">Login</div>
       <div *ngIf="!loginBtn" class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
