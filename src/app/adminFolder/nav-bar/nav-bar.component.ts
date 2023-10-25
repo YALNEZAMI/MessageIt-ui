@@ -15,19 +15,21 @@ export class NavBarComponent {
     private friendService: FriendService,
     private webSocketService: WebSocketService
   ) {
-    this.friendService.findreqSentToMe().subscribe(async (data: any) => {
-      this.nbrNotifs = await data.length;
-    });
-    this.webSocketService.onAddFriend().subscribe((data: any) => {
-      if (data.reciever._id == this.getThisUser()._id) this.nbrNotifs++;
-    });
-    this.webSocketService.onCancelFriend().subscribe((data: any) => {
-      if (data.canceled == this.getThisUser()._id) this.nbrNotifs--;
-    });
-    //get the number of notifications after performing an operation in the notif component
-    this.friendService.getNbrNotifs().subscribe((nbr: any) => {
-      this.nbrNotifs = nbr;
-    });
+    if (this.getThisUser() != null) {
+      this.friendService.findreqSentToMe().subscribe(async (data: any) => {
+        this.nbrNotifs = await data.length;
+      });
+      this.webSocketService.onAddFriend().subscribe((data: any) => {
+        if (data.reciever._id == this.getThisUser()._id) this.nbrNotifs++;
+      });
+      this.webSocketService.onCancelFriend().subscribe((data: any) => {
+        if (data.canceled == this.getThisUser()._id) this.nbrNotifs--;
+      });
+      //get the number of notifications after performing an operation in the notif component
+      this.friendService.getNbrNotifs().subscribe((nbr: any) => {
+        this.nbrNotifs = nbr;
+      });
+    }
   }
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
