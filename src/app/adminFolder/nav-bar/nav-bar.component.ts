@@ -16,7 +16,7 @@ export class NavBarComponent {
     private webSocketService: WebSocketService
   ) {
     if (this.getThisUser() != null) {
-      this.friendService.findreqSentToMe().subscribe(async (data: any) => {
+      this.friendService.friendReqSentToMe().subscribe(async (data: any) => {
         this.nbrNotifs = await data.length;
       });
       this.webSocketService.onAddFriend().subscribe((data: any) => {

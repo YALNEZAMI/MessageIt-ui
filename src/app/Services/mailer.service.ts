@@ -6,11 +6,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class MailerService {
-  constructor(private http: HttpClient, private router: Router) {
-    if (this.getThisUser() == null) {
-      this.router.navigate(['/auth/login']);
-    }
-  }
+  constructor(private http: HttpClient, private router: Router) {}
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }

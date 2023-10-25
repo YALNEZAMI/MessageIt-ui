@@ -13,11 +13,7 @@ export class FriendService {
     private Http: HttpClient,
     private webSocketService: WebSocketService,
     private router: Router
-  ) {
-    if (this.getThisUser() == null) {
-      this.router.navigate(['/auth/login']);
-    }
-  }
+  ) {}
   getThisUser() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     return user;
@@ -51,10 +47,12 @@ export class FriendService {
       `${this.uri}/user/friends/accept/${this.getThisUser()._id}/${id}`
     );
   }
-  findreqSentToMe() {
-    return this.Http.get(
-      `${this.uri}/user/findreqSentToMe/${this.getThisUser()._id}`
-    );
+  friendReqSentToMe(): any {
+    if (localStorage.getItem('user') != null) {
+      return this.Http.get(
+        `${this.uri}/user/findreqSentToMe/${this.getThisUser()._id}`
+      );
+    }
   }
   getMyFriends() {
     let id = this.getThisUser()._id;

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class IndexContentComponent {
   constructor(private router: Router) {
-    if (this.getThisUser() != null) {
+    if (localStorage.getItem('user') != null) {
       this.router.navigate(['/admin/convs']);
     }
   }

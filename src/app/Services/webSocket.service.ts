@@ -133,4 +133,25 @@ export class WebSocketService {
       });
     });
   }
+  upgardingToAdmin(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('upgardingToAdmin', (bodyReq: any) => {
+        //set the new conv
+        console.log(bodyReq);
+        this.setThisConv(bodyReq.conv);
+        Observer.next(bodyReq);
+      });
+    });
+  }
+  downgardingToAdmin(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('downgardingAdmin', (bodyReq: any) => {
+        //set the new conv
+        console.log(bodyReq);
+
+        this.setThisConv(bodyReq.conv);
+        Observer.next(bodyReq);
+      });
+    });
+  }
 }

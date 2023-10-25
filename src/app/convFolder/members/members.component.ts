@@ -24,7 +24,11 @@ export class MembersComponent {
     private userService: UserService,
     private webSocketService: WebSocketService
   ) {
-    //statusChange websocket subscription
+    //subscribe to upgrade
+    this.webSocketService.upgardingToAdmin().subscribe((reqBody: any) => {});
+    //subscribe to upgrade
+    this.webSocketService.downgardingToAdmin().subscribe((reqBody: any) => {});
+    //status change websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {
       this.members.map((member: any) => {
         if (member._id == user._id) {
@@ -281,5 +285,14 @@ export class MembersComponent {
   }
   goToAddMembers() {
     this.router.navigate(['/conv/addMembers']);
+  }
+  upgradeToAdmin(user: any) {
+    this.convService.upgradeToAdmine(user).subscribe((conv: any) => {
+      //update the conv in the local storage
+      this.setThisConv(conv);
+    });
+  }
+  downgradeToAdmin(user: any) {
+    this.convService.downgradeToAdmin(user).subscribe((conv: any) => {});
   }
 }

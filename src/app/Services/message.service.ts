@@ -11,15 +11,7 @@ export class MessageService {
   searchKey: any = new Subject<any>();
   repToMsg: any = new Subject<any>();
   uri = env.api_url;
-  constructor(private http: HttpClient, private router: Router) {
-    if (this.getThisConv() == null) {
-      if (this.getThisUser() == null) {
-        this.router.navigate(['/auth/login']);
-      } else {
-        this.router.navigate(['/admin/convs']);
-      }
-    }
-  }
+  constructor(private http: HttpClient, private router: Router) {}
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }

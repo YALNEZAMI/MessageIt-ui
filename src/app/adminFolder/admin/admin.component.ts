@@ -16,6 +16,9 @@ export class AdminComponent implements OnInit {
     private webSocketService: WebSocketService,
     private messageService: MessageService
   ) {
+    if (localStorage.getItem('user') == null) {
+      this.sessionService.logout();
+    }
     this.sessionService.online().subscribe((data: any) => {});
     this.webSocketService.newMessage().subscribe((message: any) => {
       //set current user as reciever

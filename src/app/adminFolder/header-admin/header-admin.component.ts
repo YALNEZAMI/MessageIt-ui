@@ -12,12 +12,9 @@ export class HeaderAdminComponent {
   name: any;
   // photo = '';
   constructor(private router: Router, private userService: UserService) {
-    if (localStorage.getItem('user') != null) {
-      let user = JSON.parse(localStorage.getItem('user') || '{}');
-      this.name = user.firstName + ' ' + user.lastName;
-    } else {
-      this.router.navigate(['/auth']);
-    }
+    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.name = user.firstName + ' ' + user.lastName;
+
     this.userService.getNameChanged().subscribe((name) => {
       this.name = name;
     });

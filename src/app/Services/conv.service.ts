@@ -10,16 +10,7 @@ import { env } from 'src/env';
 export class ConvService {
   uri = env.api_url;
   changeConv: any = new Subject<any>();
-  constructor(private Http: HttpClient, private router: Router) {
-    //gards
-    if (this.getThisConv() == null) {
-      if (this.getThisUser() == null) {
-        this.router.navigate(['/auth/login']);
-      } else {
-        this.router.navigate(['/admin/convs']);
-      }
-    }
-  }
+  constructor(private Http: HttpClient, private router: Router) {}
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
@@ -251,5 +242,23 @@ export class ConvService {
     return this.Http.delete(
       `${this.uri}/conv/leaveAll/${this.getThisUser()._id}`
     );
+  }
+  upgradeToAdmine(user: string) {
+    let admin = this.getThisUser();
+    let conv = this.getThisConv();
+    return this.Http.patch(`${this.uri}/conv/set/admin/upgrade`, {
+      admin,
+      conv,
+      user,
+    });
+  }
+  downgradeToAdmin(user: string) {
+    let admin = this.getThisUser();
+    let conv = this.getThisConv();
+    return this.Http.patch(`${this.uri}/conv/set/admin/downgrade`, {
+      admin,
+      conv,
+      user,
+    });
   }
 }
