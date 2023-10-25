@@ -103,10 +103,10 @@ export class MessageComponent implements OnInit {
 
           setTimeout(() => {
             this.goToMessage(localStorage.getItem('idMessage') || '');
+            localStorage.removeItem('idMessage');
           }, 10);
           this.done = true;
           //reinit the idMessage
-          localStorage.removeItem('idMessage');
         });
     } else {
       //get initial messages without search
@@ -299,7 +299,11 @@ export class MessageComponent implements OnInit {
     return 'body';
   }
   goToMessage(id: string) {
+    console.log(id);
+
     let msg = document.getElementById(id);
+    console.log(msg);
+
     if (msg != null) {
       msg.style.background = 'var(--shadow-color)';
 

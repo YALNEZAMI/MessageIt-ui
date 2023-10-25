@@ -32,6 +32,7 @@ export class SearchResultComponent {
 
     this.messageService.getMessagesByKey(this.key).subscribe((data: any) => {
       this.messages = data;
+
       if (this.messages.length == 0) {
         this.noRes = true;
       } else {
