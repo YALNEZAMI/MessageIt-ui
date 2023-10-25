@@ -52,4 +52,7 @@ export class SessionService {
     );
     return userReturned;
   }
+  isAuthenticated() {
+    return this.getThisUser() != null;
+  }
 }
