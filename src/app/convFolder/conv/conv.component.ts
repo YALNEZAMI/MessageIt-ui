@@ -16,6 +16,12 @@ export class ConvComponent implements OnInit {
     private convService: ConvService,
     private webSocketService: WebSocketService
   ) {
+    //subscribe to conv changed
+    this.webSocketService.convChanged().subscribe((conv: any) => {
+      if (this.getThisConv()._id == conv._id) {
+        this.convService.setConvChanged(conv);
+      }
+    });
     //set the user online
     this.sessionService.online().subscribe((data: any) => {});
     if (localStorage.getItem('conv') == null) {

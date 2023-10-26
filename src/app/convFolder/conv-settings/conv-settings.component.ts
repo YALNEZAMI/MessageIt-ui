@@ -39,31 +39,31 @@ export class ConvSettingsComponent {
     let fileInput = document.getElementById(
       'convPhotoInput'
     ) as HTMLInputElement;
-    if (fileInput.files?.item(0) != null) {
-      this.file = fileInput.files?.item(0);
-      this.convService.updatePhoto(this.file).subscribe((res: any) => {
-        let photo = res.photo;
-        this.convInfos.photo = photo;
-        let conv = JSON.parse(localStorage.getItem('conv') || '{}');
-        conv.photo = photo;
-        localStorage.setItem('conv', JSON.stringify(conv));
-        this.convService.setConvChanged(conv);
-      });
-    }
-
     let conv = {
       name: this.convInfos.name,
       description: this.convInfos.description,
       theme: this.selectedTheme,
     };
-    this.convService.update(conv).subscribe(async (res: any) => {
+
+    this.convService.update(conv, this.file).subscribe(async (res: any) => {
       this.convInfos = res;
       this.convInfos.photo = res.photo;
       localStorage.setItem('conv', JSON.stringify(res));
       this.convService.setConvChanged(res);
     });
-    fileInput.files = null;
+    this.unselectConvPhoto();
   }
+  mediasChange(event: any) {
+    let fileInput = document.getElementById(
+      'convPhotoInput'
+    ) as HTMLInputElement;
+    if (fileInput.files != null) {
+      if (fileInput.files.length != 0) {
+        this.file = event.target.files.item(0);
+      }
+    }
+  }
+
   clickPhoto() {
     document.getElementById('convPhotoInput')?.click();
   }
@@ -110,5 +110,13 @@ export class ConvSettingsComponent {
       this.file = fileInput.files?.item(0);
       this.fileSelectedName = this.file.name;
     }
+  }
+  unselectConvPhoto() {
+    let ConvPhotoForm = document.getElementById(
+      'ConvPhotoForm'
+    ) as HTMLFormElement;
+    ConvPhotoForm.reset();
+    this.file = null;
+    this.fileSelectedName = '';
   }
 }

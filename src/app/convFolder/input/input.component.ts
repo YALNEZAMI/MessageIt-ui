@@ -78,7 +78,7 @@ export class InputComponent {
       if (msg.text == '') {
         msg.text = 'files';
       }
-      this.convService.update({ lastMessage: msg });
+      this.convService.update({ lastMessage: msg }, null);
     });
 
     //empty message

@@ -154,4 +154,11 @@ export class WebSocketService {
       });
     });
   }
+  convChanged(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('convChanged', (conv: any) => {
+        Observer.next(conv);
+      });
+    });
+  }
 }

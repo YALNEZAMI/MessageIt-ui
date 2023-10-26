@@ -81,8 +81,18 @@ export class ConvService {
       ' offline': true,
     };
   }
-  update(conv: any) {
-    return this.Http.patch(`${this.uri}/conv/${this.getThisConv()._id}`, conv);
+  update(conv: any, file: any) {
+    let dataForm = new FormData();
+    if (file != null) {
+      dataForm.append('file', file);
+    }
+    let admin = this.getThisUser();
+    dataForm.append('conv', JSON.stringify(conv));
+    dataForm.append('admin', JSON.stringify(admin));
+    return this.Http.patch(
+      `${this.uri}/conv/${this.getThisConv()._id}`,
+      dataForm
+    );
   }
   updatePhoto(file: any) {
     let dataForm = new FormData();

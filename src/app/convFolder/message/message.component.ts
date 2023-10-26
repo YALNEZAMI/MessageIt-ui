@@ -67,6 +67,8 @@ export class MessageComponent implements OnInit {
 
     //subscribe to change the conversation event
     this.convService.getConvChanged().subscribe((conv: any) => {
+      //check if the conv is the same
+      if (conv._id == this.conv._id) return;
       localStorage.removeItem('rangeMessageSearched');
       localStorage.removeItem('idMessage');
       localStorage.setItem('conv', JSON.stringify(conv));
@@ -611,6 +613,68 @@ export class MessageComponent implements OnInit {
           msg.reciever.firstName +
           ' ' +
           msg.reciever.lastName
+        );
+
+        break;
+      case 'upgradeToAdmin':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' upgraded ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName +
+          ' to admin'
+        );
+
+        break;
+      case 'downgradeAdmin':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' downgraded ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName +
+          ' from admin'
+        );
+
+        break;
+      case 'convPhotoChanged':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' changed the image of the conversation'
+        );
+
+        break;
+      case 'convThemeChanged':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' changed the theme of the conversation'
+        );
+
+        break;
+      case 'convDescriptionChanged':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' changed the description of the conversation'
+        );
+
+        break;
+      case 'convNameChanged':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' changed the name of the conversation'
         );
 
         break;
