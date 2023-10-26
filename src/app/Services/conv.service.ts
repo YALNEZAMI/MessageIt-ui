@@ -190,7 +190,9 @@ export class ConvService {
   }
   addMembers(members: any) {
     return this.Http.patch(
-      `${this.uri}/conv/addMembers/${this.getThisConv()._id}`,
+      `${this.uri}/conv/addMembers/${this.getThisConv()._id}/${
+        this.getThisUser()._id
+      }`,
 
       members
     );

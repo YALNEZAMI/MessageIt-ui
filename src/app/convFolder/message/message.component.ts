@@ -114,6 +114,7 @@ export class MessageComponent implements OnInit {
         .subscribe(async (msgs: any) => {
           //set global messages and properties
           this.messages = await msgs;
+          console.log(this.messages);
 
           this.done = true;
           this.setViewers();
@@ -586,5 +587,52 @@ export class MessageComponent implements OnInit {
   }
   fileType(file: string) {
     return this.messageService.fileType(file);
+  }
+  getNotifText(msg: any) {
+    //sous type:addMember, removeMember
+    switch (msg.sous_type) {
+      case 'addMember':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' added ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName
+        );
+        break;
+      case 'removeMember':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' removed ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName
+        );
+
+        break;
+      default:
+        return '';
+        break;
+    }
+  }
+
+  getClassesOfStatus(msg: any) {
+    if (msg.typeMsg == 'message') {
+      return {
+        'd-flex': true,
+        'flex-row-reverse': msg.sender._id == this.getThisUser()._id,
+        'flex-row': msg.sender._id != this.getThisUser()._id,
+        statusRow: true,
+      };
+    } else {
+      return {
+        'd-flex': true,
+        'flex-row-reverse': true,
+      };
+    }
   }
 }

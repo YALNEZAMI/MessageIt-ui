@@ -6,4 +6,5 @@ export interface Message {
   ref: string;
   visibility: string[];
   sender: { _id: string };
+  typeMsg: string;
 }

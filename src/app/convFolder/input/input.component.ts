@@ -14,6 +14,7 @@ export class InputComponent {
   fileInput: any;
   emoji: string = '';
   message: Message = {
+    typeMsg: 'message',
     conv: '',
     text: '',
     files: [],

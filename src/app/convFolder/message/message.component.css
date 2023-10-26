@@ -1,6 +1,13 @@
 app-conv-side{
     background-color: var(--font-color-conv);
 }
+.notifs{ 
+    border-radius: 10px;
+    font-size: small;
+    height: max-content;
+    color: var(--bg-color-conv);
+
+}
 .sentMark{
     color: var(--bg-color-conv);
 }
