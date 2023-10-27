@@ -18,7 +18,6 @@ export class UserService {
   uri = env.api_url;
   private subject = new Subject<any>();
   private nameChangedSubject = new Subject<any>();
-  //TODO notif in conv [, change name, change photo,change theme]
   constructor(private http: HttpClient, router: Router) {}
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');

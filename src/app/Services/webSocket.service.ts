@@ -19,7 +19,7 @@ export class WebSocketService {
   }
   newMessage(): Observable<Message> {
     return new Observable<Message>((Observer) => {
-      this.socket.on('newMessage', (message: Message) => {
+      this.socket.on('newMessage', (message: any) => {
         Observer.next(message);
       });
     });
@@ -81,6 +81,8 @@ export class WebSocketService {
       );
     });
   }
+  //TODO add member who left event
+  //TODO remove conv from convs on deleting me
   onCreateConv(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('createConv', (conv: any) => {
@@ -137,7 +139,6 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on('upgardingToAdmin', (bodyReq: any) => {
         //set the new conv
-        console.log(bodyReq);
         this.setThisConv(bodyReq.conv);
         Observer.next(bodyReq);
       });
@@ -147,7 +148,6 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on('downgardingAdmin', (bodyReq: any) => {
         //set the new conv
-        console.log(bodyReq);
 
         this.setThisConv(bodyReq.conv);
         Observer.next(bodyReq);

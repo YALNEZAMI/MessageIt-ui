@@ -116,7 +116,6 @@ export class MessageComponent implements OnInit {
         .subscribe(async (msgs: any) => {
           //set global messages and properties
           this.messages = await msgs;
-          console.log(this.messages);
 
           this.done = true;
           this.setViewers();
@@ -677,6 +676,14 @@ export class MessageComponent implements OnInit {
           ' changed the name of the conversation'
         );
 
+        break;
+      case 'leaveConv':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' left the conversation'
+        );
         break;
       default:
         return '';
