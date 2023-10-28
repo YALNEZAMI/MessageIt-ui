@@ -30,10 +30,13 @@ export class SessionService {
   async logout() {
     this.offline().subscribe((data: any) => {
       setTimeout(() => {
+        //clear first time to avoid redirection from auth
+        localStorage.clear();
         this.router.navigate(['/auth/login']);
       }, 500);
 
       setTimeout(() => {
+        //clear second time to delete any data that may be added after redirection(it happens sometimes)
         localStorage.clear();
       }, 1000);
     });

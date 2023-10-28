@@ -125,8 +125,6 @@ export class FriendsComponent {
         break;
 
       default:
-        console.log('default operation');
-
         break;
     }
   }

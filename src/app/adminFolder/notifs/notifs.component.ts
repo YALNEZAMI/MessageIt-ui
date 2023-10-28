@@ -102,8 +102,6 @@ export class NotifsComponent {
         break;
 
       default:
-        console.log('default operation');
-
         break;
     }
   }

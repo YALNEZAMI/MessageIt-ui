@@ -40,9 +40,9 @@
 }
 .optionsFlex{
     padding-left: 10%;
-    gap: 5%;
+    gap: 10px;
 }
-.userItem{
+.userInfos{
     position: relative;
     background-color: var(--font-color-conv);
     margin: 1%;
@@ -50,6 +50,9 @@
     padding-bottom: 0px;
     border-radius: 10px;
     color: var(--bg-color-conv);
+}
+.userItem{
+    margin-bottom: 5px;
 }
 
 @media (min-height:767px) {

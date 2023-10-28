@@ -59,8 +59,10 @@ export class ConvsAdminComponent implements OnInit {
         }
       }
     });
+    //retrieve convs
     this.convService.getConvs().subscribe(async (data: any) => {
       this.convs = await data;
+
       if (this.convs.length == 0) {
         this.noRes = true;
       } else {
@@ -152,9 +154,6 @@ export class ConvsAdminComponent implements OnInit {
   }
 
   getStatusClasses(conv: any) {
-    if (conv.name == 'n') {
-      this.convService.getStatusClassesForConv(conv);
-    }
     return this.convService.getStatusClassesForConv(conv);
   }
   getLastMsgSender(conv: any) {

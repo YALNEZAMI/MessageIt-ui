@@ -188,7 +188,6 @@ export class MembersComponent {
         break;
 
       default:
-        console.log('default operation');
         break;
     }
   }
@@ -200,6 +199,7 @@ export class MembersComponent {
   getContenuBtn(user: any): void {
     const operation: string = user.operation;
     let btn: any;
+
     switch (operation) {
       case 'add':
         btn = document.getElementById(user._id + '-Btn1');

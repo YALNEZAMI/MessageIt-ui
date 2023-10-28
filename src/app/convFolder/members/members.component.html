@@ -28,8 +28,8 @@
     </svg>
   </button>
   <div class="col container-fluid">
-    <div *ngFor="let user of getThisMembers()" [id]="user._id">
-      <div class="userItem row">
+    <div class="userItem" *ngFor="let user of getThisMembers()" [id]="user._id">
+      <div class="row userInfos">
         <div class="imgAndStatusDiv">
           <img class="img" src="{{ user.photo }}" alt="" />
           <div [ngClass]="getStatusClasses(user)"></div>
@@ -55,7 +55,7 @@
       </div>
       <!--btns groupe -->
       <div class="options" [id]="user._id + '-options'">
-        <div class="d-flex flex-row optionsFlex">
+        <div class="d-flex flex-row-reverse optionsFlex">
           <button
             id="{{ user._id + '-Btn1' }}"
             class="p-2 btn1 myBtn"

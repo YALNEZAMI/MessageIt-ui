@@ -38,6 +38,13 @@
             padding-top: 3px;
             /* height: max-content; */
     }
+    #makeGroupeBtn{
+        width: max-content;
+    
+    }
+    #groupeName{
+        width: 70%;
+    }
 }
 @media(max-height:767px){
     .name{
@@ -61,6 +68,13 @@
             padding-top: 3px;
             /* height: max-content; */
         }
+        #makeGroupeBtn{
+            width: max-content;
+        
+        }
+        #groupeName{
+            width: 60%;
+        }
 }
 .UnselectedDiv{
 padding-top: 10px;
@@ -76,11 +90,4 @@ height: max-content;
     margin: 0px;
     gap: 5px;
     padding: 5px 5px;
-}
-#makeGroupeBtn{
-    width: max-content;
-
-}
-#groupeName{
-    width: 70%;
 }

@@ -31,8 +31,6 @@ export class ConvSettingsComponent {
       blockBtn.innerHTML = 'leaving...';
     }
     this.convService.leaveConv().subscribe((res) => {
-      console.log('leaving', res);
-
       localStorage.removeItem('conv');
       this.router.navigate(['/admin/convs']);
     });

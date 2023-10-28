@@ -126,8 +126,6 @@ export class ResultUsersComponent implements OnDestroy {
         break;
 
       default:
-        console.log('default operation');
-
         break;
     }
   }
