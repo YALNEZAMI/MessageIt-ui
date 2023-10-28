@@ -5,14 +5,15 @@ export class Conv {
   description: string;
   members: string[];
   lastMessage: any;
-
+  type: string;
   constructor(
     _id: string,
     photo: string,
     name: string,
     description: string,
     members: string[],
-    lastMessage: any
+    lastMessage: any,
+    type: string
   ) {
     this._id = _id;
     this.photo = photo;
@@ -20,5 +21,6 @@ export class Conv {
     this.description = description;
     this.members = members;
     this.lastMessage = lastMessage;
+    this.type = type;
   }
 }

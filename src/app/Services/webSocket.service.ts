@@ -82,7 +82,6 @@ export class WebSocketService {
     });
   }
   //TODO add member who left event
-  //TODO remove conv from convs on deleting me
   onCreateConv(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('createConv', (conv: any) => {

@@ -28,9 +28,6 @@
 }
 .options{
     display: none;
-    position: absolute;
-    top: 44%;
-    right: 7.5%;
     z-index: 3;
 }
 .optionsBtn{
@@ -42,7 +39,8 @@
     
 }
 .optionsFlex{
-    gap: 3px;
+    padding-left: 10%;
+    gap: 5%;
 }
 .userItem{
     position: relative;
@@ -85,7 +83,7 @@
 @media (max-height:767px) {
     .name{
         font-size: 100%;
-        width: 75%;
+        width: 73%;
         margin-bottom: 0%;
         padding: 1%;
         padding-top: 10px;

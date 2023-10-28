@@ -19,6 +19,16 @@ export class ConvsAdminComponent implements OnInit {
     private router: Router,
     private webSocketService: WebSocketService
   ) {
+    //subscribe to remove member from groupe event
+    this.webSocketService
+      .onRemoveFromGroupe()
+      .subscribe((obj: { idUser: string; conv: any }) => {
+        if (obj.idUser == this.getThisUser()._id) {
+          this.convs = this.convs.filter(
+            (conv: any) => conv._id != obj.conv._id
+          );
+        }
+      });
     //statusChange websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {
       this.convs.map((conv: any) => {
