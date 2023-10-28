@@ -49,9 +49,9 @@ export class ConvSideComponent implements OnInit {
           this.convs.unshift(conv);
         }
       });
-    //get other convs on the side
-    this.convService.getConvs().subscribe(async (data: any) => {
-      this.convs = await data;
+    //get initial convs on the side
+    this.convService.getConvs().subscribe((data: any) => {
+      this.convs = data;
       this.done = true;
     });
     //subscribe to new convs

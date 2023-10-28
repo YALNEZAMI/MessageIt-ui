@@ -208,9 +208,11 @@ export class ConvService {
     );
   }
   getOtherMember(conv: any) {
-    if (conv.members.length != 2) return conv;
     let user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (conv.members.length == 1) return conv.members[0];
+    //lonley case
+    if (conv.members.length == 1) {
+      return user;
+    }
     if (conv.members[0]._id == user._id) {
       return conv.members[1];
     } else {
@@ -220,6 +222,13 @@ export class ConvService {
   setNameAndPhoto(conv: any) {
     //if groupe reutrn
     if (conv.type == 'groupe') return conv;
+    //if private and members > 2
+    if (conv.members.length > 2) {
+      conv.name =
+        this.getThisUser().firstName + ' ' + this.getThisUser().lastName;
+      conv.photo = this.getThisUser().photo;
+      return conv;
+    }
     const me = this.getThisUser();
     let friend = this.getOtherMember(conv);
     if (conv.members.length == 1) {

@@ -35,7 +35,7 @@
             class="lastConnection"
             *ngIf="
               getLastMessageText(conv) == '' &&
-              conv.members.length < 3 &&
+              conv.type == 'private' &&
               getOtherMemberStatus(conv) != 'online'
             "
           >
