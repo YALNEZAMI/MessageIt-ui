@@ -52,8 +52,6 @@ export class ConvSideComponent implements OnInit {
     //get initial convs on the side
     this.convService.getConvs().subscribe((data: any) => {
       this.convs = data;
-      console.log(data);
-
       this.done = true;
     });
     //subscribe to new convs
