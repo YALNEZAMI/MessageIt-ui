@@ -81,7 +81,6 @@ export class WebSocketService {
       );
     });
   }
-  //TODO handl real time member view with changing on the conv
   onCreateConv(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('createConv', (conv: any) => {
