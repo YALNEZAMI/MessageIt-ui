@@ -24,10 +24,12 @@ export class MembersComponent {
     private userService: UserService,
     private webSocketService: WebSocketService
   ) {
+    //subscribe to upgrade to admin
+    this.webSocketService.upgardingToAdmin().subscribe((conv: any) => {});
+    //subscribe to upgrade to chef
+    this.webSocketService.upgardingToChef().subscribe((conv: any) => {});
     //subscribe to upgrade
-    this.webSocketService.upgardingToAdmin().subscribe((reqBody: any) => {});
-    //subscribe to upgrade
-    this.webSocketService.downgardingToAdmin().subscribe((reqBody: any) => {});
+    this.webSocketService.downgardingToAdmin().subscribe((conv: any) => {});
     //status change websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {
       this.members.map((member: any) => {
@@ -258,6 +260,10 @@ export class MembersComponent {
       return admins.includes(id);
     }
   }
+  isChef(id: string) {
+    let chef = this.getThisConv().chef;
+    return chef == id;
+  }
   options(user: any) {
     let div = document.getElementById(user._id + '-options');
     if (div != null) {
@@ -287,12 +293,12 @@ export class MembersComponent {
     this.router.navigate(['/conv/addMembers']);
   }
   upgradeToAdmin(user: any) {
-    this.convService.upgradeToAdmine(user).subscribe((conv: any) => {
-      //update the conv in the local storage
-      this.setThisConv(conv);
-    });
+    this.convService.upgradeToAdmine(user).subscribe((conv: any) => {});
   }
   downgradeToAdmin(user: any) {
     this.convService.downgradeToAdmin(user).subscribe((conv: any) => {});
+  }
+  upgradeToChef(user: any) {
+    this.convService.upgradeToChef(user).subscribe((conv: any) => {});
   }
 }

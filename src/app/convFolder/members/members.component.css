@@ -24,6 +24,7 @@
     color: var(--font-color-conv);
 }
 .mySpinner{
+    margin-top: 10px;
     color: var(--font-color-conv);
 }
 .options{

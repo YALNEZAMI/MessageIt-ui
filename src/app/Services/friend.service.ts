@@ -81,7 +81,8 @@ export class FriendService {
     conv.type = 'groupe';
     //set admin
     conv.admins = [];
-    conv.admins.push(this.getThisUser()._id);
+    //set chef
+    conv.chef = this.getThisUser()._id;
     //set createdAt
     conv.createdAt = new Date();
     return this.Http.post(`${this.uri}/conv/groupe`, conv);

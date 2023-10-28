@@ -628,6 +628,19 @@ export class MessageComponent implements OnInit {
         );
 
         break;
+      case 'upgradeToChef':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' upgraded ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName +
+          ' to chef'
+        );
+
+        break;
       case 'downgradeAdmin':
         return (
           msg.maker.firstName +

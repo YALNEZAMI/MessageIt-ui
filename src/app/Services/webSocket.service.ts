@@ -135,20 +135,31 @@ export class WebSocketService {
   }
   upgardingToAdmin(): Observable<any> {
     return new Observable<any>((Observer) => {
-      this.socket.on('upgardingToAdmin', (bodyReq: any) => {
+      this.socket.on('upgardingToAdmin', (conv: any) => {
         //set the new conv
-        this.setThisConv(bodyReq.conv);
-        Observer.next(bodyReq);
+        this.setThisConv(conv);
+        Observer.next(conv);
+      });
+    });
+  }
+  upgardingToChef(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('upgardingToChef', (conv: any) => {
+        //set the new conv
+        console.log(conv);
+
+        this.setThisConv(conv);
+        Observer.next(conv);
       });
     });
   }
   downgardingToAdmin(): Observable<any> {
     return new Observable<any>((Observer) => {
-      this.socket.on('downgardingAdmin', (bodyReq: any) => {
+      this.socket.on('downgardingAdmin', (conv: any) => {
         //set the new conv
 
-        this.setThisConv(bodyReq.conv);
-        Observer.next(bodyReq);
+        this.setThisConv(conv);
+        Observer.next(conv);
       });
     });
   }

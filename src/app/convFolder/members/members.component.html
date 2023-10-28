@@ -6,7 +6,10 @@
 >
   <button
     (click)="goToAddMembers()"
-    *ngIf="isGroupe() && isAdmin(this.getThisUser()._id)"
+    *ngIf="
+      isGroupe() &&
+      (isAdmin(this.getThisUser()._id) || isChef(this.getThisUser()._id))
+    "
     class="btn btn-primary"
     id="addMember"
   >
@@ -37,6 +40,7 @@
         <div class="name">
           {{ user.firstName + " " + user.lastName }}
           <ins *ngIf="isAdmin(user._id)">(admin)</ins>
+          <ins *ngIf="isChef(user._id)">(chef)</ins>
         </div>
         <div class="optionsBtn" (click)="options(user)">
           <svg
@@ -116,7 +120,12 @@
           </button>
           <button
             class="p-2 btn btn-warning myBtn"
-            *ngIf="isAdmin(getThisUser()._id)"
+            *ngIf="
+              (isAdmin(getThisUser()._id) &&
+                !isAdmin(user._id) &&
+                !isChef(user._id)) ||
+              isChef(getThisUser()._id)
+            "
             (click)="removeFromGroupe(user)"
           >
             <svg
@@ -137,7 +146,7 @@
           </button>
           <button
             class="p-2 btn btn-dark myBtn"
-            *ngIf="isAdmin(getThisUser()._id) && !isAdmin(user._id)"
+            *ngIf="isChef(getThisUser()._id) && !isAdmin(user._id)"
             (click)="upgradeToAdmin(user)"
           >
             <svg
@@ -158,7 +167,7 @@
           </button>
           <button
             class="p-2 btn btn-dark myBtn"
-            *ngIf="isAdmin(getThisUser()._id) && isAdmin(user._id)"
+            *ngIf="isChef(getThisUser()._id) && isAdmin(user._id)"
             (click)="downgradeToAdmin(user)"
           >
             <svg
@@ -174,6 +183,27 @@
               />
               <path
                 d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
+              />
+            </svg>
+          </button>
+          <button
+            *ngIf="isChef(getThisUser()._id)"
+            (click)="upgradeToChef(user)"
+            class="p-2 btn btn-primary myBtn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-award-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"
+              />
+              <path
+                d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"
               />
             </svg>
           </button>

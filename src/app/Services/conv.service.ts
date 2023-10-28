@@ -265,19 +265,28 @@ export class ConvService {
     );
   }
   upgradeToAdmine(user: string) {
-    let admin = this.getThisUser();
+    let chef = this.getThisUser();
     let conv = this.getThisConv();
     return this.Http.patch(`${this.uri}/conv/set/admin/upgrade`, {
-      admin,
+      chef,
       conv,
       user,
     });
   }
   downgradeToAdmin(user: string) {
-    let admin = this.getThisUser();
+    let chef = this.getThisUser();
     let conv = this.getThisConv();
     return this.Http.patch(`${this.uri}/conv/set/admin/downgrade`, {
-      admin,
+      chef,
+      conv,
+      user,
+    });
+  }
+  upgradeToChef(user: any) {
+    let chef = this.getThisUser();
+    let conv = this.getThisConv();
+    return this.Http.patch(`${this.uri}/conv/set/chef/upgrade`, {
+      chef,
       conv,
       user,
     });
