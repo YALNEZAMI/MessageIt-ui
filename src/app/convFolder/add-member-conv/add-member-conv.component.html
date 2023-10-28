@@ -7,8 +7,10 @@
       id="makeGroupeBtn"
       type="submit"
     >
-      {{ getFriends().length }}
       Add
+      <ins *ngIf="getSelectedFriends().length > 0">
+        {{ getSelectedFriends().length }}
+      </ins>
     </button>
   </form>
 
