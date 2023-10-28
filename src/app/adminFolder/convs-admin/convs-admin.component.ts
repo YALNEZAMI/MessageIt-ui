@@ -170,18 +170,23 @@ export class ConvsAdminComponent implements OnInit {
     }
   }
   getOtherMember(conv: any) {
-    let user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (conv.members.length == 1) return conv.members[0];
-    if (conv.members[0]._id == user._id) {
-      return conv.members[1];
-    } else {
-      return conv.members[0];
-    }
+    return this.convService.getOtherMember(conv);
   }
   getOtherMemberStatus(conv: any) {
+    //lonley case
     if (conv.members.length == 1) {
       return 'online';
     }
+    //groupe case
+    if (conv.members.length > 2) {
+      conv.members.map((member: any) => {
+        if (member._id != this.getThisUser()._id && member.status == 'online') {
+          return member.status;
+        }
+      });
+      return 'offline';
+    }
+    //private case
     let otherMember = this.getOtherMember(conv);
     return otherMember.status;
   }
