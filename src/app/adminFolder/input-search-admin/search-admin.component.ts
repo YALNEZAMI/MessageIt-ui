@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/Services/user.service';
 
@@ -7,15 +7,16 @@ import { UserService } from 'src/app/Services/user.service';
   templateUrl: './search-admin.component.html',
   styleUrls: ['./search-admin.component.css'],
 })
-export class SearchAdminComponent implements OnDestroy {
+export class SearchAdminComponent implements OnInit {
   @Output() keyChange = new EventEmitter<string>();
   key: string = '';
 
   constructor(private routes: Router, private userService: UserService) {
     this.key = localStorage.getItem('key') || '';
   }
-  ngOnDestroy(): void {
-    localStorage.removeItem('key');
+  ngOnInit(): void {
+    let key = document.getElementById('key') as HTMLInputElement;
+    key?.focus();
   }
 
   search() {

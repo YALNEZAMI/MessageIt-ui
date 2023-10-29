@@ -1,27 +1,29 @@
 <div class="col container-fluid" id="notifsComponent">
-  <div class="userItem row" *ngFor="let user of addRequests">
-    <img class="img" src="{{ user.photo }}" alt="" />
+  <div class="userItem row" *ngFor="let notif of notifs" [id]="notif.user._id">
+    <img class="img" src="{{ notif.user.photo }}" alt="" />
 
-    <div class="name">{{ user.firstName + " " + user.lastName }}</div>
+    <div class="name">
+      {{ notif.user.firstName + " " + notif.user.lastName }}
+    </div>
     <button
-      id="{{ user._id + '-Btn1' }}"
+      id="{{ notif.user._id + '-Btn1' }}"
       class="btn1 myBtn"
-      (click)="operation(user)"
+      (click)="operation(notif.user)"
       [ngClass]="{
           'btn': true,
         'btn-success':
-          user.operation=='add' || user.operation == 'accept',
-        'btn-danger': user.operation== 'remove',
-        'btn-warning': user.operation == 'cancel',
+        notif.user.operation=='add' || notif.user.operation == 'accept',
+        'btn-danger': notif.user.operation== 'remove',
+        'btn-warning': notif.user.operation == 'cancel',
       }"
     >
-      {{ getContenuBtn(user) }}
+      {{ getContenuBtn(notif.user) }}
     </button>
     <button
       class="refuseBtn myBtn"
       class="btn btn-danger myBtn refuseBtn"
-      *ngIf="user.operation == 'accept'"
-      (click)="operation({ operation: 'refuse', _id: user._id })"
+      *ngIf="notif.user.operation == 'accept'"
+      (click)="operation({ operation: 'refuse', _id: notif.user._id })"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -41,8 +43,8 @@
     </button>
     <button
       class="btn btn-light chatBtn myBtn"
-      *ngIf="user.operation == 'remove'"
-      (click)="operation({ operation: 'chat', _id: user._id })"
+      *ngIf="notif.user.operation == 'remove'"
+      (click)="operation({ operation: 'chat', _id: notif.user._id })"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

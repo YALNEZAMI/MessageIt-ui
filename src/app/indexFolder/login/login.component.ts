@@ -31,7 +31,7 @@ export class LoginComponent {
         } else if (res.status == 501) {
           this.lanceAlert(res.message);
         } else {
-          this.sessionService.setUser(res.user);
+          this.sessionService.setThisUser(res.user);
           this.router.navigate(['admin/convs']);
         }
 

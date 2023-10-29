@@ -129,9 +129,8 @@ export class ProfileComponent {
   delete() {
     this.convService.leaveAllConvs().subscribe((res) => {
       this.userService.delete(this.user).subscribe((res) => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('conv');
-        this.router.navigate(['/auth']);
+        localStorage.clear();
+        this.router.navigate(['/auth/login']);
       });
     });
   }

@@ -48,6 +48,9 @@ export class ConvComponent implements OnInit {
         this.setThisConv(conv);
       }
     });
+    //web socket subscription
+    this.webSocketService.onAcceptFriend().subscribe((data: any) => {});
+    this.webSocketService.onRemoveFriend().subscribe((data: any) => {});
   }
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));

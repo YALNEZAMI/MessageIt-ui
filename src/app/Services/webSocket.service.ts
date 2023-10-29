@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 // import {  WebSocketSubject } from 'rxjs/webSocket';
 
 import { Message } from '../Interfaces/message.interface';
+import { SessionService } from './session.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +13,8 @@ export class WebSocketService {
   transferMessegeResponse: any = new Subject<any>();
   searchKey: any = new Subject<any>();
   constructor(
-    private socket: Socket // private websocketSubject: WebSocketSubject<any>
+    private socket: Socket, // private websocketSubject: WebSocketSubject<any>
+    private sessionService: SessionService
   ) {}
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
@@ -51,8 +53,28 @@ export class WebSocketService {
   onAddFriend(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('addFriend', (object: any) => {
+        console.log('addfriend', object);
+
         Observer.next(object);
       });
+    });
+  }
+  onAcceptFriend(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on(
+        'acceptFriend',
+        (object: { accepter: any; accepted: any; date: Date }) => {
+          //set local storage
+          if (object.accepter._id == this.sessionService.getThisUser()._id) {
+            this.sessionService.addFriend(object.accepted);
+          }
+          if (object.accepted._id == this.sessionService.getThisUser()._id) {
+            this.sessionService.addFriend(object.accepter);
+          }
+
+          Observer.next(object);
+        }
+      );
     });
   }
   onCancelFriend(): Observable<any> {
@@ -168,6 +190,23 @@ export class WebSocketService {
       this.socket.on('convChanged', (conv: any) => {
         Observer.next(conv);
       });
+    });
+  }
+  onRemoveFriend(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on(
+        'onRemoveFriend',
+        (obj: { remover: string; removed: string }) => {
+          //set local storage
+          if (this.sessionService.getThisUser()._id == obj.remover) {
+            this.sessionService.removeFriend(obj.removed);
+          }
+          if (this.sessionService.getThisUser()._id == obj.removed) {
+            this.sessionService.removeFriend(obj.remover);
+          }
+          Observer.next(obj);
+        }
+      );
     });
   }
 }

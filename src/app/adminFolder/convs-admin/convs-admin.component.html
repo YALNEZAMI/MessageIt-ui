@@ -63,6 +63,12 @@
           >
             <div>New Groupe</div>
           </h6>
+          <h6
+            class="lastMsg"
+            *ngIf="conv.lastMessage == null && conv.type == 'groupe'"
+          >
+            <div>Somthing happend !</div>
+          </h6>
         </div>
       </div>
       <div class="options" (click)="options(conv)">

@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { Conv } from '../../Interfaces/conv.interface';
 import { Router } from '@angular/router';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
+import { SessionService } from 'src/app/Services/session.service';
 
 @Component({
   selector: 'app-convs-admin',
@@ -13,11 +14,11 @@ export class ConvsAdminComponent implements OnInit {
   private convs: Conv[] = [];
   done = false;
   noRes = false;
-  @ViewChild('lastMessage') lastMessage: ElementRef = new ElementRef('');
   constructor(
     private convService: ConvService,
     private router: Router,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private sessionService: SessionService
   ) {
     //subscribe to remove member from groupe event
     this.webSocketService
@@ -27,6 +28,8 @@ export class ConvsAdminComponent implements OnInit {
           this.convs = this.convs.filter(
             (conv: any) => conv._id != obj.conv._id
           );
+          //set convs in local storage
+          this.sessionService.setThisConvs(this.convs);
         }
       });
     //statusChange websocket subscription
@@ -49,6 +52,8 @@ export class ConvsAdminComponent implements OnInit {
           this.convs.unshift(conv);
           this.noRes = false;
         }
+        //set convs in local storage
+        this.sessionService.setThisConvs(this.convs);
       });
     //subscribe to new convs
     this.webSocketService.onCreateConv().subscribe((conv: any) => {
@@ -57,11 +62,13 @@ export class ConvsAdminComponent implements OnInit {
           this.convs.unshift(conv);
           this.noRes = false;
         }
+        //set convs in local storage
+        this.sessionService.setThisConvs(this.convs);
       }
     });
     //retrieve convs
-    this.convService.getConvs().subscribe(async (data: any) => {
-      this.convs = await data;
+    if (this.sessionService.thereAreConvs()) {
+      this.convs = this.sessionService.getThisConvs();
 
       if (this.convs.length == 0) {
         this.noRes = true;
@@ -69,7 +76,19 @@ export class ConvsAdminComponent implements OnInit {
         this.noRes = false;
       }
       this.done = true;
-    });
+    } else {
+      this.convService.getConvs().subscribe(async (data: any) => {
+        this.convs = await data;
+        //set convs in local storage
+        this.sessionService.setThisConvs(this.convs);
+        if (this.convs.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+        this.done = true;
+      });
+    }
   }
   getThisConvs() {
     for (let i = 0; i < this.convs.length; i++) {

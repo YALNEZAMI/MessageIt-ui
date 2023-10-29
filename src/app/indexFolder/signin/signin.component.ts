@@ -70,7 +70,7 @@ export class SigninComponent {
         if (this.success) {
           // if adding success, go to admin with user as token
           let user = await this.response.user;
-          this.sessionService.setUser(user);
+          this.sessionService.setThisUser(user);
           this.router.navigate(['admin/convs']);
         } else {
           // if adding failed, display the server message

@@ -73,4 +73,9 @@ export class NavBarComponent {
     //     break;
     // }
   }
+  getNbrNotifs() {
+    return (
+      this.getThisUser().addReqs.length + this.getThisUser().accepters.length
+    );
+  }
 }

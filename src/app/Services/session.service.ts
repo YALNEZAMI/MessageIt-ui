@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { UserService } from './user.service';
+
 import { env } from 'src/env';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -18,7 +17,7 @@ export class SessionService {
   getThisConv() {
     return JSON.parse(localStorage.getItem('conv') || '{}');
   }
-  setUser(user: any) {
+  setThisUser(user: any) {
     localStorage.setItem('user', JSON.stringify(user));
     //set status online
     this.online().subscribe((data: any) => {});
@@ -57,5 +56,66 @@ export class SessionService {
   }
   isAuthenticated() {
     return this.getThisUser() != null;
+  }
+  thereIsConv() {
+    return localStorage.getItem('conv') != null;
+  }
+  thereAreConvs() {
+    return localStorage.getItem('convs') != null;
+  }
+  getThisConvs() {
+    return JSON.parse(localStorage.getItem('convs') || '{}');
+  }
+  setThisConvs(convs: any) {
+    localStorage.setItem('convs', JSON.stringify(convs));
+  }
+  addConv(conv: any) {
+    let convs = this.getThisConvs();
+    convs.unshift(conv);
+    this.setThisConvs(convs);
+  }
+  removeConv(id: string) {
+    let convs = this.getThisConvs();
+    convs = convs.filter((conv: any) => conv._id != id);
+    this.setThisConvs(convs);
+  }
+  thereIsUser() {
+    return localStorage.getItem('user') != null;
+  }
+  getThisFriends() {
+    return this.getThisUser().friends;
+  }
+  removeFriend(id: string) {
+    let user = this.getThisUser();
+    user.friends = user.friends.filter((friend: any) => friend._id != id);
+    this.setThisUser(user);
+  }
+  alreadyFriend(id: string) {
+    return this.getThisUser().friends.some((friend: any) => friend._id == id);
+  }
+  addFriend(friend: any) {
+    if (this.alreadyFriend(friend._id)) return;
+    let user = this.getThisUser();
+    user.friends.unshift(friend);
+    this.setThisUser(user);
+  }
+  therAreNotifs() {
+    return localStorage.getItem('notifs') != null;
+  }
+  getThisNotifs() {
+    return JSON.parse(localStorage.getItem('notifs') || '{}');
+  }
+  setThisNotifs(notifs: any) {
+    localStorage.setItem('notifs', JSON.stringify(notifs));
+  }
+  addNotif(notif: any) {
+    let notifs = this.getThisNotifs();
+    notifs.unshift(notif);
+    this.setThisNotifs(notifs);
+  }
+  removeNotif(id: string) {
+    let notifs = this.getThisNotifs();
+    notifs = notifs.filter((notif: any) => notif._id != id);
+    this.setThisNotifs(notifs);
   }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
+import { SessionService } from 'src/app/Services/session.service';
 import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 import { env } from 'src/env';
@@ -14,14 +15,50 @@ import { env } from 'src/env';
 export class FriendsComponent {
   done: boolean = false;
   noRes: boolean = false;
-  users: any;
+  users: any[] = [];
   constructor(
     private friendService: FriendService,
     private convService: ConvService,
     private router: Router,
     private userService: UserService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private sessionService: SessionService
   ) {
+    this.users = this.sessionService.getThisFriends();
+
+    this.done = true;
+    //set to remove friend
+    this.webSocketService
+      .onRemoveFriend()
+      .subscribe((obj: { remover: string; removed: string }) => {
+        if (this.sessionService.getThisUser()._id == obj.remover) {
+          this.users = this.users.filter(
+            (user: any) => user._id != obj.removed
+          );
+        }
+        if (this.sessionService.getThisUser()._id == obj.removed) {
+          this.users = this.users.filter(
+            (user: any) => user._id != obj.remover
+          );
+        }
+      });
+    //set to add friend
+    this.webSocketService
+      .onAcceptFriend()
+      .subscribe((object: { accepter: any; accepted: any }) => {
+        //if already friends
+
+        if (object.accepter._id == this.sessionService.getThisUser()._id) {
+          if (!this.sessionService.alreadyFriend(object.accepted._id)) {
+            this.users.unshift(object.accepted);
+          }
+        }
+        if (object.accepted._id == this.sessionService.getThisUser()._id) {
+          if (!this.sessionService.alreadyFriend(object.accepter._id)) {
+            this.users.unshift(object.accepter);
+          }
+        }
+      });
     //statusChange websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {
       this.users.map((currentUser: any) => {
@@ -29,14 +66,6 @@ export class FriendsComponent {
           currentUser.status = user.status;
         }
       });
-    });
-    this.friendService.getMyFriends().subscribe((friends) => {
-      this.users = friends;
-
-      if (this.users.length == 0) {
-        this.noRes = true;
-      }
-      this.done = true;
     });
   }
   getContenuBtn(user: any): void {
@@ -94,6 +123,9 @@ export class FriendsComponent {
       case 'remove':
         this.friendService.remove(user._id).subscribe((data: any) => {
           document.getElementById(user._id)?.remove();
+          // this.users = this.users.filter(
+          //   (currentUser: any) => currentUser._id != user._id
+          // );
         });
         break;
       case 'cancel':
@@ -131,5 +163,8 @@ export class FriendsComponent {
 
   getStatusClasses(user: any) {
     return this.userService.getStatusClassesForUser(user);
+  }
+  getNoRes() {
+    return this.users.length == 0;
   }
 }
