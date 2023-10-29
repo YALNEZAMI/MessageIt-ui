@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FriendService } from 'src/app/Services/friend.service';
+import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class NavBarComponent {
   constructor(
     private router: Router,
     private friendService: FriendService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private sessionService: SessionService
   ) {
     if (this.getThisUser() != null) {
       this.friendService.friendReqSentToMe().subscribe(async (data: any) => {
@@ -74,8 +76,6 @@ export class NavBarComponent {
     // }
   }
   getNbrNotifs() {
-    return (
-      this.getThisUser().addReqs.length + this.getThisUser().accepters.length
-    );
+    return this.sessionService.getThisNotifs().length;
   }
 }
