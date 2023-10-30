@@ -82,23 +82,7 @@ export class SessionService {
   thereIsUser() {
     return localStorage.getItem('user') != null;
   }
-  getThisFriends() {
-    return this.getThisUser().friends;
-  }
-  removeFriend(id: string) {
-    let user = this.getThisUser();
-    user.friends = user.friends.filter((friend: any) => friend._id != id);
-    this.setThisUser(user);
-  }
-  alreadyFriend(id: string) {
-    return this.getThisUser().friends.some((friend: any) => friend._id == id);
-  }
-  addFriend(friend: any) {
-    if (this.alreadyFriend(friend._id)) return;
-    let user = this.getThisUser();
-    user.friends.unshift(friend);
-    this.setThisUser(user);
-  }
+
   therAreNotifs() {
     return localStorage.getItem('notifs') != null;
   }
@@ -110,12 +94,56 @@ export class SessionService {
   }
   addNotif(notif: any) {
     let notifs = this.getThisNotifs();
-    notifs.unshift(notif);
+
+    let alreadyExist = false;
+    notifs.map((currentNotif: any) => {
+      if (
+        currentNotif.type == notif.type &&
+        currentNotif.user._id == notif.user._id
+      ) {
+        alreadyExist = true;
+      }
+    });
+    if (!alreadyExist) {
+      notifs.unshift(notif);
+      this.setThisNotifs(notifs);
+    }
+  }
+  iAccept(senderId: string) {
+    let notifs = this.getThisNotifs();
+
+    notifs = notifs.map((notif: any) => {
+      if (notif.type == 'addReq' && notif.user._id == senderId) {
+        notif.user.operation = 'remove';
+        notif.type = 'accepted';
+      }
+      return notif;
+    });
     this.setThisNotifs(notifs);
   }
-  removeNotif(id: string) {
-    let notifs = this.getThisNotifs();
-    notifs = notifs.filter((notif: any) => notif._id != id);
-    this.setThisNotifs(notifs);
+  thereAreFriends() {
+    return localStorage.getItem('friends') != null;
+  }
+  getThisFriends() {
+    return JSON.parse(localStorage.getItem('friends') || '{}');
+  }
+  setThisFriends(friends: any) {
+    localStorage.setItem('friends', JSON.stringify(friends));
+  }
+
+  alreadyFriend(id: string) {
+    return this.getThisFriends().some((friend: any) => friend._id == id);
+  }
+  addFriend(friend: any) {
+    if (!this.alreadyFriend(friend._id)) {
+      let friends = this.getThisFriends();
+      friends.unshift(friend);
+      this.setThisFriends(friends);
+    }
+  }
+  removeFriend(id: string) {
+    let friends = this.getThisFriends();
+    friends = friends.filter((friend: any) => friend._id != id);
+    this.setThisFriends(friends);
   }
 }

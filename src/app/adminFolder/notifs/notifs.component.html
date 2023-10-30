@@ -1,72 +1,86 @@
-<div class="col container-fluid" id="notifsComponent">
-  <div class="userItem row" *ngFor="let notif of notifs" [id]="notif.user._id">
-    <img class="img" src="{{ notif.user.photo }}" alt="" />
-
-    <div class="name">
-      {{ notif.user.firstName + " " + notif.user.lastName }}
+<div id="globalContainer">
+  <div *ngIf="!done" class="center mySpinner">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
     </div>
-    <button
-      id="{{ notif.user._id + '-Btn1' }}"
-      class="btn1 myBtn"
-      (click)="operation(notif.user)"
-      [ngClass]="{
+  </div>
+
+  <h3 class="center noRes" *ngIf="noRes"><ins>No notifications yet !</ins></h3>
+
+  <div id="notifsComponent">
+    <div
+      class="userItem row"
+      *ngFor="let notif of notifs"
+      [id]="notif.user._id"
+    >
+      <img class="img" src="{{ notif.user.photo }}" alt="" />
+
+      <div class="name">
+        {{ notif.user.firstName + " " + notif.user.lastName }}
+        <br />
+        <small *ngIf="notif.type == 'acceptation'"
+          >have accepted your friend request</small
+        >
+        <small *ngIf="notif.type == 'accepted'">is now your friend</small>
+        <small *ngIf="notif.type == 'addReq'">want to be your friend</small>
+      </div>
+      <button
+        id="{{ notif.user._id + '-Btn1' }}"
+        class="btn1 myBtn"
+        (click)="operation(notif.user)"
+        [ngClass]="{
           'btn': true,
         'btn-success':
         notif.user.operation=='add' || notif.user.operation == 'accept',
         'btn-danger': notif.user.operation== 'remove',
         'btn-warning': notif.user.operation == 'cancel',
       }"
-    >
-      {{ getContenuBtn(notif.user) }}
-    </button>
-    <button
-      class="refuseBtn myBtn"
-      class="btn btn-danger myBtn refuseBtn"
-      *ngIf="notif.user.operation == 'accept'"
-      (click)="operation({ operation: 'refuse', _id: notif.user._id })"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-person-fill-x"
-        viewBox="0 0 16 16"
       >
-        <path
-          d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
-        />
-        <path
-          d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"
-        />
-      </svg>
-    </button>
-    <button
-      class="btn btn-light chatBtn myBtn"
-      *ngIf="notif.user.operation == 'remove'"
-      (click)="operation({ operation: 'chat', _id: notif.user._id })"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-chat-left-dots"
-        viewBox="0 0 16 16"
+        {{ getContenuBtn(notif.user) }}
+      </button>
+      <button
+        class="refuseBtn myBtn"
+        class="btn btn-danger myBtn refuseBtn"
+        *ngIf="notif.user.operation == 'accept'"
+        (click)="operation({ operation: 'refuse', _id: notif.user._id })"
       >
-        <path
-          d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-        />
-        <path
-          d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-        />
-      </svg>
-    </button>
-  </div>
-  <div *ngIf="!done" class="center mySpinner">
-    <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-person-fill-x"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
+          />
+          <path
+            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"
+          />
+        </svg>
+      </button>
+      <button
+        class="btn btn-light chatBtn myBtn"
+        *ngIf="notif.user.operation == 'remove'"
+        (click)="operation({ operation: 'chat', _id: notif.user._id })"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-chat-left-dots"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+          />
+          <path
+            d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+          />
+        </svg>
+      </button>
     </div>
   </div>
-  <h3 class="center noRes" *ngIf="noRes"><ins>No notifications yet !</ins></h3>
 </div>

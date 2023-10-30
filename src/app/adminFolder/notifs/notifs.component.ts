@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
@@ -10,9 +10,9 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   templateUrl: './notifs.component.html',
   styleUrls: ['./notifs.component.css'],
 })
-export class NotifsComponent {
+export class NotifsComponent implements OnDestroy {
   me = JSON.parse(localStorage.getItem('user') || '{}');
-  notifs: { user: any; date: Date }[] = [];
+  notifs: { user: any; date: Date; type: string }[] = [];
   done = false;
   noRes = false;
 
@@ -23,15 +23,26 @@ export class NotifsComponent {
     private webSocketService: WebSocketService,
     private sessionService: SessionService
   ) {
-    if (this.getThisUser() != null) {
-      //reset accepted friend request
-      this.friendService.resetAcceptedFriendRequest().subscribe((data: any) => {
+    //set initial notifs
+    if (this.sessionService.therAreNotifs()) {
+      this.notifs = this.sessionService.getThisNotifs();
+
+      this.done = true;
+      if (this.notifs.length == 0) {
+        this.noRes = true;
+      }
+    } else {
+      this.friendService.friendReqSentToMe().subscribe(async (data: any) => {
+        this.notifs = await data;
         //set local storage
-        this.notifs = this.notifs.filter((notif) => {
-          return notif.user.operation == 'accept';
-        });
         this.sessionService.setThisNotifs(this.notifs);
+        this.done = true;
+        if (this.notifs.length == 0) {
+          this.noRes = true;
+        }
       });
+    }
+    if (this.getThisUser() != null) {
       //statusChange websocket subscription
       this.webSocketService.statusChange().subscribe((user: any) => {
         this.notifs.map((notif: any) => {
@@ -40,46 +51,45 @@ export class NotifsComponent {
           }
         });
       });
-      if (this.sessionService.therAreNotifs()) {
-        this.notifs = this.sessionService.getThisNotifs();
-        this.done = true;
-        if (this.notifs.length == 0) {
-          this.noRes = true;
-        }
-      } else {
-        this.friendService.friendReqSentToMe().subscribe(async (data: any) => {
-          this.notifs = await data;
-          //set local storage
-          this.sessionService.setThisNotifs(this.notifs);
-          this.done = true;
-          if (this.notifs.length == 0) {
-            this.noRes = true;
-          }
+
+      //set to add friend
+      this.webSocketService
+        .onAcceptFriend()
+        .subscribe((object: { accepter: any; accepted: any }) => {
+          //if already friends
+          // if (object.accepted._id == this.sessionService.getThisUser()._id) {
+          //   this.notifs.unshift({
+          //     user: object.accepter,
+          //     date: new Date(),
+          //     type: 'acceptation',
+          //   });
+          // }
+          this.notifs = this.sessionService.getThisNotifs();
         });
-      }
       this.webSocketService.onAddFriend().subscribe((data: any) => {
-        if (data.reciever._id == this.getThisUser()._id) {
-          this.notifs.push({ user: data.sender, date: data.date });
-          //set local storage
-          this.sessionService.setThisNotifs(this.notifs);
-          this.noRes = false;
-        }
+        //update notifs
+        this.notifs = this.sessionService.getThisNotifs();
+        this.noRes = false;
       });
       //cancel event
       this.webSocketService.onCancelFriend().subscribe((data: any) => {
-        if (data.canceled == this.sessionService.getThisUser()._id) {
-          this.notifs = this.notifs.filter((notifs) => {
-            return notifs.user._id != data.canceler;
-          });
-
-          //set local storage
-          this.sessionService.setThisNotifs(this.notifs);
-          if (this.notifs.length == 0) {
-            this.noRes = true;
-          }
+        this.notifs = this.sessionService.getThisNotifs();
+        if (this.notifs.length == 0) {
+          this.noRes = true;
         }
       });
     }
+  }
+  ngOnDestroy(): void {
+    //reset accepted friend request
+    this.friendService.resetAcceptedFriendRequest().subscribe((data: any) => {
+      //set local storage
+      const filteredNotifs = this.notifs.filter((notif) => {
+        return notif.type == 'addReq';
+      });
+
+      this.sessionService.setThisNotifs(filteredNotifs);
+    });
   }
   //get current user form local storage
   getThisUser() {

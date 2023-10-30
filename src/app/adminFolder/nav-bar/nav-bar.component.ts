@@ -17,19 +17,28 @@ export class NavBarComponent {
     private webSocketService: WebSocketService,
     private sessionService: SessionService
   ) {
-    if (this.getThisUser() != null) {
-      this.friendService.friendReqSentToMe().subscribe(async (data: any) => {
-        this.nbrNotifs = await data.length;
-      });
+    //getInitialNotifs from local storage
+    if (this.sessionService.isAuthenticated()) {
+      if (this.sessionService.therAreNotifs()) {
+        this.nbrNotifs = this.sessionService.getThisNotifs().length;
+      } else {
+        //getInitialNotifs from server
+        this.friendService.friendReqSentToMe().subscribe(async (data: any) => {
+          this.nbrNotifs = await data.length;
+          //set local storage
+          this.sessionService.setThisNotifs(data);
+        });
+      }
       this.webSocketService.onAddFriend().subscribe((data: any) => {
-        if (data.reciever._id == this.getThisUser()._id) this.nbrNotifs++;
+        this.nbrNotifs = this.sessionService.getThisNotifs().length;
       });
       this.webSocketService.onCancelFriend().subscribe((data: any) => {
-        if (data.canceled == this.getThisUser()._id) this.nbrNotifs--;
+        this.nbrNotifs = this.sessionService.getThisNotifs().length;
       });
-      //get the number of notifications after performing an operation in the notif component
-      this.friendService.getNbrNotifs().subscribe((nbr: any) => {
-        this.nbrNotifs = nbr;
+
+      //accept friend request event
+      this.webSocketService.onAcceptFriend().subscribe((data: any) => {
+        this.nbrNotifs = this.sessionService.getThisNotifs().length;
       });
     }
   }

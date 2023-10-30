@@ -90,9 +90,7 @@ export class FriendService {
   setNbrNotifs(nbr: number) {
     this.nbrNotifChanged.next(nbr);
   }
-  getNbrNotifs() {
-    return this.nbrNotifChanged.asObservable();
-  }
+
   resetAcceptedFriendRequest() {
     return this.Http.patch(
       `${this.uri}/user/resetAccepters/${this.getThisUser()._id}`,

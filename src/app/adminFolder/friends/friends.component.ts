@@ -24,40 +24,21 @@ export class FriendsComponent {
     private webSocketService: WebSocketService,
     private sessionService: SessionService
   ) {
+    //get Initial Data
     this.users = this.sessionService.getThisFriends();
-
+    //mark as done
     this.done = true;
-    //set to remove friend
+    //set tremove friend event
     this.webSocketService
       .onRemoveFriend()
       .subscribe((obj: { remover: string; removed: string }) => {
-        if (this.sessionService.getThisUser()._id == obj.remover) {
-          this.users = this.users.filter(
-            (user: any) => user._id != obj.removed
-          );
-        }
-        if (this.sessionService.getThisUser()._id == obj.removed) {
-          this.users = this.users.filter(
-            (user: any) => user._id != obj.remover
-          );
-        }
+        this.users = this.sessionService.getThisFriends();
       });
     //set to add friend
     this.webSocketService
       .onAcceptFriend()
       .subscribe((object: { accepter: any; accepted: any }) => {
-        //if already friends
-
-        if (object.accepter._id == this.sessionService.getThisUser()._id) {
-          if (!this.sessionService.alreadyFriend(object.accepted._id)) {
-            this.users.unshift(object.accepted);
-          }
-        }
-        if (object.accepted._id == this.sessionService.getThisUser()._id) {
-          if (!this.sessionService.alreadyFriend(object.accepter._id)) {
-            this.users.unshift(object.accepter);
-          }
-        }
+        this.users = this.sessionService.getThisFriends();
       });
     //statusChange websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {

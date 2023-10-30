@@ -53,9 +53,19 @@ export class WebSocketService {
   onAddFriend(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('addFriend', (object: any) => {
-        console.log('addfriend', object);
+        //chek if am concerned
+        if (object.reciever._id == this.sessionService.getThisUser()._id) {
+          //add notif  to local storage
 
-        Observer.next(object);
+          this.sessionService.addNotif({
+            type: object.type,
+            user: object.sender,
+            date: object.date,
+          });
+
+          //propagate event
+          Observer.next(object);
+        }
       });
     });
   }
@@ -64,22 +74,39 @@ export class WebSocketService {
       this.socket.on(
         'acceptFriend',
         (object: { accepter: any; accepted: any; date: Date }) => {
-          //set local storage
+          //set local storage friends
           if (object.accepter._id == this.sessionService.getThisUser()._id) {
             this.sessionService.addFriend(object.accepted);
+            this.sessionService.iAccept(object.accepted._id);
+            Observer.next(object);
           }
           if (object.accepted._id == this.sessionService.getThisUser()._id) {
             this.sessionService.addFriend(object.accepter);
+            //add a notif for accepted user
+            this.sessionService.addNotif({
+              type: 'acceptation',
+              user: object.accepter,
+              date: object.date,
+            });
+            Observer.next(object);
           }
-
-          Observer.next(object);
         }
       );
     });
   }
+
   onCancelFriend(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('cancelFriend', (object: any) => {
+        if (object.canceled == this.sessionService.getThisUser()._id) {
+          let notifs = this.sessionService.getThisNotifs();
+          notifs = notifs.filter((notif: any) => {
+            return notif.user._id != object.canceler;
+          });
+
+          //set local storage
+          this.sessionService.setThisNotifs(notifs);
+        }
         Observer.next(object);
       });
     });
@@ -168,8 +195,6 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on('upgardingToChef', (conv: any) => {
         //set the new conv
-        console.log(conv);
-
         this.setThisConv(conv);
         Observer.next(conv);
       });

@@ -28,6 +28,8 @@ export class AdminComponent implements OnInit {
     //web socket subscription
     this.webSocketService.onAcceptFriend().subscribe((data: any) => {});
     this.webSocketService.onRemoveFriend().subscribe((data: any) => {});
+    this.webSocketService.onAddFriend().subscribe((data: any) => {});
+    this.webSocketService.onCancelFriend().subscribe((data: any) => {});
   }
   ngOnInit(): void {
     this.userService.setTheme();
