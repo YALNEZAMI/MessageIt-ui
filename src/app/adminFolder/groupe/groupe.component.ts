@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FriendService } from 'src/app/Services/friend.service';
+import { SessionService } from 'src/app/Services/session.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-groupe',
@@ -17,14 +19,47 @@ export class GroupeComponent {
   noRes: boolean = false;
   done: boolean = false;
 
-  constructor(private friendService: FriendService, private router: Router) {
-    this.friendService.getMyFriends().subscribe((friends: any) => {
-      this.friends = friends;
-
+  constructor(
+    private friendService: FriendService,
+    private router: Router,
+    private sessionService: SessionService,
+    private webSocketService: WebSocketService
+  ) {
+    if (this.sessionService.thereAreFriends()) {
+      this.friends = this.sessionService.getThisFriends();
+      this.done = true;
       if (this.friends.length == 0) {
         this.noRes = true;
       }
+    } else {
+      this.friendService.getMyFriends().subscribe((friends: any) => {
+        this.friends = friends;
+        this.friends = this.friends.concat(this.friends);
+        this.friends = this.friends.concat(this.friends);
+        this.friends = this.friends.concat(this.friends);
+
+        if (this.friends.length == 0) {
+          this.noRes = true;
+        }
+        this.done = true;
+      });
+    }
+    //subscribe to add friend
+    this.webSocketService.onAcceptFriend().subscribe((data: any) => {
+      this.friends = this.sessionService.getThisFriends();
       this.done = true;
+      if (this.friends.length == 0) {
+        this.noRes = true;
+      }
+    });
+    //subscribe to delete friend
+    this.webSocketService.onRemoveFriend().subscribe((data: any) => {
+      this.friends = this.sessionService.getThisFriends();
+      this.friends = this.sessionService.getThisFriends();
+      this.done = true;
+      if (this.friends.length == 0) {
+        this.noRes = true;
+      }
     });
   }
 

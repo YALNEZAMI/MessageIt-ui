@@ -56,7 +56,6 @@ export class WebSocketService {
         //chek if am concerned
         if (object.reciever._id == this.sessionService.getThisUser()._id) {
           //add notif  to local storage
-
           this.sessionService.addNotif({
             type: object.type,
             user: object.sender,

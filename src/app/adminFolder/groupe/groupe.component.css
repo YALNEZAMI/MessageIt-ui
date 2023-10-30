@@ -5,21 +5,18 @@
 .mySpinner{
     color: var(--font-color-admin);
 }
-.userItem{
-    background-color: var(--font-color-admin);
-    margin: 1%;
-    padding: 5px;
-    height: max-content;
-    border-radius: 10px;
-    color: var(--bg-color-admin);
-    cursor: pointer;
-}
 
 
-@media(min-height:767px){
+
+@media(min-width:700px){
+    #friendsContainer{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
     .name{
         font-size: 10%;
-        width: 47%;
+        width: 70%;
         margin-bottom: 0%;
         padding: 1%;
         font-size: larger;
@@ -43,20 +40,40 @@
     
     }
     #groupeName{
-        width: 70%;
+        width: 90%;
+    }
+    .form{
+        margin: 0px;
+        gap: 5px;
+        padding: 5px 5px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .userItem{
+        width: 45%;
+        background-color: var(--font-color-admin);
+        margin: 1%;
+        padding: 5px;
+        height: max-content;
+        border-radius: 10px;
+        color: var(--bg-color-admin);
+        cursor: pointer;
     }
 }
-@media(max-height:767px){
+@media(max-width:700px){
+    #friendsContainer{
+        display: flex;
+        flex-direction: column;
+    }
     .name{
         font-size: 5%;
-        width: 40%;
+        width: 70%;
         margin-bottom: 0%;
         padding: 1%;
         font-size: larger;
         height: max-content;
-        
     }
-  
     .img{
         width: 60px;
         height: 60px;
@@ -73,7 +90,23 @@
         
         }
         #groupeName{
-            width: 60%;
+            width: 80%;
+        }
+        .form{
+            margin: 0px;
+            gap: 5px;
+            padding: 5px 5px;
+            display: flex;
+            flex-direction: row;
+        }
+        .userItem{
+            background-color: var(--font-color-admin);
+            margin: 1%;
+            padding: 5px;
+            height: max-content;
+            border-radius: 10px;
+            color: var(--bg-color-admin);
+            cursor: pointer;
         }
 }
 .UnselectedDiv{
@@ -86,8 +119,4 @@ height: max-content;
     color: var(--bg-color-admin);
     height: max-content;
 }
-.form{
-    margin: 0px;
-    gap: 5px;
-    padding: 5px 5px;
-}
+
