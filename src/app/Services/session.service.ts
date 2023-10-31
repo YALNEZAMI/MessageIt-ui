@@ -71,9 +71,26 @@ export class SessionService {
   }
   addConv(conv: any) {
     let convs = this.getThisConvs();
-    convs.unshift(conv);
-    this.setThisConvs(convs);
+    let alreadyExist = false;
+    convs.map((currentConv: any) => {
+      if (currentConv._id == conv._id) {
+        alreadyExist = true;
+      }
+    });
+    if (!alreadyExist) {
+      let amIn = false;
+      conv.members.map((member: any) => {
+        if (member._id == this.getThisUser()._id) {
+          amIn = true;
+        }
+      });
+      if (amIn) {
+        convs.unshift(conv);
+        this.setThisConvs(convs);
+      }
+    }
   }
+
   removeConv(id: string) {
     let convs = this.getThisConvs();
     convs = convs.filter((conv: any) => conv._id != id);
@@ -145,5 +162,25 @@ export class SessionService {
     let friends = this.getThisFriends();
     friends = friends.filter((friend: any) => friend._id != id);
     this.setThisFriends(friends);
+  }
+  getThisMembersToAdd() {
+    let convMembers = this.getThisConv().members;
+    let friends = this.getThisFriends();
+    convMembers.map((member: any) => {
+      friends = friends.filter((friend: any) => friend._id != member._id);
+    });
+    return friends;
+  }
+  setLastMessage(message: any) {
+    let convs = this.getThisConvs();
+
+    convs = convs.map((conv: any) => {
+      if (conv._id == message.conv) {
+        conv.lastMessage = message;
+      }
+      return conv;
+    });
+
+    this.setThisConvs(convs);
   }
 }

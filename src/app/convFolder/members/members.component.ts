@@ -71,7 +71,9 @@ export class MembersComponent {
       .subscribe((convAndLeaver: { conv: any; leaver: any }) => {
         if (convAndLeaver.conv._id == this.getThisConv()._id) {
           this.members = convAndLeaver.conv.members;
-          this.noRes = false;
+        }
+        if (this.members.length == 0) {
+          this.noRes = true;
         }
       });
   }
@@ -175,13 +177,9 @@ export class MembersComponent {
             document.createElement('button');
           chatBtn.innerHTML = `...`;
         }
-        this.convService.createConv(user._id).subscribe(async (data: any) => {
+        this.convService.createConv(user._id).subscribe((conv: any) => {
           try {
-            let realData = await data;
-            realData.photo = await realData.photo;
-
-            localStorage.setItem('conv', JSON.stringify(realData));
-
+            localStorage.setItem('conv', JSON.stringify(conv));
             this.router.navigate(['/conv/messages']);
           } catch (error) {
             console.log(error);

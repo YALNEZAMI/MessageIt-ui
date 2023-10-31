@@ -29,6 +29,7 @@ export class ConvService {
   }
   //create a private conversation
   createConv(friend1: any) {
+    //TODO check if conv exist in localstorage
     const conv: any = {
       type: 'private',
       members: [friend1, this.getThisUser()._id],
@@ -68,6 +69,12 @@ export class ConvService {
 
   getStatusClassesForConv(conv: any) {
     let members = conv.members;
+    if (members.length == 1) {
+      return {
+        status: true,
+        ' online': true,
+      };
+    }
     for (let member of members) {
       if (member._id != this.getThisUser()._id && member.status == 'online') {
         return {

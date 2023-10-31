@@ -53,6 +53,12 @@ export class ConvComponent implements OnInit {
     this.webSocketService.onRemoveFriend().subscribe((data: any) => {});
     this.webSocketService.onAddFriend().subscribe((data: any) => {});
     this.webSocketService.onCancelFriend().subscribe((data: any) => {});
+    //conv subscriptions
+    this.webSocketService.onCreateConv().subscribe((conv: any) => {});
+    this.webSocketService.onLeavingConv().subscribe((conv: any) => {});
+    this.webSocketService.onRemoveFromGroupe().subscribe((data: any) => {});
+    this.webSocketService.onAddMemberToGroupe().subscribe((data: any) => {});
+    this.webSocketService.convChanged().subscribe((conv: any) => {});
   }
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));

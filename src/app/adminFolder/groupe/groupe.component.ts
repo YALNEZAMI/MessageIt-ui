@@ -90,4 +90,7 @@ export class GroupeComponent {
     this.conv.members = idsArray;
     return this.conv;
   }
+  noFriends() {
+    return this.sessionService.getThisFriends().length == 0;
+  }
 }

@@ -24,11 +24,23 @@ export class FriendsComponent {
     private webSocketService: WebSocketService,
     private sessionService: SessionService
   ) {
-    //get Initial Data
-    this.users = this.sessionService.getThisFriends();
-    //mark as done
-    this.done = true;
-    //set tremove friend event
+    if (this.sessionService.thereAreFriends()) {
+      //get Initial Data
+      this.users = this.sessionService.getThisFriends();
+      //mark as done
+      this.done = true;
+    } else {
+      this.friendService.getMyFriends().subscribe((friends: any) => {
+        this.users = friends;
+        //set local storage
+        this.sessionService.setThisFriends(this.users);
+        this.done = true;
+        if (this.users.length == 0) {
+          this.noRes = true;
+        }
+      });
+    }
+    //set remove friend event
     this.webSocketService
       .onRemoveFriend()
       .subscribe((obj: { remover: string; removed: string }) => {
@@ -126,10 +138,9 @@ export class FriendsComponent {
           chatBtn.innerHTML = `...`;
         }
 
-        this.convService.createConv(user._id).subscribe(async (data: any) => {
+        this.convService.createConv(user._id).subscribe((conv: any) => {
           try {
-            let realData = await data;
-            localStorage.setItem('conv', JSON.stringify(realData));
+            localStorage.setItem('conv', JSON.stringify(conv));
             this.router.navigate(['/conv/messages']);
           } catch (error) {
             console.log(error);

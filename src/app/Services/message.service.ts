@@ -146,4 +146,118 @@ export class MessageService {
       return 'not supported';
     }
   }
+  getNotifText(msg: any) {
+    //sous type:addMember, removeMember
+    switch (msg.sous_type) {
+      case 'addMember':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' added ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName
+        );
+        break;
+      case 'removeMember':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' removed ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName
+        );
+
+        break;
+      case 'upgradeToAdmin':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' upgraded ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName +
+          ' to admin'
+        );
+
+        break;
+      case 'upgradeToChef':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' upgraded ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName +
+          ' to chef'
+        );
+
+        break;
+      case 'downgradeAdmin':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' downgraded ' +
+          msg.reciever.firstName +
+          ' ' +
+          msg.reciever.lastName +
+          ' from admin'
+        );
+
+        break;
+      case 'convPhotoChanged':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' changed the image of the conversation'
+        );
+
+        break;
+      case 'convThemeChanged':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' changed the theme of the conversation'
+        );
+
+        break;
+      case 'convDescriptionChanged':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' changed the description of the conversation'
+        );
+
+        break;
+      case 'convNameChanged':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' changed the name of the conversation'
+        );
+
+        break;
+      case 'leaveConv':
+        return (
+          msg.maker.firstName +
+          ' ' +
+          msg.maker.lastName +
+          ' left the conversation'
+        );
+        break;
+      default:
+        return '';
+        break;
+    }
+  }
 }

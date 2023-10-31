@@ -114,10 +114,9 @@ export class ResultUsersComponent implements OnDestroy {
           document.getElementById(user._id + '-ChatBtn') ||
           document.createElement('div')
         ).innerHTML = '...';
-        this.convService.createConv(user._id).subscribe(async (data: any) => {
+        this.convService.createConv(user._id).subscribe((conv: any) => {
           try {
-            let realData = await data;
-            localStorage.setItem('conv', JSON.stringify(realData));
+            localStorage.setItem('conv', JSON.stringify(conv));
             this.router.navigate(['/conv/messages']);
           } catch (error) {
             console.log(error);

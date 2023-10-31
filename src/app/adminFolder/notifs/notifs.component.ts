@@ -149,10 +149,8 @@ export class NotifsComponent implements OnDestroy {
         });
         break;
       case 'chat':
-        this.convService.createConv(user._id).subscribe(async (data: any) => {
+        this.convService.createConv(user._id).subscribe((conv: any) => {
           try {
-            let conv = await data;
-
             localStorage.setItem('conv', JSON.stringify(conv));
             this.router.navigate(['/conv/messages']);
           } catch (error) {

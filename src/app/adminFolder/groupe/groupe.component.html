@@ -1,5 +1,5 @@
 <div id="groupeGlobal">
-  <form (ngSubmit)="makeGroupe()" class="form">
+  <form *ngIf="!noFriends()" (ngSubmit)="makeGroupe()" class="form">
     <input
       class="form-control"
       type="text"
@@ -18,6 +18,9 @@
       Create
     </button>
   </form>
+  <h5 class="center container-fluid" *ngIf="noFriends()">
+    <ins>You dont have enough friends to make a groupe !</ins>
+  </h5>
   <div id="friendsContainer">
     <div
       id="{{ user._id }}"

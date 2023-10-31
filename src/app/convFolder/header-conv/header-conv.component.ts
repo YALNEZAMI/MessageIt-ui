@@ -73,6 +73,9 @@ export class HeaderConvComponent {
       } else {
         this.lastConnection = 'Since ' + this.lastConnection.toLocaleString();
       }
+    } else if (this.getThisConv().members.length == 1) {
+      this.status = 'online';
+      this.lastConnection = 'Your lonley self';
     } else {
       this.lastConnection = 'Groupe';
     }

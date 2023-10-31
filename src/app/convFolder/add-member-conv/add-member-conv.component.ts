@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
+import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -19,7 +20,8 @@ export class AddMemberConvComponent {
     private friendService: FriendService,
     private router: Router,
     private convService: ConvService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private sessionService: SessionService
   ) {
     this.friendService.getFriendsToAdd().subscribe((friends: any) => {
       this.friends = friends;
@@ -32,13 +34,14 @@ export class AddMemberConvComponent {
     this.webSocketService
       .onAddMemberToGroupe()
       .subscribe((convAndNewMembers: any) => {
-        if (convAndNewMembers.conv._id == this.getThisConv()._id) {
-          let newMembers = convAndNewMembers.members;
-          for (let member of newMembers) {
-            this.friends = this.friends.filter((user) => user._id != member);
-            document.getElementById(member)?.remove();
-          }
-        }
+        this.friends = this.sessionService.getThisMembersToAdd();
+        // if (convAndNewMembers.conv._id == this.getThisConv()._id) {
+        //   let newMembers = convAndNewMembers.members;
+        //   for (let member of newMembers) {
+        //     this.friends = this.friends.filter((user) => user._id != member);
+        //     document.getElementById(member)?.remove();
+        //   }
+        // }
       });
   }
 

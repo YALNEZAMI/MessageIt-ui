@@ -475,8 +475,8 @@ app-conv-side{
     position: absolute;
     width: 0;
     height: 0;
-    top: 10px;
-    left: -20px;
+    /* top: 10px;
+    left: -20px; */
     border: 10px solid;
     border-color: transparent var(--bg-color-conv) transparent transparent;
 }
@@ -486,11 +486,17 @@ app-conv-side{
 }
 
 .chat-container div.chat-right > .chat-text:before {
-    right: -20px;
+    right: -19px;
+    top: 6px;
     border-color: transparent transparent transparent var(--bg-color-conv);
     left: inherit;
 }
-
+.chat-container div.chat-left > .chat-text:before {
+    left: -18px;
+    top: 6px;
+    border-color: transparent var(--bg-color-conv) transparent transparent;
+    right: inherit;
+}
 .chat-container div .chat-hour {
     color: var(--bg-color-conv);
     padding: 0;

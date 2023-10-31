@@ -12,7 +12,12 @@
 
         <div class="nameAndLastMsg">
           <h4 class="name">{{ conv.name }}</h4>
-
+          <div
+            class="lastMsg"
+            *ngIf="conv.members.length > 2 && getLastMessageText(conv) == ''"
+          >
+            New Groupe
+          </div>
           <h6
             [ngClass]="{
               lastMsg: lastMsgIsSeen(conv),
@@ -20,15 +25,21 @@
             }"
             *ngIf="getLastMessageText(conv) != ''"
           >
-            {{ getLastMessageText(conv) }}
-            at {{ getLastMessageHour(conv) }}
-            <div *ngIf="conv.type == 'groupe'">
-              by
-              {{
-                getLastMsgSender(conv).firstName +
-                  " " +
-                  getLastMsgSender(conv).lastName
-              }}
+            <div>
+              <span
+                class="LastMessagesInfos"
+                *ngIf="conv.lastMessage.typeMsg != 'notif'"
+              >
+                {{
+                  getLastMsgSender(conv).firstName +
+                    " " +
+                    getLastMsgSender(conv).lastName +
+                    ":"
+                }}
+              </span>
+              {{ getLastMessageText(conv) }}
+
+              {{ getLastMessageHour(conv) }}
             </div>
           </h6>
           <h6
@@ -57,18 +68,6 @@
           >
             online
           </h6>
-          <h6
-            class="lastMsg"
-            *ngIf="conv.members.length > 2 && getLastMessageText(conv) == ''"
-          >
-            <div>New Groupe</div>
-          </h6>
-          <h6
-            class="lastMsg"
-            *ngIf="conv.lastMessage == null && conv.type == 'groupe'"
-          >
-            <div>Somthing happend !</div>
-          </h6>
         </div>
       </div>
       <div class="options" (click)="options(conv)">
@@ -91,5 +90,5 @@
     <strong>Loading...</strong>
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
-  <h1 class="center noRes" *ngIf="noRes"><ins>No convs yets !</ins></h1>
+  <h1 class="center noRes" *ngIf="noConvs()"><ins>No convs yets !</ins></h1>
 </div>

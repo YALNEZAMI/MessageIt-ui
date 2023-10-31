@@ -4,6 +4,7 @@ import { Conv } from '../../Interfaces/conv.interface';
 import { Router } from '@angular/router';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 import { SessionService } from 'src/app/Services/session.service';
+import { MessageService } from 'src/app/Services/message.service';
 
 @Component({
   selector: 'app-convs-admin',
@@ -18,58 +19,12 @@ export class ConvsAdminComponent implements OnInit {
     private convService: ConvService,
     private router: Router,
     private webSocketService: WebSocketService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private messageService: MessageService
   ) {
-    //subscribe to remove member from groupe event
-    this.webSocketService
-      .onRemoveFromGroupe()
-      .subscribe((obj: { idUser: string; conv: any }) => {
-        if (obj.idUser == this.getThisUser()._id) {
-          this.convs = this.convs.filter(
-            (conv: any) => conv._id != obj.conv._id
-          );
-          //set convs in local storage
-          this.sessionService.setThisConvs(this.convs);
-        }
-      });
-    //statusChange websocket subscription
-    this.webSocketService.statusChange().subscribe((user: any) => {
-      this.convs.map((conv: any) => {
-        conv.members.map((member: any) => {
-          if (member._id == user._id) {
-            member.status = user.status;
-          }
-        });
-      });
-    });
-    //subscribe to add member to groupe event
-    this.webSocketService
-      .onAddMemberToGroupe()
-      .subscribe((convAndNewMembers: any) => {
-        let conv = convAndNewMembers.conv;
-        let newMembers = convAndNewMembers.members;
-        if (newMembers.includes(this.getThisUser()._id)) {
-          this.convs.unshift(conv);
-          this.noRes = false;
-        }
-        //set convs in local storage
-        this.sessionService.setThisConvs(this.convs);
-      });
-    //subscribe to new convs
-    this.webSocketService.onCreateConv().subscribe((conv: any) => {
-      for (let member of conv.members) {
-        if (member._id == this.getThisUser()._id) {
-          this.convs.unshift(conv);
-          this.noRes = false;
-        }
-        //set convs in local storage
-        this.sessionService.setThisConvs(this.convs);
-      }
-    });
     //retrieve convs
     if (this.sessionService.thereAreConvs()) {
       this.convs = this.sessionService.getThisConvs();
-
       if (this.convs.length == 0) {
         this.noRes = true;
       } else {
@@ -89,6 +44,65 @@ export class ConvsAdminComponent implements OnInit {
         this.done = true;
       });
     }
+    //subscribe to remove member from groupe event
+    this.webSocketService
+      .onRemoveFromGroupe()
+      .subscribe((obj: { idUser: string; conv: any }) => {
+        if (obj.idUser == this.getThisUser()._id) {
+          //update local storage
+          this.convs = this.sessionService.getThisConvs();
+          this.done = true;
+          if (this.convs.length == 0) {
+            this.noRes = true;
+          }
+        }
+      });
+    //statusChange websocket subscription
+    this.webSocketService.statusChange().subscribe((user: any) => {
+      this.convs.map((conv: any) => {
+        conv.members.map((member: any) => {
+          if (member._id == user._id) {
+            member.status = user.status;
+          }
+        });
+      });
+    });
+    //subscribe to add member to groupe event
+    this.webSocketService
+      .onAddMemberToGroupe()
+      .subscribe((convAndNewMembers: any) => {
+        this.convs = this.sessionService.getThisConvs();
+        this.done = true;
+        if (this.convs.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+        // let conv = convAndNewMembers.conv;
+        // let newMembers = convAndNewMembers.members;
+        // if (newMembers.includes(this.getThisUser()._id)) {
+        //   this.convs.unshift(conv);
+        //   this.noRes = false;
+        // }
+        // //set convs in local storage
+        // this.sessionService.setThisConvs(this.convs);
+      });
+    //subscribe to create conv
+    this.webSocketService.onCreateConv().subscribe((conv: any) => {
+      //set convs in local storage
+      this.convs = this.sessionService.getThisConvs();
+      if (this.convs.length == 0) {
+        this.noRes = true;
+      } else {
+        this.noRes = false;
+      }
+    });
+    //subscribe to leave conv
+    this.webSocketService.onLeavingConv().subscribe((conv: any) => {
+      //set convs in local storage
+
+      this.convs = this.sessionService.getThisConvs();
+    });
   }
   getThisConvs() {
     for (let i = 0; i < this.convs.length; i++) {
@@ -149,6 +163,9 @@ export class ConvsAdminComponent implements OnInit {
   }
   getLastMessageText(conv: Conv) {
     if (conv.lastMessage != null) {
+      if (conv.lastMessage.typeMsg == 'notif') {
+        return this.messageService.getNotifText(conv.lastMessage);
+      }
       if (conv.lastMessage.text == '') {
         conv.lastMessage.text = 'files';
       }
@@ -177,6 +194,9 @@ export class ConvsAdminComponent implements OnInit {
   }
   getLastMsgSender(conv: any) {
     if (conv.lastMessage != null) {
+      if (conv.lastMessage.typeMsg == 'notif') {
+        return conv.lastMessage.maker;
+      }
       if (conv.lastMessage.sender._id == this.getThisUser()._id) {
         conv.lastMessage.sender.firstName = 'you';
         conv.lastMessage.sender.lastName = '';
@@ -208,5 +228,13 @@ export class ConvsAdminComponent implements OnInit {
     //private case
     let otherMember = this.getOtherMember(conv);
     return otherMember.status;
+  }
+  noConvs() {
+    return this.noRes;
+    // if (this.sessionService.thereAreConvs()) {
+    //   return this.sessionService.getThisConvs().length == 0;
+    // } else {
+    //   return true;
+    // }
   }
 }

@@ -22,6 +22,7 @@ export class WebSocketService {
   newMessage(): Observable<Message> {
     return new Observable<Message>((Observer) => {
       this.socket.on('newMessage', (message: any) => {
+        this.sessionService.setLastMessage(message);
         Observer.next(message);
       });
     });
@@ -117,14 +118,32 @@ export class WebSocketService {
       });
     });
   }
+  onAddMemberToGroupe(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('addMemberToGroupe', (convAndNewMembers: any) => {
+        //add to local storage
+        //check if am concerned
+
+        if (
+          convAndNewMembers.members.includes(
+            this.sessionService.getThisUser()._id
+          )
+        ) {
+          this.sessionService.addConv(convAndNewMembers.conv);
+          Observer.next(convAndNewMembers);
+        }
+      });
+    });
+  }
   onRemoveFromGroupe(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on(
         'removeFromGroupe',
         (object: { idUser: string; conv: any }) => {
-          //set the new conv
-          this.setThisConv(object.conv);
-          Observer.next(object);
+          if (object.idUser == this.sessionService.getThisUser()._id) {
+            this.sessionService.removeConv(object.conv._id);
+            Observer.next(object);
+          }
         }
       );
     });
@@ -132,29 +151,66 @@ export class WebSocketService {
   onCreateConv(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('createConv', (conv: any) => {
-        //set the new conv
-        this.setThisConv(conv);
+        console.log('createConv', conv);
 
-        Observer.next(conv);
+        //check if am concerned
+        let amIn = false;
+        conv.members.map((member: any) => {
+          if (member._id == this.sessionService.getThisUser()._id) {
+            amIn = true;
+          }
+        });
+        if (amIn) {
+          //add to local storage
+          this.sessionService.addConv(conv);
+          //set event
+          Observer.next(conv);
+        }
       });
     });
   }
-  onAddMemberToGroupe(): Observable<any> {
-    return new Observable<any>((Observer) => {
-      this.socket.on('addMemberToGroupe', (convAndNewMembers: any) => {
-        //set the new conv
-        this.setThisConv(convAndNewMembers.conv);
-        Observer.next(convAndNewMembers);
-      });
-    });
-  }
+
   onLeavingConv(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on(
         'leaveConv',
         (convAndLeaver: { conv: any; leaver: any }) => {
-          //set the new conv
-          this.setThisConv(convAndLeaver.conv);
+          let convs = this.sessionService.getThisConvs();
+          let amConcerned = false;
+          convs.map((conv: any) => {
+            conv.members.map((member: any) => {
+              if (convAndLeaver.leaver._id == member._id) {
+                amConcerned = true;
+              }
+            });
+          });
+          //am leaver case
+          if (
+            convAndLeaver.leaver._id == this.sessionService.getThisUser()._id
+          ) {
+            convs = convs.filter((conv: any) => {
+              return conv._id != convAndLeaver.conv._id;
+            });
+            this.sessionService.setThisConvs(convs);
+            //a member of my conv is the leaver case
+          } else if (amConcerned) {
+            convs = convs.map((conv: any) => {
+              //remove the leaver from the conv
+              if (conv._id == convAndLeaver.conv._id) {
+                conv.members = conv.members.filter((member: any) => {
+                  return convAndLeaver.leaver._id != member._id;
+                });
+              }
+              if (conv.members.length == 1 && conv.type == 'private') {
+                let user = conv.members[0];
+                conv.name = user.firstName + ' ' + user.lastName;
+                conv.status = user.status;
+              }
+              return conv;
+            });
+
+            this.sessionService.setThisConvs(convs);
+          }
           Observer.next(convAndLeaver);
         }
       );
