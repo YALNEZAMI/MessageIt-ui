@@ -5,6 +5,8 @@ import { Observable, Subject } from 'rxjs';
 
 import { Message } from '../Interfaces/message.interface';
 import { SessionService } from './session.service';
+import { Router } from '@angular/router';
+import { ConvService } from './conv.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,11 +16,11 @@ export class WebSocketService {
   searchKey: any = new Subject<any>();
   constructor(
     private socket: Socket, // private websocketSubject: WebSocketSubject<any>
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router,
+    private convService: ConvService
   ) {}
-  setThisConv(conv: any) {
-    localStorage.setItem('conv', JSON.stringify(conv));
-  }
+
   newMessage(): Observable<Message> {
     return new Observable<Message>((Observer) => {
       this.socket.on('newMessage', (message: any) => {
@@ -130,8 +132,17 @@ export class WebSocketService {
           )
         ) {
           this.sessionService.addConv(convAndNewMembers.conv);
-          Observer.next(convAndNewMembers);
         }
+        //update convs
+        this.sessionService.setConvFromConvs(convAndNewMembers.conv);
+        //set conv if exist
+        if (
+          this.sessionService.thereIsConv() &&
+          this.sessionService.getThisConv()._id == convAndNewMembers.conv._id
+        ) {
+          this.sessionService.setThisConv(convAndNewMembers.conv);
+        }
+        Observer.next(convAndNewMembers);
       });
     });
   }
@@ -141,9 +152,29 @@ export class WebSocketService {
         'removeFromGroupe',
         (object: { idUser: string; conv: any }) => {
           if (object.idUser == this.sessionService.getThisUser()._id) {
-            this.sessionService.removeConv(object.conv._id);
-            Observer.next(object);
+            //case whare am in the conv
+            if (
+              this.sessionService.thereIsConv() &&
+              this.sessionService.getThisUser()._id == object.idUser
+            ) {
+              this.sessionService.removeConvFromLocalStorage();
+              this.router.navigate(['/admin/convs']);
+            }
+            this.sessionService.removeConvFromConvs(object.conv._id);
+          } else {
+            //am not the removed
+            //am in a conv and its the concerned one
+            if (
+              this.sessionService.thereIsConv() &&
+              this.sessionService.getThisConv()._id == object.conv._id
+            ) {
+              //set the current conv
+              this.sessionService.setThisConv(object.conv);
+            }
+            //set the conv in convs if exist
+            this.sessionService.setConvFromConvs(object.conv);
           }
+          Observer.next(object);
         }
       );
     });
@@ -191,6 +222,8 @@ export class WebSocketService {
             convs = convs.filter((conv: any) => {
               return conv._id != convAndLeaver.conv._id;
             });
+            //update members
+            // this.sessionService.updateMembers();
             this.sessionService.setThisConvs(convs);
             //a member of my conv is the leaver case
           } else if (amConcerned) {
@@ -208,8 +241,16 @@ export class WebSocketService {
               }
               return conv;
             });
-
+            //set all convs
             this.sessionService.setThisConvs(convs);
+            //set conv if exist
+            if (
+              this.sessionService.thereIsConv() &&
+              this.sessionService.getThisConv()._id == convAndLeaver.conv._id
+            ) {
+              this.sessionService.setThisConv(convAndLeaver.conv);
+              // this.sessionService.updateMembers();
+            }
           }
           Observer.next(convAndLeaver);
         }
@@ -237,11 +278,11 @@ export class WebSocketService {
       });
     });
   }
-  upgardingToAdmin(): Observable<any> {
+  upgradingToAdmin(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('upgardingToAdmin', (conv: any) => {
         //set the new conv
-        this.setThisConv(conv);
+        this.sessionService.setThisConv(conv);
         Observer.next(conv);
       });
     });
@@ -250,7 +291,7 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on('upgardingToChef', (conv: any) => {
         //set the new conv
-        this.setThisConv(conv);
+        this.sessionService.setThisConv(conv);
         Observer.next(conv);
       });
     });
@@ -260,7 +301,7 @@ export class WebSocketService {
       this.socket.on('downgardingAdmin', (conv: any) => {
         //set the new conv
 
-        this.setThisConv(conv);
+        this.sessionService.setThisConv(conv);
         Observer.next(conv);
       });
     });
@@ -268,6 +309,12 @@ export class WebSocketService {
   convChanged(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('convChanged', (conv: any) => {
+        if (
+          this.sessionService.getThisConv()._id == conv._id &&
+          this.sessionService.thereIsConv()
+        ) {
+          this.convService.setConvChanged(conv);
+        }
         Observer.next(conv);
       });
     });

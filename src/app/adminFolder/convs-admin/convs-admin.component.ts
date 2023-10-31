@@ -181,11 +181,11 @@ export class ConvsAdminComponent implements OnInit {
   }
 
   async goToConv(conv: Conv) {
-    localStorage.setItem('conv', JSON.stringify(conv));
+    this.sessionService.setThisConv(conv);
     this.router.navigate(['/conv/messages']);
   }
   options(conv: Conv) {
-    localStorage.setItem('conv', JSON.stringify(conv));
+    this.sessionService.setThisConv(conv);
     this.router.navigate(['/conv/settings']);
   }
 

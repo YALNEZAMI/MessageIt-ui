@@ -213,19 +213,13 @@ export class MessageService {
         break;
       case 'convPhotoChanged':
         return (
-          msg.maker.firstName +
-          ' ' +
-          msg.maker.lastName +
-          ' changed the image of the conversation'
+          msg.maker.firstName + ' ' + msg.maker.lastName + ' changed the image '
         );
 
         break;
       case 'convThemeChanged':
         return (
-          msg.maker.firstName +
-          ' ' +
-          msg.maker.lastName +
-          ' changed the theme of the conversation'
+          msg.maker.firstName + ' ' + msg.maker.lastName + ' changed the theme '
         );
 
         break;
@@ -234,26 +228,18 @@ export class MessageService {
           msg.maker.firstName +
           ' ' +
           msg.maker.lastName +
-          ' changed the description of the conversation'
+          ' changed the description '
         );
 
         break;
       case 'convNameChanged':
         return (
-          msg.maker.firstName +
-          ' ' +
-          msg.maker.lastName +
-          ' changed the name of the conversation'
+          msg.maker.firstName + ' ' + msg.maker.lastName + ' changed the name '
         );
 
         break;
       case 'leaveConv':
-        return (
-          msg.maker.firstName +
-          ' ' +
-          msg.maker.lastName +
-          ' left the conversation'
-        );
+        return msg.maker.firstName + ' ' + msg.maker.lastName + ' left';
         break;
       default:
         return '';

@@ -78,7 +78,7 @@ export class GroupeComponent {
   }
   makeGroupe() {
     this.friendService.makeGroupe(this.getConv()).subscribe((groupe: any) => {
-      localStorage.setItem('conv', JSON.stringify(groupe));
+      this.sessionService.setThisConv(groupe);
       this.router.navigate(['/conv/messages']);
     });
   }

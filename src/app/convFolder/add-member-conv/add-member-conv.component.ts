@@ -23,13 +23,22 @@ export class AddMemberConvComponent {
     private webSocketService: WebSocketService,
     private sessionService: SessionService
   ) {
-    this.friendService.getFriendsToAdd().subscribe((friends: any) => {
-      this.friends = friends;
+    if (this.sessionService.thereAreMembers()) {
+      this.friends = this.sessionService.getThisMembersToAdd();
       if (this.friends.length == 0) {
         this.noRes = true;
       }
       this.done = true;
-    });
+    } else {
+      this.friendService.getFriendsToAdd().subscribe((friends: any) => {
+        this.friends = friends;
+        if (this.friends.length == 0) {
+          this.noRes = true;
+        }
+        this.done = true;
+      });
+    }
+
     //subscribe to add member to groupe event
     this.webSocketService
       .onAddMemberToGroupe()

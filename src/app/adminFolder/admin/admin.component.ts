@@ -36,6 +36,11 @@ export class AdminComponent implements OnInit {
     this.webSocketService.onRemoveFromGroupe().subscribe((data: any) => {});
     this.webSocketService.onAddMemberToGroupe().subscribe((data: any) => {});
     this.webSocketService.convChanged().subscribe((conv: any) => {});
+    this.webSocketService.upgradingToAdmin().subscribe((conv: any) => {});
+    //subscribe to upgrade to chef
+    this.webSocketService.upgardingToChef().subscribe((conv: any) => {});
+    //subscribe to upgrade
+    this.webSocketService.downgardingToAdmin().subscribe((conv: any) => {});
   }
   ngOnInit(): void {
     this.userService.setTheme();

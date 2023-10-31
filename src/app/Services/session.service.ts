@@ -19,12 +19,25 @@ export class SessionService {
   }
   setThisUser(user: any) {
     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('friends', JSON.stringify(user.friends));
     //set status online
     this.online().subscribe((data: any) => {});
   }
-  setConv(conv: any) {
+  setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
+    localStorage.setItem('members', JSON.stringify(conv.members));
   }
+  thereAreMembers() {
+    return localStorage.getItem('members') != null;
+  }
+  getThisMembers() {
+    return JSON.parse(localStorage.getItem('members') || '{}');
+  }
+  // updateMembers() {
+  //   if(this.thereIsConv()){
+  //   localStorage.setItem('members', JSON.stringify(this.getThisConv().members));
+  //   }
+  // }
 
   async logout() {
     this.offline().subscribe((data: any) => {
@@ -60,6 +73,9 @@ export class SessionService {
   thereIsConv() {
     return localStorage.getItem('conv') != null;
   }
+  removeConvFromLocalStorage() {
+    localStorage.removeItem('conv');
+  }
   thereAreConvs() {
     return localStorage.getItem('convs') != null;
   }
@@ -68,6 +84,16 @@ export class SessionService {
   }
   setThisConvs(convs: any) {
     localStorage.setItem('convs', JSON.stringify(convs));
+  }
+  setConvFromConvs(conv: any) {
+    let convs = this.getThisConvs();
+    convs = convs.map((currentConv: any) => {
+      if (currentConv._id == conv._id) {
+        return conv;
+      }
+      return currentConv;
+    });
+    this.setThisConvs(convs);
   }
   addConv(conv: any) {
     let convs = this.getThisConvs();
@@ -91,7 +117,7 @@ export class SessionService {
     }
   }
 
-  removeConv(id: string) {
+  removeConvFromConvs(id: string) {
     let convs = this.getThisConvs();
     convs = convs.filter((conv: any) => conv._id != id);
     this.setThisConvs(convs);
@@ -164,11 +190,13 @@ export class SessionService {
     this.setThisFriends(friends);
   }
   getThisMembersToAdd() {
-    let convMembers = this.getThisConv().members;
+    let convMembers = this.getThisMembers();
     let friends = this.getThisFriends();
+
     convMembers.map((member: any) => {
       friends = friends.filter((friend: any) => friend._id != member._id);
     });
+
     return friends;
   }
   setLastMessage(message: any) {

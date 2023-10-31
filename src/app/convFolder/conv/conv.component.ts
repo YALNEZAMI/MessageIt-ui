@@ -17,11 +17,7 @@ export class ConvComponent implements OnInit {
     private webSocketService: WebSocketService
   ) {
     //subscribe to conv changed
-    this.webSocketService.convChanged().subscribe((conv: any) => {
-      if (this.getThisConv()._id == conv._id) {
-        this.convService.setConvChanged(conv);
-      }
-    });
+    this.webSocketService.convChanged().subscribe((conv: any) => {});
     //set the user online
     this.sessionService.online().subscribe((data: any) => {});
     if (localStorage.getItem('conv') == null) {
@@ -59,6 +55,12 @@ export class ConvComponent implements OnInit {
     this.webSocketService.onRemoveFromGroupe().subscribe((data: any) => {});
     this.webSocketService.onAddMemberToGroupe().subscribe((data: any) => {});
     this.webSocketService.convChanged().subscribe((conv: any) => {});
+    //subscribe to upgrade to admin
+    this.webSocketService.upgradingToAdmin().subscribe((conv: any) => {});
+    //subscribe to upgrade to chef
+    this.webSocketService.upgardingToChef().subscribe((conv: any) => {});
+    //subscribe to upgrade
+    this.webSocketService.downgardingToAdmin().subscribe((conv: any) => {});
   }
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
@@ -74,6 +76,7 @@ export class ConvComponent implements OnInit {
   }
   returnToConvs() {
     localStorage.removeItem('conv');
+    localStorage.removeItem('members');
     this.router.navigate(['admin/convs']);
   }
 }

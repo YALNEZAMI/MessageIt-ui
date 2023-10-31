@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
+import { SessionService } from 'src/app/Services/session.service';
 import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
@@ -15,21 +16,15 @@ export class MembersComponent {
   members: any[] = [];
   //done=true to display the members else display a spinner
   done: boolean = false;
-  //noRes=true to display a no result message
-  noRes = false;
+
   constructor(
     private router: Router,
     private convService: ConvService,
     private friendService: FriendService,
     private userService: UserService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private sessionService: SessionService
   ) {
-    //subscribe to upgrade to admin
-    this.webSocketService.upgardingToAdmin().subscribe((conv: any) => {});
-    //subscribe to upgrade to chef
-    this.webSocketService.upgardingToChef().subscribe((conv: any) => {});
-    //subscribe to upgrade
-    this.webSocketService.downgardingToAdmin().subscribe((conv: any) => {});
     //status change websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {
       this.members.map((member: any) => {
@@ -38,44 +33,70 @@ export class MembersComponent {
         }
       });
     });
-    //retrieve the members of the conv
-    this.convService.getMembers().subscribe(async (data: any) => {
-      this.members = await data;
+    if (this.sessionService.thereAreMembers()) {
+      //retrieve the members of the conv from local storage
+
+      this.members = this.sessionService.getThisMembers();
+
       this.done = true;
-      //noRes=true to display a no result message
-      if (!this.therIsSomeMembers()) {
-        this.noRes = true;
-      }
-    });
+    } else {
+      //retrieve the members of the conv from database
+      this.convService.getMembers().subscribe(async (data: any) => {
+        this.members = await data;
+        this.done = true;
+      });
+    }
+
     //subscribe to add member to groupe event
     this.webSocketService
       .onAddMemberToGroupe()
       .subscribe((convAndNewMembers: any) => {
-        if (convAndNewMembers.conv._id == this.getThisConv()._id) {
-          this.members = convAndNewMembers.conv.members;
-          this.noRes = false;
+        // if (convAndNewMembers.conv._id == this.getThisConv()._id) {
+        //   this.members = convAndNewMembers.conv.members;
+        //   this.noRes = false;
+        // }
+        if (this.sessionService.thereIsConv()) {
+          this.members = this.sessionService.getThisMembers();
         }
       });
     //subscribe to remove member from groupe event
     this.webSocketService
       .onRemoveFromGroupe()
       .subscribe((obj: { idUser: string; conv: any }) => {
-        if (obj.conv._id == this.getThisConv()._id) {
-          this.members = obj.conv.members;
-          this.noRes = false;
+        // if (obj.conv._id == this.getThisConv()._id) {
+        //   this.members = obj.conv.members;
+        // }
+        if (this.sessionService.thereIsConv()) {
+          this.members = this.sessionService.getThisMembers();
         }
       });
     //subscribe to leave conv
     this.webSocketService
       .onLeavingConv()
       .subscribe((convAndLeaver: { conv: any; leaver: any }) => {
-        if (convAndLeaver.conv._id == this.getThisConv()._id) {
-          this.members = convAndLeaver.conv.members;
-        }
-        if (this.members.length == 0) {
-          this.noRes = true;
+        // if (convAndLeaver.conv._id == this.getThisConv()._id) {
+        //   this.members = convAndLeaver.conv.members;
+        // }
+        if (this.sessionService.thereIsConv()) {
+          this.members = this.sessionService.getThisMembers();
         }
       });
+
+    //subscribe to upgrade to admin
+    this.webSocketService.upgradingToAdmin().subscribe((conv: any) => {
+      //update conv
+      this.members = this.sessionService.getThisMembers();
+    });
+    //subscribe to upgrade to chef
+    this.webSocketService.upgardingToChef().subscribe((conv: any) => {
+      //update conv
+      this.members = this.sessionService.getThisMembers();
+    });
+    //subscribe to upgrade
+    this.webSocketService.downgardingToAdmin().subscribe((conv: any) => {
+      //update conv
+      this.members = this.sessionService.getThisMembers();
+    });
   }
 
   /**
@@ -298,5 +319,8 @@ export class MembersComponent {
   }
   upgradeToChef(user: any) {
     this.convService.upgradeToChef(user).subscribe((conv: any) => {});
+  }
+  getNoRes() {
+    return this.members.length == 1;
   }
 }

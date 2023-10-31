@@ -71,7 +71,6 @@ export class SigninComponent {
           // if adding success, go to admin with user as token
           let user = await this.response.user;
           this.sessionService.setThisUser(user);
-          this.sessionService.setThisFriends(res.user.friends);
 
           this.router.navigate(['admin/convs']);
         } else {
