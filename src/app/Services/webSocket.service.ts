@@ -24,8 +24,13 @@ export class WebSocketService {
   newMessage(): Observable<Message> {
     return new Observable<Message>((Observer) => {
       this.socket.on('newMessage', (message: any) => {
-        this.sessionService.setLastMessage(message);
-        Observer.next(message);
+        if (this.sessionService.IsAmongMyConvs(message.conv)) {
+          this.sessionService.setLastMessage(message);
+          for (let file of message.files) {
+            this.sessionService.addMedia({ file: file, msg: message });
+          }
+          Observer.next(message);
+        }
       });
     });
   }
@@ -41,6 +46,31 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       // object:{idMsg:string,idUser:string,memberLength:number}
       this.socket.on('messageDeleted', (object: any) => {
+        console.log(object);
+
+        if (this.sessionService.IsAmongMyConvs(object.msg.conv)) {
+          //filter medias
+          //object:{msg,idMsg:string,idUser:string,memberLength:number,operation:'deleteForMe'||'deleteForAll}
+          if (object.operation == 'deleteForAll') {
+            let medias = this.sessionService.getThisMedias();
+            medias = medias.filter((media: any) => {
+              return media.msg._id != object.idMsg;
+            });
+            this.sessionService.setThisMedias(medias);
+            // this.messages = this.messages.filter((msg) => {
+            //   return msg._id != object.idMsg;
+            // });
+          } else {
+            if (
+              object.idUser == this.sessionService.getThisUser()._id &&
+              object.operation == 'deleteForMe'
+            ) {
+              // this.messages = this.messages.filter((msg) => {
+              //   return msg._id != object.idMsg;
+              // });
+            }
+          }
+        }
         Observer.next(object);
       });
     });
@@ -182,8 +212,6 @@ export class WebSocketService {
   onCreateConv(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('createConv', (conv: any) => {
-        console.log('createConv', conv);
-
         //check if am concerned
         let amIn = false;
         conv.members.map((member: any) => {
@@ -230,6 +258,7 @@ export class WebSocketService {
             convs = convs.map((conv: any) => {
               //remove the leaver from the conv
               if (conv._id == convAndLeaver.conv._id) {
+                conv.chef = convAndLeaver.conv.chef;
                 conv.members = conv.members.filter((member: any) => {
                   return convAndLeaver.leaver._id != member._id;
                 });
@@ -241,6 +270,7 @@ export class WebSocketService {
               }
               return conv;
             });
+
             //set all convs
             this.sessionService.setThisConvs(convs);
             //set conv if exist
@@ -249,7 +279,6 @@ export class WebSocketService {
               this.sessionService.getThisConv()._id == convAndLeaver.conv._id
             ) {
               this.sessionService.setThisConv(convAndLeaver.conv);
-              // this.sessionService.updateMembers();
             }
           }
           Observer.next(convAndLeaver);

@@ -75,6 +75,8 @@ export class SessionService {
   }
   removeConvFromLocalStorage() {
     localStorage.removeItem('conv');
+    localStorage.removeItem('members');
+    localStorage.removeItem('medias');
   }
   thereAreConvs() {
     return localStorage.getItem('convs') != null;
@@ -116,7 +118,16 @@ export class SessionService {
       }
     }
   }
-
+  IsAmongMyConvs(id: string) {
+    let convs = this.getThisConvs();
+    let isAmong = false;
+    convs.map((conv: any) => {
+      if (conv._id == id) {
+        isAmong = true;
+      }
+    });
+    return isAmong;
+  }
   removeConvFromConvs(id: string) {
     let convs = this.getThisConvs();
     convs = convs.filter((conv: any) => conv._id != id);
@@ -210,5 +221,19 @@ export class SessionService {
     });
 
     this.setThisConvs(convs);
+  }
+  thereAreMedias() {
+    return localStorage.getItem('medias') != null;
+  }
+  getThisMedias() {
+    return JSON.parse(localStorage.getItem('medias') || '{}');
+  }
+  setThisMedias(medias: any) {
+    localStorage.setItem('medias', JSON.stringify(medias));
+  }
+  addMedia(media: any) {
+    let medias = this.getThisMedias();
+    medias.unshift(media);
+    this.setThisMedias(medias);
   }
 }

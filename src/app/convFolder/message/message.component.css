@@ -184,6 +184,7 @@ background-color: var(--font-color-conv);
     gap: 5px;
 }
 .otherPhotoSentContainer{
+    margin-left: 10px;
     gap: 5px;
 }
 .marginRightSettingAndRep{

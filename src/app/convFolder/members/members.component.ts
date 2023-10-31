@@ -142,7 +142,7 @@ export class MembersComponent {
    * @returns the user from the local storage
    */
   getThisUser() {
-    return JSON.parse(localStorage.getItem('user') || '{}');
+    return this.sessionService.getThisUser();
   }
   /**
    *
@@ -268,11 +268,9 @@ export class MembersComponent {
   getStatusClasses(user: any) {
     return this.userService.getStatusClassesForUser(user);
   }
-  getThisConv() {
-    return JSON.parse(localStorage.getItem('conv') || '{}');
-  }
+
   isAdmin(id: string) {
-    let admins = this.getThisConv().admins;
+    let admins = this.sessionService.getThisConv().admins;
     if (!admins) {
       return false;
     } else {
@@ -280,7 +278,7 @@ export class MembersComponent {
     }
   }
   isChef(id: string) {
-    let chef = this.getThisConv().chef;
+    let chef = this.sessionService.getThisConv().chef;
     return chef == id;
   }
   options(user: any) {
@@ -306,7 +304,7 @@ export class MembersComponent {
     });
   }
   isGroupe() {
-    return this.getThisConv().type == 'groupe';
+    return this.sessionService.getThisConv().type == 'groupe';
   }
   goToAddMembers() {
     this.router.navigate(['/conv/addMembers']);

@@ -1,14 +1,14 @@
 <div
   [ngClass]="{
     globalContainer: true,
-    groupeMembers: isGroupe() && isAdmin(this.getThisUser()._id)
+    groupeMembers: isGroupe() && isAdmin(getThisUser()._id)
   }"
 >
   <button
     (click)="goToAddMembers()"
     *ngIf="
       isGroupe() &&
-      (isAdmin(this.getThisUser()._id) || isChef(this.getThisUser()._id))
+      (isAdmin(this.getThisUser()._id) || isChef(getThisUser()._id))
     "
     class="btn btn-primary"
     id="addMember"

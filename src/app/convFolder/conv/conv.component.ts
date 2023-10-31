@@ -61,6 +61,8 @@ export class ConvComponent implements OnInit {
     this.webSocketService.upgardingToChef().subscribe((conv: any) => {});
     //subscribe to upgrade
     this.webSocketService.downgardingToAdmin().subscribe((conv: any) => {});
+    //subscribe to delete message
+    this.webSocketService.messageDeleted().subscribe((obj: any) => {});
   }
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
@@ -75,8 +77,7 @@ export class ConvComponent implements OnInit {
     this.convService.setTheme();
   }
   returnToConvs() {
-    localStorage.removeItem('conv');
-    localStorage.removeItem('members');
+    this.sessionService.removeConvFromLocalStorage();
     this.router.navigate(['admin/convs']);
   }
 }
