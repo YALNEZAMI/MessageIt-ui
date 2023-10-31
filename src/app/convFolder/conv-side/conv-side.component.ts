@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
-import { UserService } from 'src/app/Services/user.service';
+import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -17,17 +17,28 @@ export class ConvSideComponent implements OnInit {
 
   constructor(
     private convService: ConvService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private sessionService: SessionService
   ) {
+    //retrieve convs
+    if (this.sessionService.thereAreConvs()) {
+      this.convs = this.sessionService.getThisConvs();
+      this.done = true;
+    } else {
+      this.convService.getConvs().subscribe(async (data: any) => {
+        this.convs = await data;
+        //set convs in local storage
+        this.sessionService.setThisConvs(this.convs);
+
+        this.done = true;
+      });
+    }
     //subscribe to remove member from groupe event
     this.webSocketService
       .onRemoveFromGroupe()
       .subscribe((obj: { idUser: string; conv: any }) => {
-        if (obj.idUser == this.getThisUser()._id) {
-          this.convs = this.convs.filter(
-            (conv: any) => conv._id != obj.conv._id
-          );
-        }
+        //update local storage
+        this.convs = this.sessionService.getThisConvs();
       });
     //statusChange websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {
@@ -43,24 +54,18 @@ export class ConvSideComponent implements OnInit {
     this.webSocketService
       .onAddMemberToGroupe()
       .subscribe((convAndNewMembers: any) => {
-        let conv = convAndNewMembers.conv;
-        let newMembers = convAndNewMembers.members;
-        if (newMembers.includes(this.getThisUser()._id)) {
-          this.convs.unshift(conv);
-        }
+        this.convs = this.sessionService.getThisConvs();
       });
-    //get initial convs on the side
-    this.convService.getConvs().subscribe((data: any) => {
-      this.convs = data;
-      this.done = true;
-    });
-    //subscribe to new convs
+    //subscribe to create conv
     this.webSocketService.onCreateConv().subscribe((conv: any) => {
-      for (let member of conv.members) {
-        if (member._id == this.getThisUser()._id) {
-          this.convs.unshift(conv);
-        }
-      }
+      //set convs in local storage
+      this.convs = this.sessionService.getThisConvs();
+    });
+    //subscribe to leave conv
+    this.webSocketService.onLeavingConv().subscribe((conv: any) => {
+      //set convs in local storage
+
+      this.convs = this.sessionService.getThisConvs();
     });
   }
   getThisConv() {
@@ -128,17 +133,11 @@ export class ConvSideComponent implements OnInit {
     }
     let myid = JSON.parse(localStorage.getItem('user') || '{}')._id;
     let res = '';
-    if (msg.sender._id == myid) {
-      res =
-        this.add0(this.getTypeDateOf(msg.date).getHours()) +
-        ':' +
-        this.add0(this.getTypeDateOf(msg.date).getMinutes());
-    } else {
-      res =
-        this.add0(this.getTypeDateOf(msg.date).getHours()) +
-        ':' +
-        this.add0(this.getTypeDateOf(msg.date).getMinutes());
-    }
+    res =
+      this.add0(this.getTypeDateOf(msg.date).getHours()) +
+      ':' +
+      this.add0(this.getTypeDateOf(msg.date).getMinutes());
+
     return res;
   }
   //add 0 to a number if it's less than 10=> for the month and the day of the date

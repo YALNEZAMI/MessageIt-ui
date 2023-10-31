@@ -14,7 +14,6 @@ import { MessageService } from 'src/app/Services/message.service';
 export class ConvsAdminComponent implements OnInit {
   private convs: Conv[] = [];
   done = false;
-  noRes = false;
   constructor(
     private convService: ConvService,
     private router: Router,
@@ -25,22 +24,13 @@ export class ConvsAdminComponent implements OnInit {
     //retrieve convs
     if (this.sessionService.thereAreConvs()) {
       this.convs = this.sessionService.getThisConvs();
-      if (this.convs.length == 0) {
-        this.noRes = true;
-      } else {
-        this.noRes = false;
-      }
       this.done = true;
     } else {
       this.convService.getConvs().subscribe(async (data: any) => {
         this.convs = await data;
         //set convs in local storage
         this.sessionService.setThisConvs(this.convs);
-        if (this.convs.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
+
         this.done = true;
       });
     }
@@ -48,14 +38,8 @@ export class ConvsAdminComponent implements OnInit {
     this.webSocketService
       .onRemoveFromGroupe()
       .subscribe((obj: { idUser: string; conv: any }) => {
-        if (obj.idUser == this.getThisUser()._id) {
-          //update local storage
-          this.convs = this.sessionService.getThisConvs();
-          this.done = true;
-          if (this.convs.length == 0) {
-            this.noRes = true;
-          }
-        }
+        //update local storage
+        this.convs = this.sessionService.getThisConvs();
       });
     //statusChange websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {
@@ -72,30 +56,11 @@ export class ConvsAdminComponent implements OnInit {
       .onAddMemberToGroupe()
       .subscribe((convAndNewMembers: any) => {
         this.convs = this.sessionService.getThisConvs();
-        this.done = true;
-        if (this.convs.length == 0) {
-          this.noRes = true;
-        } else {
-          this.noRes = false;
-        }
-        // let conv = convAndNewMembers.conv;
-        // let newMembers = convAndNewMembers.members;
-        // if (newMembers.includes(this.getThisUser()._id)) {
-        //   this.convs.unshift(conv);
-        //   this.noRes = false;
-        // }
-        // //set convs in local storage
-        // this.sessionService.setThisConvs(this.convs);
       });
     //subscribe to create conv
     this.webSocketService.onCreateConv().subscribe((conv: any) => {
       //set convs in local storage
       this.convs = this.sessionService.getThisConvs();
-      if (this.convs.length == 0) {
-        this.noRes = true;
-      } else {
-        this.noRes = false;
-      }
     });
     //subscribe to leave conv
     this.webSocketService.onLeavingConv().subscribe((conv: any) => {
@@ -230,11 +195,6 @@ export class ConvsAdminComponent implements OnInit {
     return otherMember.status;
   }
   noConvs() {
-    return this.noRes;
-    // if (this.sessionService.thereAreConvs()) {
-    //   return this.sessionService.getThisConvs().length == 0;
-    // } else {
-    //   return true;
-    // }
+    return this.convs.length == 0;
   }
 }
