@@ -23,6 +23,6 @@
   <main>
     <router-outlet></router-outlet>
     <!--input component-->
-    <app-input></app-input>
+    <app-input *ngIf="isMessagesRoute()"></app-input>
   </main>
 </div>

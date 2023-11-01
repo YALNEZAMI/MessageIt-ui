@@ -112,7 +112,11 @@ export class ConvsAdminComponent implements OnInit {
   }
   lastMsgIsSeen(conv: any) {
     let lastMsg = conv.lastMessage;
-    return lastMsg.vus.includes(this.getThisUser()._id);
+    if (lastMsg != null && lastMsg != undefined) {
+      return lastMsg.vus.includes(this.getThisUser()._id);
+    } else {
+      return false;
+    }
   }
   getLastMessageHour(conv: Conv) {
     if (conv.lastMessage != null) {

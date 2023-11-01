@@ -16,6 +16,8 @@ export class ConvComponent implements OnInit {
     private convService: ConvService,
     private webSocketService: WebSocketService
   ) {
+    //set last message of conv as seen in local storage convs
+    this.sessionService.setLastMessageAsSeen();
     //subscribe to conv changed
     this.webSocketService.convChanged().subscribe((conv: any) => {});
     //set the user online
@@ -79,5 +81,18 @@ export class ConvComponent implements OnInit {
   returnToConvs() {
     this.sessionService.removeConvFromLocalStorage();
     this.router.navigate(['admin/convs']);
+  }
+  isMessagesRoute() {
+    let url = this.router.url;
+    let splitted = url.split('/');
+
+    if (
+      splitted[splitted.length - 2] == 'conv' &&
+      splitted[splitted.length - 1] == 'messages'
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

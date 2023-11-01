@@ -3,7 +3,15 @@
     class="container-fluid convContainer"
     *ngFor="let conv of getThisConvs()"
   >
-    <div id="{{ conv._id }}" class="conv row">
+    <div
+      id="{{ conv._id }}"
+      class="conv row"
+      [ngClass]="{
+        row: true,
+        conv: true,
+        boldBorderConv: !lastMsgIsSeen(conv)
+      }"
+    >
       <div class="row photoAndName" (click)="goToConv(conv)">
         <div>
           <img src="{{ conv.photo }}" alt="convImg" class="imgConv" />

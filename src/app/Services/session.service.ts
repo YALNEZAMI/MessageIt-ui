@@ -226,6 +226,20 @@ export class SessionService {
 
     this.setThisConvs(convs);
   }
+  setLastMessageAsSeen() {
+    let convs = this.getThisConvs();
+
+    convs = convs.map((conv: any) => {
+      if (conv._id == this.getThisConv()._id) {
+        if (conv.lastMessage != null && conv.lastMessage != undefined) {
+          conv.lastMessage.vus.push(this.getThisUser()._id);
+        }
+      }
+      return conv;
+    });
+
+    this.setThisConvs(convs);
+  }
   thereAreMedias() {
     return localStorage.getItem('medias') != null;
   }
