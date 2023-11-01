@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
+import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -34,7 +35,8 @@ export class MessageComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private convService: ConvService,
-    private webSocektService: WebSocketService
+    private webSocektService: WebSocketService,
+    private sessionService: SessionService
   ) {
     //subscribe to reactions
     this.webSocektService.onReaction().subscribe((reaction: any) => {
@@ -110,21 +112,31 @@ export class MessageComponent implements OnInit {
           //reinit the idMessage
         });
     } else {
-      //get initial messages without search
-      this.messageService
-        .findMessageOfConv(this.conv._id)
-        .subscribe(async (msgs: any) => {
-          //set global messages and properties
-          this.messages = await msgs;
+      //get messages from local storage if exist
+      if (this.sessionService.thereAreMessages()) {
+        this.messages = this.sessionService.getThisMessages();
+        this.done = true;
+        this.setViewers();
+        //scroll down
+        this.scrollDown();
+      } else {
+        //get initial messages without search
+        this.messageService
+          .findMessageOfConv(this.conv._id)
+          .subscribe(async (msgs: any) => {
+            //set global messages and properties
+            this.messages = await msgs;
+            //set messages in local storage
+            this.sessionService.setThisMessages(this.messages);
+            this.done = true;
+            this.setViewers();
 
-          this.done = true;
-          this.setViewers();
-
-          //scroll down
-          setTimeout(() => {
-            this.scrollDown();
-          }, 100);
-        });
+            //scroll down
+            setTimeout(() => {
+              this.scrollDown();
+            }, 10);
+          });
+      }
     }
 
     //websocket subscribe for new message
@@ -136,6 +148,8 @@ export class MessageComponent implements OnInit {
         //set therisViewers to false
         this.setThereIsViewvers(false);
         this.messages.push(realMessage);
+        //add to local storage
+        this.sessionService.addMessage(realMessage);
         // on new message, set the conv like seen by me
         this.messageService.setVus().subscribe((res: any) => {});
         //scroll down, according to msg size (loading time if files ++)
@@ -269,7 +283,8 @@ export class MessageComponent implements OnInit {
     setTimeout(() => {
       let height = this.chatContainer.nativeElement.scrollHeight;
       let chatContainer = this.chatContainer.nativeElement;
-      chatContainer.scrollTo(0, height);
+      // chatContainer.scrollTo(0, height);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
       this.updateBottom();
     }, 10);
   }

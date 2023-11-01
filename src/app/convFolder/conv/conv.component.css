@@ -27,3 +27,13 @@ main{
 #convContainer{
     min-height: 100vh;
 }
+app-input{
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 2;
+    width: 100%;
+    height: max-content;
+    background-color: var(--bg-color-conv);
+    border-top: 1px solid var(--font-color-conv);
+}

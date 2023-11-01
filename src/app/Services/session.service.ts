@@ -26,6 +26,9 @@ export class SessionService {
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));
     localStorage.setItem('members', JSON.stringify(conv.members));
+    if (!this.thereAreMedias()) {
+      localStorage.setItem('medias', JSON.stringify([]));
+    }
   }
   thereAreMembers() {
     return localStorage.getItem('members') != null;
@@ -77,6 +80,7 @@ export class SessionService {
     localStorage.removeItem('conv');
     localStorage.removeItem('members');
     localStorage.removeItem('medias');
+    localStorage.removeItem('messages');
   }
   thereAreConvs() {
     return localStorage.getItem('convs') != null;
@@ -235,5 +239,28 @@ export class SessionService {
     let medias = this.getThisMedias();
     medias.unshift(media);
     this.setThisMedias(medias);
+  }
+  thereAreMessages() {
+    return localStorage.getItem('messages') != null;
+  }
+  getThisMessages() {
+    return JSON.parse(localStorage.getItem('messages') || '{}');
+  }
+  setThisMessages(messages: any) {
+    localStorage.setItem('messages', JSON.stringify(messages));
+  }
+  addMessage(message: any) {
+    let messages = this.getThisMessages();
+    //avoid duplication
+    let alreadyExist = false;
+    messages.map((msg: any) => {
+      if (msg._id == message._id) {
+        alreadyExist = true;
+      }
+    });
+    if (!alreadyExist) {
+      messages.push(message);
+      this.setThisMessages(messages);
+    }
   }
 }

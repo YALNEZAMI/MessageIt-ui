@@ -44,10 +44,8 @@ export class WebSocketService {
   }
   messageDeleted(): Observable<any> {
     return new Observable<any>((Observer) => {
-      // object:{idMsg:string,idUser:string,memberLength:number}
+      // object:{msg:any,idMsg:string,idUser:string,memberLength:number}
       this.socket.on('messageDeleted', (object: any) => {
-        console.log(object);
-
         if (this.sessionService.IsAmongMyConvs(object.msg.conv)) {
           //filter medias
           //object:{msg,idMsg:string,idUser:string,memberLength:number,operation:'deleteForMe'||'deleteForAll}
@@ -57,17 +55,32 @@ export class WebSocketService {
               return media.msg._id != object.idMsg;
             });
             this.sessionService.setThisMedias(medias);
-            // this.messages = this.messages.filter((msg) => {
-            //   return msg._id != object.idMsg;
-            // });
+
+            //set delete message from local storage
+            let messages = this.sessionService.getThisMessages();
+            messages = messages.filter((msg: any) => {
+              return msg._id != object.idMsg;
+            });
+
+            this.sessionService.setThisMessages(messages);
           } else {
             if (
               object.idUser == this.sessionService.getThisUser()._id &&
               object.operation == 'deleteForMe'
             ) {
-              // this.messages = this.messages.filter((msg) => {
-              //   return msg._id != object.idMsg;
-              // });
+              //delete media from local storage
+              let medias = this.sessionService.getThisMedias();
+              medias = medias.filter((media: any) => {
+                return media.msg._id != object.idMsg;
+              });
+              this.sessionService.setThisMedias(medias);
+              //set delete message from local storage
+              let messages = this.sessionService.getThisMessages();
+              messages = messages.filter((msg: any) => {
+                return msg._id != object.idMsg;
+              });
+
+              this.sessionService.setThisMessages(messages);
             }
           }
         }
