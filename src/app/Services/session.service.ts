@@ -455,27 +455,32 @@ export class SessionService {
   }
   setStatusInLocalStorage(user: any) {
     console.log(user.firstName + ' ' + user.status);
-
-    //set members in convs
-    let convs = this.getThisConvs();
-    convs = convs.map((conv: any) => {
-      conv.members = conv.members.map((member: any) => {
-        if (member._id == user._id) {
-          member.status = user.status;
-        }
-        return member;
+    let timeout = 10;
+    if (!this.thereAreConvs()) {
+      timeout = 5000;
+    }
+    setTimeout(() => {
+      //set members in convs
+      let convs = this.getThisConvs();
+      convs = convs.map((conv: any) => {
+        conv.members = conv.members.map((member: any) => {
+          if (member._id == user._id) {
+            member.status = user.status;
+          }
+          return member;
+        });
+        return conv;
       });
-      return conv;
-    });
-    this.setThisConvs(convs);
-    //set friends status
-    let friends = this.getThisFriends();
-    friends = friends.map((friend: any) => {
-      if (friend._id == user._id) {
-        friend.status = user.status;
-      }
-      return friend;
-    });
-    this.setThisFriends(friends);
+      this.setThisConvs(convs);
+      //set friends status
+      let friends = this.getThisFriends();
+      friends = friends.map((friend: any) => {
+        if (friend._id == user._id) {
+          friend.status = user.status;
+        }
+        return friend;
+      });
+      this.setThisFriends(friends);
+    }, timeout);
   }
 }
