@@ -246,4 +246,24 @@ export class MessageService {
         break;
     }
   }
+  sentConditions(msg: any) {
+    if (msg == null) return;
+
+    return (
+      msg.typeMsg == 'message' &&
+      msg.vus.length <= 1 &&
+      msg.sender._id == this.getThisUser()._id &&
+      msg.recievedBy.length <= 1
+    );
+  }
+  recievedConditions(msg: any) {
+    if (msg == null) return;
+    let bool =
+      msg.typeMsg == 'message' &&
+      msg.vus.length <= 1 &&
+      msg.sender._id == this.getThisUser()._id &&
+      msg.recievedBy.length > 1;
+
+    return bool;
+  }
 }

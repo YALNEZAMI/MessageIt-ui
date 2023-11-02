@@ -35,13 +35,14 @@ export class MessageComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private convService: ConvService,
-    private webSocektService: WebSocketService,
+    private webSocketService: WebSocketService,
     private sessionService: SessionService
   ) {
     //subscribe to reactions
-    this.webSocektService.onReaction().subscribe((reaction: any) => {
+    this.webSocketService.onReaction().subscribe((reaction: any) => {
       //if we are in different conv return
       if (this.convService.getThisConv()._id != reaction.message.conv) return;
+
       this.messages.map((msg: any) => {
         if (msg._id == reaction.message._id) {
           if (reaction.type == 'none') {
@@ -113,7 +114,11 @@ export class MessageComponent implements OnInit {
         });
     } else {
       //get messages from local storage if exist
-      if (this.sessionService.thereAreMessages()) {
+      if (
+        this.sessionService.thereAreMessages(
+          this.sessionService.getThisConv()._id
+        )
+      ) {
         this.messages = this.sessionService.getThisMessages();
         this.done = true;
         this.setViewers();
@@ -140,7 +145,7 @@ export class MessageComponent implements OnInit {
     }
 
     //websocket subscribe for new message
-    this.webSocektService.newMessage().subscribe(async (message: any) => {
+    this.webSocketService.newMessage().subscribe(async (message: any) => {
       let realMessage = await message;
       let idConv = realMessage.conv;
 
@@ -165,7 +170,7 @@ export class MessageComponent implements OnInit {
       }
     });
     //websocket updating vus
-    this.webSocektService.setVus().subscribe(async (data: any) => {
+    this.webSocketService.setVus().subscribe(async (data: any) => {
       if (data.idConv == this.conv._id) {
         this.updateViewers(data);
         let idUser = data.myId;
@@ -177,7 +182,7 @@ export class MessageComponent implements OnInit {
       }
     });
     //websocket message deleted
-    this.webSocektService.messageDeleted().subscribe(async (object: any) => {
+    this.webSocketService.messageDeleted().subscribe(async (object: any) => {
       //object:{idMsg:string,idUser:string,memberLength:number,operation:'deleteForMe'||'deleteForAll}
       if (object.operation == 'deleteForAll') {
         this.messages = this.messages.filter((msg) => {
@@ -195,7 +200,7 @@ export class MessageComponent implements OnInit {
       }
     });
     //subscribe to recieve event
-    this.webSocektService.onRecievedMessage().subscribe((message: any) => {
+    this.webSocketService.onRecievedMessage().subscribe((message: any) => {
       this.messages.map((msg) => {
         if (msg._id == message._id) {
           msg.recievedBy = message.recievedBy;
@@ -236,8 +241,8 @@ export class MessageComponent implements OnInit {
   setThereIsViewvers(bool: boolean) {
     this.thereIsViewvers = bool;
   }
-  getThereIsViewvers() {
-    return this.thereIsViewvers;
+  getThereIsViewvers(msg: any) {
+    return msg.vus.length > 1;
   }
 
   //set me as viewer of the conv
@@ -427,6 +432,7 @@ export class MessageComponent implements OnInit {
     this.loading = true;
     //getting the message above the upper message
     let fristMsgId = this.messages[0]._id;
+
     this.messageService
       .appendUp(this.conv._id, fristMsgId)
       .subscribe((msgs: any) => {
@@ -434,8 +440,11 @@ export class MessageComponent implements OnInit {
         if (msgs.length == 0) {
           this.noMoreUp = true;
         }
+
         //append the result at the head
         this.messages = msgs.concat(this.messages);
+        //apendup in local storage
+        this.sessionService.appendUp(msgs);
         //loading =false ,to hide the up spinner
         this.loading = false;
       });
@@ -451,6 +460,11 @@ export class MessageComponent implements OnInit {
     if (this.messages.length < 20) {
       this.updateBottom();
       this.scrollDown();
+      this.setViewers();
+      for (let i = 0; i < this.members.length; i++) {
+        const member = this.members[i];
+        this.updateViewers({ idConv: this.conv._id, myId: member._id });
+      }
       this.noMoreDown = true;
       return;
     }
@@ -556,6 +570,7 @@ export class MessageComponent implements OnInit {
     let reactionsContainer = document.getElementById(
       msg._id + '-reactionsContainer'
     ) as HTMLElement;
+
     if (reactionsContainer.style.display == 'flex') {
       reactionsContainer.style.display = 'none';
     } else {
@@ -607,13 +622,13 @@ export class MessageComponent implements OnInit {
   getNotifText(msg: any) {
     return this.messageService.getNotifText(msg);
   }
-
   getClassesOfStatus(msg: any) {
     if (msg.typeMsg == 'message') {
       return {
         'd-flex': true,
-        'flex-row-reverse': msg.sender._id == this.getThisUser()._id,
-        'flex-row': msg.sender._id != this.getThisUser()._id,
+        'flex-row-reverse': true,
+        // 'flex-row-reverse': msg.sender._id == this.getThisUser()._id,
+        // 'flex-row': msg.sender._id != this.getThisUser()._id,
         statusRow: true,
       };
     } else {
@@ -622,5 +637,11 @@ export class MessageComponent implements OnInit {
         'flex-row-reverse': true,
       };
     }
+  }
+  sentConditions(msg: any) {
+    return this.isLastMsg(msg) && this.messageService.sentConditions(msg);
+  }
+  recievedConditions(msg: any) {
+    return this.isLastMsg(msg) && this.messageService.recievedConditions(msg);
   }
 }

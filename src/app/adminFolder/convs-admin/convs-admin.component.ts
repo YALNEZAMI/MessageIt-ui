@@ -34,6 +34,15 @@ export class ConvsAdminComponent implements OnInit {
         this.done = true;
       });
     }
+    //subscribe to recieve message event
+    this.webSocketService.onRecievedMessage().subscribe((message: any) => {
+      this.convs = this.convs.map((conv) => {
+        if (conv._id == message.conv) {
+          conv.lastMessage.recievedBy = message.recievedBy;
+        }
+        return conv;
+      });
+    });
     //subscribe to remove member from groupe event
     this.webSocketService
       .onRemoveFromGroupe()
@@ -67,6 +76,18 @@ export class ConvsAdminComponent implements OnInit {
       //set convs in local storage
 
       this.convs = this.sessionService.getThisConvs();
+    });
+    //websocket updating vus
+    this.webSocketService.setVus().subscribe(async (data: any) => {
+      //data:{myId:string,idConv:string}
+      this.convs = this.convs.map((conv) => {
+        if (conv._id == data.idConv) {
+          if (conv.lastMessage != null) {
+            conv.lastMessage.vus.push(data.myId);
+          }
+        }
+        return conv;
+      });
     });
   }
   getThisConvs() {
@@ -200,5 +221,32 @@ export class ConvsAdminComponent implements OnInit {
   }
   noConvs() {
     return this.convs.length == 0;
+  }
+  getSentConditions(msg: any) {
+    let bool = this.messageService.sentConditions(msg);
+
+    return bool;
+  }
+  recievedConditions(msg: any) {
+    return this.messageService.recievedConditions(msg);
+  }
+  getLastMessageViewvers(conv: any) {
+    if (conv.lastMessage == null) return;
+    let viewversIds = conv.lastMessage.vus;
+
+    let members = conv.members;
+
+    let result: any[] = [];
+    members.map((member: any) => {
+      if (viewversIds.includes(member._id)) {
+        result.push(member);
+      }
+      return member;
+    });
+    //exept me
+    result = result.filter((member) => {
+      return member._id != this.sessionService.getThisUser()._id;
+    });
+    return result;
   }
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
+import { env } from 'src/env';
 
 @Component({
   selector: 'app-conv',
@@ -16,15 +17,20 @@ export class ConvComponent implements OnInit {
     private convService: ConvService,
     private webSocketService: WebSocketService
   ) {
+    if (localStorage.getItem('conv') == null) {
+      this.router.navigate(['admin/convs']);
+    }
+    //status check interval
+    setInterval(() => {
+      if (this.sessionService.isAuthenticated()) {
+        this.sessionService.online().subscribe((data: any) => {});
+      }
+    }, 1000 * 60 * env.CHECK_USER_STATUS_INTERVAL_TIME_MIN);
     //set last message of conv as seen in local storage convs
     this.sessionService.setLastMessageAsSeen();
     //subscribe to conv changed
     this.webSocketService.convChanged().subscribe((conv: any) => {});
-    //set the user online
-    this.sessionService.online().subscribe((data: any) => {});
-    if (localStorage.getItem('conv') == null) {
-      this.router.navigate(['admin/convs']);
-    }
+
     //websocket of delete from groupe
     this.webSocketService
       .onRemoveFromGroupe()
@@ -65,6 +71,11 @@ export class ConvComponent implements OnInit {
     this.webSocketService.downgardingToAdmin().subscribe((conv: any) => {});
     //subscribe to delete message
     this.webSocketService.messageDeleted().subscribe((obj: any) => {});
+    this.webSocketService.onReaction().subscribe((reaction: any) => {});
+    this.webSocketService.onRecievedMessage().subscribe((message: any) => {});
+    this.webSocketService.setVus().subscribe((message: any) => {});
+    this.webSocketService.newMessage().subscribe((message: any) => {});
+    this.webSocketService.statusChange().subscribe((user: any) => {});
   }
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));

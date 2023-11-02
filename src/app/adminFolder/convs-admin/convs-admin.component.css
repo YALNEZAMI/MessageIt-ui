@@ -82,6 +82,33 @@
     cursor: pointer;
     
 }
+.optionsAndStatus{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 15%;
+
+}
+.lastMessageStatus{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: max-content;
+}
+.imgViever{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+.imgVieverRowContainer{
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    padding-top: 5px;
+    margin: 0px;
+    flex-wrap: wrap;
+}
 .status{
     width: 15px;
     height: 15px;

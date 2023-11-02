@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { env } from 'src/env';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,26 @@ export class SessionService {
   }
   getThisConv() {
     return JSON.parse(localStorage.getItem('conv') || '{}');
+  }
+  getConvFromConvs(id: string) {
+    let convs = this.getThisConvs();
+    let conv: any = {};
+    convs.map((currentConv: any) => {
+      if (currentConv._id == id) {
+        conv = currentConv;
+      }
+    });
+    return conv;
+  }
+  setConvToConvs(conv: any) {
+    let convs = this.getThisConvs();
+    convs = convs.map((currentConv: any) => {
+      if (currentConv._id == conv._id) {
+        return conv;
+      }
+      return currentConv;
+    });
+    this.setThisConvs(convs);
   }
   setThisUser(user: any) {
     localStorage.setItem('user', JSON.stringify(user));
@@ -91,6 +112,7 @@ export class SessionService {
   setThisConvs(convs: any) {
     localStorage.setItem('convs', JSON.stringify(convs));
   }
+
   setConvFromConvs(conv: any) {
     let convs = this.getThisConvs();
     convs = convs.map((currentConv: any) => {
@@ -240,6 +262,45 @@ export class SessionService {
 
     this.setThisConvs(convs);
   }
+  newViewver(idConv: string, idUser: string) {
+    if (this.thereAreConvs()) {
+      let convs = this.getThisConvs();
+      convs = convs.map((conv: any) => {
+        if (conv._id == idConv && conv.lastMessage != null) {
+          if (!conv.lastMessage.vus.includes(idUser)) {
+            conv.lastMessage.vus.push(idUser);
+          }
+          conv.messages = conv.messages.map((msg: any) => {
+            if (!msg.vus.includes(idUser)) {
+              msg.vus.push(idUser);
+            }
+            return msg;
+          });
+        }
+        return conv;
+      });
+      this.setThisConvs(convs);
+    }
+  }
+  newReciever(message: any) {
+    if (this.thereAreConvs()) {
+      let convs = this.getThisConvs();
+      convs = convs.map((conv: any) => {
+        if (conv._id == message.conv) {
+          conv.lastMessage.recievedBy = message.recievedBy;
+          conv.messages = conv.messages.map((msg: any) => {
+            if (msg._id == message._id) {
+              msg.recievedBy = message.recievedBy;
+            }
+            return msg;
+          });
+        }
+        return conv;
+      });
+
+      this.setThisConvs(convs);
+    }
+  }
   thereAreMedias() {
     return localStorage.getItem('medias') != null;
   }
@@ -254,27 +315,167 @@ export class SessionService {
     medias.unshift(media);
     this.setThisMedias(medias);
   }
-  thereAreMessages() {
-    return localStorage.getItem('messages') != null;
-  }
-  getThisMessages() {
-    return JSON.parse(localStorage.getItem('messages') || '{}');
-  }
-  setThisMessages(messages: any) {
-    localStorage.setItem('messages', JSON.stringify(messages));
-  }
-  addMessage(message: any) {
-    let messages = this.getThisMessages();
-    //avoid duplication
-    let alreadyExist = false;
-    messages.map((msg: any) => {
-      if (msg._id == message._id) {
-        alreadyExist = true;
+  thereAreMessages(convIdParam: any) {
+    let convs = this.getThisConvs();
+    let res = false;
+    convs.map((currentConv: any) => {
+      if (currentConv._id == convIdParam) {
+        res = true;
       }
     });
-    if (!alreadyExist) {
-      messages.push(message);
-      this.setThisMessages(messages);
+    return res;
+  }
+  getThisMessages() {
+    let conv = this.getThisConv();
+    let convs = this.getThisConvs();
+    let res: any[] = [];
+    convs.map((currentConv: any) => {
+      if (currentConv._id == conv._id) {
+        res = currentConv.messages;
+      }
+    });
+    return res;
+  }
+  getMessagesFromConvs(idConv: string) {
+    let convs = this.getThisConvs();
+    let res: any[] = [];
+    convs.map((currentConv: any) => {
+      if (currentConv._id == idConv) {
+        res = currentConv.messages;
+      }
+    });
+    return res;
+  }
+  setThisMessages(messages: any) {
+    let conv = this.getThisConv();
+    let convs = this.getThisConvs();
+    convs = convs.map((currentConv: any) => {
+      if (currentConv._id == conv._id) {
+        currentConv.messages = messages;
+      }
+      return currentConv;
+    });
+    this.setThisConvs(convs);
+  }
+  setMessagesToConvs(messages: any, idConv: string) {
+    let convs = this.getThisConvs();
+    convs = convs.map((currentConv: any) => {
+      if (currentConv._id == idConv) {
+        currentConv.messages = messages;
+      }
+      return currentConv;
+    });
+    this.setThisConvs(convs);
+  }
+  addMessage(message: any) {
+    if (this.thereAreMessages(message.conv)) {
+      let messages = this.getThisMessages();
+      //avoid duplication
+      let alreadyExist = false;
+      messages.map((msg: any) => {
+        if (msg._id == message._id) {
+          alreadyExist = true;
+        }
+      });
+      if (!alreadyExist) {
+        messages.push(message);
+        this.setThisMessages(messages);
+      }
     }
+  }
+  addMessageToConvs(message: any) {
+    let convs = this.getThisConvs();
+    let alreadyExist = false;
+    convs = convs.map((conv: any) => {
+      if (conv._id == message.conv) {
+        conv.messages.map((msg: any) => {
+          if (msg._id == message._id) {
+            alreadyExist = true;
+          }
+        });
+        if (!alreadyExist) {
+          conv.messages.push(message);
+        }
+      }
+
+      return conv;
+    });
+    this.setThisConvs(convs);
+  }
+  removeMsgFromConvs(idMsg: string) {
+    let convs = this.getThisConvs();
+    convs = convs.map((conv: any) => {
+      conv.messages = conv.messages.filter((msg: any) => {
+        return msg._id != idMsg;
+      });
+
+      return conv;
+    });
+    this.setThisConvs(convs);
+  }
+  appendUp(msgs: any[]) {
+    let messages = this.getThisMessages();
+
+    messages = msgs.concat(messages);
+
+    this.setThisMessages(messages);
+  }
+  setReaction(reaction: any) {
+    if (this.thereAreMessages(reaction.message.conv)) {
+      let messages = this.getMessagesFromConvs(reaction.message.conv);
+
+      messages = messages.map((msg: any) => {
+        if (msg._id == reaction.message._id) {
+          if (reaction.type == 'none') {
+            //delete reaction case
+            msg.reactions = msg.reactions.filter((reac: any) => {
+              return reac.user._id != reaction.user._id;
+            });
+          } else {
+            let add = true;
+            msg.reactions = msg.reactions.map((reac: any) => {
+              if (reac.user._id == reaction.user._id) {
+                //update reaction case
+                reac.type = reaction.type;
+                add = false;
+              }
+              return reac;
+            });
+            if (add) {
+              //add reaction case
+              msg.reactions.push(reaction);
+            }
+          }
+        }
+        return msg;
+      });
+
+      this.setMessagesToConvs(messages, reaction.message.conv);
+    }
+  }
+  setStatusInLocalStorage(user: any) {
+    console.log(user.firstName + ' ' + user.status);
+
+    //set members in convs
+    let convs = this.getThisConvs();
+    convs = convs.map((conv: any) => {
+      conv.members = conv.members.map((member: any) => {
+        if (member._id == user._id) {
+          member.status = user.status;
+        }
+        return member;
+      });
+      return conv;
+    });
+    this.setThisConvs(convs);
+    //set friends status
+    let friends = this.getThisFriends();
+    friends = friends.map((friend: any) => {
+      if (friend._id == user._id) {
+        friend.status = user.status;
+      }
+      return friend;
+    });
+    this.setThisFriends(friends);
   }
 }

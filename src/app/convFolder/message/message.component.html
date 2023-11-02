@@ -67,17 +67,7 @@
           >
             <div [class]="getClassesOfStatus(msg)">
               <!--sent mark-->
-              <div
-                class="sentMark"
-                *ngIf="
-                  msg.typeMsg == 'message' &&
-                  !getThereIsViewvers() &&
-                  msg.sender._id == getThisUser()._id &&
-                  isLastMsg(msg) &&
-                  msg.recievedBy.length == 1 &&
-                  msg.vus.length == 1
-                "
-              >
+              <div class="sentMark" *ngIf="sentConditions(msg)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -95,17 +85,7 @@
                 </svg>
               </div>
               <!--recieved mark-->
-              <div
-                class="recievedMark"
-                *ngIf="
-                  msg.typeMsg == 'message' &&
-                  !getThereIsViewvers() &&
-                  msg.sender._id == getThisUser()._id &&
-                  isLastMsg(msg) &&
-                  msg.recievedBy.length > 1 &&
-                  msg.vus.length == 1
-                "
-              >
+              <div class="recievedMark" *ngIf="recievedConditions(msg)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -238,7 +218,13 @@
 
                   <!-- {{ file }} -->
                 </div>
-                <div class="reactionRow row">
+                <div
+                  [ngClass]="{
+                    reactionRow: true,
+                    'flex-row': msg.sender._id != getThisUser()._id,
+                    'flex-row-reverse': msg.sender._id == getThisUser()._id
+                  }"
+                >
                   <div class="addReaction" (click)="displayReactions(msg)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -296,34 +282,34 @@
                   {{ date(msg) }}
                 </small>
               </div>
-              <div
-                (click)="goToMessage(msg.ref._id)"
-                *ngIf="msg.ref != ''"
-                [ngClass]="getRepOfMsgsClasses(msg)"
-              >
-                <img
-                  class="repSenderPhoto"
-                  src="{{ msg.ref.sender.photo }}"
-                  alt="refPhoto"
-                />
-                <div class="repMsgsText" *ngIf="msg.ref.text != ''">
-                  {{ msg.ref.text }}
-                </div>
-                <div *ngIf="msg.ref.text == ''">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-images"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-                    <path
-                      d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
-                    />
-                  </svg>
-                </div>
+            </div>
+            <div
+              (click)="goToMessage(msg.ref._id)"
+              *ngIf="msg.ref != ''"
+              [ngClass]="getRepOfMsgsClasses(msg)"
+            >
+              <img
+                class="repSenderPhoto"
+                src="{{ msg.ref.sender.photo }}"
+                alt="refPhoto"
+              />
+              <div class="repMsgsText" *ngIf="msg.ref.text != ''">
+                {{ msg.ref.text }}
+              </div>
+              <div *ngIf="msg.ref.text == ''">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-images"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                  <path
+                    d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
+                  />
+                </svg>
               </div>
             </div>
           </div>
@@ -337,21 +323,18 @@
   <!--input elements group-->
   <div *ngIf="done" id="inputElementsGroup">
     <!--scrolldown or appendDown-->
-    <div
-      *ngIf="!isBottom"
-      [ngClass]="getInputSecondDivClasses()"
-      id="InputSecondDiv"
-    >
+    <div [ngClass]="getInputSecondDivClasses()" id="InputSecondDiv">
       <button
+        *ngIf="(!noMoreDown && isBottom) || (noMoreDown && !isBottom)"
         (click)="appendDown()"
         id="downBtn"
         [ngClass]="{
-          'btn':true,
-          'btn-warning':true,
+          'btn':false,
+          'bg-warning':true,
         }"
       >
         <svg
-          *ngIf="!noMoreDown"
+          *ngIf="!noMoreDown && isBottom"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -368,7 +351,7 @@
           />
         </svg>
         <svg
-          *ngIf="noMoreDown"
+          *ngIf="noMoreDown && !isBottom"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"

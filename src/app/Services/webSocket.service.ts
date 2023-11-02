@@ -25,6 +25,7 @@ export class WebSocketService {
     return new Observable<Message>((Observer) => {
       this.socket.on('newMessage', (message: any) => {
         if (this.sessionService.IsAmongMyConvs(message.conv)) {
+          this.sessionService.addMessageToConvs(message);
           this.sessionService.setLastMessage(message);
           for (let file of message.files) {
             this.sessionService.addMedia({ file: file, msg: message });
@@ -37,6 +38,8 @@ export class WebSocketService {
   setVus(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('setVus', (object: any) => {
+        this.sessionService.newViewver(object.idConv, object.myId);
+
         //object:{myId:string,idConv:string}
         Observer.next(object);
       });
@@ -47,6 +50,8 @@ export class WebSocketService {
       // object:{msg:any,idMsg:string,idUser:string,memberLength:number}
       this.socket.on('messageDeleted', (object: any) => {
         if (this.sessionService.IsAmongMyConvs(object.msg.conv)) {
+          //delete from convs of local storage
+          this.sessionService.removeMsgFromConvs(object.msg._id);
           //filter medias
           //object:{msg,idMsg:string,idUser:string,memberLength:number,operation:'deleteForMe'||'deleteForAll}
           if (object.operation == 'deleteForAll') {
@@ -302,6 +307,7 @@ export class WebSocketService {
   onRecievedMessage(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('recievedMessage', (message: any) => {
+        this.sessionService.newReciever(message);
         Observer.next(message);
       });
     });
@@ -309,6 +315,8 @@ export class WebSocketService {
   onReaction(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('reaction', (reaction: any) => {
+        this.sessionService.setReaction(reaction);
+
         Observer.next(reaction);
       });
     });
@@ -316,6 +324,8 @@ export class WebSocketService {
   statusChange(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('statusChange', (user: any) => {
+        this.sessionService.setStatusInLocalStorage(user);
+
         Observer.next(user);
       });
     });

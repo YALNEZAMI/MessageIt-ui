@@ -29,7 +29,8 @@ app-conv-side{
     color: var(--bg-color-conv);
 }
 .reactionRow{
-    flex-direction: row-reverse;
+    display: flex;
+    
     margin: 0px;
     padding-right: 1px;
     padding-left: 1px;
@@ -222,7 +223,8 @@ background-color: var(--font-color-conv);
     color: var(--font-color-conv);
     padding: 5px;
     width: 50%;
-    margin-right: 50%;
+    margin-right: 40%;
+    margin-left: 3px;
     border-radius: 10px;
     cursor: pointer;
     overflow: hidden;
@@ -343,7 +345,8 @@ background-color: var(--font-color-conv);
 #downBtn{
     /* position: relative;
     left: 45%; */
-    padding: 3px;
+    border-radius: 50%;
+    /* padding: 0px; */
 }
 #InputSecondDiv{
     background-color: transparent;
@@ -353,9 +356,9 @@ margin-right: 15px;
 }
 #inputElementsGroup{
     position: fixed;
-    bottom: 0px;
+    bottom: 45px;
     left: 0px;
-    z-index: 2;
+    z-index:3;
     width: 100%;
     min-height: max-content;
     background-color: transparent;

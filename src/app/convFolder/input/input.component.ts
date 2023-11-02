@@ -68,6 +68,9 @@ export class InputComponent {
   }
 
   send() {
+    //focus on textarea
+    let textarea = document.getElementById('textArea') as HTMLElement;
+    textarea.focus();
     //check if message is empty
     if (this.message.text == '' && this.message.files.length == 0) {
       return;
