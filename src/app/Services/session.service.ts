@@ -454,7 +454,6 @@ export class SessionService {
     }
   }
   setStatusInLocalStorage(user: any) {
-    console.log(user.firstName + ' ' + user.status);
     let timeout = 10;
     if (!this.thereAreConvs()) {
       timeout = 5000;
