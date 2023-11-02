@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { env } from 'src/env';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -454,9 +453,11 @@ export class SessionService {
     }
   }
   setStatusInLocalStorage(user: any) {
-    let timeout = 10;
+    if (!this.isAuthenticated) return;
+ 
+    let periode = 10;
     if (!this.thereAreConvs()) {
-      timeout = 5000;
+      periode = 5000;
     }
     setTimeout(() => {
       //set members in convs
@@ -480,6 +481,6 @@ export class SessionService {
         return friend;
       });
       this.setThisFriends(friends);
-    }, timeout);
+    }, periode);
   }
 }
