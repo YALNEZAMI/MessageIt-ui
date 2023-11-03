@@ -122,6 +122,7 @@ export class SessionService {
     });
     this.setThisConvs(convs);
   }
+
   addConv(conv: any) {
     let convs = this.getThisConvs();
     let alreadyExist = false;
@@ -157,6 +158,30 @@ export class SessionService {
     let convs = this.getThisConvs();
     convs = convs.filter((conv: any) => conv._id != id);
     this.setThisConvs(convs);
+  }
+  getConvById(id: string) {
+    let convs = this.getThisConvs();
+    let conv: any = {};
+    convs.map((currentConv: any) => {
+      if (currentConv._id == id) {
+        conv = currentConv;
+      }
+    });
+    return conv;
+  }
+  convExistWith(idUser: string) {
+    let convs = this.getThisConvs();
+    let result: any = { bool: false, conv: null };
+    convs.map((currentConv: any) => {
+      if (currentConv.type == 'private') {
+        currentConv.members.map((member: any) => {
+          if (member._id == idUser) {
+            (result.bool = true), (result.conv = currentConv);
+          }
+        });
+      }
+    });
+    return result;
   }
   thereIsUser() {
     return localStorage.getItem('user') != null;
@@ -454,7 +479,7 @@ export class SessionService {
   }
   setStatusInLocalStorage(user: any) {
     if (!this.isAuthenticated) return;
- 
+
     let periode = 10;
     if (!this.thereAreConvs()) {
       periode = 5000;

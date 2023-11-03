@@ -28,9 +28,20 @@ app-conv-side{
 .dateOfMessage{
     color: var(--bg-color-conv);
 }
-.reactionRow{
+
+.myReactionGlobalRow{
     display: flex;
-    
+    flex-direction: row;
+    justify-content: start;
+    margin: 0px;
+    padding-right: 1px;
+    padding-left: 1px;
+    gap: 1px;
+    font-size: small;
+}
+.otherReactionGlobalRow{
+    display: flex;
+    flex-direction: row;
     margin: 0px;
     padding-right: 1px;
     padding-left: 1px;

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { env } from 'src/env';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,11 @@ import { env } from 'src/env';
 export class ConvService {
   uri = env.api_url;
   changeConv: any = new Subject<any>();
-  constructor(private Http: HttpClient, private router: Router) {}
+  constructor(
+    private Http: HttpClient,
+    private router: Router,
+    private sessionService: SessionService
+  ) {}
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
@@ -28,14 +33,20 @@ export class ConvService {
     );
   }
   //create a private conversation
-  createConv(friend1: any) {
-    //TODO check if conv exist in localstorage
-    const conv: any = {
-      type: 'private',
-      members: [friend1, this.getThisUser()._id],
-      createdAt: new Date(),
-    };
-    return this.Http.post(`${this.uri}/conv`, conv);
+  createConv(friend1: string) {
+    if (this.sessionService.convExistWith(friend1).bool) {
+      return new Observable((observer) => {
+        observer.next(this.sessionService.convExistWith(friend1).conv);
+        observer.complete();
+      });
+    } else {
+      const conv: any = {
+        type: 'private',
+        members: [friend1, this.getThisUser()._id],
+        createdAt: new Date(),
+      };
+      return this.Http.post(`${this.uri}/conv`, conv);
+    }
   }
   getConvs() {
     return this.Http.get(`${this.uri}/conv/myConvs/${this.getThisUser()._id}`);

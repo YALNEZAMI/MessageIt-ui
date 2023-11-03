@@ -9,7 +9,6 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css'],
 })
-//FIXME addreq disparition on closing navbar
 //TODO test convs deleting intervall
 export class NavBarComponent {
   nbrNotifs = 0;

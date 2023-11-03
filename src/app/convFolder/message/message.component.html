@@ -220,9 +220,8 @@
                 </div>
                 <div
                   [ngClass]="{
-                    reactionRow: true,
-                    'flex-row': msg.sender._id != getThisUser()._id,
-                    'flex-row-reverse': msg.sender._id == getThisUser()._id
+                    myReactionGlobalRow: msg.sender._id == getThisUser()._id,
+                    otherReactionGlobalRow: msg.sender._id != getThisUser()._id
                   }"
                 >
                   <div class="addReaction" (click)="displayReactions(msg)">
