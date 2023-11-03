@@ -59,7 +59,7 @@
     /* height: max-content; */
 }
 
-@media(min-width:409px){
+@media(min-width:540px){
     #btnsContainer{
         width: 17%;
     }
@@ -90,7 +90,7 @@
         max-height: 37px;
     }
 }
-@media(max-width: 408px){
+@media(max-width: 540px){
     #btnsContainer{
         width: 27%;
     }
@@ -121,7 +121,7 @@
         max-height: 37px;
     }
 }
-@media(min-width: 408px) and (max-height: 825px){
+@media(min-width: 540px) and (max-height: 825px){
     #btnsContainer{
         width: 20%;
     }
@@ -144,7 +144,6 @@
         height: max-content;
         padding-bottom: 5px;
     }
-    /*FIXME like and media button flexibility*/ 
     
     #photo_library{
         width: 40%;

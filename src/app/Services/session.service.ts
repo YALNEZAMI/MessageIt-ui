@@ -91,10 +91,7 @@ export class SessionService {
     return userReturned;
   }
   isAuthenticated() {
-    return (
-      localStorage.getItem('user') != null ||
-      localStorage.getItem('token') != null
-    );
+    return localStorage.getItem('user') != null;
   }
   thereIsConv() {
     return localStorage.getItem('conv') != null;

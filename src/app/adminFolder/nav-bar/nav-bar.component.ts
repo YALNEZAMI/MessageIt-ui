@@ -9,7 +9,6 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css'],
 })
-//TODO test convs deleting intervall
 export class NavBarComponent {
   nbrNotifs = 0;
   constructor(
