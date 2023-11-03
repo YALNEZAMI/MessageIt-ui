@@ -24,6 +24,7 @@ export class ConvsAdminComponent implements OnInit {
     //retrieve convs
     if (this.sessionService.thereAreConvs()) {
       this.convs = this.sessionService.getThisConvs();
+
       this.done = true;
     } else {
       this.convService.getConvs().subscribe(async (data: any) => {

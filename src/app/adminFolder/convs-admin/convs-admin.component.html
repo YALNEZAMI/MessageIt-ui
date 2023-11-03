@@ -1,8 +1,5 @@
 <div id="globalContainer">
-  <div
-    class="container-fluid convContainer"
-    *ngFor="let conv of getThisConvs()"
-  >
+  <div class="convContainer" *ngFor="let conv of getThisConvs()">
     <div
       id="{{ conv._id }}"
       class="conv row"
@@ -12,7 +9,7 @@
         boldBorderConv: !lastMsgIsSeen(conv)
       }"
     >
-      <div class="row photoAndName" (click)="goToConv(conv)">
+      <div class="photoAndName" (click)="goToConv(conv)">
         <div>
           <img src="{{ conv.photo }}" alt="convImg" class="imgConv" />
           <div [ngClass]="getStatusClasses(conv)"></div>
@@ -78,7 +75,7 @@
           </h6>
         </div>
       </div>
-      <div class="optionsAndStatus">
+      <div class="optionsAndLastMessageStatus">
         <div class="options">
           <svg
             (click)="options(conv)"
