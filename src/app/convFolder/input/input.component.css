@@ -144,6 +144,7 @@
         height: max-content;
         padding-bottom: 5px;
     }
+    /*FIXME like and media button flexibility*/ 
     
     #photo_library{
         width: 40%;

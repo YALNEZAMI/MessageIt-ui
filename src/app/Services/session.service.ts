@@ -91,7 +91,10 @@ export class SessionService {
     return userReturned;
   }
   isAuthenticated() {
-    return this.getThisUser() != null;
+    return (
+      localStorage.getItem('user') != null ||
+      localStorage.getItem('token') != null
+    );
   }
   thereIsConv() {
     return localStorage.getItem('conv') != null;
@@ -507,5 +510,14 @@ export class SessionService {
       });
       this.setThisFriends(friends);
     }, periode);
+  }
+  getToken() {
+    return localStorage.getItem('token');
+  }
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+  thereIsToken() {
+    return localStorage.getItem('token') != null;
   }
 }

@@ -63,6 +63,9 @@ export class UserService {
       return env.api_url + '/user/uploads/' + photo;
     }
   }
+  getUserById(id: string) {
+    return this.http.get(`${this.uri}/user/${id}`);
+  }
   getUsersSearched(key: string) {
     let myid = this.getThisUser()._id;
     return this.http.get(`${this.uri}/user/search/${key}/${myid}`);

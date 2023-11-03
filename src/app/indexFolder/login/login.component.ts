@@ -3,6 +3,7 @@ import { UserService } from '../../Services/user.service';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/Services/session.service';
 import { env } from 'src/env';
+import { ConvService } from 'src/app/Services/conv.service';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,8 @@ import { env } from 'src/env';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  hasTokenBool: any = this.sessionService.thereIsToken();
+
   data: any = {
     email: '',
     password: '',
@@ -20,8 +23,12 @@ export class LoginComponent {
   constructor(
     private userService: UserService,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private convService: ConvService
   ) {}
+  hasToken() {
+    return this.hasTokenBool;
+  }
   login() {
     this.loginBtn = false;
     if (this.data.email != '' && this.data.password != '') {
@@ -31,11 +38,15 @@ export class LoginComponent {
         } else if (res.status == 501) {
           this.lanceAlert(res.message);
         } else {
+          this.sessionService.setToken(res.user._id);
           this.sessionService.setThisUser(res.user);
-          this.router.navigate(['admin/convs']);
+          this.convService.getConvs().subscribe(async (convs: any) => {
+            //set convs in local storage
+            this.sessionService.setThisConvs(convs);
+            this.loginBtn = true;
+            this.router.navigate(['admin/convs']);
+          });
         }
-
-        this.loginBtn = true;
       });
     } else {
       this.loginBtn = true;
