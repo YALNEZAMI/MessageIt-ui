@@ -64,9 +64,6 @@ export class ResultUsersComponent implements OnDestroy {
         .getUsersSearched(this.key)
         .subscribe(async (users: any) => {
           this.users = await users;
-          this.users = this.users.concat(this.users);
-          this.users = this.users.concat(this.users);
-          this.users = this.users.concat(this.users);
 
           this.done = true;
           if (this.users.length == 0) {
