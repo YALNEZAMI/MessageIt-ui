@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { UserService } from '../../Services/user.service';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/Services/session.service';
-import { env } from 'src/env';
 import { ConvService } from 'src/app/Services/conv.service';
 
 @Component({
@@ -34,8 +33,12 @@ export class LoginComponent {
     if (this.data.email != '' && this.data.password != '') {
       this.userService.login(this.data).subscribe(async (res: any) => {
         if (res.status == 500) {
+          this.loginBtn = true;
+
           this.lanceAlert(res.message);
         } else if (res.status == 501) {
+          this.loginBtn = true;
+
           this.lanceAlert(res.message);
         } else {
           this.sessionService.setToken(res.user._id);

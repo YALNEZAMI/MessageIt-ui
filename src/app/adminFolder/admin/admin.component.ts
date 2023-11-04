@@ -16,9 +16,6 @@ export class AdminComponent implements OnInit {
     private webSocketService: WebSocketService,
     private messageService: MessageService
   ) {
-    if (localStorage.getItem('user') == null) {
-      this.sessionService.logout();
-    }
     //status check interval
     setInterval(() => {
       if (this.sessionService.isAuthenticated()) {

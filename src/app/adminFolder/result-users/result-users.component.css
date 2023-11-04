@@ -1,17 +1,5 @@
-#globalContainer{
-    padding-left: 5px;
-    padding-right: 5px;
-    height: 480px;
-    overflow-y: auto;
-    padding-bottom: 5px;
-}
-.userItem{
-    background-color: var(--font-color-admin);
-    color: var(--bg-color-admin);
-    margin: 1%;
-    padding: 1%;
-    border-radius: 10px;
-}
+
+
 .noRes{
     color: var(--font-color-admin);
 
@@ -19,22 +7,57 @@
 .mySpinner{
     color: var(--font-color-admin);
 }
-@media(min-height:767px){
+/*PC*/
+@media(min-width:700px){
+    .userItem{
+        background-color: var(--font-color-admin);
+        color: var(--bg-color-admin);
+        margin: 3px;
+        margin-left: 10px;
+        padding: 3px;
+        border-radius: 10px;
+        width: 47%;
+        max-height: 70px;
+    }
+    #globalContainer{
+        padding-left: 5px;
+        padding-right: 5px;
+        max-height: 480px;
+        overflow-y: auto;
+        padding-bottom: 5px;
+        display: flex;
+        gap: 5px;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
     .img{
-        width: 90px;
-        height: 90px;
+        width: 57px;
+        height: 57px;
         border-radius: 50%;
         margin-right: 2%;
     }
     .name{
-        font-size: 10%;
+        font-size: 2vw;
         width: 47%;
-        margin-bottom: 2%;
-        padding: 1%;
-        font-size: larger;
+        padding-top: 2%;
     }
 }
-@media(max-height:767px){
+/*mobile*/
+@media(max-width:700px){
+    .userItem{
+        background-color: var(--font-color-admin);
+        color: var(--bg-color-admin);
+        margin: 1%;
+        padding: 1%;
+        border-radius: 10px;
+    }
+    #globalContainer{
+        padding-left: 5px;
+        padding-right: 5px;
+        max-height: 480px;
+        overflow-y: auto;
+        padding-bottom: 5px;
+    }
     .img{
         width: 60px;
         height: 60px;
@@ -52,8 +75,9 @@
 
 .myBtn{
     margin-top: 1%;
-    min-width: 16%;
+    min-width: 15%;
     max-height: 40px;
+    padding: 3px;
 }
 .btn1{
     margin-right: 1%;

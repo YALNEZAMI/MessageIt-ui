@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, OnInit {
   title = 'front';
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload(event: any): void {
@@ -18,7 +18,8 @@ export class AppComponent implements OnDestroy {
     if (thereIsToken) {
       token = this.sessionService.getToken() || '';
     }
-    localStorage.clear();
+
+    // localStorage.clear();//TODO this line is commented while dev process
     if (thereIsToken) {
       this.sessionService.setToken(token);
     }
@@ -29,20 +30,25 @@ export class AppComponent implements OnDestroy {
     private userService: UserService,
     private convService: ConvService,
     private router: Router
-  ) {
-    if (this.sessionService.thereIsToken()) {
-      let thereIsToken = this.sessionService.thereIsToken();
-      if (thereIsToken) {
-        let token = this.sessionService.getToken() || '';
-        this.userService.getUserById(token).subscribe((user: any) => {
-          this.sessionService.setThisUser(user);
-          this.convService.getConvs().subscribe(async (convs: any) => {
-            //set convs in local storage
-            this.sessionService.setThisConvs(convs);
+  ) {}
+  ngOnInit(): void {
+    if (
+      this.sessionService.thereIsToken() &&
+      !this.sessionService.isAuthenticated()
+    ) {
+      let token = this.sessionService.getToken() || '';
+      this.userService.getUserById(token).subscribe((user: any) => {
+        this.sessionService.setThisUser(user);
+        this.convService.getConvs().subscribe(async (convs: any) => {
+          //set convs in local storage
+          this.sessionService.setThisConvs(convs);
+          setTimeout(() => {
             this.router.navigate(['admin/convs']);
-          });
+          }, 2000);
         });
-      }
+      });
+    } else if (this.sessionService.isAuthenticated()) {
+      console.log('connected  !');
     } else {
       this.sessionService.logout();
     }

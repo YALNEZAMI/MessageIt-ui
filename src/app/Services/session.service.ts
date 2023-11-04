@@ -63,6 +63,8 @@ export class SessionService {
   // }
 
   async logout() {
+    console.log('logout');
+
     this.offline().subscribe((data: any) => {
       setTimeout(() => {
         //clear first time to avoid redirection from auth
