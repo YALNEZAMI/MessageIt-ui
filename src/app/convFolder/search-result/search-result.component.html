@@ -1,14 +1,21 @@
 <div id="globalContainer">
-  <div class="col container">
+  <div class="msgsContainer">
     <div
       (click)="goToMessage(msg)"
       class="row message"
       *ngFor="let msg of messages"
     >
       <img class="senderPhoto" src="{{ msg.sender.photo }}" alt="senderPhoto" />
+      <div
+        [class]="{
+        'status':true,
+        'online':msg.sender.status == 'online',
+        'offline':msg.sender.status != 'offline',
+      }"
+      ></div>
       <div class="nameAndText" class="col">
         <h6 class="name">
-          {{ msg.sender.firstName + " " + msg.sender.lastName }}
+          {{ msg.sender.firstName + " " + msg.sender.lastName }} :
         </h6>
         <div class="text">{{ getShortText(msg.text) }}</div>
       </div>

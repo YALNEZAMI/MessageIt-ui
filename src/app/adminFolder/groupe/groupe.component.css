@@ -5,42 +5,44 @@
 .mySpinner{
     color: var(--font-color-admin);
 }
-
-
-
+/*¨PC*/
 @media(min-width:700px){
     #friendsContainer{
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
     }
-    .name{
-        font-size: 10%;
+    .name
+    {
+        font-size: 1.3vw;
         width: 70%;
         margin-bottom: 0%;
-        padding: 1%;
+        padding: 15px 2px 2px 10px;
         font-size: larger;
-        height: max-content;
-        
+        /*
+         height: max-content; 
+         */
     }
-    
-    .img{
-        width: 70px;
-        height: 70px;
+    .img
+    {
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         margin-right: 2%;
         }
-    .imgAndStatusDiv{
+    .imgAndStatusDiv
+    {
             width: max-content;
             padding-top: 3px;
             /* height: max-content; */
     }
-    #makeGroupeBtn{
+    #makeGroupeBtn
+    {
         width: max-content;
-    
     }
-    #groupeName{
-        width: 90%;
+    #groupeName
+    {
+        width: 85%;
     }
     .form{
         margin: 0px;
@@ -61,6 +63,7 @@
         cursor: pointer;
     }
 }
+/*Mobile*/
 @media(max-width:700px){
     #friendsContainer{
         display: flex;

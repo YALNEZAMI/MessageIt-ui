@@ -1,33 +1,93 @@
-#globalContainer{
-    padding-left: 5px;
-    padding-right: 5px;
-    height: 560px;
-    overflow-y: auto;
-    padding-bottom: 5px;
+/*PC*/
+@media (min-width:700px) {
+    #globalContainer{
+        padding-left: 5px;
+        padding-right: 5px;
+        overflow-y: auto;
+        padding-bottom: 10px;
+        max-height: 75vh;
+
+    }
+    .msgsContainer{
+        display:flex;
+        flex-direction:row;
+        flex-wrap:wrap;
+        gap:5px;
+    }
+    .senderPhoto{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    .message{
+        position: relative;
+        width: 48%;
+        border-radius: 10px;
+        padding: 5px;
+        margin-top: 3px;
+        margin-left: 2%;
+        background-color: var(--font-color-conv);
+        color: var(--bg-color-conv);
+        cursor: pointer;
+    }
+    .dateAndHoure{
+        max-width: max-content;
+        padding: 2px;
+    }
+    .date{
+        font-size: 15px;
+     
+    }
+    .houre{
+        font-size: 15px;
+    }
+    
 }
-.senderPhoto{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-.message{
-    border-radius: 10px;
-    padding: 5px;
-    margin-top: 3px;
-    background-color: var(--font-color-conv);
-    color: var(--bg-color-conv);
-    cursor: pointer;
-}
-.dateAndHoure{
-    max-width: max-content;
-    padding: 2px;
-}
-.date{
-    font-size: 15px;
- 
-}
-.houre{
-    font-size: 15px;
+/*mobile*/
+@media (max-width:700px) {
+    #globalContainer{
+        padding-left: 5px;
+        padding-right: 5px;
+        overflow-y: auto;
+        padding-bottom: 5px;
+        max-height: 77vh;
+
+    }
+    .msgsContainer{
+        margin:5px 10px;
+
+        /* display:flex;
+        flex-direction:column;
+        flex-wrap:wrap; */
+    }
+    .senderPhoto{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+    .message{
+        position: relative;
+        width: 98%;
+        border-radius: 10px;
+        padding: 5px;
+        margin-top: 3px;
+        margin-left: 1%;
+        background-color: var(--font-color-conv);
+        color: var(--bg-color-conv);
+        cursor: pointer;
+    }
+    .dateAndHoure{
+        max-width: max-content;
+        padding: 2px;
+    }
+    .date{
+        font-size: 15px;
+     
+    }
+    .houre{
+        font-size: 15px;
+    }
+    
 }
 #noRes{
     color: var(--font-color-conv);
@@ -36,4 +96,18 @@
 }
 .mySpinner{
     color: var(--font-color-conv);
+}
+.status{
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    position: absolute;
+    left: 38px;
+}
+.online {
+    background: #9ec94a;
+}
+
+.offline {
+    background: #c4d2e2;
 }
