@@ -19,7 +19,7 @@ export class AppComponent implements OnDestroy, OnInit {
       token = this.sessionService.getToken() || '';
     }
 
-    // localStorage.clear();//TODO this line is commented while dev process
+    localStorage.clear(); //TODO this line is commented while dev process
     if (thereIsToken) {
       this.sessionService.setToken(token);
     }
@@ -31,11 +31,9 @@ export class AppComponent implements OnDestroy, OnInit {
     private convService: ConvService,
     private router: Router
   ) {
-    if (
-      !this.sessionService.thereIsToken() ){
-        this.router.navigate(['auth/login'])
-      }
-       
+    if (!this.sessionService.thereIsToken()) {
+      this.router.navigate(['auth/login']);
+    }
   }
   ngOnInit(): void {
     if (
