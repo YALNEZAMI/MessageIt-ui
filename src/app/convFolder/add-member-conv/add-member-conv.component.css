@@ -5,24 +5,35 @@
 .mySpinner{
     color: var(--font-color-admin);
 }
-#addMemberGlobal{
-    padding-top: 15px;
-}
-.userItem{
-    background-color: var(--font-color-admin);
-    margin: 1%;
-    padding: 5px;
-    height: max-content;
-    border-radius: 10px;
-    color: var(--bg-color-admin);
-    cursor: pointer;
-}
 
 
-@media(min-height:767px){
+/*PC*/
+@media(min-width:767px){
+    #membersToAdd{
+        padding-top: 5px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+        max-height: 77vh;      
+        overflow-y: auto;
+        padding-bottom: 5px;
+    }
+    .userItem{
+        background-color: var(--font-color-admin);
+        margin-top: 3px;
+        margin-left: 2%;
+        padding: 5px;
+        width: 46%;
+        height: max-content;
+        border-radius: 10px;
+        color: var(--bg-color-admin);
+        cursor: pointer;
+        position: relative;
+    }
     .name{
         font-size: 10%;
-        width: 47%;
+        width: 70%;
         margin-bottom: 0%;
         padding: 1%;
         font-size: larger;
@@ -31,8 +42,8 @@
     }
     
     .img{
-        width: 70px;
-        height: 70px;
+        width: 55px;
+        height: 55px;
         border-radius: 50%;
         margin-right: 2%;
         }
@@ -42,10 +53,27 @@
             /* height: max-content; */
     }
 }
-@media(max-height:767px){
+/*mobile*/
+@media(max-width:767px){
+    #membersToAdd{
+        padding-top: 5px;
+        max-height: 77vh;  
+        overflow-y: auto;
+        padding-bottom: 5px;
+    }
+    .userItem{
+        background-color: var(--font-color-admin);
+        margin: 1%;
+        padding: 5px;
+        height: max-content;
+        border-radius: 10px;
+        color: var(--bg-color-admin);
+        cursor: pointer;
+        position: relative;
+    }
     .name{
         font-size: 5%;
-        width: 40%;
+        width: 70%;
         margin-bottom: 0%;
         padding: 1%;
         font-size: larger;
@@ -77,6 +105,7 @@ height: max-content;
 }
 .form{
     margin: 0px;
+    margin-top: 10px;
     gap: 5px;
     padding: 5px 10px;
 }
@@ -85,4 +114,20 @@ height: max-content;
 }
 #groupeName{
     width: 70%;
+}
+.status{
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    position: absolute;
+    top: 9px;
+    left: 45px;
+    z-index: 3;
+}
+.online {
+    background: #9ec94a;
+}
+
+.offline {
+    background: #c4d2e2;
 }

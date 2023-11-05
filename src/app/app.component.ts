@@ -30,7 +30,13 @@ export class AppComponent implements OnDestroy, OnInit {
     private userService: UserService,
     private convService: ConvService,
     private router: Router
-  ) {}
+  ) {
+    if (
+      !this.sessionService.thereIsToken() ){
+        this.router.navigate(['auth/login'])
+      }
+       
+  }
   ngOnInit(): void {
     if (
       this.sessionService.thereIsToken() &&

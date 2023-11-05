@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
 import { SessionService } from 'src/app/Services/session.service';
+import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -18,13 +18,14 @@ export class AddMemberConvComponent {
 
   constructor(
     private friendService: FriendService,
-    private router: Router,
     private convService: ConvService,
     private webSocketService: WebSocketService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private userService: UserService
   ) {
     if (this.sessionService.thereAreMembers()) {
       this.friends = this.sessionService.getThisMembersToAdd();
+
       if (this.friends.length == 0) {
         this.noRes = true;
       }
@@ -53,7 +54,10 @@ export class AddMemberConvComponent {
         // }
       });
   }
-
+  //get css classes according to the user status (online,offline...)
+  getStatusClasses(user: any) {
+    return this.userService.getStatusClassesForUser(user);
+  }
   getFriends() {
     return this.friends;
   }

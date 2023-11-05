@@ -307,6 +307,8 @@ export class WebSocketService {
   onRecievedMessage(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('recievedMessage', (message: any) => {
+        console.log(message);
+
         this.sessionService.newReciever(message);
         Observer.next(message);
       });

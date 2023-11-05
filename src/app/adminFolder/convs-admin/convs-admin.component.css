@@ -16,7 +16,7 @@
         gap: 10px;
     }
     .conv{
-        max-height: 74px;
+        max-height: 76px;
         width: 98%;
         margin-left: 1%;
         margin-top: 5px;
@@ -162,7 +162,7 @@
         height: max-content;
     }
     .conv{
-        max-height: 74px;
+        max-height: 76px;
         width: 98%;
         margin-left: 1%;
         margin-top: 5px;
@@ -284,6 +284,16 @@
     .busy {
         background: #fd7274;
     }
+}
+#btnGroupe{
+    background-color: var(--bg-color-admin);
+    padding: 5px;
+    border-radius: 10px;
+    position: absolute;
+    top: 90%;
+    right:10px;
+    margin-left: 20px;
+    cursor: pointer;
 }
 
 

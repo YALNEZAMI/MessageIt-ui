@@ -31,10 +31,6 @@ export class SearchResultComponent {
     this.done = false;
 
     this.messageService.getMessagesByKey(this.key).subscribe((data: any) => {
-      data = data.concat(data);
-      data = data.concat(data);
-      data = data.concat(data);
-      data = data.concat(data);
       this.messages = data;
 
       if (this.messages.length == 0) {

@@ -60,18 +60,16 @@ export class ResultUsersComponent implements OnDestroy {
 
     if (this.key.trim() != '') {
       this.done = false;
-      this.userService
-        .getUsersSearched(this.key)
-        .subscribe(async (users: any) => {
-          this.users = await users;
+      this.userService.getUsersSearched(this.key).subscribe((users: any) => {
+        this.users = users;
 
-          this.done = true;
-          if (this.users.length == 0) {
-            this.noRes = true;
-          } else {
-            this.noRes = false;
-          }
-        });
+        this.done = true;
+        if (this.users.length == 0) {
+          this.noRes = true;
+        } else {
+          this.noRes = false;
+        }
+      });
     }
   }
   setOperation(userId: string, operation: string) {

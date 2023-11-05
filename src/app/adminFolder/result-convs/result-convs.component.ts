@@ -23,15 +23,8 @@ export class ResultConvsComponent {
       this.done = false;
       this.convService
         .getConvsSearched(this.key)
-        .subscribe(async (convs: any) => {
-          let realData = await convs;
-
-          // for (let index = 0; index < realData.length; index++) {
-          //   const element = realData[index];
-          //   element.photo = this.userService.setPhotoLinkForHtml(element.photo);
-          // }
-
-          this.convs = realData;
+        .subscribe( (convs: any) => {
+          this.convs = convs; 
           if (this.convs.length == 0) {
             this.noRes = true;
           }
@@ -57,24 +50,14 @@ export class ResultConvsComponent {
       } else {
         this.done = false;
         this.key = await key;
-        this.convService
-          .getConvsSearched(this.key)
-          .subscribe(async (convs: any) => {
-            let realData = await convs;
-
-            // for (let index = 0; index < realData.length; index++) {
-            //   const element = realData[index];
-            //   element.photo = this.userService.setPhotoLinkForHtml(
-            //     element.photo
-            //   );
-            // }
-
-            this.convs = realData;
-            if (this.convs.length == 0) {
-              this.noRes = true;
-            }
-            this.done = true;
-          });
+        this.convService.getConvsSearched(this.key).subscribe((convs: any) => {
+          this.convs = convs;
+          
+          if (this.convs.length == 0) {
+            this.noRes = true;
+          }
+          this.done = true;
+        });
       }
     });
     //subscribe to recieve message event

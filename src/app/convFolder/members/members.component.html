@@ -30,7 +30,7 @@
       />
     </svg>
   </button>
-  <div class="col container-fluid">
+  <div class="membersContainer">
     <div class="userItem" *ngFor="let user of getThisMembers()" [id]="user._id">
       <div class="row userInfos">
         <div class="imgAndStatusDiv">
@@ -57,158 +57,6 @@
           </svg>
         </div>
       </div>
-      <!--btns groupe -->
-      <div class="options" [id]="user._id + '-options'">
-        <div class="d-flex flex-row-reverse optionsFlex">
-          <button
-            id="{{ user._id + '-Btn1' }}"
-            class="p-2 btn1 myBtn"
-            (click)="operation(user)"
-            [ngClass]="{
-        'btn': true,
-      'btn-success':
-        user.operation=='add' || user.operation == 'accept',
-      'btn-danger': user.operation== 'remove',
-      'btn-warning': user.operation == 'cancel',
-    }"
-          >
-            {{ getContenuBtn(user) }}
-          </button>
-          <button
-            class="p-2 refuseBtn myBtn"
-            class="btn btn-danger myBtn refuseBtn"
-            *ngIf="user.operation == 'accept'"
-            (click)="operation({ operation: 'refuse', _id: user._id })"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-person-fill-x"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
-              />
-              <path
-                d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"
-              />
-            </svg>
-          </button>
-          <button
-            id="{{ user._id + '-ChatBtn' }}"
-            class="p-2 btn btn-light chatBtn myBtn"
-            *ngIf="user.operation == 'remove'"
-            (click)="operation({ operation: 'chat', _id: user._id })"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-chat-left-dots"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-              />
-              <path
-                d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-              />
-            </svg>
-          </button>
-          <button
-            class="p-2 btn btn-warning myBtn"
-            *ngIf="
-              (isAdmin(getThisUser()._id) &&
-                !isAdmin(user._id) &&
-                !isChef(user._id)) ||
-              isChef(getThisUser()._id)
-            "
-            (click)="removeFromGroupe(user)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-door-open"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"
-              />
-              <path
-                d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"
-              />
-            </svg>
-          </button>
-          <button
-            class="p-2 btn btn-dark myBtn"
-            *ngIf="isChef(getThisUser()._id) && !isAdmin(user._id)"
-            (click)="upgradeToAdmin(user)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-person-fill-up"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-              <path
-                d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
-              />
-            </svg>
-          </button>
-          <button
-            class="p-2 btn btn-dark myBtn"
-            *ngIf="isChef(getThisUser()._id) && isAdmin(user._id)"
-            (click)="downgradeToAdmin(user)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-person-fill-down"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-              <path
-                d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
-              />
-            </svg>
-          </button>
-          <button
-            *ngIf="isChef(getThisUser()._id)"
-            (click)="upgradeToChef(user)"
-            class="p-2 btn btn-primary myBtn"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-award-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"
-              />
-              <path
-                d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
     <div *ngIf="!done" class="d-flex align-items-center mySpinner">
       <strong>Loading...</strong>
@@ -221,5 +69,157 @@
     <h1 class="center noRes" *ngIf="getNoRes()">
       <ins>Just you over here !</ins>
     </h1>
+  </div>
+</div>
+<!--btns groupe -->
+<div id="optionsCadre" class="optionsCadre" (click)="options(null)">
+  <div class="options">
+    <button
+      id="{{ user._id + '-Btn1' }}"
+      class="p-2 btn1 myBtn"
+      (click)="operation(user)"
+      [ngClass]="{
+  'btn': true,
+'btn-success':
+  user.operation=='add' || user.operation == 'accept',
+'btn-danger': user.operation== 'remove',
+'btn-warning': user.operation == 'cancel',
+}"
+    >
+      {{ getContenuBtn(user) }}
+    </button>
+    <button
+      class="p-2 refuseBtn myBtn"
+      class="btn btn-danger myBtn refuseBtn"
+      *ngIf="user.operation == 'accept'"
+      (click)="operation({ operation: 'refuse', _id: user._id })"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-person-fill-x"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
+        />
+        <path
+          d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"
+        />
+      </svg>
+    </button>
+    <button
+      id="{{ user._id + '-ChatBtn' }}"
+      class="p-2 btn btn-light chatBtn myBtn"
+      *ngIf="user.operation == 'remove'"
+      (click)="operation({ operation: 'chat', _id: user._id })"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-chat-left-dots"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+        />
+        <path
+          d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+        />
+      </svg>
+    </button>
+    <button
+      class="p-2 btn btn-warning myBtn"
+      *ngIf="
+        (isAdmin(getThisUser()._id) &&
+          !isAdmin(user._id) &&
+          !isChef(user._id)) ||
+        isChef(getThisUser()._id)
+      "
+      (click)="removeFromGroupe(user)"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-door-open"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"
+        />
+        <path
+          d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"
+        />
+      </svg>
+    </button>
+    <button
+      class="p-2 btn btn-dark myBtn"
+      *ngIf="isChef(getThisUser()._id) && !isAdmin(user._id)"
+      (click)="upgradeToAdmin(user)"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-person-fill-up"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+        />
+        <path
+          d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
+        />
+      </svg>
+    </button>
+    <button
+      class="p-2 btn btn-dark myBtn"
+      *ngIf="isChef(getThisUser()._id) && isAdmin(user._id)"
+      (click)="downgradeToAdmin(user)"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-person-fill-down"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+        />
+        <path
+          d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
+        />
+      </svg>
+    </button>
+    <button
+      *ngIf="isChef(getThisUser()._id)"
+      (click)="upgradeToChef(user)"
+      class="p-2 btn btn-primary myBtn"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-award-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"
+        />
+        <path
+          d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"
+        />
+      </svg>
+    </button>
   </div>
 </div>

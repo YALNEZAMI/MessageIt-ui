@@ -1,10 +1,9 @@
 /* mobile*/
 @media(max-width:650px){
     #globalContainer{
-        height: 560px;
+        max-height: 64vh;   
         overflow-y: auto;
         padding-bottom: 10px;
-    
     }
     .noRes{
         color: var(--third-color-admin);
@@ -142,7 +141,7 @@
 /*PC*/
 @media(min-width:650px){
     #globalContainer{
-        max-height: 560px;
+        max-height: 62vh;
         margin: 0px;
         overflow-y: auto;
         padding-bottom: 10px;

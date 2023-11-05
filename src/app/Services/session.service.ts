@@ -312,7 +312,7 @@ export class SessionService {
     if (this.thereAreConvs()) {
       let convs = this.getThisConvs();
       convs = convs.map((conv: any) => {
-        if (conv._id == message.conv) {
+        if (conv._id == message.conv && conv.lastMessage != null) {
           conv.lastMessage.recievedBy = message.recievedBy;
           conv.messages = conv.messages.map((msg: any) => {
             if (msg._id == message._id) {

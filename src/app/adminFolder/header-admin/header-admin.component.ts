@@ -28,7 +28,4 @@ export class HeaderAdminComponent {
   goToProfile() {
     this.router.navigate(['/admin/profile']);
   }
-  goToGroupe() {
-    this.router.navigate(['/admin/groupe']);
-  }
 }

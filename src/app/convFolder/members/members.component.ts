@@ -12,10 +12,12 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrls: ['./members.component.css'],
 })
 export class MembersComponent {
+  currentOptions: HTMLElement = document.createElement('div');
   //members of the conv
   members: any[] = [];
   //done=true to display the members else display a spinner
   done: boolean = false;
+  user: any = {};
 
   constructor(
     private router: Router,
@@ -220,10 +222,10 @@ export class MembersComponent {
   getContenuBtn(user: any): void {
     const operation: string = user.operation;
     let btn: any;
+    btn = document.getElementById(user._id + '-Btn1');
 
     switch (operation) {
       case 'add':
-        btn = document.getElementById(user._id + '-Btn1');
         if (btn != null) {
           btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
           <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
@@ -233,7 +235,6 @@ export class MembersComponent {
 
         break;
       case 'remove':
-        btn = document.getElementById(user._id + '-Btn1');
         if (btn != null) {
           btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
@@ -243,7 +244,6 @@ export class MembersComponent {
 
         break;
       case 'cancel':
-        btn = document.getElementById(user._id + '-Btn1');
         if (btn != null) {
           btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
           <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -253,7 +253,6 @@ export class MembersComponent {
 
         break;
       case 'accept':
-        btn = document.getElementById(user._id + '-Btn1');
         if (btn != null) {
           btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
           <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
@@ -282,11 +281,17 @@ export class MembersComponent {
     return chef == id;
   }
   options(user: any) {
-    let div = document.getElementById(user._id + '-options');
+    let div = document.getElementById('optionsCadre') as HTMLElement;
+    console.log(div);
+
     if (div != null) {
       if (div.style.display == 'block') {
         div.style.display = 'none';
       } else {
+        this.currentOptions.style.display = 'none';
+        //hide the last displayed  options
+        this.currentOptions = div;
+        this.user = user;
         div.style.display = 'block';
       }
     }

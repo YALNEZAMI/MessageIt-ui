@@ -250,4 +250,7 @@ export class ConvsAdminComponent implements OnInit {
     });
     return result;
   }
+  goToGroupe() {
+    this.router.navigate(['/admin/groupe']);
+  }
 }
