@@ -307,8 +307,6 @@ export class WebSocketService {
   onRecievedMessage(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('recievedMessage', (message: any) => {
-        console.log(message);
-
         this.sessionService.newReciever(message);
         Observer.next(message);
       });
@@ -360,14 +358,22 @@ export class WebSocketService {
       });
     });
   }
-  convChanged(): Observable<any> {
+  someConvChanged(): Observable<any> {
     return new Observable<any>((Observer) => {
-      this.socket.on('convChanged', (conv: any) => {
+      this.socket.on('someConvChanged', (conv: any) => {
+        console.log(conv);
+
         if (
           this.sessionService.getThisConv()._id == conv._id &&
           this.sessionService.thereIsConv()
         ) {
+          //set current conv in local storage
           this.convService.setConvChanged(conv);
+          //set conv in convs in local storage
+          this.sessionService.setConvFromConvs(conv);
+        } else {
+          //set conv in convs in local storage
+          this.sessionService.setConvFromConvs(conv);
         }
         Observer.next(conv);
       });
@@ -388,6 +394,17 @@ export class WebSocketService {
           Observer.next(obj);
         }
       );
+    });
+  }
+  onSomeUserUpdated(): Observable<any> {
+    return new Observable<any>((Observer) => {
+      this.socket.on('onSomeUserUpdated', (user: any) => {
+        //set local storage
+        if (user._id != this.sessionService.getThisUser()._id) {
+          this.sessionService.updateOtherUser(user);
+        }
+        Observer.next(user);
+      });
     });
   }
 }

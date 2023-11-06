@@ -63,8 +63,6 @@ export class SessionService {
   // }
 
   async logout() {
-    console.log('logout');
-
     this.offline().subscribe((data: any) => {
       setTimeout(() => {
         //clear first time to avoid redirection from auth
@@ -481,7 +479,6 @@ export class SessionService {
   }
   setStatusInLocalStorage(user: any) {
     if (!this.isAuthenticated) return;
-
     let periode = 10;
     if (!this.thereAreConvs()) {
       periode = 5000;
@@ -518,5 +515,28 @@ export class SessionService {
   }
   thereIsToken() {
     return localStorage.getItem('token') != null;
+  }
+  updateOtherUser(user: any) {
+    //set friends
+    let friends = this.getThisFriends();
+    friends = friends.map((friend: any) => {
+      if (friend._id == user._id) {
+        friend = user;
+      }
+      return friend;
+    });
+    this.setThisFriends(friends);
+    //set convs members
+    let convs = this.getThisConvs();
+    convs = convs.map((conv: any) => {
+      conv.members = conv.members.map((member: any) => {
+        if (member._id == user._id) {
+          member = user;
+        }
+        return member;
+      });
+      return conv;
+    });
+    this.setThisConvs(convs);
   }
 }

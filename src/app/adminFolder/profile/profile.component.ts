@@ -107,8 +107,7 @@ export class ProfileComponent {
       if (inputImg.files?.length != 0) {
         this.userService
           .uploadConvImg(inputImg.files?.item(0), userUpdated._id)
-          .subscribe(async (res: any) => {
-            userUpdated.photo = await res.photo;
+          .subscribe((userUpdated: any) => {
             localStorage.setItem('user', JSON.stringify(userUpdated));
             this.user = userUpdated;
           });

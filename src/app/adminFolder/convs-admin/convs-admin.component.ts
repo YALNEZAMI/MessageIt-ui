@@ -61,6 +61,16 @@ export class ConvsAdminComponent implements OnInit {
         });
       });
     });
+    //subscribe to change conv event
+    this.webSocketService.someConvChanged().subscribe((conv: any) => {
+      this.convs = this.convs.map((currentConv) => {
+        if (conv._id == currentConv._id) {
+          return conv;
+        } else {
+          return currentConv;
+        }
+      });
+    });
     //subscribe to add member to groupe event
     this.webSocketService
       .onAddMemberToGroupe()

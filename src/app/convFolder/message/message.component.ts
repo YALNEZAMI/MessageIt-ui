@@ -79,16 +79,33 @@ export class MessageComponent implements OnInit {
       this.loading = false;
       this.done = false;
       this.messages = [];
-      this.messageService.findMessageOfConv(conv._id).subscribe((msgs: any) => {
-        this.messages = msgs;
+      //if there are convs no need to retrive from database
+      if (this.sessionService.thereAreConvs()) {
+        //set conv in local storage
+        this.sessionService.setThisConv(conv);
+        //get messages from local storage
+        this.messages = this.sessionService.getConvById(conv._id).messages;
         //set conv like seen by me
         this.messageService.setVus().subscribe((res: any) => {});
-
+        //set a timoute for the loading of the page
         setTimeout(() => {
           this.scrollDown();
           this.done = true;
         }, 100);
-      });
+      } else {
+        this.messageService
+          .findMessageOfConv(conv._id)
+          .subscribe((msgs: any) => {
+            this.messages = msgs;
+            //set conv like seen by me
+            this.messageService.setVus().subscribe((res: any) => {});
+
+            setTimeout(() => {
+              this.scrollDown();
+              this.done = true;
+            }, 100);
+          });
+      }
     });
     //set conv like seen by me
     this.messageService.setVus().subscribe((res: any) => {});

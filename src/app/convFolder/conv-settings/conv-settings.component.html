@@ -13,7 +13,7 @@
       <img
         (click)="displayPhoto()"
         id="convPhoto"
-        src="{{ convInfos.photo }}"
+        src="{{ conv.photo }}"
         alt="conv photo"
       />
       <button
@@ -37,7 +37,7 @@
         </svg>
       </button>
       <div id="cadrePhoto" (click)="displayPhoto()">
-        <img id="photoDisplayed" [src]="convInfos.photo" alt="myPhoto" />
+        <img id="photoDisplayed" [src]="conv.photo" alt="myPhoto" />
       </div>
     </div>
     <div class="center" *ngIf="fileSelectedName != ''">
@@ -84,7 +84,7 @@
     <div class="form-group" *ngIf="isGroupe()">
       <label for="convName">Conversation name</label>
       <input
-        [(ngModel)]="convInfos.name"
+        [(ngModel)]="conv.name"
         name="convName"
         type="text"
         class="form-control"
@@ -95,7 +95,7 @@
     <div class="form-group">
       <label for="description">Conversation description</label>
       <textarea
-        [(ngModel)]="convInfos.description"
+        [(ngModel)]="conv.description"
         name="description"
         type="email"
         class="form-control"

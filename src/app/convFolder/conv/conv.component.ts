@@ -28,8 +28,6 @@ export class ConvComponent implements OnInit {
     }, 1000 * 60 * env.CHECK_USER_STATUS_INTERVAL_TIME_MIN);
     //set last message of conv as seen in local storage convs
     this.sessionService.setLastMessageAsSeen();
-    //subscribe to conv changed
-    this.webSocketService.convChanged().subscribe((conv: any) => {});
 
     //websocket of delete from groupe
     this.webSocketService
@@ -62,7 +60,7 @@ export class ConvComponent implements OnInit {
     this.webSocketService.onLeavingConv().subscribe((conv: any) => {});
     this.webSocketService.onRemoveFromGroupe().subscribe((data: any) => {});
     this.webSocketService.onAddMemberToGroupe().subscribe((data: any) => {});
-    this.webSocketService.convChanged().subscribe((conv: any) => {});
+    this.webSocketService.someConvChanged().subscribe((conv: any) => {});
     //subscribe to upgrade to admin
     this.webSocketService.upgradingToAdmin().subscribe((conv: any) => {});
     //subscribe to upgrade to chef
@@ -76,6 +74,7 @@ export class ConvComponent implements OnInit {
     this.webSocketService.setVus().subscribe((message: any) => {});
     this.webSocketService.newMessage().subscribe((message: any) => {});
     this.webSocketService.statusChange().subscribe((user: any) => {});
+    this.webSocketService.onSomeUserUpdated().subscribe((user: any) => {});
   }
   setThisConv(conv: any) {
     localStorage.setItem('conv', JSON.stringify(conv));

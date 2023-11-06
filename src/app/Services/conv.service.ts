@@ -72,7 +72,8 @@ export class ConvService {
     return this.changeConv.asObservable();
   }
   setConvChanged(conv: any) {
-    localStorage.setItem('conv', JSON.stringify(conv));
+    //set conv and its attributes
+    this.sessionService.setThisConv(conv);
     //set theme
     this.setTheme();
     this.changeConv.next(conv);

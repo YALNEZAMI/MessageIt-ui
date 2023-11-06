@@ -282,7 +282,6 @@ export class MembersComponent {
   }
   options(user: any) {
     let div = document.getElementById('optionsCadre') as HTMLElement;
-    console.log(div);
 
     if (div != null) {
       if (div.style.display == 'block') {

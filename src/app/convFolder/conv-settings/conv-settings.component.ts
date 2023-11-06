@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
+import { SessionService } from 'src/app/Services/session.service';
+import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
   selector: 'app-conv-settings',
@@ -8,7 +10,7 @@ import { ConvService } from 'src/app/Services/conv.service';
   styleUrls: ['./conv-settings.component.css'],
 })
 export class ConvSettingsComponent {
-  conv = JSON.parse(localStorage.getItem('conv') || '{}');
+  conv: any = this.sessionService.getThisConv();
   convInfos: any = {
     photo: this.conv.photo,
     name: this.conv.name,
@@ -18,9 +20,17 @@ export class ConvSettingsComponent {
   themes = ['basic', 'love', 'spring', 'panda'];
   selectedTheme = this.themes[0];
   fileSelectedName = '';
-  constructor(private router: Router, private convService: ConvService) {
-    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
-    this.selectedTheme = conv.theme;
+  constructor(
+    private router: Router,
+    private convService: ConvService,
+    private sessionService: SessionService,
+    private webSocketService: WebSocketService
+  ) {
+    this.selectedTheme = this.conv.theme;
+    //subscribe to change conv event
+    this.webSocketService.someConvChanged().subscribe((conv: any) => {
+      this.conv = conv;
+    });
   }
 
   leaveConv() {
