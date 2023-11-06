@@ -29,7 +29,9 @@ export class ConvSettingsComponent {
     this.selectedTheme = this.conv.theme;
     //subscribe to change conv event
     this.webSocketService.someConvChanged().subscribe((conv: any) => {
-      this.conv = conv;
+      if (this.conv._id === conv._id) {
+        this.conv = conv;
+      }
     });
   }
 
