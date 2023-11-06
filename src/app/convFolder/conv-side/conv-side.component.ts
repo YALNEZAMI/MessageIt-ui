@@ -93,9 +93,9 @@ export class ConvSideComponent implements OnInit {
               member.status = 'online';
             }
           });
-          //resort the convs
-          this.setAtTop(conv._id);
         }
+        //resort the convs
+        this.setAtTop(conv._id);
       });
     });
   }

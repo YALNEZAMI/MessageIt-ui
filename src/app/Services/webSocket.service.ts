@@ -164,6 +164,9 @@ export class WebSocketService {
   onLastMsg(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('lastMsg', (msg: any) => {
+        if (this.sessionService.IsAmongMyConvs(msg.conv)) {
+          this.sessionService.putConvAtTheTop(msg.conv);
+        }
         Observer.next(msg);
       });
     });
@@ -361,8 +364,6 @@ export class WebSocketService {
   someConvChanged(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('someConvChanged', (conv: any) => {
-        console.log(conv);
-
         if (
           this.sessionService.getThisConv()._id == conv._id &&
           this.sessionService.thereIsConv()

@@ -106,7 +106,9 @@ export class SessionService {
     return localStorage.getItem('convs') != null;
   }
   getThisConvs() {
-    return JSON.parse(localStorage.getItem('convs') || '{}');
+    let convs = JSON.parse(localStorage.getItem('convs') || '{}');
+
+    return convs;
   }
   setThisConvs(convs: any) {
     localStorage.setItem('convs', JSON.stringify(convs));
@@ -406,6 +408,20 @@ export class SessionService {
         this.setThisMessages(messages);
       }
     }
+  }
+  putConvAtTheTop(idConv: string) {
+    let convs = this.getThisConvs();
+    let conv: any = {};
+    convs.map((currentConv: any) => {
+      if (currentConv._id == idConv) {
+        conv = currentConv;
+      }
+    });
+    convs = convs.filter((currentConv: any) => {
+      return currentConv._id != idConv;
+    });
+    convs.unshift(conv);
+    this.setThisConvs(convs);
   }
   addMessageToConvs(message: any) {
     let convs = this.getThisConvs();
