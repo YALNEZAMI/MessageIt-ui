@@ -5,3 +5,6 @@ label{
     background-color: var(--bg-color);
     color: var(--font-color);
 }
+#or{
+    margin: 0px;
+}

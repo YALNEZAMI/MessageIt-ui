@@ -112,4 +112,9 @@ export class SigninComponent {
       this.passwordDontMatch = true;
     }
   }
+  google() {
+    this.userService.google().subscribe((res: any) => {
+      console.log(res);
+    });
+  }
 }

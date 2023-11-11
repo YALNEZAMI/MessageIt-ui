@@ -167,4 +167,7 @@ export class UserService {
         break;
     }
   }
+  google() {
+    return this.http.get(`${this.uri}/user/auth/google`);
+  }
 }
