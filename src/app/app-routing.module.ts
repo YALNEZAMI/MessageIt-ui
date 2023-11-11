@@ -23,8 +23,15 @@ import { ResetPasswordComponent } from './indexFolder/reset-password/reset-passw
 import { NotFoundPageComponent } from './indexFolder/not-found-page/not-found-page.component';
 import { GroupeComponent } from './adminFolder/groupe/groupe.component';
 import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-conv.component';
+import { GoogleAuthComponent } from './indexFolder/google-auth/google-auth.component';
 
 const routes: Routes = [
+  {
+    path: 'setGoogleUser',
+    component: GoogleAuthComponent,
+    children: [{ path: ':id', component: GoogleAuthComponent }],
+  },
+
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   {
     path: 'auth',

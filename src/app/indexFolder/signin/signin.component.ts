@@ -113,8 +113,6 @@ export class SigninComponent {
     }
   }
   google() {
-    this.userService.google().subscribe((res: any) => {
-      console.log(res);
-    });
+    window.location.href = env.api_url + '/auth/google';
   }
 }

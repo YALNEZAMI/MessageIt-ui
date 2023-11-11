@@ -168,6 +168,9 @@ export class UserService {
     }
   }
   google() {
-    return this.http.get(`${this.uri}/user/auth/google`);
+    return this.http.get(`${this.uri}/auth/google/callback`);
+  }
+  findForGoogle(id: string) {
+    return this.http.get(`${this.uri}/user/findForGoogle/${id}`);
   }
 }
