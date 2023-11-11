@@ -117,11 +117,11 @@
         flex-wrap: wrap;
     }
     .status{
-        width: 15px;
-        height: 15px;
+        width: 13px;
+        height: 13px;
         border-radius: 50%;
         position: relative;
-        bottom: 90%;
+        bottom: 95%;
         left: 55%;
     }
     .online {
@@ -263,11 +263,11 @@
         flex-wrap: wrap;
     }
     .status{
-        width: 15px;
-        height: 15px;
+        width: 13px;
+        height: 13px;
         border-radius: 50%;
         position: relative;
-        bottom: 90%;
+        bottom: 94%;
         left: 55%;
     }
     .online {
