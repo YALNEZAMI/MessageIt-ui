@@ -167,10 +167,10 @@ export class UserService {
         break;
     }
   }
-  google() {
-    return this.http.get(`${this.uri}/auth/google/callback`);
-  }
-  findForGoogle(id: string) {
-    return this.http.get(`${this.uri}/user/findForGoogle/${id}`);
+  // google() {
+  //   return this.http.get(`${this.uri}/auth/google/callback`);
+  // }
+  findForOtherAuthWays(id: string) {
+    return this.http.get(`${this.uri}/user/findForOtherAuthWays/${id}`);
   }
 }

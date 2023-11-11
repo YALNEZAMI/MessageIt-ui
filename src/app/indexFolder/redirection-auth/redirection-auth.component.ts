@@ -9,20 +9,24 @@ import { UserService } from 'src/app/Services/user.service';
   selector: 'app-google-auth',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './google-auth.component.html',
-  styleUrl: './google-auth.component.css',
+  templateUrl: './redirection-auth.component.html',
+  styleUrl: './redirection-auth.component.css',
 })
-export class GoogleAuthComponent {
+export class RedirectionAuthComponent {
   constructor(
     private router: Router,
     private sessionService: SessionService,
     private convService: ConvService,
     private userService: UserService
   ) {
-    let route = this.router.url.split('=');
+    let route: any = this.router.url;
+    route = route.replace(/#_=_/g, '');
+    console.log(route);
+
+    route = route.split('=');
     let id = route[route.length - 1];
 
-    this.userService.findForGoogle(id).subscribe((user: any) => {
+    this.userService.findForOtherAuthWays(id).subscribe((user: any) => {
       this.sessionService.setToken(user._id);
       this.sessionService.setThisUser(user);
       this.convService.getConvs().subscribe(async (convs: any) => {

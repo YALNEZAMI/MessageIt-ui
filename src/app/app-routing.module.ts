@@ -23,13 +23,13 @@ import { ResetPasswordComponent } from './indexFolder/reset-password/reset-passw
 import { NotFoundPageComponent } from './indexFolder/not-found-page/not-found-page.component';
 import { GroupeComponent } from './adminFolder/groupe/groupe.component';
 import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-conv.component';
-import { GoogleAuthComponent } from './indexFolder/google-auth/google-auth.component';
+import { RedirectionAuthComponent } from './indexFolder/redirection-auth/redirection-auth.component';
 
 const routes: Routes = [
   {
-    path: 'setGoogleUser',
-    component: GoogleAuthComponent,
-    children: [{ path: ':id', component: GoogleAuthComponent }],
+    path: 'setUser',
+    component: RedirectionAuthComponent,
+    children: [{ path: ':id', component: RedirectionAuthComponent }],
   },
 
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },

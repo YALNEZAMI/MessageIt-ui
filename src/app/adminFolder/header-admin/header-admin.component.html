@@ -2,7 +2,8 @@
   <div id="photoDiv">
     <img
       id="myPhoto"
-      src="{{ getMyPhoto() }}"
+      [src]="getMyPhoto()"
+      onerror="this.src='assets/images/user.png'"
       alt="MyPhoto"
       (click)="goToProfile()"
     />
