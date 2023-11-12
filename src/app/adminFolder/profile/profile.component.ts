@@ -68,7 +68,7 @@ export class ProfileComponent {
   }
   updateUser() {
     //check email
-    if (!this.user.email.includes('@')) {
+    if (this.user.email && !this.user.email.includes('@')) {
       this.lanceAlert({ status: 404, message: 'Please,use your real email !' });
       return;
     }
@@ -95,7 +95,6 @@ export class ProfileComponent {
 
     //set them
     this.user.theme = this.selectedTheme;
-    //TODO why facebook photo doesn't work
     this.userService.updateInfos(this.user).subscribe((userUpdated: any) => {
       localStorage.setItem('user', JSON.stringify(userUpdated));
       this.userService.setTheme();
