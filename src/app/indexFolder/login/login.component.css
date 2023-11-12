@@ -20,6 +20,12 @@ label{
 #otherWaysDiv{
     padding: 0px;
 }
-.googleBtn{
+#googleBtn{
+    margin-right: 10px;
+}
+#facebookBtn{
+    margin-right: 10px;
+}
+#githubBtn{
     margin-right: 10px;
 }

@@ -77,4 +77,7 @@ export class LoginComponent {
   facebook() {
     window.location.href = env.api_url + '/auth/facebook';
   }
+  github() {
+    window.location.href = env.api_url + '/auth/github';
+  }
 }
