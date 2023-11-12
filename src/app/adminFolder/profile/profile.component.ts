@@ -95,7 +95,7 @@ export class ProfileComponent {
 
     //set them
     this.user.theme = this.selectedTheme;
-
+    //TODO why facebook photo doesn't work
     this.userService.updateInfos(this.user).subscribe((userUpdated: any) => {
       localStorage.setItem('user', JSON.stringify(userUpdated));
       this.userService.setTheme();
