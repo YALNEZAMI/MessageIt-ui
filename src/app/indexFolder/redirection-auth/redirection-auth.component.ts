@@ -21,8 +21,6 @@ export class RedirectionAuthComponent {
   ) {
     let route: any = this.router.url;
     route = route.replace(/#_=_/g, '');
-    console.log(route);
-
     route = route.split('=');
     let id = route[route.length - 1];
 

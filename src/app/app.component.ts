@@ -18,7 +18,6 @@ export class AppComponent implements OnDestroy, OnInit {
     if (thereIsToken) {
       token = this.sessionService.getToken() || '';
     }
-    //TODO upadate profile photo and other infos about user websocket client
     // localStorage.clear(); //TODO this line is commented while dev process
     if (thereIsToken) {
       this.sessionService.setToken(token);

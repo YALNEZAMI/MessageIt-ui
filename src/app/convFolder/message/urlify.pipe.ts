@@ -13,7 +13,7 @@ export class UrlifyPipe implements PipeTransform {
     const replacedText = value.replace(
       urlRegex,
       (url) =>
-        `<a style='color:var(--font-color-conv);' class='urlInMessage' href="${url}" target="_blank">${url}</a>`
+        `<a title='go to the page' style='color:var(--font-color-conv);' class='urlInMessage' href="${url}" target="_blank">${url}</a>`
     );
     return this.sanitizer.bypassSecurityTrustHtml(replacedText);
   }
