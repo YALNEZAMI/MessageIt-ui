@@ -188,13 +188,12 @@
                   </div>
                 </div>
                 <div
+                  [innerHtml]="msg.text | urlify"
                   (click)="setMessageClicked(msg._id)"
                   [ngClass]="textClasses(msg)"
                   *ngIf="msg.text != ''"
                   class="chat-text"
-                >
-                  {{ msg.text }}
-                </div>
+                ></div>
                 <div [ngClass]="getImgSentContainer(msg)">
                   <div *ngFor="let file of msg.files">
                     <img

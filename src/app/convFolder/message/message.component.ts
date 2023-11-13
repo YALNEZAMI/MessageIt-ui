@@ -661,4 +661,5 @@ export class MessageComponent implements OnInit {
   recievedConditions(msg: any) {
     return this.isLastMsg(msg) && this.messageService.recievedConditions(msg);
   }
+  getMsgText(txt: string) {}
 }

@@ -40,6 +40,7 @@ import { ConvSideComponent } from './convFolder/conv-side/conv-side.component';
 import { SearchResultComponent } from './convFolder/search-result/search-result.component';
 import { GroupeComponent } from './adminFolder/groupe/groupe.component';
 import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-conv.component';
+import { UrlifyPipe } from './convFolder/message/urlify.pipe';
 const config: SocketIoConfig = { url: env.api_url };
 
 @NgModule({
@@ -77,6 +78,7 @@ const config: SocketIoConfig = { url: env.api_url };
     SearchResultComponent,
     GroupeComponent,
     AddMemberConvComponent,
+    UrlifyPipe,
   ],
   imports: [
     BrowserModule,

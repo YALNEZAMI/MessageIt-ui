@@ -13,13 +13,13 @@
       }"
     >
       <div class="photoAndName" (click)="goToConv(conv)">
-        <div>
-          <img src="{{ conv.photo }}" alt="convImg" class="imgConv" />
+        <div class="imgAndStatusDiv">
+          <img [src]="conv.photo" alt="convImg" class="imgConv" />
           <div [ngClass]="getStatusClasses(conv)"></div>
         </div>
 
         <div class="nameAndLastMsg">
-          <h4 class="name">{{ conv.name }}</h4>
+          <h4 class="name">{{ getShortConvName(conv.name) }}</h4>
           <div
             class="lastMsg"
             *ngIf="conv.members.length > 2 && getLastMessageText(conv) == ''"
@@ -131,14 +131,14 @@
               />
             </svg>
           </div>
-          <dir class="imgVieverRowContainer">
+          <div class="imgVieverRowContainer">
             <img
               class="imgViever"
               *ngFor="let viever of getLastMessageViewvers(conv)"
               [src]="viever.photo"
               alt=""
             />
-          </dir>
+          </div>
         </div>
       </div>
     </div>
