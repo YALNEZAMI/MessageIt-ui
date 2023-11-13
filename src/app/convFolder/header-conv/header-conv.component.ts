@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
-import { UserService } from 'src/app/Services/user.service';
+import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -18,7 +18,8 @@ export class HeaderConvComponent {
   me: any = JSON.parse(localStorage.getItem('user') || '{}');
   constructor(
     private convService: ConvService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private sessionService: SessionService
   ) {
     //subscribe to typing event
     this.webSocketService.typing().subscribe((object: any) => {
@@ -44,6 +45,16 @@ export class HeaderConvComponent {
     this.convService.getConvChanged().subscribe((conv: any) => {
       this.setThisConv(conv);
       this.fillInfo();
+    });
+
+    //statusChange websocket subscription
+    this.webSocketService.statusChange().subscribe((user: any) => {
+      let conv = this.sessionService.getThisConv();
+      conv.members.map((member: any) => {
+        if (member._id == user._id) {
+          this.status = user.status;
+        }
+      });
     });
   }
   getThisConv() {
