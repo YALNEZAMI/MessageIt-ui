@@ -1,5 +1,15 @@
 /* mobile*/
 @media(max-width:650px){
+    #btnCreateGroupe{
+        background-color: var(--bg-color-admin);
+        padding: 5px;
+        border-radius: 10px;
+        position: absolute;
+        top: 90%;
+        right:10px;
+        margin-left: 20px;
+        cursor: pointer;
+    }
     #globalContainer{
         height: 560px;
         overflow-y: auto;
@@ -141,6 +151,18 @@
 }
 /*PC*/
 @media(min-width:650px){
+    #btnCreateGroupe{
+        height: 40px;
+        width: 60px;
+        background-color: var(--bg-color-admin);
+        padding: 5px;
+        border-radius: 10px;
+        position: absolute;
+        top: 90%;
+        right:5%;
+        margin-left: 20px;
+        cursor: pointer;
+    }
     #globalContainer{
         max-height: 560px;
         margin: 0px;
@@ -285,15 +307,6 @@
         background: #fd7274;
     }
 }
-#btnGroupe{
-    background-color: var(--bg-color-admin);
-    padding: 5px;
-    border-radius: 10px;
-    position: absolute;
-    top: 90%;
-    right:10px;
-    margin-left: 20px;
-    cursor: pointer;
-}
+
 
 
