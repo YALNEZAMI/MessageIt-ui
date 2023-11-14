@@ -311,7 +311,7 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on('recievedMessage', (message: any) => {
         this.sessionService.newReciever(message);
-               
+
         Observer.next(message);
       });
     });
@@ -365,7 +365,6 @@ export class WebSocketService {
   someConvChanged(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('someConvChanged', (conv: any) => {
-  
         if (
           this.sessionService.thereIsConv() &&
           this.sessionService.getThisConv()._id == conv._id
