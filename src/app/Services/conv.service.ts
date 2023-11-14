@@ -70,7 +70,7 @@ export class ConvService {
   }
   getConvChanged() {
     return this.changeConv.asObservable();
-  }
+  }    
   setConvChanged(conv: any) {
     //set conv and its attributes
     this.sessionService.setThisConv(conv);
@@ -106,6 +106,7 @@ export class ConvService {
       dataForm.append('file', file);
     }
     let admin = this.getThisUser();
+
     dataForm.append('conv', JSON.stringify(conv));
     dataForm.append('admin', JSON.stringify(admin));
     return this.Http.patch(

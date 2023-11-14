@@ -80,10 +80,12 @@ export class ProfileComponent {
       setTimeout(() => {
         this.password.nativeElement.style.border = '1px solid red';
         this.password2.nativeElement.style.border = '1px solid red';
+        this.lanceAlert({ status: 404, message: 'Passwords dont match !' });
       }, 10);
       setTimeout(() => {
         this.password.nativeElement.style.border = '0px ';
         this.password2.nativeElement.style.border = '0px ';
+        this.lanceAlert({ status: 0, message: '' });
       }, 3000);
       return;
     }
