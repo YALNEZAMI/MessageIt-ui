@@ -7,7 +7,11 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
-  styleUrls: ['./message.component.css', './message2.component.css'],
+  styleUrls: [
+    './message.component.css',
+    './message2.component.css',
+    './message3.component.css',
+  ],
 })
 export class MessageComponent implements OnInit {
   availablerReactions = ['👍', '❤️', '😂', '😯', '😢', '😡'];
