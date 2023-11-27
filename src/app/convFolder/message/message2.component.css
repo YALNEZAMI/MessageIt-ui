@@ -12,7 +12,7 @@
     height: max-content;
 }
 #chatContainer{
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     width: 80%;
     height: 577px;
     overflow-y: auto;
@@ -120,8 +120,7 @@ app-conv-side{
 
 .chat-container {
     position: relative;
-    padding: 10px;
-    padding-top: 25px;
+   
 }
 
 .chat-container div.chat-left,
