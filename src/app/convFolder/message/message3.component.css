@@ -137,7 +137,7 @@
         }
         @media (max-width: 767px) {
             #chatContainer{
-                padding-bottom: 60px;
+                padding-bottom: 65px;
                 width: 80%;
                 height: 577px;
                 overflow-y: auto;
