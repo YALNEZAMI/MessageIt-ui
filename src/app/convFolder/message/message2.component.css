@@ -11,14 +11,7 @@
 #convHeaderContainer{
     height: max-content;
 }
-#chatContainer{
-    padding-bottom: 20px;
-    width: 80%;
-    height: 577px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background-color: var(--font-color-conv);
-}
+
 #convsMessagesRow{
     width: 100%;
     min-height: 100vh;

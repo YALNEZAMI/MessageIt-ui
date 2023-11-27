@@ -267,6 +267,14 @@ background-color: var(--font-color-conv);
         height: max-content;
         }
         @media (max-width: 767px) {
+            #chatContainer{
+                padding-bottom: 40px;
+                width: 80%;
+                height: 577px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                background-color: var(--font-color-conv);
+            }
             .photoDisplayed{
                 width: 50%;
                 height: 50%;
@@ -290,6 +298,14 @@ background-color: var(--font-color-conv);
             }
         }
         @media (min-width: 767px) {
+            #chatContainer{
+                padding-bottom: 20px;
+                width: 80%;
+                height: 577px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                background-color: var(--font-color-conv);
+            }
             .photoDisplayed{
                 width: 40%;
                 height: 80%;
