@@ -12,6 +12,7 @@
     height: max-content;
 }
 #chatContainer{
+    padding-bottom: 10px;
     width: 80%;
     height: 577px;
     overflow-y: auto;
