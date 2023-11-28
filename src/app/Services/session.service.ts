@@ -115,6 +115,8 @@ export class SessionService {
   }
 
   setConvFromConvs(conv: any) {
+    const messages = this.getConvById(conv._id).messages;
+    conv.messages = messages;
     let convs = this.getThisConvs();
     convs = convs.map((currentConv: any) => {
       if (currentConv._id == conv._id) {
