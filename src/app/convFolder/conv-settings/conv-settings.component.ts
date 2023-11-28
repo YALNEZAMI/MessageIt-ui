@@ -11,7 +11,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
 })
 export class ConvSettingsComponent {
   conv: any = this.sessionService.getThisConv();
- 
+
   file: any;
   themes = ['basic', 'love', 'spring', 'panda'];
   selectedTheme = this.themes[0];
@@ -44,8 +44,9 @@ export class ConvSettingsComponent {
     });
   }
   update() {
-    this.convService.update(this.conv, this.file).subscribe(async (res: any) => {
-      });
+    this.convService
+      .update(this.conv, this.file)
+      .subscribe(async (res: any) => {});
     this.unselectConvPhoto();
   }
   mediasChange(event: any) {
@@ -63,9 +64,7 @@ export class ConvSettingsComponent {
     document.getElementById('convPhotoInput')?.click();
   }
   group() {
-    let conv = JSON.parse(localStorage.getItem('conv') || '{}');
-    let members = conv.members;
-    return members.length > 2;
+    return this.conv.type == 'groupe';
   }
   displayPhoto() {
     let cadrePhoto = document.getElementById('cadrePhoto') as HTMLImageElement;
@@ -95,7 +94,7 @@ export class ConvSettingsComponent {
       'bg-danger': theme == 'love',
       'bg-success': theme == 'spring',
       'bg-dark': theme == 'panda',
-      'text-light': theme == 'panda'  
+      'text-light': theme == 'panda',
     };
   }
   fillSelectedFileName() {
