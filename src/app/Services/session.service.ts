@@ -17,6 +17,7 @@ export class SessionService {
   getThisConv() {
     return JSON.parse(localStorage.getItem('conv') || '{}');
   }
+
   getConvFromConvs(id: string) {
     let convs = this.getThisConvs();
     let conv: any = {};

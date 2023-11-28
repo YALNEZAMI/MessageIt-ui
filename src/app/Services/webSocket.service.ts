@@ -337,8 +337,18 @@ export class WebSocketService {
   upgradingToAdmin(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('upgardingToAdmin', (conv: any) => {
-        //set the new conv
-        this.sessionService.setThisConv(conv);
+        if (
+          this.sessionService.thereIsConv() &&
+          this.sessionService.getThisConv()._id == conv._id
+        ) {
+          //set current conv in local storage
+          this.convService.setConvChanged(conv);
+          //set conv in convs in local storage
+          this.sessionService.setConvFromConvs(conv);
+        } else {
+          //set conv in convs in local storage
+          this.sessionService.setConvFromConvs(conv);
+        }
         Observer.next(conv);
       });
     });
@@ -346,8 +356,18 @@ export class WebSocketService {
   upgardingToChef(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('upgardingToChef', (conv: any) => {
-        //set the new conv
-        this.sessionService.setThisConv(conv);
+        if (
+          this.sessionService.thereIsConv() &&
+          this.sessionService.getThisConv()._id == conv._id
+        ) {
+          //set current conv in local storage
+          this.convService.setConvChanged(conv);
+          //set conv in convs in local storage
+          this.sessionService.setConvFromConvs(conv);
+        } else {
+          //set conv in convs in local storage
+          this.sessionService.setConvFromConvs(conv);
+        }
         Observer.next(conv);
       });
     });
@@ -355,9 +375,18 @@ export class WebSocketService {
   downgardingToAdmin(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('downgardingAdmin', (conv: any) => {
-        //set the new conv
-
-        this.sessionService.setThisConv(conv);
+        if (
+          this.sessionService.thereIsConv() &&
+          this.sessionService.getThisConv()._id == conv._id
+        ) {
+          //set current conv in local storage
+          this.convService.setConvChanged(conv);
+          //set conv in convs in local storage
+          this.sessionService.setConvFromConvs(conv);
+        } else {
+          //set conv in convs in local storage
+          this.sessionService.setConvFromConvs(conv);
+        }
         Observer.next(conv);
       });
     });
