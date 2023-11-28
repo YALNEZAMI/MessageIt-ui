@@ -70,8 +70,10 @@ export class ConvService {
   }
   getConvChanged() {
     return this.changeConv.asObservable();
-  }    
+  }
   setConvChanged(conv: any) {
+    const messages = this.sessionService.getConvById(conv._id).messages;
+    conv.messages = messages;
     //set conv and its attributes
     this.sessionService.setThisConv(conv);
     //set theme
