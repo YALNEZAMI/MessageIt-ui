@@ -6,7 +6,7 @@
     border-radius: 10px;
 }
 
-@media(max-height:767px){
+@media(max-width:767px){
     .name_Groupe{
         font-size: medium;
         vertical-align:middle;
@@ -18,8 +18,9 @@
 
     }
 }
-@media(min-height:767px){
+@media(min-width:767px){
     .name_Groupe{
+        font-size: large;
         vertical-align:middle;
         margin-left: 10px;
         padding: 0%;
