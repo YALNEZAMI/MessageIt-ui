@@ -18,6 +18,7 @@
 @media (min-width:767px) {
     #name{
         padding-top: 1%;
+        font-size: medium;
         } 
         .nameAndConOrTyping{
             display: flex;
@@ -38,7 +39,7 @@
     }
     #name{
         padding-top: 1%;
-        font-size: 140%;
+        font-size: medium;
         } 
 }
 
