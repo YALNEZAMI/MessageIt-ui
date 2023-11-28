@@ -14,7 +14,12 @@
     >
       <div class="photoAndName" (click)="goToConv(conv)">
         <div class="imgAndStatusDiv">
-          <img [src]="conv.photo" alt="convImg" class="imgConv" onerror='src="../../assets/images/user.png"' />
+          <img
+            [src]="conv.photo"
+            alt="convImg"
+            class="imgConv"
+            onerror='src="/assets/images/user.png"'
+          />
           <div [ngClass]="getStatusClasses(conv)"></div>
         </div>
 

@@ -1,6 +1,11 @@
 <div class="col container-fluid" id="globalContainer">
   <div class="userItem row" *ngFor="let user of users">
-    <img class="img" src="{{ user.photo }}" alt="userPhoto" />
+    <img
+      class="img"
+      src="{{ user.photo }}"
+      alt="userPhoto"
+      onerror="this.src='assets/images/user.png'"
+    />
 
     <div class="name">{{ user.firstName + " " + user.lastName }}</div>
     <button
