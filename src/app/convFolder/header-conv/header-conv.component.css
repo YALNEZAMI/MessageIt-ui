@@ -15,12 +15,27 @@
     margin-left: 10px;
 }
 
-@media (min-height:767px) {
+@media (min-width:767px) {
     #name{
         padding-top: 1%;
         } 
+        .nameAndConOrTyping{
+            display: flex;
+            flex-direction: column;
+           min-width: 70%;
+           overflow-x: hidden;
+        
+        }
 }
-@media (max-height:767px) {
+@media (max-width:767px) {
+    .nameAndConOrTyping{
+        display: flex;
+        flex-direction: column;
+        min-width: 65%;
+        overflow-x: hidden;
+       
+    
+    }
     #name{
         padding-top: 1%;
         font-size: 140%;

@@ -8,9 +8,9 @@
 
 @media(max-height:767px){
     .name_Groupe{
-        font-size: larger;
+        font-size: medium;
         vertical-align:middle;
-        margin-left: 10px;
+        margin-left: 3px;
         padding: 0%;
         padding-top: 30px;
         border-radius: 10px;
