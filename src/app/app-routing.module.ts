@@ -32,7 +32,9 @@ const routes: Routes = [
     children: [{ path: ':id', component: RedirectionAuthComponent }],
   },
 
-  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  // { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+  { path: '', component: LoginComponent },
+
   {
     path: 'auth',
     component: IndexContentComponent,
