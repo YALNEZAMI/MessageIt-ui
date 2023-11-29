@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { env } from '../../../env';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -10,10 +11,11 @@ import { env } from '../../../env';
   styleUrl: './welcome.component.css',
 })
 export class WelcomeComponent {
-  constructor() {
+  constructor(private router: Router) {
     let dom: string = env.front_url;
     setTimeout(() => {
-      window.location.href = dom + '/auth/login';
+      this.router.navigate(['/auth/login']);
+      // window.location.href = dom + '/auth/login';
     }, 2000);
   }
 }
