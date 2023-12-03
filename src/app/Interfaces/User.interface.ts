@@ -6,4 +6,5 @@ export interface User {
   password: string;
   password2: string;
   photo: string;
+  operation: string; //add,remove,accepte,refuse
 }

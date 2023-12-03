@@ -1,6 +1,10 @@
 <div id="globalContainer">
   <div class="friendsContainer">
-    <div id="{{ user._id }}" class="userItem row" *ngFor="let user of users">
+    <div
+      id="{{ user._id }}"
+      class="userItem row"
+      *ngFor="let user of getFriends()"
+    >
       <div class="imgAndStatusDiv">
         <img class="img" src="{{ user.photo }}" alt="userPhoto" />
         <div [ngClass]="getStatusClasses(user)"></div>

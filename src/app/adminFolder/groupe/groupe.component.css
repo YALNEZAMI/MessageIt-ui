@@ -11,6 +11,8 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        overflow-y: auto;
+        max-height:70vh;
     }
     .name
     {
@@ -66,11 +68,14 @@
 /*Mobile*/
 @media(max-width:700px){
     #groupeGlobal{
-        padding-bottom: 80px;
+        padding-bottom: 5px;
     }
     #friendsContainer{
         display: flex;
         flex-direction: column;
+        padding-bottom: 80px;
+        overflow-y: auto;
+        max-height:70vh;
     }
     .name{
         font-size: 5%;

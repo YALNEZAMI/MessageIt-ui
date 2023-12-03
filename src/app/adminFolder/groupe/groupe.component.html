@@ -29,7 +29,12 @@
       (click)="selectUser(user)"
     >
       <div class="imgAndStatusDiv">
-        <img class="img" src="{{ user.photo }}" alt="userPhoto" />
+        <img
+          class="img"
+          src="{{ user.photo }}"
+          alt="userPhoto"
+          onerror='src="/assets/images/user.png"'
+        />
       </div>
       <div class="name">{{ user.firstName + " " + user.lastName }}</div>
       <div

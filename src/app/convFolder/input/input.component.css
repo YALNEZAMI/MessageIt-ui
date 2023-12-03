@@ -55,7 +55,7 @@
     /* padding:0  3px; */
     /* height: max-content; */
 }
-
+/*pc*/
 @media(min-width:540px){
     #btnsContainer{
         width: 17%;
@@ -87,12 +87,15 @@
         max-height: 37px;
     }
 }
+
+/*mobile*/
 @media(max-width: 540px){
     #btnsContainer{
-        width: 27%;
+        width: 32%;
     }
     #textArea{
-        width: 70%;
+        max-height: 38px;
+        width: 65%;
         background-color: var(--font-color-conv);
         color: var(--bg-color-conv);
     }

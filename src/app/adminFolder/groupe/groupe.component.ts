@@ -27,6 +27,7 @@ export class GroupeComponent {
   ) {
     if (this.sessionService.thereAreFriends()) {
       this.friends = this.sessionService.getThisFriends();
+
       this.done = true;
       if (this.friends.length == 0) {
         this.noRes = true;
