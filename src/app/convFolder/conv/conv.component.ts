@@ -22,7 +22,7 @@ export class ConvComponent implements OnInit {
       this.sessionService.logout();
     }
     //there is no conv in localstorage
-    if (this.sessionService.thereIsConv()) {
+    if (!this.sessionService.thereIsConv()) {
       this.router.navigate(['admin/convs']);
     }
     //status check interval
