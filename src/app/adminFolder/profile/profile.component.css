@@ -3,9 +3,9 @@
   padding-left: 5px;
   padding-right: 5px;
   height: 560px;
-    overflow-y: auto;
-    padding-bottom: 5px;
-}
+  overflow-y: auto;
+  padding-bottom: 80px;
+  }
 #material-symbols-outlined {
     border: 1px solid red;
     border-radius: 10px;

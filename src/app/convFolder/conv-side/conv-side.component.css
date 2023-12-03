@@ -23,10 +23,11 @@
 @media (max-width: 700px) {
     .users {
         padding: 0;
+        padding-bottom: 80px;
         overflow-y: auto;
+        overflow-x:hidden;
         height: 570px;
-        /* padding-bottom: 35px; */
-        /* min-height: 700px; */
+      
     }
     
 }
@@ -34,6 +35,7 @@
     .users {
         padding: 0;
         overflow-y: auto;
+        overflow-x:hidden; 
         height: 570px;
     }
    
@@ -84,11 +86,7 @@
     left: 45%; */
     padding: 0px;
 }
-/* #InputSecondDiv{
-    display: flex;
-    flex-direction:row-reverse;
-margin-right: 15px;
-} */
+
 #inputElementsGroup{
     position: fixed;
     bottom: 0px;
@@ -102,9 +100,7 @@ margin-right: 15px;
     overflow-y: auto;
     overflow-x: hidden;
 }
-/* 'input-second-div': true,
-      'input-second-div-focus': this.ref,
-    }; */
+
     .input-second-div{
         display: flex;
     margin-right: 15px;
@@ -128,7 +124,7 @@ ul{
     top: 112px;
     left: 0px;
     width:100%;  
-    height: 570px;
+    height: 560px;    
     overflow-y: hidden;
     overflow-x: hidden;
     background-color: var(--font-color-conv)

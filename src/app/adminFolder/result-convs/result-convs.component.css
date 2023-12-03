@@ -3,7 +3,7 @@
     #globalContainer{
         max-height: 64vh;   
         overflow-y: auto;
-        padding-bottom: 10px;
+        padding-bottom: 80px;
     }
     .noRes{
         color: var(--third-color-admin);
