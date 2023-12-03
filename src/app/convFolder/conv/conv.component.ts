@@ -17,7 +17,12 @@ export class ConvComponent implements OnInit {
     private convService: ConvService,
     private webSocketService: WebSocketService
   ) {
-    if (localStorage.getItem('conv') == null) {
+    //not authenticated case
+    if (!this.sessionService.isAuthenticated()) {
+      this.sessionService.logout();
+    }
+    //there is no conv in localstorage
+    if (this.sessionService.thereIsConv()) {
       this.router.navigate(['admin/convs']);
     }
     //status check interval
@@ -35,8 +40,8 @@ export class ConvComponent implements OnInit {
       .subscribe((object: { idUser: string; conv: any }) => {
         //if the current user is removed from the current conv
         if (
-          object.idUser == this.getThisUser()._id &&
-          object.conv._id == this.getThisConv()._id
+          object.idUser == this.sessionService.getThisUser()._id &&
+          object.conv._id == this.sessionService.getThisConv()._id
         ) {
           //remove the conv from the local storage
           localStorage.removeItem('conv');
@@ -46,8 +51,8 @@ export class ConvComponent implements OnInit {
       });
     //subscribe to leaving the conv event
     this.webSocketService.onLeavingConv().subscribe((conv: any) => {
-      if (conv._id == this.getThisConv()._id) {
-        this.setThisConv(conv);
+      if (conv._id == this.sessionService.getThisConv()._id) {
+        this.sessionService.setThisConv(conv);
       }
     });
     //web socket subscription
@@ -76,15 +81,7 @@ export class ConvComponent implements OnInit {
     this.webSocketService.statusChange().subscribe((user: any) => {});
     this.webSocketService.onSomeUserUpdated().subscribe((user: any) => {});
   }
-  setThisConv(conv: any) {
-    localStorage.setItem('conv', JSON.stringify(conv));
-  }
-  getThisUser() {
-    return JSON.parse(localStorage.getItem('user') || '{}');
-  }
-  getThisConv() {
-    return JSON.parse(localStorage.getItem('conv') || '{}');
-  }
+
   ngOnInit(): void {
     this.convService.setTheme();
   }

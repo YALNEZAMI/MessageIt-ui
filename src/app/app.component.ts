@@ -29,12 +29,9 @@ export class AppComponent implements OnDestroy, OnInit {
     private userService: UserService,
     private convService: ConvService,
     private router: Router
-  ) {
-    if (!this.sessionService.thereIsToken() && this.unauthorizedRoute()) {
-      this.router.navigate(['auth/login']);
-    }
-  }
+  ) {}
   ngOnInit(): void {
+    //there is token but not user
     if (
       this.sessionService.thereIsToken() &&
       !this.sessionService.isAuthenticated()
@@ -50,12 +47,10 @@ export class AppComponent implements OnDestroy, OnInit {
           }, 2000);
         });
       });
-    } else if (this.sessionService.isAuthenticated()) {
-      console.log('connected  !');
-    } else {
-      if (this.unauthorizedRoute()) {
-        this.sessionService.logout();
-      }
+    }
+    //if no token and trying accessing unauthorized route
+    if (!this.sessionService.thereIsToken() && this.unauthorizedRoute()) {
+      this.sessionService.logout();
     }
   }
   unauthorizedRoute() {

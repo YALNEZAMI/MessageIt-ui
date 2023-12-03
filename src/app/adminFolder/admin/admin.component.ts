@@ -16,10 +16,15 @@ export class AdminComponent implements OnInit {
     private webSocketService: WebSocketService,
     private messageService: MessageService
   ) {
+    if (!this.sessionService.isAuthenticated()) {
+      this.sessionService.logout();
+    }
     //status check interval
     setInterval(() => {
       if (this.sessionService.isAuthenticated()) {
         this.sessionService.online().subscribe((data: any) => {});
+      } else {
+        this.sessionService.logout();
       }
     }, 1000 * 60 * env.CHECK_USER_STATUS_INTERVAL_TIME_MIN);
     this.webSocketService.newMessage().subscribe((message: any) => {

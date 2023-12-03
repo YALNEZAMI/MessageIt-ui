@@ -24,7 +24,6 @@ import { NotFoundPageComponent } from './indexFolder/not-found-page/not-found-pa
 import { GroupeComponent } from './adminFolder/groupe/groupe.component';
 import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-conv.component';
 import { RedirectionAuthComponent } from './indexFolder/redirection-auth/redirection-auth.component';
-import { WelcomeComponent } from './indexFolder/welcome/welcome.component';
 
 const routes: Routes = [
   {
@@ -33,7 +32,7 @@ const routes: Routes = [
     children: [{ path: ':id', component: RedirectionAuthComponent }],
   },
 
-  { path: '', component: WelcomeComponent },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
 
   {
     path: 'auth',
