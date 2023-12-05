@@ -166,9 +166,11 @@
                 /* min-height: 700px; */
             }
         }
+        /*pc*/
         @media (min-width: 767px) {
             #chatContainer{
                 padding-bottom: 20px;
+                padding-top: 10px;
                 width: 80%;
                 height: 577px;
                 overflow-y: auto;

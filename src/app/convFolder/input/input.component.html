@@ -22,17 +22,7 @@
   </div>
   <form (ngSubmit)="send()">
     <div class="row" id="inputContainer">
-      <textarea
-        placeholder="écirir..."
-        (keydown)="typing()"
-        (input)="onInput()"
-        [(ngModel)]="message.text"
-        id="textArea"
-        name="textArea"
-        type="textArea"
-        rows="1"
-        class="form-control"
-      ></textarea>
+     
       <div id="btnsContainer">
         <!--input and button of media-->
         <input
@@ -110,7 +100,17 @@
           {{ emoji }}
         </button>
       </div>
-      <!-- </button> -->
+      <textarea
+      placeholder="écirir..."
+      (keydown)="typing()"
+      (input)="onInput()"
+      [(ngModel)]="message.text"
+      id="textArea"
+      name="textArea"
+      type="textArea"
+      rows="1"
+      class="form-control"
+    ></textarea>
     </div>
   </form>
 </div>
