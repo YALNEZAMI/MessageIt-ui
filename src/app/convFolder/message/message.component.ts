@@ -27,7 +27,7 @@ export class MessageComponent implements OnInit {
   done: boolean = false;
   lastMsg: any;
   firstMsg: any;
-  msgToDelete: any;
+  msgToDealWith: any;
   thereIsViewvers: boolean = false;
   //msg to reply to
   rep: any;
@@ -514,39 +514,44 @@ export class MessageComponent implements OnInit {
     return str < 10 ? '0' + str : str;
   }
 
-  delteOptions(msg: any) {
+  displayOptions(msg: any) {
+    //filter delete options
     if (msg != null && msg.sender._id == this.getThisUser()._id) {
       this.canDeleteMsgForAll = true;
+    } else {
+      this.canDeleteMsgForAll = false;
     }
-
+    //set the concerned message
+    this.msgToDealWith = msg;
+    //display or hide the options div
     let optionPopupCadre = document.getElementById(
       'optionPopupCadre'
     ) as HTMLElement;
 
     if (optionPopupCadre.style.display == 'block') {
       optionPopupCadre.style.display = 'none';
-      this.msgToDelete = null;
+      this.msgToDealWith = null;
     } else {
-      this.msgToDelete = msg;
+      this.msgToDealWith = msg;
       optionPopupCadre.style.display = 'block';
     }
   }
   deleteMsgForAll() {
-    this.messageService.deleteMsgForAll(this.msgToDelete).subscribe((res) => {
+    this.messageService.deleteMsgForAll(this.msgToDealWith).subscribe((res) => {
       //update photo viewers
       this.setViewers();
     });
   }
   deleteMsgForMe() {
-    this.messageService.deleteMsgForMe(this.msgToDelete).subscribe((res) => {
+    this.messageService.deleteMsgForMe(this.msgToDealWith).subscribe((res) => {
       //update photo viewers
       this.setViewers();
     });
   }
 
   //rep
-  getRepClasses(msg: any) {
-    let idSender = msg.sender._id;
+  getRepClasses() {
+    let idSender = this.msgToDealWith.sender._id;
     let myid = this.getThisUser()._id;
     return {
       bi: true,
@@ -564,8 +569,8 @@ export class MessageComponent implements OnInit {
       marginLeftSettingAndRep: idSender != myid,
     };
   }
-  setRep(msg: any) {
-    this.messageService.setRep(msg);
+  setRep() {
+    this.messageService.setRep(this.msgToDealWith);
   }
   getRepOfMsgsClasses(msg: any) {
     return {
@@ -577,8 +582,23 @@ export class MessageComponent implements OnInit {
   isLastMsg(msg: any) {
     return msg._id == this.messages[this.messages.length - 1]._id;
   }
-  getMyReaction(msg: any) {
-    let reactions = msg.reactions;
+  // getMyReaction0(msg: any) {
+  //   let reactions = msg.reactions;
+  //   for (let i = 0; i < reactions.length; i++) {
+  //     const reaction = reactions[i];
+  //     if (reaction.user._id == this.getThisUser()._id) {
+  //       return reaction.type;
+  //     }
+  //   }
+  //   return '';
+  // }
+  getMyReaction() {
+    let reactions;
+    if (this.msgToDealWith == null || this.msgToDealWith == undefined) {
+      reactions = [];
+    } else {
+      reactions = this.msgToDealWith.reactions;
+    }
     for (let i = 0; i < reactions.length; i++) {
       const reaction = reactions[i];
       if (reaction.user._id == this.getThisUser()._id) {
@@ -587,17 +607,17 @@ export class MessageComponent implements OnInit {
     }
     return '';
   }
-  displayReactions(msg: any) {
-    let reactionsContainer = document.getElementById(
-      msg._id + '-reactionsContainer'
-    ) as HTMLElement;
+  // displayReactions(msg: any) {
+  //   let reactionsContainer = document.getElementById(
+  //     msg._id + '-reactionsContainer'
+  //   ) as HTMLElement;
 
-    if (reactionsContainer.style.display == 'flex') {
-      reactionsContainer.style.display = 'none';
-    } else {
-      reactionsContainer.style.display = 'flex';
-    }
-  }
+  //   if (reactionsContainer.style.display == 'flex') {
+  //     reactionsContainer.style.display = 'none';
+  //   } else {
+  //     reactionsContainer.style.display = 'flex';
+  //   }
+  // }
   displayReacters(msg: any) {
     let reacterCadre = document.getElementById('reactersCadre') as HTMLElement;
     if (reacterCadre.style.display == 'block') {
@@ -612,9 +632,15 @@ export class MessageComponent implements OnInit {
       reacterCadre.style.display = 'block';
     }
   }
-  addReaction(msg: any, reaction: any) {
-    this.displayReactions(msg);
-    this.messageService.addReaction(msg, reaction).subscribe((res) => {});
+  // addReaction0(msg: any, reaction: any) {
+  //   this.displayReactions(msg);
+  //   this.messageService.addReaction(msg, reaction).subscribe((res) => {});
+  // }
+  addReaction(reaction: any) {
+    // this.displayReactions(this.msgToDealWith);
+    this.messageService
+      .addReaction(this.msgToDealWith, reaction)
+      .subscribe((res) => {});
   }
   getReactions(msg: any) {
     let reactions = new Set();

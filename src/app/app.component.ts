@@ -29,7 +29,9 @@ export class AppComponent implements OnDestroy, OnInit {
     private userService: UserService,
     private convService: ConvService,
     private router: Router
-  ) {}
+  ) {
+    //localStorage.clear();
+  }
   ngOnInit(): void {
     //there is token but not user
     if (

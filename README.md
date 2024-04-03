@@ -1,3 +1,8 @@
+You have to get the MessageIt-api to make this browser side app run.
+Then you have to edit the env.ts to match your environnement variables like mongodb string or the api url.
+
+Finally, go to the root of the project and run "npm run start" (you have to install nodejs on your machine) and wait to get the url (generally localhost:4200) to type in your browser
+
 # Front
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.

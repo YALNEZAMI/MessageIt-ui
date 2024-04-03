@@ -18,13 +18,15 @@
     background-color: rgba(0,0,0,0.5);
 }
 #deleteForAll{
-    margin:0px 10%;
-    width: 80%;
+    width: 30%;
 }
 
 #deleteForMe{
+    width: 30%;
+}
+#repondeOption{
     margin:5px 10%;
-    width: 80%;
+    width: 30%;    
 }
 .cadre{
     display: none;
