@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
-import { env } from '../../../../env';
+import { env } from 'src/env';
 
 @Component({
   selector: 'app-conv',

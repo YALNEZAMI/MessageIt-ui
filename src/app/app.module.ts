@@ -32,7 +32,7 @@ import { ConvMediasComponent } from './convFolder/conv-medias/conv-medias.compon
 import { MembersComponent } from './convFolder/members/members.component';
 import { InputComponent } from './convFolder/input/input.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
-import { env } from '../../env';
+import { env } from 'src/env';
 import { RegetPasswordComponent } from './indexFolder/reget-password/reget-password.component';
 import { ResetPasswordComponent } from './indexFolder/reset-password/reset-password.component';
 import { NotFoundPageComponent } from './indexFolder/not-found-page/not-found-page.component';

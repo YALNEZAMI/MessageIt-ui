@@ -3,7 +3,7 @@ import { UserService } from '../../Services/user.service';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/Services/session.service';
 import { ConvService } from 'src/app/Services/conv.service';
-import { env } from '../../../../env';
+import { env } from 'src/env';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

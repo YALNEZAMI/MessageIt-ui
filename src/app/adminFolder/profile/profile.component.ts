@@ -1,10 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/Interfaces/User.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { UserService } from 'src/app/Services/user.service';
-import { env } from '../../../../env';
 
 @Component({
   selector: 'app-profile',

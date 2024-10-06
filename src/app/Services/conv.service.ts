@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { env } from '../../../env';
+import { env } from 'src/env';
 import { SessionService } from './session.service';
 
 @Injectable({

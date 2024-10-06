@@ -3,7 +3,7 @@ import { MessageService } from 'src/app/Services/message.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
-import { env } from '../../../../env';
+import { env } from 'src/env';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
