@@ -144,3 +144,6 @@
     padding:2px 5px;
     height: max-content;
   }
+  .profileScroll{
+    overflow-y: scroll;
+  }
