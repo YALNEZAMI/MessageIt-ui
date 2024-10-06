@@ -66,12 +66,15 @@ export class SessionService {
   async logout() {
     console.log('logout');
     if (!this.thereIsToken()) {
+      localStorage.clear();
       this.router.navigate(['/auth/login']);
       return;
     }
     console.log('offline');
+    const id = this.getThisUser()._id;
+    localStorage.clear();
 
-    this.offline().subscribe((data: any) => {
+    this.offline(id).subscribe((data: any) => {
       console.log('offline');
       setTimeout(() => {
         //clear first time to avoid redirection from auth
@@ -92,9 +95,7 @@ export class SessionService {
     );
     return userReturned;
   }
-  offline() {
-    const id = this.getThisUser()._id;
-    localStorage.clear();
+  offline(id: any) {
     let userReturned: any = this.http.patch(
       `${env.api_url}/session/setStatus/${id}`,
       { status: 'offline' }
@@ -527,7 +528,6 @@ export class SessionService {
       this.setThisConvs(convs);
       //set friends status
       let friends = this.getThisFriends();
-      console.log('friends', friends);
       friends = friends.map((friend: any) => {
         if (friend._id == user._id) {
           friend.status = user.status;
@@ -543,8 +543,9 @@ export class SessionService {
   setToken(token: string) {
     localStorage.setItem('token', token);
   }
-  thereIsToken() {
-    return localStorage.getItem('token') != null;
+  thereIsToken(): boolean {
+    const token = localStorage.getItem('token');
+    return token !== null;
   }
   updateOtherUser(user: any) {
     //set friends
