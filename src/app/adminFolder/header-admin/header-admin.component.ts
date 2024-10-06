@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/Services/user.service';
-import { env } from 'src/env';
+import { env } from '../../../../env';
 
 @Component({
   selector: 'app-header-admin',
