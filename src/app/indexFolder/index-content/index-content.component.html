@@ -1,4 +1,4 @@
-<main class="bg-purple-100">
+<main class="bg-purple-100 overflow-x-hidden overflow-y-scroll">
   <app-index-header></app-index-header>
   <!-- Pills navs -->
   <div id="globalContainer">
@@ -6,13 +6,13 @@
       *ngIf="getRoute() == 'login' || getRoute() == 'signup'"
       class="relative flex m-2 w-screen justify-center mb-5 text-white font-bold"
     >
+      <!--selector-->
       <div
         style="height: 3px"
         [ngClass]="{
-        
-          'left-44 transition-all rounded w-40 bg-blue-600 absolute -bottom-2': true,
+          'transition-all rounded-lg w-1/4 bg-blue-600 absolute -bottom-2': true,
         }"
-        [style.left]="getRoute() == 'signup' ? '27rem' : ''"
+        [style.left]="getRoute() == 'login' ? '21%' : '54%'"
       ></div>
       <a
         routerLink="/auth/login"

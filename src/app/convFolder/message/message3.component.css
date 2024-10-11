@@ -97,7 +97,7 @@
     margin-left: 50%;
     border-radius: 10px;
     cursor: pointer;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 .repLeft{
     gap: 5px;
@@ -109,7 +109,7 @@
     margin-left: 3px;
     border-radius: 10px;
     cursor: pointer;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 .repSenderPhoto{
     margin: 0px;

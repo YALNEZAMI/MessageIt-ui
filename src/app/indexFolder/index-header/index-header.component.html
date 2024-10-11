@@ -1,5 +1,5 @@
 <div
-  class="flex w-screen mb-2"
+  class="flex overflow-x-hidden w-full mb-2"
   style="background: linear-gradient(90deg, purple, black)"
 >
   <div>
@@ -12,10 +12,15 @@
   <div class="flex flex-col text-white">
     <div class="flex">
       <div class="text-4xl mx-3 mt-2">MESSAGE-IT</div>
-      <div class="flex items-end text-lg">
+      <div class="items-end text-lg hidden sm:flex">
         Chat with your friends and share photos
       </div>
     </div>
-    <div class="ml-3 my-2 text-lg">by our safe and fast application.</div>
+    <div class="ml-3 my-2 text-lg hidden sm:flex">
+      by our safe and fast application.
+    </div>
+    <div class="ml-3 my-2 text-lg flex sm:hidden">
+      Chat with your friends and share photos.
+    </div>
   </div>
 </div>
