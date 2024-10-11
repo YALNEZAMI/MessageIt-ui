@@ -24,6 +24,7 @@ export class RegetPasswordComponent {
   constructor(private mailerService: MailerService, private router: Router) {}
 
   getCode() {
+    this.data.email = this.data.email.toLowerCase();
     if (this.data.email == '' || !this.data.email.includes('@')) {
       this.emailInput.nativeElement.classList.add('alert');
       this.emailInput.nativeElement.classList.add('alert-danger');

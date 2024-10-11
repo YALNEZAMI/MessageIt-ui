@@ -29,6 +29,7 @@ export class LoginComponent {
     return this.hasTokenBool;
   }
   login() {
+    this.data.email = this.data.email.toLowerCase();
     this.loginBtn = false;
     if (this.data.email != '' && this.data.password != '') {
       this.userService.login(this.data).subscribe(async (res: any) => {

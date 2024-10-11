@@ -34,6 +34,8 @@ export class SigninComponent {
     private router: Router
   ) {}
   async addUser() {
+    this.user.email = this.user.email.toLowerCase();
+
     if (!this.user.email.includes('@')) {
       //email check
       this.lanceAlert('Please,use you real email !');
