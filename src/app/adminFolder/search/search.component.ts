@@ -18,4 +18,9 @@ export class SearchComponent {
     let lastRoute = split[split.length - 1];
     return lastRoute;
   }
+  getRoute() {
+    let url = this.router.url;
+    let split = url.split('/');
+    return split[split.length - 1];
+  }
 }
