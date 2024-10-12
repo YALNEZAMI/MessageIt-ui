@@ -9,7 +9,6 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class HeaderAdminComponent {
   name: any;
-  // photo = '';
   constructor(private router: Router, private userService: UserService) {
     let user = JSON.parse(localStorage.getItem('user') || '{}');
     this.name = user.firstName + ' ' + user.lastName;
@@ -18,13 +17,13 @@ export class HeaderAdminComponent {
       this.name = name;
     });
   }
-  getMyPhoto() {
-    return JSON.parse(localStorage.getItem('user') || '{}').photo;
-  }
-  getMe() {
-    return JSON.parse(localStorage.getItem('user') || '{}');
+  getCurrentUser() {
+    return this.userService.getCurrentUser();
   }
   goToProfile() {
     this.router.navigate(['/admin/profile']);
+  }
+  getTailwindThemeClesses() {
+    return this.userService.getTailwindThemeClasses();
   }
 }

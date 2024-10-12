@@ -1,14 +1,17 @@
-<div class="row" id="headerRow">
+<div class="w-screen flex" id="headerRow" [ngClass]="getTailwindThemeClesses()">
   <div id="photoDiv">
     <img
       id="myPhoto"
-      [src]="getMyPhoto()"
+      [src]="getCurrentUser().photo"
       onerror="this.src='assets/images/user.png'"
       alt="MyPhoto"
+      class="rounded-full w-20 m-2"
       (click)="goToProfile()"
     />
   </div>
-  <h4 class="name_Groupe row">
-    <ins id="insName" (click)="goToProfile()">{{ name }} </ins>
+  <h4 class="mx-2 flex items-center no-underline">
+    <p class="pt-3 italic truncate" (click)="goToProfile()">
+      Hello, {{ name }}
+    </p>
   </h4>
 </div>
