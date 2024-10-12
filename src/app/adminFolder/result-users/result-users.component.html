@@ -7,7 +7,9 @@
       onerror="this.src='assets/images/user.png'"
     />
 
-    <div class="name">{{ user.firstName + " " + user.lastName }}</div>
+    <div class="name font-bold mt-2">
+      {{ user.firstName + " " + user.lastName }}
+    </div>
     <button
       id="{{ user._id + '-Btn1' }}"
       class="btn1 myBtn"
@@ -72,9 +74,10 @@
   <strong>Loading...</strong>
   <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
 </div>
-<h3 class="center noRes" *ngIf="noRes">
-  <ins
-    class="text-base no-underline w-full bg-red-600 text-white opacity-95 p-2 rounded md:text-lg"
-    >No users for "{{ key }}" !</ins
+<div class="flex justify-center items-center" *ngIf="noRes">
+  <div
+    class="text-base text-center no-underline w-3/4 bg-red-500 text-white opacity-95 p-2 rounded md:text-lg"
   >
-</h3>
+    No results for "{{ key }}"
+  </div>
+</div>

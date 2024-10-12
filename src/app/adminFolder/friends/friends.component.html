@@ -1,5 +1,5 @@
-<div id="globalContainer">
-  <div class="friendsContainer overflow-y-auto">
+<div id="globaleContainer">
+  <div class="flex flex-wrap w-full overflow-y-auto">
     <div
       id="{{ user._id }}"
       class="userItem row"
@@ -9,7 +9,9 @@
         <img class="img" src="{{ user.photo }}" alt="userPhoto" />
         <div [ngClass]="getStatusClasses(user)"></div>
       </div>
-      <div class="name">{{ user.firstName + " " + user.lastName }}</div>
+      <div class="name mt-2 mx-2">
+        {{ user.firstName + " " + user.lastName }}
+      </div>
       <button
         id="{{ user._id + '-Btn1' }}"
         class="btn1 myBtn"
@@ -78,11 +80,16 @@
         aria-hidden="true"
       ></div>
     </div>
-    <h1 class="center noRes" *ngIf="getNoRes()">
-      <ins
-        class="text-base no-underline w-full bg-red-600 text-white opacity-95 p-2 rounded md:text-lg"
-        >No friends yet !
-      </ins>
-    </h1>
+  </div>
+  <div class="flex justify-center h-screen items-center" *ngIf="getNoRes()">
+    <div
+      class="text-base text-center no-underline w-3/4 bg-red-500 text-white opacity-95 p-2 rounded md:text-lg"
+    >
+      No friends yet,
+      <br />
+      <a class="bg-white px-2 my-2 rounded" routerLink="/admin/search/users"
+        >Add some !</a
+      >
+    </div>
   </div>
 </div>

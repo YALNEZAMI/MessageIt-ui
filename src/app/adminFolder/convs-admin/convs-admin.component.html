@@ -1,9 +1,16 @@
-<h1 class="center noRes" *ngIf="noConvs() && done">
-  <ins
-    class="text-base no-underline w-full bg-red-600 opacity-95 p-2 rounded md:text-lg"
-    >No conversations yet !</ins
+<div
+  class="flex justify-center h-screen items-center"
+  *ngIf="noConvs() && done"
+>
+  <div
+    class="text-base no-underline text-center bg-red-500 w-1/2 text-white opacity-95 p-2 rounded md:text-lg"
   >
-</h1>
+    No conversations yet,
+    <a class="bg-white px-2 my-2 rounded" routerLink="/admin/friends"
+      >chat now !</a
+    >
+  </div>
+</div>
 <div id="globalContainer" class="pt-2 overflow-y-auto">
   <div class="convContainer" *ngFor="let conv of getThisConvs()">
     <div
