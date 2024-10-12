@@ -18,6 +18,8 @@ import { ConvsAdminComponent } from './adminFolder/convs-admin/convs-admin.compo
 import { SearchComponent } from './adminFolder/search/search.component';
 import { ResultConvsComponent } from './adminFolder/result-convs/result-convs.component';
 import { ResultUsersComponent } from './adminFolder/result-users/result-users.component';
+import { AdminSideBarComponent } from './adminFolder/admin-side-bar/admin-side-bar.component';
+
 import { FriendService } from './Services/friend.service';
 import { NavBarComponent } from './adminFolder/nav-bar/nav-bar.component';
 import { NotifsComponent } from './adminFolder/notifs/notifs.component';
@@ -79,6 +81,7 @@ const config: SocketIoConfig = { url: env.api_url };
     GroupeComponent,
     AddMemberConvComponent,
     UrlifyPipe,
+    AdminSideBarComponent,
   ],
   imports: [
     BrowserModule,
