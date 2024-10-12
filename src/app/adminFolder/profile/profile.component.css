@@ -29,14 +29,7 @@
     margin-top: 5px;
     width: 100%;
 }
-#selectTheme{
-  margin: 5px;
-  max-height: 30px;
-}
-#labelSelectTheme{
-  height: max-content;
-  margin-bottom: 0px;
-}
+
 .textThirdColor{
   color: red;
 }
@@ -124,11 +117,7 @@
     padding-top: 5px;
     width: 50%;
   }
-  .selectThemeDiv{
-    padding-right: 13%;
-    padding-top: 5px;
-    width: 25%;
-  }
+  
   label{
     color:var(--font-color-admin);
   }

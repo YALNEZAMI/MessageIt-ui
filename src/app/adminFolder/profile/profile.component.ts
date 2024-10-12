@@ -26,7 +26,8 @@ export class ProfileComponent {
     status: 200,
     message: 'password is so short',
   };
-
+  isPhotoBigFormat = false;
+  photoUrl: string | ArrayBuffer | null = null;
   constructor(
     private router: Router,
     private userService: UserService,
@@ -34,7 +35,7 @@ export class ProfileComponent {
     private convService: ConvService
   ) {
     this.user = this.sessionService.getThisUser();
-
+    this.photoUrl = this.user.photo;
     if (this.user.theme != undefined && this.user.theme != '') {
       this.selectedTheme = this.user.theme;
     } else {
@@ -57,12 +58,7 @@ export class ProfileComponent {
     return JSON.parse(localStorage.getItem('user') || '{}').photo;
   }
   displayPhoto() {
-    let cadrePhoto = document.getElementById('cadrePhoto') as HTMLImageElement;
-    if (cadrePhoto.style.display == 'block') {
-      cadrePhoto.style.display = 'none';
-    } else {
-      cadrePhoto.style.display = 'block';
-    }
+    this.isPhotoBigFormat = !this.isPhotoBigFormat;
   }
   updateUser() {
     //check email
@@ -93,7 +89,7 @@ export class ProfileComponent {
       delete this.user.password2;
     }
 
-    //set them
+    //set theme
     this.user.theme = this.selectedTheme;
     this.userService.updateInfos(this.user).subscribe((userUpdated: any) => {
       localStorage.setItem('user', JSON.stringify(userUpdated));
@@ -136,11 +132,23 @@ export class ProfileComponent {
     let input = document.getElementById('convImgInput') as HTMLInputElement;
     input.click();
   }
-  selected() {
-    let input = document.getElementById('convImgInput') as HTMLInputElement;
-    this.photoSelectedName = input.files?.item(0)?.name || '';
-    // this.photoSelectedName = this.photo.files?.item(0)?.name || '';
+  selected(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    this.photoSelectedName = fileInput.files![0].name;
+
+    if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      // Charger l'image et définir la preview
+      reader.onload = (e) => {
+        this.photoUrl = reader.result; // Met à jour la preview URL avec le résultat de la lecture du fichier
+      };
+
+      reader.readAsDataURL(file); // Lire le fichier comme une URL de données
+    }
   }
+
   lanceAlert(response: any) {
     this.alert = true;
     this.response.status = response.status;
@@ -186,5 +194,6 @@ export class ProfileComponent {
     ) as HTMLFormElement;
     profilePhotoForm.reset();
     this.photoSelectedName = '';
+    this.photoUrl = this.user.photo;
   }
 }
