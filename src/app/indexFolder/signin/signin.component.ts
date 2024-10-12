@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { first } from 'rxjs';
 import { UserService } from '../../Services/user.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { Router } from '@angular/router';
