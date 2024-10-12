@@ -173,4 +173,33 @@ export class UserService {
   findForOtherAuthWays(id: string) {
     return this.http.get(`${this.uri}/user/findForOtherAuthWays/${id}`);
   }
+  getCurrentUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+  getTailwindThemeClasses() {
+    const theme = this.getCurrentUser().theme;
+    switch (theme) {
+      case 'basic':
+        return {
+          'bg-blue-500': true,
+        };
+      case 'love':
+        return {
+          'bg-pink-500': true,
+        };
+      case 'spring':
+        return {
+          'bg-green-500': true,
+        };
+      case 'panda':
+        return {
+          'bg-black': true,
+          'text-white': true,
+        };
+
+      default:
+        return {};
+        break;
+    }
+  }
 }
