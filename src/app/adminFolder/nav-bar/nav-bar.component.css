@@ -1,40 +1,10 @@
 
 
+  @media screen and (min-width:634px) {
+    .active {
+      border-bottom: 5px solid white;
+        }
+  }
+  
  
-  .navItem {
-    border-radius: 10px;
-    padding: 5px;
-    margin: 5px;
-    cursor: pointer;
-    width: 16.7%;
-    text-align: center;
-    color: var(--third-color-admin);
-  }
-  .navItem:hover {
-    background-color: var(--font-color-admin);
-  }
-  .active {
-    background-color: var(--font-color-admin);
-  }
-  #rowContainer{
-    background-color: var(--bg-color-admin);
-    padding: 0px 4px;
-    padding-left: 10%;
-   
-  }
-  #notif{
-    position: relative;
-  }
- #nbrNotifs{
-  background-color: var(--font-color-admin);
-  color: var(--bg-color-admin);
-  width: fit-content;
-  height: fit-content;
-  font-size:xx-small;
-  padding: 0px 5px;
-  border-radius: 50%;
-  position: absolute;
-  top: 10%;
-  left: 55%;
-  z-index: 3;
- }
+ 

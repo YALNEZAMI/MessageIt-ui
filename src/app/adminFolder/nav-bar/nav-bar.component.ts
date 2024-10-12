@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FriendService } from 'src/app/Services/friend.service';
+import { UserService } from 'src/app/Services/user.service';
+
 import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
@@ -15,7 +17,8 @@ export class NavBarComponent {
     private router: Router,
     private friendService: FriendService,
     private webSocketService: WebSocketService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private userService: UserService
   ) {
     //getInitialNotifs from local storage
     if (this.sessionService.isAuthenticated()) {
@@ -42,26 +45,15 @@ export class NavBarComponent {
       });
     }
   }
-  getThisUser() {
-    return JSON.parse(localStorage.getItem('user') || '{}');
+
+  getCurrentUser() {
+    return this.userService.getCurrentUser();
+  }
+  goTo(path: string): void {
+    this.router.navigate([path]);
   }
 
-  goToNotifs() {
-    this.router.navigate(['admin/notifs']);
-  }
-  goToConvs() {
-    this.router.navigate(['admin/convs']);
-  }
-  goToProfile() {
-    this.router.navigate(['admin/profile']);
-  }
-  goToSearch() {
-    this.router.navigate(['admin/search/users']);
-  }
-  goToFriends() {
-    this.router.navigate(['admin/friends']);
-  }
-  get2Route() {
+  getFinalPath() {
     let url = this.router.url;
     let splitted = url.split('/');
 
@@ -86,5 +78,26 @@ export class NavBarComponent {
   }
   getNbrNotifs() {
     return this.sessionService.getThisNotifs().length;
+  }
+  getTailwindThemeClesses() {
+    return this.userService.getTailwindThemeClasses();
+  }
+  getSelectorLeft() {
+    console.log('this.getFinalPath()', this.getFinalPath());
+    switch (this.getFinalPath()) {
+      case 'admin/convs':
+        return '10%';
+      case 'admin/profile':
+        return '27%';
+      case 'admin/notifs':
+        return '45%';
+      case 'admin/search':
+        return '64%';
+      case 'admin/friends':
+        return '82%';
+      default:
+        return '100%';
+        break;
+    }
   }
 }
