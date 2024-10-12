@@ -1,4 +1,4 @@
-<div id="globalContainer">
+<div id="globaleContainer" class="h-3/4">
   <div *ngIf="!done" class="center mySpinner">
     <div class="spinner-border" role="status">
       <span class="sr-only">Loading...</span>
@@ -12,7 +12,7 @@
     >
   </h3>
 
-  <div id="notifsComponent">
+  <div id="notifsComponent" class="overflow-y-auto">
     <div
       class="userItem row"
       *ngFor="let notif of notifs"
