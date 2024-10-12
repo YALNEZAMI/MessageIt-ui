@@ -27,7 +27,6 @@ export class FriendsComponent {
     if (this.sessionService.thereAreFriends()) {
       //get Initial Data
       this.friends = this.sessionService.getThisFriends();
-      console.log(this.friends);
 
       //mark as done
       this.done = true;

@@ -13,7 +13,6 @@ export class ConvService {
   changeConv: any = new Subject<any>();
   constructor(
     private Http: HttpClient,
-    private router: Router,
     private sessionService: SessionService
   ) {}
   getThisUser() {
