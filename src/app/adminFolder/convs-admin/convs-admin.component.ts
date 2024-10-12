@@ -260,9 +260,7 @@ export class ConvsAdminComponent implements OnInit {
     });
     return result;
   }
-  goToGroupe() {
-    this.router.navigate(['/admin/groupe']);
-  }
+
   getShortConvName(name: string) {
     if (name.length > 23) {
       return name.slice(0, 20) + '...';

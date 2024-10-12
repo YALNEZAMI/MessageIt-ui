@@ -83,7 +83,6 @@ export class NavBarComponent {
     return this.userService.getTailwindThemeClasses();
   }
   getSelectorLeft() {
-    console.log('this.getFinalPath()', this.getFinalPath());
     switch (this.getFinalPath()) {
       case 'admin/convs':
         return '10%';
