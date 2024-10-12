@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { SessionService } from './Services/session.service';
 import { UserService } from './Services/user.service';
 import { ConvService } from './Services/conv.service';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnDestroy, OnInit {
+export class AppComponent implements OnInit {
   title = 'front';
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload(event: any): void {
@@ -64,5 +64,4 @@ export class AppComponent implements OnDestroy, OnInit {
     }
     return false;
   }
-  ngOnDestroy(): void {}
 }
