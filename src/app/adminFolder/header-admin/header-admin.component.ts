@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SideBarService } from 'src/app/Services/side-bar.service';
 import { UserService } from 'src/app/Services/user.service';
 
 @Component({
@@ -9,13 +10,23 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class HeaderAdminComponent {
   name: any;
-  constructor(private router: Router, private userService: UserService) {
+  displayingSideBar = false;
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private sidebarService: SideBarService
+  ) {
     let user = JSON.parse(localStorage.getItem('user') || '{}');
-    this.name = user.firstName + ' ' + user.lastName;
+    this.name = user.firstName;
 
     this.userService.getNameChanged().subscribe((name) => {
       this.name = name;
     });
+    this.sidebarService
+      .getSideBarVisible()
+      .subscribe((isDisplayed: boolean) => {
+        this.displayingSideBar = isDisplayed;
+      });
   }
   getCurrentUser() {
     return this.userService.getCurrentUser();
@@ -25,5 +36,8 @@ export class HeaderAdminComponent {
   }
   getTailwindThemeClesses() {
     return this.userService.getTailwindThemeClasses();
+  }
+  sideBar() {
+    this.displayingSideBar = !this.displayingSideBar;
   }
 }
