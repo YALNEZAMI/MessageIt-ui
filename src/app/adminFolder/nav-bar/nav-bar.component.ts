@@ -56,8 +56,14 @@ export class NavBarComponent {
   getFinalPath() {
     let url = this.router.url;
     let splitted = url.split('/');
+    let res = '';
+    splitted.map((p, i) => {
+      if (p && i != 0) {
+        res += '/' + p;
+      }
+    });
 
-    return splitted[splitted.length - 2] + '/' + splitted[splitted.length - 1];
+    return res;
     // switch (last2Routes) {
     //   case 'admin/convs':
     //     break;
@@ -84,15 +90,19 @@ export class NavBarComponent {
   }
   getSelectorLeft() {
     switch (this.getFinalPath()) {
-      case 'admin/convs':
+      case '/admin/convs':
         return '10%';
-      case 'admin/profile':
+      case '/admin/profile':
         return '27%';
-      case 'admin/notifs':
+      case '/admin/notifs':
         return '45%';
-      case 'admin/search':
+      case '/admin/search':
         return '64%';
-      case 'admin/friends':
+      case '/admin/search/users':
+        return '64%';
+      case '/admin/search/convs':
+        return '64%';
+      case '/admin/friends':
         return '82%';
       default:
         return '100%';

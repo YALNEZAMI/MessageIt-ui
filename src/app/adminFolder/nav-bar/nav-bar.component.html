@@ -9,7 +9,7 @@
   ></div>
   <div
     [ngClass]="{
-      active: getFinalPath() === 'admin/convs'
+      active: getFinalPath() === '/admin/convs'
     }"
     id="convs"
     class="flex space-x-2 justify-center items-center rounded cursor-pointer bg-gray-600 pt-1 shadow-md hover:opacity-80 text-white h-max mt-1 p-2 w-1/6"
@@ -36,7 +36,7 @@
   <div
     id="profile"
     [ngClass]="{
-      active: getFinalPath() === 'admin/profile',
+      active: getFinalPath() === '/admin/profile',
       
     }"
     (click)="goTo('/admin/profile')"
@@ -59,7 +59,7 @@
   <div
     id="notif"
     [ngClass]="{
-      active: getFinalPath() === 'admin/notifs'
+      active: getFinalPath() === '/admin/notifs'
     }"
     (click)="goTo('/admin/notifs')"
     class="relative flex space-x-2 justify-center items-center rounded cursor-pointer bg-gray-600 pt-1 shadow-md hover:opacity-80 text-white h-max mt-1 p-2 w-1/6"
@@ -89,7 +89,7 @@
   <div
     id="search"
     [ngClass]="{
-      active: getFinalPath() === 'admin/search'
+      active: getFinalPath() === '/admin/search'
     }"
     (click)="goTo('/admin/search/users')"
     class="flex space-x-2 justify-center items-center rounded cursor-pointer bg-gray-600 pt-1 shadow-md hover:opacity-80 text-white h-max mt-1 p-2 w-1/6"
@@ -111,7 +111,7 @@
   <div
     id="friends"
     [ngClass]="{
-      active: getFinalPath() === 'admin/friends'
+      active: getFinalPath() === '/admin/friends'
     }"
     (click)="goTo('/admin/friends')"
     class="flex space-x-2 justify-center items-center rounded cursor-pointer bg-gray-600 pt-1 shadow-md hover:opacity-80 text-white h-max mt-1 p-2 w-1/6"
