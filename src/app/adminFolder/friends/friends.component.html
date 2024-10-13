@@ -1,77 +1,10 @@
 <div id="globaleContainer">
-  <div class="flex flex-wrap w-full overflow-y-auto">
-    <div
-      id="{{ user._id }}"
-      class="userItem row"
+  <div class="flex flex-wrap overflow-y-auto">
+    <app-user
+      class="w-full sm:w-1/2"
       *ngFor="let user of getFriends()"
-    >
-      <div class="imgAndStatusDiv">
-        <img class="img" src="{{ user.photo }}" alt="userPhoto" />
-        <div [ngClass]="getStatusClasses(user)"></div>
-      </div>
-      <div class="name mt-2 mx-2">
-        {{ user.firstName + " " + user.lastName }}
-      </div>
-      <button
-        id="{{ user._id + '-Btn1' }}"
-        class="btn1 myBtn"
-        (click)="operation(user)"
-        [ngClass]="{
-          'btn': true,
-        'btn-success':
-          user.operation=='add' || user.operation == 'accept',
-        'btn-danger': user.operation== 'remove',
-        'btn-warning': user.operation == 'cancel',
-      }"
-      >
-        {{ getContenuBtn(user) }}
-      </button>
-      <button
-        id="{{ user._id + '-RefuseBtn' }}"
-        class="refuseBtn myBtn"
-        class="btn btn-danger myBtn refuseBtn"
-        *ngIf="user.operation == 'accept'"
-        (click)="operation({ operation: 'refuse', _id: user._id })"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-person-fill-x"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
-          />
-          <path
-            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"
-          />
-        </svg>
-      </button>
-      <button
-        id="{{ user._id + '-ChatBtn' }}"
-        class="btn btn-light chatBtn myBtn"
-        *ngIf="user.operation == 'remove'"
-        (click)="operation({ operation: 'chat', _id: user._id })"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-chat-left-dots"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-          />
-          <path
-            d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-          />
-        </svg>
-      </button>
-    </div>
+      [user]="user"
+    ></app-user>
     <div *ngIf="!done" class="d-flex align-items-center mySpinner">
       <strong>Loading...</strong>
       <div
