@@ -9,12 +9,12 @@
       [src]="getCurrentUser().photo"
       onerror="this.src='assets/images/user.png'"
       alt="MyPhoto"
-      class="rounded-full w-20 m-2"
+      class="rounded-full w-16 m-2"
       (click)="goToProfile()"
     />
   </div>
   <h4 class="mx-2 flex items-center no-underline">
-    <p class="pt-3 italic truncate" (click)="goToProfile()">
+    <p class="pt-4 italic truncate" (click)="goToProfile()">
       Hello, {{ name }} 😊
     </p>
   </h4>
