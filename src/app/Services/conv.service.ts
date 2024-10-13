@@ -85,20 +85,20 @@ export class ConvService {
     if (members.length == 1) {
       return {
         status: true,
-        ' online': true,
+        ' bg-green-500': true,
       };
     }
     for (let member of members) {
       if (member._id != this.getThisUser()._id && member.status == 'online') {
         return {
           status: true,
-          ' online': true,
+          ' bg-green-500': true,
         };
       }
     }
     return {
       status: true,
-      ' offline': true,
+      ' bg-gray-500': true,
     };
   }
   update(conv: any, file: any) {

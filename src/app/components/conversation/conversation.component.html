@@ -10,18 +10,21 @@
       class="photoAndName flex space-x-2 w-11/12 cursor-pointer"
       (click)="goToConv(conv)"
     >
-      <div class="imgAndStatusDiv">
+      <div class="imgAndStatusDiv relative">
         <img
           [src]="conv.photo"
           alt="convImg"
-          class="imgConv w-14 h-14 rounded-full m-2"
+          class="imgConv w-14 h-14 rounded-full m-1"
           onerror='src="/assets/images/user.png"'
         />
-        <div [ngClass]="getStatusClasses(conv)"></div>
+        <div
+          class="absolute right-2 top-1 rounded-full w-3 h-3"
+          [ngClass]="getStatusClasses(conv)"
+        ></div>
       </div>
 
       <div class="nameAndLastMsg">
-        <h4 class="name">{{ getShortConvName(conv.name) }}</h4>
+        <h5 class="name mt-1">{{ getShortConvName(conv.name) }}</h5>
         <div
           class="lastMsg"
           *ngIf="conv.members.length > 2 && getLastMessageText(conv) == ''"
