@@ -19,7 +19,6 @@ import { SearchComponent } from './adminFolder/search/search.component';
 import { ResultConvsComponent } from './adminFolder/result-convs/result-convs.component';
 import { ResultUsersComponent } from './adminFolder/result-users/result-users.component';
 import { AdminSideBarComponent } from './adminFolder/admin-side-bar/admin-side-bar.component';
-
 import { FriendService } from './Services/friend.service';
 import { NavBarComponent } from './adminFolder/nav-bar/nav-bar.component';
 import { NotifsComponent } from './adminFolder/notifs/notifs.component';
@@ -42,6 +41,8 @@ import { ConvSideComponent } from './convFolder/conv-side/conv-side.component';
 import { SearchResultComponent } from './convFolder/search-result/search-result.component';
 import { GroupeComponent } from './adminFolder/groupe/groupe.component';
 import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-conv.component';
+import { UserComponent } from './components/user/user.component';
+import { ConversationComponent } from './components/conversation/conversation.component';
 import { UrlifyPipe } from './convFolder/message/urlify.pipe';
 const config: SocketIoConfig = { url: env.api_url };
 
@@ -82,6 +83,8 @@ const config: SocketIoConfig = { url: env.api_url };
     AddMemberConvComponent,
     UrlifyPipe,
     AdminSideBarComponent,
+    UserComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,
