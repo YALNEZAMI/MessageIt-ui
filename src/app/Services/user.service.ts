@@ -95,11 +95,10 @@ export class UserService {
   }
   getStatusClassesForUser(user: any) {
     return {
-      status: true,
-      ' online': user.status == 'online',
+      ' bg-green-500': user.status == 'online',
       ' busy': user.status == 'busy',
       ' away': user.status == 'away',
-      ' offline': user.status == 'offline',
+      ' bg-gray-500': user.status == 'offline',
     };
   }
   setTheme() {
