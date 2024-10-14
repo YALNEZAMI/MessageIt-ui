@@ -26,15 +26,16 @@
       <div class="nameAndLastMsg">
         <h5 class="name mt-1">{{ getShortConvName(conv.name) }}</h5>
         <div
-          class="lastMsg"
+          class="text-base"
           *ngIf="conv.members.length > 2 && getLastMessageText(conv) == ''"
         >
           New Groupe
         </div>
-        <h6
+        <div
+          class="text-base truncate"
           [ngClass]="{
-            lastMsg: lastMsgIsSeen(conv),
-            lastMsgNotSeen: !lastMsgIsSeen(conv)
+            'font-serif': lastMsgIsSeen(conv),
+            'font-bold': !lastMsgIsSeen(conv)
           }"
           *ngIf="getLastMessageText(conv) != ''"
         >
@@ -54,7 +55,7 @@
             at
             {{ getLastMessageHour(conv) }}
           </div>
-        </h6>
+        </div>
         <h6
           class="lastConnection"
           *ngIf="
@@ -133,7 +134,7 @@
         </div>
         <div class="imgVieverRowContainer">
           <img
-            class="imgViever"
+            class="imgViever w-4 rounded-full"
             *ngFor="let viever of getLastMessageViewvers(conv)"
             [src]="viever.photo"
             alt=""
