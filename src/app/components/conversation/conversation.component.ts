@@ -77,10 +77,10 @@ export class ConversationComponent {
   getLastMessageHour(conv: Conv) {
     if (conv.lastMessage != null) {
       let date = new Date(conv.lastMessage.date);
-      let hour = date.getHours();
-      if (hour < 10) hour = Number('0' + hour);
-      let minutes = date.getMinutes();
-      if (minutes < 10) minutes = Number('0' + minutes);
+      let hour: any = date.getHours();
+      if (hour < 10) hour = '0' + hour;
+      let minutes: any = date.getMinutes();
+      if (minutes < 10) minutes = '0' + minutes;
       return hour + ':' + minutes;
     } else {
       return '';
