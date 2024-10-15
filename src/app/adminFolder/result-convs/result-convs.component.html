@@ -11,11 +11,10 @@
 </div>
 <div class="flex items-center justify-center mt-40" *ngIf="noConvs() && done">
   <div
-    class="text-base text-white text-center w-1/2 no-underline bg-red-500 p-2 rounded md:text-lg"
+    class="text-base text-white text-center w-1/2 no-underline bg-red-500 p-3 rounded md:text-lg"
   >
-    No convs for "{{ key }}",
-    <br />
-    <a class="bg-white px-2 my-2 rounded" routerLink="/admin/friends"
+    <span class="font-bold">No convs for "{{ key }}", </span>
+    <a class="bg-white px-2 p-1 my-2 rounded" routerLink="/admin/friends"
       >Create new one !</a
     >
   </div>

@@ -16,11 +16,10 @@
   </div>
   <div class="flex justify-center h-screen items-center" *ngIf="getNoRes()">
     <div
-      class="text-base text-center no-underline w-3/4 bg-red-500 text-white opacity-95 p-2 rounded md:text-lg"
+      class="text-base text-center no-underline w-3/4 bg-red-500 text-white opacity-95 p-3 rounded md:text-lg"
     >
-      No friends yet,
-      <br />
-      <a class="bg-white px-2 my-2 rounded" routerLink="/admin/search/users"
+      <span class="text-lg my-2 font-bold">No friends yet, </span>
+      <a class="bg-white px-2 p-1 my-4 rounded" routerLink="/admin/search/users"
         >Add some !</a
       >
     </div>
