@@ -1,4 +1,7 @@
-<div id="globalContainer" class="row">
+<div
+  id="globalContainerMedias"
+  class="flex flex-wrap justify-center p-2 space-x-1"
+>
   <div class="media" *ngFor="let media of medias" (click)="goToMsg(media.msg)">
     <img
       *ngIf="fileType(media.file) == 'img'"
@@ -21,7 +24,10 @@
     <strong>Loading...</strong>
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
-  <h1 class="text-center noRes" *ngIf="medias.length == 0">
-    <ins>No medias yet</ins>
-  </h1>
+  <div
+    class="bg-red-500 p-1 px-3 rounded text-center text-white"
+    *ngIf="medias.length == 0"
+  >
+    No medias yet
+  </div>
 </div>
