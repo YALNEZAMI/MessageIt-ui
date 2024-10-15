@@ -20,10 +20,8 @@
     background-color: var(--font-color-conv);
     color: var(--bg-color-conv);  
   }
-  #rowContainer{
-    border: 1px solid var(--font-color-conv);
-    padding: 3px;
+  #navItemsContainer{
+    border-top: 1px solid var(--font-color-conv);
     background-color: var(--bg-color-conv);
-    padding-left: 20px;
-    margin-bottom: 5px;
+    
   }
