@@ -121,28 +121,41 @@ export class NavBarComponent {
     if (this.sessionService.isAuthenticated()) {
       if (this.sessionService.therAreNotifs()) {
         this.nbrNotifs = this.sessionService.getThisNotifs().length;
+        this.setNotificationsNumber();
       } else {
         //getInitialNotifs from server
         this.friendService.friendReqSentToMe().subscribe(async (data: any) => {
           this.nbrNotifs = await data.length;
+          this.setNotificationsNumber();
+
           //set local storage
           this.sessionService.setThisNotifs(data);
         });
       }
       this.webSocketService.onAddFriend().subscribe((data: any) => {
         this.nbrNotifs = this.sessionService.getThisNotifs().length;
+        this.setNotificationsNumber();
       });
       this.webSocketService.onCancelFriend().subscribe((data: any) => {
         this.nbrNotifs = this.sessionService.getThisNotifs().length;
+        this.setNotificationsNumber();
       });
 
       //accept friend request event
       this.webSocketService.onAcceptFriend().subscribe((data: any) => {
         this.nbrNotifs = this.sessionService.getThisNotifs().length;
+        this.setNotificationsNumber();
       });
     }
   }
-
+  setNotificationsNumber() {
+    this.navItems = this.navItems.map((ni) => {
+      if (ni._id == 'notifsInAdmin') {
+        ni.counter = this.nbrNotifs;
+      }
+      return ni;
+    });
+  }
   getCurrentUser() {
     return this.userService.getCurrentUser();
   }
