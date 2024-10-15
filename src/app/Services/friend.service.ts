@@ -102,13 +102,13 @@ export class FriendService {
   //frinedOperations
   //@params user the user that's concerned by the operation
   //@return make the operation and return the new one
-  async friendOperations(user: any) {
-    switch (user.operation) {
+  async friendOperations(body: any) {
+    switch (body.operation) {
       case 'add':
-        this.add(user._id).subscribe((data: any) => {});
+        this.add(body._id).subscribe((data: any) => {});
         break;
       case 'remove':
-        this.remove(user._id).subscribe((data: any) => {
+        this.remove(body._id).subscribe((data: any) => {
           // document.getElementById(user._id)?.remove();
           // this.users = this.users.filter(
           //   (currentUser: any) => currentUser._id != user._id
@@ -116,23 +116,23 @@ export class FriendService {
         });
         break;
       case 'cancel':
-        this.cancel(user._id).subscribe((data: any) => {});
+        this.cancel(body._id).subscribe((data: any) => {});
         break;
       case 'refuse':
-        this.refuse(user._id).subscribe((data: any) => {});
+        this.refuse(body._id).subscribe((data: any) => {});
         break;
       case 'accept':
-        this.accept(user._id).subscribe((data: any) => {});
+        this.accept(body._id).subscribe((data: any) => {});
         break;
       case 'chat':
-        if (document.getElementById(user._id + '-ChatBtn') != null) {
+        if (document.getElementById(body._id + '-ChatBtn') != null) {
           let chatBtn =
-            document.getElementById(user._id + '-ChatBtn') ||
+            document.getElementById(body._id + '-ChatBtn') ||
             document.createElement('button');
           chatBtn.innerHTML = `...`;
         }
 
-        this.convService.createConv(user._id).subscribe((conv: any) => {
+        this.convService.createConv(body._id).subscribe((conv: any) => {
           try {
             localStorage.setItem('conv', JSON.stringify(conv));
             this.router.navigate(['/conv/messages']);
