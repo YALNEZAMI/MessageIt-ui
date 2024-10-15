@@ -29,5 +29,7 @@
     <strong>Loading...</strong>
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
-  <h1 id="noRes" *ngIf="noRes">No result for "{{ key }}"</h1>
+  <div class="bg-red-500 p-1 rounded text-center text-white" *ngIf="noRes">
+    No result for "{{ key }}"
+  </div>
 </div>
