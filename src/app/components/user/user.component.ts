@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { User } from 'src/app/Interfaces/User.interface';
 import { FriendService } from 'src/app/Services/friend.service';
 import { UserService } from 'src/app/Services/user.service';
 
@@ -9,16 +10,16 @@ import { UserService } from 'src/app/Services/user.service';
   styleUrl: './user.component.css',
 })
 export class UserComponent {
-  @Input() user: any;
+  @Input() user: User | any;
   constructor(
     private userService: UserService,
     private friendService: FriendService
   ) {}
-  getStatusClasses(user: any) {
+  getStatusClasses(user: User) {
     return this.userService.getStatusClassesForUser(user);
   }
-  async friendOperation(user: any) {
-    await this.friendService.friendOperations(user);
+  async friendOperation(body: any) {
+    await this.friendService.friendOperations(body);
     switch (this.user.operation) {
       case 'cancel':
       case 'refuse':
@@ -36,7 +37,7 @@ export class UserComponent {
         break;
     }
   }
-  getBtnContent(user: any): void {
+  getBtnContent(user: User): void {
     let btn = document.getElementById(user._id + '-Btn1');
     if (btn != null) {
       btn.innerHTML = this.friendService.getBtnContent(user);
