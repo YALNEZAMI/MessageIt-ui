@@ -1,13 +1,24 @@
-<div class="row" id="cf">
-  <img id="photoConv" src="{{ photo }}" alt="" />
-  <div id="status" [ngClass]="getStatusClasses()"></div>
+<div class="flex" id="cf">
+  <div class="flex justify-center items-center relative">
+    <img
+      id="photoConv"
+      class="rounded-full w-14 h-14"
+      src="{{ photo }}"
+      alt=""
+    />
+    <div
+      id="status"
+      class="w-4 h-4 rounded-full absolute top-0 right-3"
+      [ngClass]="getStatusClasses()"
+    ></div>
+  </div>
   <div class="nameAndConOrTyping">
-    <h3 id="name">
-      <ins>{{ name }}</ins>
-    </h3>
-    <p class="lastConnection" *ngIf="!typing && !isGroupe()">
-      {{ lastConnection }}
-    </p>
-    <div *ngIf="typing">{{ typer.firstName + " " + typer.lastName }} ...</div>
+    <div id="name" class="text-white flex flex-col pt-1">
+      <div class="text-lg">{{ name }}</div>
+      <div class="lastConnection no-underline" *ngIf="!typing && !isGroupe()">
+        {{ lastConnection }}
+      </div>
+      <div *ngIf="typing">{{ typer.firstName + " " + typer.lastName }} ...</div>
+    </div>
   </div>
 </div>
