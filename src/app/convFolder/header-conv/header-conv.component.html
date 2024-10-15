@@ -4,6 +4,7 @@
       id="photoConv"
       class="rounded-full w-14 h-14"
       src="{{ photo }}"
+      onerror='src="/assets/images/user.png"'
       alt=""
     />
     <div
@@ -14,8 +15,12 @@
   </div>
   <div class="nameAndConOrTyping">
     <div id="name" class="text-white flex flex-col pt-1">
-      <div class="text-lg">{{ name }}</div>
-      <div class="lastConnection no-underline" *ngIf="!typing && !isGroupe()">
+      <div class="text-xl">{{ name }}</div>
+      <div
+        id="lastConnectionOrOtherSentence"
+        class="text-sm"
+        *ngIf="!typing && !isGroupe()"
+      >
         {{ lastConnection }}
       </div>
       <div *ngIf="typing">{{ typer.firstName + " " + typer.lastName }} ...</div>

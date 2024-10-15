@@ -2,7 +2,12 @@
   <div id="reactersCadre" (click)="displayReacters(null)">
     <div id="reacters" class="col">
       <div class="reactersDiv row" *ngFor="let reacter of reacters">
-        <img [src]="reacter.user.photo" class="imgReacter" alt="" />
+        <img
+          onerror='src="/assets/images/user.png"'
+          [src]="reacter.user.photo"
+          class="imgReacter"
+          alt=""
+        />
         <div class="reacterName">
           {{ reacter.user.firstName }} {{ reacter.user.lastName }}
         </div>
@@ -57,9 +62,16 @@
             <span class="sr-only">Loading...</span>
           </div>
           <!--messages-->
-          <h3 *ngIf="getMessages().length == 0 && done" class="center noRes">
-            <ins>no messages yet !</ins>
-          </h3>
+          <div
+            *ngIf="getMessages().length == 0 && done"
+            class="flex justify-center my-2"
+          >
+            <div
+              class="bg-red-500 text-white rounded p-2 px-5 font-bold text-lg w-max"
+            >
+              No messages yet !
+            </div>
+          </div>
           <div
             id="{{ msg._id }}"
             class="chat-box"
@@ -112,6 +124,7 @@
                     class="img"
                     style="width: 15px; height: 15px; margin-left: 5px"
                     src="{{ member.photo }}"
+                    onerror='src="/assets/images/user.png"'
                     alt="dsc"
                   />
                 </div>
@@ -141,6 +154,7 @@
                 <div class="chat-avatar">
                   <div class="center">
                     <img
+                      onerror='src="/assets/images/user.png"'
                       class="img"
                       src="{{ msg.sender.photo }}"
                       alt="{{ msg.sender.firstName }} {{ msg.sender.lastName }}"
@@ -327,6 +341,7 @@
       <div style="display: flex; justify-content: center; margin: 10px">
         <div style="border-radius: 10px" class="row justify-center bg-primary">
           <div
+            class="cursor-pointer"
             style="margin: 5px"
             [ngClass]="{
               reactionEmojis: true,
@@ -361,9 +376,9 @@
         <div
           (click)="setRep()"
           style="width: 30%; margin-left: 10px; margin-right: 10px"
-          class="center text-light btn bg-success"
+          class="center text-light btn bg-success hover:opacity-85"
         >
-          Réponde
+          Reply
         </div>
 
         <!--delete for me-->
