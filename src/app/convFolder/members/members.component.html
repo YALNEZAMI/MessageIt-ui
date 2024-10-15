@@ -31,13 +31,20 @@
     </svg>
   </button>
   <div class="membersContainer">
-    <div class="userItem" *ngFor="let user of getThisMembers()" [id]="user._id">
+    <div
+      class="userItem shadow-md"
+      *ngFor="let user of getThisMembers()"
+      [id]="user._id"
+    >
       <div class="row userInfos">
-        <div class="imgAndStatusDiv">
+        <div class="imgAndStatusDiv relative">
           <img class="img" src="{{ user.photo }}" alt="" />
-          <div [ngClass]="getStatusClasses(user)"></div>
+          <div
+            class="absolute right-1 top-0 w-3 h-3 rounded-full"
+            [ngClass]="getStatusClasses(user)"
+          ></div>
         </div>
-        <div class="name">
+        <div class="name w-11/12">
           {{ user.firstName + " " + user.lastName }}
           <ins *ngIf="isAdmin(user._id)">(admin)</ins>
           <ins *ngIf="isChef(user._id)">(chef)</ins>
@@ -72,8 +79,25 @@
   </div>
 </div>
 <!--btns groupe -->
-<div id="optionsCadre" class="optionsCadre" (click)="options(null)">
-  <div class="options">
+<div
+  [ngClass]="{
+    hidden: !isOperating
+  }"
+  class="flex justify-center items-center fixed w-screen h-screen left-0 top-0"
+  (click)="isOperating = false"
+>
+  <div
+    id="cadre"
+    class="fixed z-10 left-0 top-0 w-screen h-screen bg-black opacity-50"
+  ></div>
+  <div
+    class="shadow-lg w-3/4 sm:1/2 min-h-1/2 z-20 p-3 flex flex-wrap space-x-2 justify-center bg-gray-400 rounded-md opacity-100"
+  >
+    <div
+      class="w-full text-white text-lg text-center font-serif my-2 bg-gray-600 rounded-md mx-2 shadow-md"
+    >
+      Available operations on {{ user.firstName }}
+    </div>
     <button
       id="{{ user._id + '-Btn1' }}"
       class="p-2 btn1 myBtn"

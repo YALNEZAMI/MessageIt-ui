@@ -18,6 +18,7 @@ export class MembersComponent {
   //done=true to display the members else display a spinner
   done: boolean = false;
   user: any = {};
+  isOperating = false;
 
   constructor(
     private router: Router,
@@ -281,19 +282,8 @@ export class MembersComponent {
     return chef == id;
   }
   options(user: any) {
-    let div = document.getElementById('optionsCadre') as HTMLElement;
-
-    if (div != null) {
-      if (div.style.display == 'block') {
-        div.style.display = 'none';
-      } else {
-        this.currentOptions.style.display = 'none';
-        //hide the last displayed  options
-        this.currentOptions = div;
-        this.user = user;
-        div.style.display = 'block';
-      }
-    }
+    this.isOperating = true;
+    this.user = user;
   }
 
   setThisConv(conv: any) {
