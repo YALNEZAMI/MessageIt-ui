@@ -1,0 +1,29 @@
+<div
+  [id]="navItem._id"
+  (click)="goTo()"
+  class="relative transition-all flex space-x-2 m-1 sm:mx-3 justify-center items-center rounded cursor-pointer bg-gray-600 shadow-md hover:opacity-80 text-white h-max mt-1 px-2 py-1 min-w-14 sm:min-w-28 w-max"
+>
+  <!--svg container-->
+  <div [id]="navItem._id + '-svgContainer'"></div>
+  <!--name container-->
+  <div class="hidden md:block text-sm">{{ navItem.name }}</div>
+  <!--counter section-->
+  <div
+    *ngIf="navItem.counterExist && navItem.counter != 0"
+    id="nbrNotif"
+    [ngClass]="{
+      'px-2 -right-2': navItem.counter <= 9,
+      'px-1 -right-3': navItem.counter > 9
+    }"
+    class="bg-red-600 text-sm md:text-base absolute -top-2 rounded-full"
+  >
+    {{ getCounter() }}
+  </div>
+  <!--selector section-->
+  <div
+    [ngClass]="{
+      hidden: !isCurrentRoute()
+    }"
+    class="w-full h-1 bg-white rounded-md absolute -bottom-2 right-0"
+  ></div>
+</div>
