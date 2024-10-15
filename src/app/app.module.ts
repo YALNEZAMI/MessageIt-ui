@@ -44,7 +44,7 @@ import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-
 import { UserComponent } from './components/user/user.component';
 import { ConversationComponent } from './components/conversation/conversation.component';
 import { UrlifyPipe } from './convFolder/message/urlify.pipe';
-import { NavItemComponent } from './components/nav-component/nav-component.component';
+import { NavItemComponent } from './components/nav-component/nav-item.component';
 const config: SocketIoConfig = { url: env.api_url };
 
 @NgModule({
