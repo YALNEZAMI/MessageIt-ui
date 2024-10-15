@@ -15,6 +15,7 @@ export class NavItemComponent implements AfterViewChecked {
       this.navItem.svg;
   }
   goTo(): void {
+    this.navItem.counter = 0;
     this.router.navigate([this.navItem.route]);
   }
   isCurrentRoute(): boolean {
