@@ -1,5 +1,14 @@
-<div class="row" id="rowContainer">
-  <div
+<div
+  class="flex flex-wrap justify-center space-x-2 px-2 py-1 w-screen"
+  id="navItemsContainer"
+>
+  <app-nav-item
+    [id]="ni._id"
+    *ngFor="let ni of navItems"
+    [navItem]="ni"
+  ></app-nav-item>
+  <!--
+ <div
     id="messages"
     [ngClass]="{
       navItem: true,
@@ -111,4 +120,4 @@
       />
     </svg>
   </div>
-</div>
+--></div>
