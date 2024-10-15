@@ -1,7 +1,19 @@
 <div id="globalContainer">
-  <div id="rep" class="row">
-    <img id="photoRep" src="{{ photoRep }}" alt="" />
-    <div id="textRep">{{ textRep }}</div>
+  <div
+    id="rep"
+    class="flex items-center"
+    [ngClass]="{
+      hidden: textRep == ''
+    }"
+  >
+    <img
+      id="photoRep"
+      src="{{ photoRep }}"
+      alt=""
+      onerror='src="/assets/images/user.png"'
+      class="rounded-full w-10 h-10"
+    />
+    <div id="textRep" class="w-11/12">{{ textRep }}</div>
     <svg
       (click)="cancelRep()"
       id="cancelRepBtn"
@@ -9,7 +21,7 @@
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-x-square"
+      class="bi bi-x-square bg-red-600 cursor-pointer"
       viewBox="0 0 16 16"
     >
       <path
@@ -21,58 +33,67 @@
     </svg>
   </div>
   <form (ngSubmit)="send()">
-    <div class="row" id="inputContainer">
-     
-      <div id="btnsContainer">
-        <!--input and button of media-->
-        <input
-          id="files"
-          type="file"
-          name="files"
-          (change)="mediasChange($event)"
-          accept="image/* , video/*"
-          multiple
-        />
-        <button
-          type="button"
-          id="photo_library"
-          [ngClass]="getFilesBtnClasses()"
-        >
-          <div *ngIf="message.files.length != 0" (click)="reinitMedias()">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-trash2"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"
-              />
-            </svg>
-          </div>
-          <div (click)="selectFiles()">
-            <svg
-              *ngIf="message.files.length == 0"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-images"
-              viewBox="0 0 16 16"
-            >
-              <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-              <path
-                d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
-              />
-            </svg>
-          </div>
-        </button>
+    <div class="flex p-1 space-x-1 py-2" id="inputContainer">
+      <!--input and button of media-->
+      <input
+        id="files"
+        type="file"
+        name="files"
+        (change)="mediasChange($event)"
+        accept="image/* , video/*"
+        multiple
+        class="hidden"
+      />
+      <!--file btn-->
+      <button type="button" id="photo_library" [ngClass]="getFilesBtnClasses()">
+        <div *ngIf="message.files.length != 0" (click)="reinitMedias()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-trash2"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"
+            />
+          </svg>
+        </div>
+        <div (click)="selectFiles()">
+          <svg
+            *ngIf="message.files.length == 0"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-images"
+            viewBox="0 0 16 16"
+          >
+            <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+            <path
+              d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
+            />
+          </svg>
+        </div>
+      </button>
 
+      <textarea
+        placeholder="écirir..."
+        (keydown)="typing()"
+        (input)="onInput()"
+        [(ngModel)]="message.text"
+        id="textArea"
+        name="textArea"
+        type="textArea"
+        rows="1"
+        class="form-control"
+      ></textarea>
+      <!--send and like container-->
+      <div class="min-w-12">
         <!-- send button -->
         <button
-          class="btn btn-primary"
+          class="btn btn-primary w-full"
           (click)="send()"
           *ngIf="sendButton"
           id="sendBtn"
@@ -92,7 +113,7 @@
         </button>
         <!--like button-->
         <button
-          class="btn btn-primary"
+          class="btn btn-primary w-full"
           id="likeBtn"
           (click)="like()"
           *ngIf="!sendButton"
@@ -100,17 +121,6 @@
           {{ emoji }}
         </button>
       </div>
-      <textarea
-      placeholder="écirir..."
-      (keydown)="typing()"
-      (input)="onInput()"
-      [(ngModel)]="message.text"
-      id="textArea"
-      name="textArea"
-      type="textArea"
-      rows="1"
-      class="form-control"
-    ></textarea>
     </div>
   </form>
 </div>

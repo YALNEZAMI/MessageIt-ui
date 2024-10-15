@@ -1,15 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Message } from 'src/app/Interfaces/message.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
-import { SessionService } from 'src/app/Services/session.service';
 
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.css'],
 })
-export class InputComponent {
+export class InputComponent implements OnInit {
   me = JSON.parse(localStorage.getItem('user') || '{}');
   fileInput: any;
   emoji: string = '';
@@ -42,6 +41,10 @@ export class InputComponent {
       this.message.ref = msg._id;
       this.fillRep(msg);
     });
+  }
+  ngOnInit(): void {
+    const ta = document.getElementById('textArea') as HTMLTextAreaElement;
+    ta.focus();
   }
 
   selectFiles() {
