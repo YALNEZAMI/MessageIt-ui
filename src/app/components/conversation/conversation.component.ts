@@ -13,7 +13,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   styleUrl: './conversation.component.css',
 })
 export class ConversationComponent {
-  @Input() conv: any;
+  @Input() conv: Conv | any;
   done = false;
   constructor(
     private convService: ConvService,
