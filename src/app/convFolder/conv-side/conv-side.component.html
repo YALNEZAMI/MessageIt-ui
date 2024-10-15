@@ -1,6 +1,6 @@
 <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-3 col-3"> -->
 <div class="users-container">
-  <div class="chat-search-box">
+  <div class="chat-search-box hidden sm:block">
     <div class="input-group">
       <input
         (input)="search()"
@@ -40,39 +40,53 @@
   </div>
   <div id="fixedUsers" *ngIf="done">
     <!--status:busy offline away-->
-    <h3 *ngIf="noConvSearched" class="center noRes">
-      no result for "{{ key }}"
-    </h3>
+    <div
+      *ngIf="noConvSearched"
+      class="bg-red-500 p-1 rounded text-center text-white"
+    >
+      No result for "{{ key }}"
+    </div>
 
-    <ul class="users">
-      <li
+    <div class="flex flex-col">
+      <div
         *ngFor="let conv of getThisConvs()"
         (click)="goToConv(conv)"
         [ngClass]="getConvSideClasses(conv)"
-        class="person"
+        class="flex justify-center sm:justify-normal"
         data-chat="person1"
       >
-        <div class="user">
-          <img class="convImg" src="{{ conv.photo }}" alt="Retail Admin" />
-          <span [ngClass]="getStatusClasses(conv)"></span>
-        </div>
-        <p class="name-time">
+        <div class="user relative w-max m-1">
+          <img
+            class="rounded-full w-12 h-12"
+            onerror='src="/assets/images/user.png"'
+            src="{{ conv.photo }}"
+            alt="Retail Admin"
+          />
           <span
+            class="absolute right-0 top-0 w-3 h-3 rounded-full"
+            [ngClass]="getStatusClasses(conv)"
+          ></span>
+        </div>
+        <div class="flex-col mx-1 hidden sm:flex">
+          <div
+            class="text-lg font-bold"
             [ngClass]="{
               lastMsg: lastMsgIsSeen(conv),
               lastMsgNotSeen: !lastMsgIsSeen(conv)
             }"
-            >{{ conv.name }} </span
-          ><br />
+          >
+            {{ conv.name }}
+          </div>
           <span
+            class="text-sm truncate"
             [ngClass]="{
               lastMsg: lastMsgIsSeen(conv),
               lastMsgNotSeen: !lastMsgIsSeen(conv)
             }"
             >{{ getShortText(conv) }} {{ hour(conv) }}</span
           >
-        </p>
-      </li>
-    </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
