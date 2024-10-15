@@ -122,8 +122,8 @@
   <dir class="flex justify-center w-full">
     <button
       (click)="google()"
-      class="p-2 rounded text-white font-bold min-w-24"
-      style="background: linear-gradient(180deg, red, yellow, green, blue)"
+      class="p-2 rounded text-white font-bold min-w-24 hover:opacity-90"
+      style="background: linear-gradient(180deg, blue, orange)"
       id="googleBtn"
     >
       <svg
@@ -144,7 +144,7 @@
       [disabled]="true"
       id="facebookBtn"
       (click)="facebook()"
-      class="btn btn-primary min-w-24"
+      class="btn btn-primary min-w-24 hover:opacity-90"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +160,10 @@
       </svg>
       <div>Facebook</div>
     </button>
-    <button (click)="github()" class="text-white bg-black p-2 rounded min-w-24">
+    <button
+      (click)="github()"
+      class="text-white bg-black p-2 rounded min-w-24 hover:opacity-90"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
