@@ -15,6 +15,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
 export class ConversationComponent {
   @Input() conv: Conv | any;
   done = false;
+  @Input() IsOnSide: boolean = false;
   constructor(
     private convService: ConvService,
     private router: Router,
@@ -66,8 +67,8 @@ export class ConversationComponent {
       });
     });
   }
-  lastMsgIsSeen(conv: any) {
-    let lastMsg = conv.lastMessage;
+  lastMsgIsSeen() {
+    let lastMsg = this.conv.lastMessage;
     if (lastMsg != null && lastMsg != undefined) {
       return lastMsg.vus.includes(this.getThisUser()._id);
     } else {
