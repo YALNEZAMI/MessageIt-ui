@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/Interfaces/User.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
 import { SessionService } from 'src/app/Services/session.service';
@@ -281,9 +282,16 @@ export class MembersComponent {
     let chef = this.sessionService.getThisConv().chef;
     return chef == id;
   }
-  options(user: any) {
+  options(user: User) {
     this.isOperating = true;
-    this.user = user;
+    this.friendService.getMyFriends().subscribe((friends: any) => {
+      friends.map((f: User) => {
+        if (f._id === user._id) {
+          user.operation = 'remove';
+        }
+      });
+      this.user = user;
+    });
   }
 
   setThisConv(conv: any) {
