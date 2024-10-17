@@ -103,14 +103,14 @@ export class ConvSideComponent implements OnInit {
     if (this.key == '') {
       this.spinnerSearchConvs = false;
       //get other convs on the side
-      this.convService.getConvs().subscribe(async (data: any) => {
-        this.convs = await data;
+      this.convService.getConvs().subscribe((data: any) => {
+        this.convs = data;
       });
       this.noConvSearched = false;
     } else {
       this.spinnerSearchConvs = true;
-      this.convService.getConvsByKey(this.key).subscribe(async (convs: any) => {
-        this.convs = await convs;
+      this.convService.getConvsByKey(this.key).subscribe((convs: any) => {
+        this.convs = convs;
 
         this.spinnerSearchConvs = false;
         if (this.convs.length == 0) {
