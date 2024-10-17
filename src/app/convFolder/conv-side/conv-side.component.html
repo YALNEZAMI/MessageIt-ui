@@ -38,7 +38,7 @@
       </div>
     </div>
   </div>
-  <div id="fixedUsers" *ngIf="done">
+  <div id="fixedUsers" class="" *ngIf="done">
     <!--status:busy offline away-->
     <div
       *ngIf="noConvSearched"
@@ -48,7 +48,12 @@
     </div>
 
     <div class="flex flex-col">
-      <div
+      <app-conversation
+        [conv]="conv"
+        [IsOnSide]="true"
+        *ngFor="let conv of getThisConvs()"
+      ></app-conversation>
+      <!-- <div
         *ngFor="let conv of getThisConvs()"
         (click)="goToConv(conv)"
         [ngClass]="getConvSideClasses(conv)"
@@ -86,7 +91,7 @@
             >{{ getShortText(conv) }} {{ hour(conv) }}</span
           >
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
