@@ -11,6 +11,7 @@
       </form>
 
       <img
+        onerror='src="/assets/images/groupe.png"'
         (click)="displayPhoto()"
         id="convPhoto"
         src="{{ conv.photo }}"
@@ -74,7 +75,7 @@
         placeholder="Enter name"
       />
     </div>
-    <div class="flex space-x-2">
+    <div class="flex space-x-2 items-center">
       <!--description-->
       <div class="form-group w-3/4">
         <label for="description" class="font-bold"
@@ -99,6 +100,7 @@
           [(ngModel)]="conv.theme"
           id="selectTheme"
           [ngClass]="getSelectThemeClasses()"
+          class="cursor-pointer hover:opacity-80"
         >
           <option
             *ngFor="let theme of themes"
