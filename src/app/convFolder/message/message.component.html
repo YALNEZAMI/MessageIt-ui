@@ -24,124 +24,231 @@
       alt=""
     />
     <br />
-    <div id="downloadPhotoDisplayedDiv" class="text-center">
+    <div id="downloadPhotoDisplayedDiv">
       <a
-        class="btn btn-warning"
+        class="btn btn-warning flex justify-center items-center space-x-3"
         id="downloadPhotoDisplayed"
         href="{{ photoDisplayedUrl }}"
         download
       >
-        Download</a
-      >
+        Download
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+          />
+        </svg>
+      </a>
     </div>
   </div>
   <div
     class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
     style="padding: 0%"
   >
-    <div class="card m-0">
-      <!-- Row start -->
-      <div id="convsMessagesRow" class="row no-gutters">
-        <!-- side convs component -->
-        <!-- <div class="users-container"> -->
-        <app-conv-side></app-conv-side>
-        <!-- </div> -->
+    <!-- Row start -->
+    <div id="convsMessagesRow" class="flex flex-row">
+      <!-- side convs component -->
+      <!-- <div class="users-container"> -->
+      <app-conv-side class="w-1/3"></app-conv-side>
+      <!-- </div> -->
+      <div
+        id="chatContainer"
+        class="chat-container"
+        #chatContainer
+        (scroll)="checktop()"
+        (scroll)="updateBottom()"
+      >
+        <!--loading spiner-->
         <div
-          id="chatContainer"
-          class="chat-container"
-          #chatContainer
-          (scroll)="checktop()"
-          (scroll)="updateBottom()"
+          *ngIf="loading && MoreMessages && !isBottom"
+          id="msgLoadingSpinner"
+          class="spinner-border"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+        <!--no messages popup-->
+        <div
+          *ngIf="getMessages().length == 0 && done"
+          class="flex justify-center my-2"
         >
           <div
-            *ngIf="loading && MoreMessages && !isBottom"
-            id="msgLoadingSpinner"
-            class="spinner-border"
-            role="status"
+            class="bg-red-500 text-white rounded p-2 px-5 font-bold text-lg w-max"
           >
-            <span class="sr-only">Loading...</span>
+            No messages yet !
           </div>
-          <!--messages-->
-          <div
-            *ngIf="getMessages().length == 0 && done"
-            class="flex justify-center my-2"
-          >
-            <div
-              class="bg-red-500 text-white rounded p-2 px-5 font-bold text-lg w-max"
-            >
-              No messages yet !
+        </div>
+        <!--message template-->
+        <div
+          id="{{ msg._id }}"
+          class="chat-box"
+          *ngFor="let msg of getMessages()"
+        >
+          <div [class]="getClassesOfStatus(msg)">
+            <!--sent mark-->
+            <div class="sentMark" *ngIf="sentConditions(msg)">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-check-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
+                />
+              </svg>
             </div>
-          </div>
-          <div
-            id="{{ msg._id }}"
-            class="chat-box"
-            *ngFor="let msg of getMessages()"
-          >
-            <div [class]="getClassesOfStatus(msg)">
-              <!--sent mark-->
-              <div class="sentMark" *ngIf="sentConditions(msg)">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-check-circle"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                  />
-                  <path
-                    d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
-                  />
-                </svg>
-              </div>
-              <!--recieved mark-->
-              <div class="recievedMark" *ngIf="recievedConditions(msg)">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-check-circle-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
-                  />
-                </svg>
-              </div>
+            <!--recieved mark-->
+            <div class="recievedMark" *ngIf="recievedConditions(msg)">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-check-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                />
+              </svg>
+            </div>
 
-              <div *ngFor="let member of getMembers()">
-                <div
-                  *ngIf="
-                    member.lastMsgSeen != undefined &&
-                    member._id != getThisUser()._id
-                  "
-                >
-                  <img
-                    *ngIf="member.lastMsgSeen._id == msg._id"
-                    class="img"
-                    style="width: 15px; height: 15px; margin-left: 5px"
-                    src="{{ member.photo }}"
-                    onerror='src="/assets/images/user.png"'
-                    alt="dsc"
-                  />
-                </div>
+            <div *ngFor="let member of getMembers()">
+              <div
+                *ngIf="
+                  member.lastMsgSeen != undefined &&
+                  member._id != getThisUser()._id
+                "
+              >
+                <img
+                  *ngIf="member.lastMsgSeen._id == msg._id"
+                  class="img"
+                  style="width: 15px; height: 15px; margin-left: 5px"
+                  src="{{ member.photo }}"
+                  onerror='src="/assets/images/user.png"'
+                  alt="dsc"
+                />
               </div>
             </div>
-            <div
-              [id]="msg._id"
-              *ngIf="msg.typeMsg == 'notif'"
-              [class]="{
+          </div>
+          <div
+            [id]="msg._id"
+            *ngIf="msg.typeMsg == 'notif'"
+            [class]="{
                 center:true,
                 notifs:true,
               }"
+          >
+            <small (click)="setMessageClicked(msg._id)">{{
+              getNotifText(msg)
+            }}</small>
+            <br />
+            <small
+              class="center dateOfMessage"
+              *ngIf="messageClicked == msg._id"
             >
-              <small (click)="setMessageClicked(msg._id)">{{
-                getNotifText(msg)
-              }}</small>
-              <br />
+              {{ date(msg) }}
+            </small>
+          </div>
+          <div *ngIf="msg.typeMsg == 'message'">
+            <div [ngClass]="getChatClasses(msg)">
+              <div class="chat-avatar">
+                <div class="center">
+                  <img
+                    onerror='src="/assets/images/user.png"'
+                    class="img"
+                    src="{{ msg.sender.photo }}"
+                    alt="{{ msg.sender.firstName }} {{ msg.sender.lastName }}"
+                  />
+                </div>
+
+                <div class="chat-name">
+                  {{ msg.sender.firstName }} {{ msg.sender.lastName }}
+                </div>
+                <div [ngClass]="getSettingsAndRepClasses(msg)">
+                  <div class="center msgSettings" (click)="displayOptions(msg)">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-gear-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                [innerHtml]="msg.text | urlify"
+                (click)="setMessageClicked(msg._id)"
+                [ngClass]="textClasses(msg)"
+                *ngIf="msg.text != ''"
+                class="chat-text"
+              ></div>
+              <div [ngClass]="getImgSentContainer(msg)">
+                <div *ngFor="let file of msg.files">
+                  <img
+                    (click)="displayPhoto(file)"
+                    *ngIf="fileType(file) == 'img'"
+                    class="imgSent"
+                    [src]="file"
+                    alt=""
+                  />
+
+                  <video
+                    class="videoSent"
+                    *ngIf="fileType(file) == 'video'"
+                    controls
+                    [src]="file"
+                    type="video/*"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+
+                <!-- {{ file }} -->
+              </div>
+              <div
+                [ngClass]="{
+                  myReactionGlobalRow: msg.sender._id == getThisUser()._id,
+                  otherReactionGlobalRow: msg.sender._id != getThisUser()._id
+                }"
+              >
+                <div class="row emojisRow">
+                  <div
+                    (click)="displayReacters(msg)"
+                    class="reactionTypeAndNbr"
+                    *ngFor="let reaction of getReactions(msg)"
+                  >
+                    {{ reaction }}
+                    <div
+                      *ngIf="getNbrOfReaction(reaction) > 1"
+                      class="nbrOfReactions"
+                    >
+                      {{ getNbrOfReaction(reaction) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <small
                 class="center dateOfMessage"
                 *ngIf="messageClicked == msg._id"
@@ -149,137 +256,41 @@
                 {{ date(msg) }}
               </small>
             </div>
-            <div *ngIf="msg.typeMsg == 'message'">
-              <div [ngClass]="getChatClasses(msg)">
-                <div class="chat-avatar">
-                  <div class="center">
-                    <img
-                      onerror='src="/assets/images/user.png"'
-                      class="img"
-                      src="{{ msg.sender.photo }}"
-                      alt="{{ msg.sender.firstName }} {{ msg.sender.lastName }}"
-                    />
-                  </div>
-
-                  <div class="chat-name">
-                    {{ msg.sender.firstName }} {{ msg.sender.lastName }}
-                  </div>
-                  <div [ngClass]="getSettingsAndRepClasses(msg)">
-                    <div
-                      class="center msgSettings"
-                      (click)="displayOptions(msg)"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        class="bi bi-gear-fill"
-                        viewBox="0 0 16 16"
-                      >
-                        <path
-                          d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  [innerHtml]="msg.text | urlify"
-                  (click)="setMessageClicked(msg._id)"
-                  [ngClass]="textClasses(msg)"
-                  *ngIf="msg.text != ''"
-                  class="chat-text"
-                ></div>
-                <div [ngClass]="getImgSentContainer(msg)">
-                  <div *ngFor="let file of msg.files">
-                    <img
-                      (click)="displayPhoto(file)"
-                      *ngIf="fileType(file) == 'img'"
-                      class="imgSent"
-                      [src]="file"
-                      alt=""
-                    />
-
-                    <video
-                      class="videoSent"
-                      *ngIf="fileType(file) == 'video'"
-                      controls
-                      [src]="file"
-                      type="video/*"
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-
-                  <!-- {{ file }} -->
-                </div>
-                <div
-                  [ngClass]="{
-                    myReactionGlobalRow: msg.sender._id == getThisUser()._id,
-                    otherReactionGlobalRow: msg.sender._id != getThisUser()._id
-                  }"
-                >
-                  <div class="row emojisRow">
-                    <div
-                      (click)="displayReacters(msg)"
-                      class="reactionTypeAndNbr"
-                      *ngFor="let reaction of getReactions(msg)"
-                    >
-                      {{ reaction }}
-                      <div
-                        *ngIf="getNbrOfReaction(reaction) > 1"
-                        class="nbrOfReactions"
-                      >
-                        {{ getNbrOfReaction(reaction) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <small
-                  class="center dateOfMessage"
-                  *ngIf="messageClicked == msg._id"
-                >
-                  {{ date(msg) }}
-                </small>
-              </div>
+          </div>
+          <div
+            (click)="goToMessage(msg.ref._id)"
+            *ngIf="msg.ref != ''"
+            [ngClass]="getRepOfMsgsClasses(msg)"
+          >
+            <img
+              class="repSenderPhoto"
+              src="{{ msg.ref.sender.photo }}"
+              alt="refPhoto"
+            />
+            <div class="repMsgsText" *ngIf="msg.ref.text != ''">
+              {{ msg.ref.text }}
             </div>
-            <div
-              (click)="goToMessage(msg.ref._id)"
-              *ngIf="msg.ref != ''"
-              [ngClass]="getRepOfMsgsClasses(msg)"
-            >
-              <img
-                class="repSenderPhoto"
-                src="{{ msg.ref.sender.photo }}"
-                alt="refPhoto"
-              />
-              <div class="repMsgsText" *ngIf="msg.ref.text != ''">
-                {{ msg.ref.text }}
-              </div>
-              <div *ngIf="msg.ref.text == ''">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-images"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-                  <path
-                    d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
-                  />
-                </svg>
-              </div>
+            <div *ngIf="msg.ref.text == ''">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-images"
+                viewBox="0 0 16 16"
+              >
+                <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                <path
+                  d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
+                />
+              </svg>
             </div>
           </div>
         </div>
-        <!-- </div> -->
       </div>
-      <!-- Row end -->
+      <!-- </div> -->
     </div>
+    <!-- Row end -->
   </div>
 
   <!--input elements group-->
@@ -289,12 +300,9 @@
       <button
         *ngIf="(!noMoreDown && isBottom) || (noMoreDown && !isBottom)"
         (click)="appendDown()"
-        id="downBtn"
-        [ngClass]="{
-          'btn':false,
-          'bg-warning':true,
-        }"
+        class="p-1 px-3 z-10 text-white bg-yellow-600 border-2 border-black rounded-md"
       >
+        <!--appendDown:update down messages after a research-->
         <svg
           *ngIf="!noMoreDown && isBottom"
           xmlns="http://www.w3.org/2000/svg"
@@ -355,19 +363,12 @@
         </div>
       </div>
       <!--first floor options-->
-      <div
-        style="
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          justify-content: center;
-        "
-      >
+      <div class="flex flex-row justify-center">
         <!--delete for all-->
         <div
           *ngIf="canDeleteMsgForAll"
           (click)="deleteMsgForAll()"
-          class="center btn btn-danger"
+          class="cursor-pointer text-center p-1 px-2 text-white bg-red-500 hover:opacity-85 rounded h-max text-sm"
           id="deleteForAll"
         >
           Delete for all
@@ -376,7 +377,7 @@
         <div
           (click)="setRep()"
           style="width: 30%; margin-left: 10px; margin-right: 10px"
-          class="center text-light btn bg-success hover:opacity-85"
+          class="cursor-pointer text-center p-1 px-2 text-white bg-green-500 hover:opacity-85 rounded h-max text-sm"
         >
           Reply
         </div>
@@ -384,7 +385,7 @@
         <!--delete for me-->
         <div
           (click)="deleteMsgForMe()"
-          class="center text-light btn btn-warning"
+          class="cursor-pointer text-center p-1 px-2 text-white bg-yellow-500 hover:opacity-85 rounded h-max text-sm"
           id="deleteForMe"
         >
           Delete for me
