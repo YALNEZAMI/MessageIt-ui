@@ -1,7 +1,7 @@
-<div id="globalContainerConvInput" class="w-full sm:w-3/4">
+<div id="globalContainerConvInput" class="w-full sm:w-3/4 sm:mx-auto">
   <div
     id="rep"
-    class="flex items-center"
+    class="flex items-center z-20"
     [ngClass]="{
       hidden: textRep == ''
     }"
@@ -11,9 +11,17 @@
       src="{{ photoRep }}"
       alt=""
       onerror='src="/assets/images/user.png"'
-      class="rounded-full w-10 h-10"
+      class="rounded-full w-10 h-10 m-1"
     />
-    <div id="textRep" class="w-11/12">{{ textRep }}</div>
+    <div
+      id="textRep"
+      class="w-11/12 px-2"
+      [ngClass]="{
+        'text-white': true
+      }"
+    >
+      {{ textRep }}
+    </div>
     <svg
       (click)="cancelRep()"
       id="cancelRepBtn"
@@ -21,7 +29,7 @@
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-x-square bg-red-600 cursor-pointer"
+      class="bi bi-x-square bg-red-600 cursor-pointer mr-2"
       viewBox="0 0 16 16"
     >
       <path
