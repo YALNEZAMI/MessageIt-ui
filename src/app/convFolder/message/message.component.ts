@@ -344,10 +344,22 @@ export class MessageComponent implements OnInit {
     let msg = document.getElementById(id);
 
     if (msg != null) {
-      msg.style.background = 'var(--shadow-color)';
+      const chatBox: any = msg.getElementsByClassName('chat-text')[0];
+      let originalBgColor = '';
+      let originalColor = '';
 
+      if (chatBox) {
+        originalBgColor = chatBox.style.background;
+        originalColor = chatBox.style.color;
+        chatBox.style.background = 'var(--shadow-color)';
+        chatBox.style.color = 'red';
+      } else {
+        msg.style.background = 'var(--shadow-color)';
+      }
       setTimeout(() => {
-        if (msg) msg.style.background = 'transparent';
+        msg!.style.background = 'transparent';
+        chatBox.style.background = originalBgColor;
+        chatBox.style.color = originalColor;
       }, 2000);
       //if no more than 5 messages just scroll down
 
