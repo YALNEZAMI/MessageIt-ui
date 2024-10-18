@@ -11,7 +11,9 @@
     >
   </div>
 </div>
-<div class="pt-2 flex justify-center flex-wrap overflow-auto">
+<div
+  class="p-2 w-screen overflow-x-hidden flex justify-center flex-wrap overflow-y-auto"
+>
   <app-conversation
     class="w-full sm:w-1/2 md:w-1/3 mx-2"
     *ngFor="let conv of getThisConvs()"
