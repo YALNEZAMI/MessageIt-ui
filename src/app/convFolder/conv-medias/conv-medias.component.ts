@@ -19,22 +19,18 @@ export class ConvMediasComponent {
     private sessionService: SessionService,
     private webSocketService: WebSocketService
   ) {
-    if (this.sessionService.thereAreMedias()) {
-      this.medias = this.sessionService.getThisMedias();
-      this.done = true;
-    } else {
-      this.messageService.getMedias().subscribe((data: any) => {
-        this.msgs = data;
-        for (let msg of this.msgs) {
-          for (let file of msg.files) {
-            this.medias.push({ file: file, msg: msg });
-          }
+    this.messageService.getMedias().subscribe((data: any) => {
+      this.msgs = data;
+      for (let msg of this.msgs) {
+        for (let file of msg.files) {
+          this.medias.push({ file: file, msg: msg });
         }
-        //set media in local storage
-        this.sessionService.setThisMedias(this.medias);
-        this.done = true;
-      });
-    }
+      }
+      //set media in local storage
+      this.sessionService.setThisMedias(this.medias);
+      this.done = true;
+    });
+
     //set subscription to new messages
     this.webSocketService.newMessage().subscribe((msg: any) => {
       if (this.sessionService.getThisConv()._id == msg.conv) {
