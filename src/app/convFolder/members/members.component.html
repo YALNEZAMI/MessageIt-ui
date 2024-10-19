@@ -103,152 +103,250 @@
     >
       Available operations on {{ user.firstName }}
     </div>
-    <button
-      id="{{ user._id + '-Btn1' }}"
-      class="p-2 btn1 myBtn"
-      (click)="operation(user)"
-      [ngClass]="{
-  'btn': true,
-'btn-success':
-  user.operation=='add' || user.operation == 'accept',
-'btn-danger': user.operation== 'remove',
-'btn-warning': user.operation == 'cancel',
-}"
-    >
-      {{ getContenuBtn(user) }}
-    </button>
-    <button
-      class="p-2 refuseBtn myBtn"
-      class="btn btn-danger myBtn refuseBtn"
-      *ngIf="user.operation == 'accept'"
-      (click)="operation({ operation: 'refuse', _id: user._id })"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-person-fill-x"
-        viewBox="0 0 16 16"
+    <div id="btnContainer" class="flex flex-col">
+      <!--cancel add request button-->
+      <button
+        class="p-2 refuseBtn myBtn"
+        class="p-2 bg-yellow-600 hover:opacity-80 text-white rounded flex items-center space-x-2 m-1"
+        *ngIf="user.operation == 'cancel'"
+        (click)="operation({ operation: 'cancel', _id: user._id })"
       >
-        <path
-          d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
-        />
-        <path
-          d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"
-        />
-      </svg>
-    </button>
-    <button
-      id="{{ user._id + '-ChatBtn' }}"
-      class="p-2 btn btn-light chatBtn myBtn"
-      *ngIf="user.operation == 'remove'"
-      (click)="operation({ operation: 'chat', _id: user._id })"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-chat-left-dots"
-        viewBox="0 0 16 16"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-x-square"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+          />
+          <path
+            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+          />
+        </svg>
+        <div>Cancel add request</div>
+      </button>
+      <!--remove friendship button-->
+      <button
+        class="p-2 refuseBtn myBtn"
+        class="p-2 bg-red-600 hover:opacity-80 text-white rounded flex items-center space-x-2 m-1"
+        *ngIf="user.operation == 'remove'"
+        (click)="operation({ operation: 'remove', _id: user._id })"
       >
-        <path
-          d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-        />
-        <path
-          d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-        />
-      </svg>
-    </button>
-    <button
-      class="p-2 btn btn-warning myBtn"
-      *ngIf="
-        (isAdmin(getThisUser()._id) &&
-          !isAdmin(user._id) &&
-          !isChef(user._id)) ||
-        isChef(getThisUser()._id)
-      "
-      (click)="removeFromGroupe(user)"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-door-open"
-        viewBox="0 0 16 16"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-person-dash-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"
+          />
+          <path
+            d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+          />
+        </svg>
+        <div>Remove from friends list</div>
+      </button>
+      <!--accept button-->
+      <button
+        class="p-2 refuseBtn myBtn"
+        class="p-2 bg-green-600 hover:opacity-80 text-white rounded flex items-center space-x-2 m-1"
+        *ngIf="user.operation == 'accept'"
+        (click)="operation({ operation: 'accept', _id: user._id })"
       >
-        <path
-          d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"
-        />
-        <path
-          d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"
-        />
-      </svg>
-    </button>
-    <button
-      class="p-2 btn btn-dark myBtn"
-      *ngIf="isChef(getThisUser()._id) && !isAdmin(user._id)"
-      (click)="upgradeToAdmin(user)"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-person-fill-up"
-        viewBox="0 0 16 16"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-person-add"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+          />
+          <path
+            d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"
+          />
+        </svg>
+        <div>Accept add request</div>
+      </button>
+      <!--add button-->
+      <button
+        class="p-2 refuseBtn myBtn"
+        class="p-2 bg-green-600 hover:opacity-80 text-white rounded flex items-center space-x-2 m-1"
+        *ngIf="user.operation == 'add'"
+        (click)="operation({ operation: 'add', _id: user._id })"
       >
-        <path
-          d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-        />
-        <path
-          d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
-        />
-      </svg>
-    </button>
-    <button
-      class="p-2 btn btn-dark myBtn"
-      *ngIf="isChef(getThisUser()._id) && isAdmin(user._id)"
-      (click)="downgradeToAdmin(user)"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-person-fill-down"
-        viewBox="0 0 16 16"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-person-add"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+          />
+          <path
+            d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"
+          />
+        </svg>
+        <div>Add</div>
+      </button>
+      <!--refuse button-->
+      <button
+        class="p-2 refuseBtn myBtn"
+        class="p-2 bg-red-600 hover:opacity-80 text-white rounded flex items-center space-x-2 m-1"
+        *ngIf="user.operation == 'accept'"
+        (click)="operation({ operation: 'refuse', _id: user._id })"
       >
-        <path
-          d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-        />
-        <path
-          d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
-        />
-      </svg>
-    </button>
-    <button
-      *ngIf="isChef(getThisUser()._id)"
-      (click)="upgradeToChef(user)"
-      class="p-2 btn btn-primary myBtn"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-award-fill"
-        viewBox="0 0 16 16"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-person-fill-x"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
+          />
+          <path
+            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z"
+          />
+        </svg>
+        <div>Refuse add request</div>
+      </button>
+      <!--chat btn-->
+      <button
+        id="{{ user._id + '-ChatBtn' }}"
+        class="p-2 bg-white hover:opacity-80 text-black rounded flex items-center space-x-2 m-1"
+        *ngIf="user.operation == 'remove'"
+        (click)="operation({ operation: 'chat', _id: user._id })"
       >
-        <path
-          d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"
-        />
-        <path
-          d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"
-        />
-      </svg>
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-chat-left-dots"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+          />
+          <path
+            d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+          />
+        </svg>
+        <div>Chat</div>
+      </button>
+      <!--remove from groupe button-->
+      <button
+        class="p-2 bg-yellow-600 hover:opacity-80 text-white rounded flex items-center space-x-2 m-1"
+        *ngIf="
+          (isAdmin(getThisUser()._id) &&
+            !isAdmin(user._id) &&
+            !isChef(user._id)) ||
+          isChef(getThisUser()._id)
+        "
+        (click)="removeFromGroupe(user)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-door-open"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"
+          />
+          <path
+            d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"
+          />
+        </svg>
+        <div>Remove from group</div>
+      </button>
+      <!--upgrade to Admin-->
+      <button
+        class="p-2 bg-black hover:opacity-80 text-white rounded flex items-center space-x-2 m-1"
+        *ngIf="isChef(getThisUser()._id) && !isAdmin(user._id)"
+        (click)="upgradeToAdmin(user)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-person-fill-up"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+          />
+          <path
+            d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
+          />
+        </svg>
+        <div>Upgrade to admin</div>
+      </button>
+      <!--downgrade from Admin-->
+
+      <button
+        class="p-2 bg-red-600 hover:opacity-80 text-white rounded flex items-center space-x-2 m-1"
+        *ngIf="isChef(getThisUser()._id) && isAdmin(user._id)"
+        (click)="downgradeFromAdmin(user)"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-person-fill-down"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+          />
+          <path
+            d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"
+          />
+        </svg>
+        <div>Downgrade to normal member</div>
+      </button>
+      <!--upgrade to chef-->
+      <button
+        *ngIf="isChef(getThisUser()._id)"
+        (click)="upgradeToChef(user)"
+        class="p-2 bg-white hover:opacity-80 text-black rounded flex items-center space-x-2 m-1"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-award-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"
+          />
+          <path
+            d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"
+          />
+        </svg>
+        <div>Upgrade to chef</div>
+      </button>
+    </div>
   </div>
 </div>

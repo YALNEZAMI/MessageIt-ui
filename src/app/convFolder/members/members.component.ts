@@ -37,19 +37,12 @@ export class MembersComponent {
         }
       });
     });
-    if (this.sessionService.thereAreMembers()) {
-      //retrieve the members of the conv from local storage
 
-      this.members = this.sessionService.getThisMembers();
-
+    //retrieve the members of the conv from database
+    this.convService.getMembers().subscribe(async (data: any) => {
+      this.members = await data;
       this.done = true;
-    } else {
-      //retrieve the members of the conv from database
-      this.convService.getMembers().subscribe(async (data: any) => {
-        this.members = await data;
-        this.done = true;
-      });
-    }
+    });
 
     //subscribe to add member to groupe event
     this.webSocketService
@@ -122,16 +115,9 @@ export class MembersComponent {
    */
   getThisMembers() {
     let user = this.getThisUser();
-    let members = this.members;
-    let res: any[] = [];
-    for (let member of members) {
-      if (member != null) {
-        if (member._id != user._id) {
-          res.push(member);
-        }
-      }
-    }
-    return res;
+    return this.members.filter((member) => {
+      return member._id != user._id;
+    });
   }
   /**
    *
@@ -156,12 +142,12 @@ export class MembersComponent {
    * reset the operation(add,remove...)
    */
   setOperation(userId: string, operation: string) {
-    for (let i = 0; i < this.members.length; i++) {
-      const element = this.members[i];
-      if (element._id == userId) {
-        element.operation = operation;
+    this.members = this.members.map((member) => {
+      if (member._id == userId) {
+        member.operation = operation;
       }
-    }
+      return member;
+    });
   }
   /**
    *
@@ -216,55 +202,7 @@ export class MembersComponent {
         break;
     }
   }
-  /**
-   *
-   * @param user
-   * @returns the content(icon) of the button according to the user operation
-   */
-  getContenuBtn(user: any): void {
-    const operation: string = user.operation;
-    let btn: any;
-    btn = document.getElementById(user._id + '-Btn1');
 
-    switch (operation) {
-      case 'add':
-        if (btn != null) {
-          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
-          <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
-          <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
-        </svg>`;
-        }
-
-        break;
-      case 'remove':
-        if (btn != null) {
-          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash-fill" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
-          <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-        </svg>`;
-        }
-
-        break;
-      case 'cancel':
-        if (btn != null) {
-          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
-          <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-        </svg>`;
-        }
-
-        break;
-      case 'accept':
-        if (btn != null) {
-          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
-          <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
-          <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
-        </svg>`;
-        }
-
-        break;
-    }
-  }
   //get css classes according to the user status (online,offline...)
   getStatusClasses(user: any) {
     return this.userService.getStatusClassesForUser(user);
@@ -284,14 +222,8 @@ export class MembersComponent {
   }
   options(user: User) {
     this.isOperating = true;
-    this.friendService.getMyFriends().subscribe((friends: any) => {
-      friends.map((f: User) => {
-        if (f._id === user._id) {
-          user.operation = 'remove';
-        }
-      });
-      this.user = user;
-    });
+
+    this.user = user;
   }
 
   setThisConv(conv: any) {
@@ -314,8 +246,8 @@ export class MembersComponent {
   upgradeToAdmin(user: any) {
     this.convService.upgradeToAdmine(user).subscribe((conv: any) => {});
   }
-  downgradeToAdmin(user: any) {
-    this.convService.downgradeToAdmin(user).subscribe((conv: any) => {});
+  downgradeFromAdmin(user: any) {
+    this.convService.downgradeFromAdmin(user).subscribe((conv: any) => {});
   }
   upgradeToChef(user: any) {
     this.convService.upgradeToChef(user).subscribe((conv: any) => {});
