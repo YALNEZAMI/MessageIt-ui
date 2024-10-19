@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { FriendService } from 'src/app/Services/friend.service';
 import { SessionService } from 'src/app/Services/session.service';
@@ -21,7 +22,8 @@ export class AddMemberConvComponent {
     private convService: ConvService,
     private webSocketService: WebSocketService,
     private sessionService: SessionService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     if (this.sessionService.thereAreMembers()) {
       this.friends = this.sessionService.getThisMembersToAdd();
@@ -101,5 +103,8 @@ export class AddMemberConvComponent {
 
     let array = Array.from(setMembers);
     return array;
+  }
+  cancel() {
+    this.router.navigate(['/conv/members']);
   }
 }
