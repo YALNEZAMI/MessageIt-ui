@@ -1,16 +1,22 @@
 <div>
-  <form (ngSubmit)="addMembers()" class="row form">
+  <form (ngSubmit)="addMembers()" class="flex justify-center space-x-2">
     <button
       *ngIf="getFriends().length > 0"
       [disabled]="getSelectedFriends().length < 1"
-      class="btn btn-success center"
-      id="makeGroupeBtn"
+      class="btn btn-success center flex space-x-2 justify-center w-1/3"
       type="submit"
     >
       Add
       <ins *ngIf="getSelectedFriends().length > 0">
-        {{ getSelectedFriends().length }}
+        {{ getSelectedFriends().length }} member(s)
       </ins>
+    </button>
+    <button
+      type="button"
+      (click)="cancel()"
+      class="w-1/3 bg-red-500 hover:opacity-85 p-2 rounded text-white"
+    >
+      Cancel
     </button>
   </form>
   <div id="membersToAdd">
@@ -20,12 +26,9 @@
       (click)="selectUser(user)"
       [id]="user._id"
     >
-      <div class="imgAndStatusDiv">
-        <img class="img" src="{{ user.photo }}" alt="userPhoto" />
-        <div class="status" [ngClass]="getStatusClasses(user)"></div>
-      </div>
-      <div class="name">{{ user.firstName + " " + user.lastName }}</div>
+      <app-user class="w-11/12" [user]="user" [noOptions]="true"></app-user>
       <div
+        class="h-20 flex items-center"
         [ngClass]="{
           selectedDiv:getSelectedFriends().includes(user),
           UnselectedDiv:!getSelectedFriends().includes(user),
@@ -33,8 +36,8 @@
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="20"
+          height="20"
           fill="currentColor"
           class="bi bi-check2-circle"
           viewBox="0 0 16 16"
