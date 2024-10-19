@@ -108,7 +108,10 @@ export class ConversationComponent {
 
   async goToConv(conv: Conv) {
     this.sessionService.setThisConv(conv);
-    this.router.navigate(['/conv/messages']);
+    this.convService.setConvChanged(conv);
+    this.router.navigate(['/conv/messages'], {
+      queryParams: { conv_id: conv._id },
+    });
   }
   options(conv: Conv) {
     this.sessionService.setThisConv(conv);
