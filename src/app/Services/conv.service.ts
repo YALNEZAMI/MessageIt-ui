@@ -294,7 +294,7 @@ export class ConvService {
       user,
     });
   }
-  downgradeToAdmin(user: string) {
+  downgradeFromAdmin(user: string) {
     let chef = this.getThisUser();
     let conv = this.getThisConv();
     return this.Http.patch(`${this.uri}/conv/set/admin/downgrade`, {
