@@ -11,6 +11,7 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class UserComponent {
   @Input() user: User | any;
+  @Input() noOptions: boolean = false;
   constructor(
     private userService: UserService,
     private friendService: FriendService
