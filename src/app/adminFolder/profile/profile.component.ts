@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
@@ -9,10 +9,13 @@ import { UserService } from 'src/app/Services/user.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
-export class ProfileComponent {
-  @ViewChild('deleteBtn') deleteBtn: ElementRef = new ElementRef('');
-  @ViewChild('password') password: ElementRef = new ElementRef('');
-  @ViewChild('password2') password2: ElementRef = new ElementRef('');
+export class ProfileComponent implements AfterViewInit {
+  password: HTMLInputElement = document.getElementById(
+    'password'
+  ) as HTMLInputElement;
+  password2: HTMLInputElement = document.getElementById(
+    'password2'
+  ) as HTMLInputElement;
   themes: string[] = ['basic', 'love', 'spring', 'panda'];
   selectedTheme: string;
   deleteCheck: boolean = false;
@@ -49,6 +52,10 @@ export class ProfileComponent {
       return 'online';
     }
   }
+  ngAfterViewInit(): void {
+    this.password = document.getElementById('password') as HTMLInputElement;
+    this.password2 = document.getElementById('password2') as HTMLInputElement;
+  }
 
   async logout() {
     this.logedout = true;
@@ -72,13 +79,13 @@ export class ProfileComponent {
     //check if password match
     if (this.user.password != this.user.password2 && this.user.password != '') {
       setTimeout(() => {
-        this.password.nativeElement.style.border = '1px solid red';
-        this.password2.nativeElement.style.border = '1px solid red';
+        this.password.style.border = '1px solid red';
+        this.password2.style.border = '1px solid red';
         this.lanceAlert({ status: 404, message: 'Passwords dont match !' });
       }, 10);
       setTimeout(() => {
-        this.password.nativeElement.style.border = '0px ';
-        this.password2.nativeElement.style.border = '0px ';
+        this.password.style.border = '0px ';
+        this.password2.style.border = '0px ';
         this.lanceAlert({ status: 0, message: '' });
       }, 3000);
       return;
