@@ -19,7 +19,12 @@
       *ngFor="let notif of notifs"
       [id]="notif.user._id"
     >
-      <img class="img" src="{{ notif.user.photo }}" alt="" />
+      <img
+        onerror="this.src='assets/images/user.png'"
+        class="img"
+        src="{{ notif.user.photo }}"
+        alt=""
+      />
 
       <div class="name">
         {{ notif.user.firstName + " " + notif.user.lastName }}

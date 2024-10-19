@@ -38,7 +38,12 @@
     >
       <div class="row userInfos">
         <div class="imgAndStatusDiv relative">
-          <img class="img" src="{{ user.photo }}" alt="" />
+          <img
+            onerror="this.src='assets/images/user.png'"
+            class="img"
+            src="{{ user.photo }}"
+            alt=""
+          />
           <div
             class="absolute right-1 top-0 w-3 h-3 rounded-full"
             [ngClass]="getStatusClasses(user)"
