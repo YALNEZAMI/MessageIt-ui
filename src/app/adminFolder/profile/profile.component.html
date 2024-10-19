@@ -9,9 +9,7 @@
         (change)="selected($event)"
       />
     </form>
-    <div [ngClass]="getAlertClasses()" *ngIf="alert">
-      {{ response.message }}
-    </div>
+
     <!--profile photo-->
     <div class="flex justify-center m-2">
       <div class="w-max relative">
@@ -167,6 +165,10 @@
           placeholder="Confirm your password"
         />
       </div>
+    </div>
+    <!--alert-->
+    <div [ngClass]="getAlertClasses()" *ngIf="alert">
+      {{ response.message }}
     </div>
     <div class="flex justify-center font-bold">
       <button
