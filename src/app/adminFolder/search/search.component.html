@@ -1,34 +1,38 @@
-<app-search-admin></app-search-admin>
-<div
-  class="relative flex justify-center space-x-2 px-2 my-3"
-  id="ex1"
-  role="tablist"
->
-  <!--selector-->
-  <div
-    style="height: 3px"
-    [ngClass]="{
-     'transition-all rounded-lg w-1/4 bg-blue-600 absolute -bottom-2': true,
-   }"
-    [style.left]="getRoute() == 'users' ? '14%' : '64%'"
-  ></div>
-  <a
-    routerLink="/admin/search/users"
-    [ngClass]="{
-      myActive: getUserOrConv() == 'users',
-      myInactive: getUserOrConv() != 'users'
-    }"
-    class="w-1/2 rounded text-center p-2 hover:opacity-80 hover:no-underline"
-    >Users</a
-  >
-  <a
-    routerLink="/admin/search/convs"
-    [ngClass]="{
-      myActive: getUserOrConv() == 'convs',
-      myInactive: getUserOrConv() != 'convs'
-    }"
-    class="w-1/2 rounded text-center p-2 hover:opacity-80 hover:no-underline"
-    >Conversations</a
-  >
-</div>
-<router-outlet></router-outlet>
+<main>
+  <div class="w-full md:w-3/4 mx-auto">
+    <app-search-admin></app-search-admin>
+    <div
+      class="relative flex justify-center space-x-2 px-2 my-3"
+      id="ex1"
+      role="tablist"
+    >
+      <!--selector-->
+      <div
+        style="height: 3px"
+        [ngClass]="{
+       'transition-all rounded-lg w-1/4 bg-blue-600 absolute -bottom-2': true,
+     }"
+        [style.left]="getRoute() == 'users' ? '14%' : '64%'"
+      ></div>
+      <a
+        routerLink="/admin/search/users"
+        [ngClass]="{
+          myActive: getUserOrConv() == 'users',
+          myInactive: getUserOrConv() != 'users'
+        }"
+        class="w-1/2 rounded text-center p-2 hover:opacity-80 hover:no-underline"
+        >Users</a
+      >
+      <a
+        routerLink="/admin/search/convs"
+        [ngClass]="{
+          myActive: getUserOrConv() == 'convs',
+          myInactive: getUserOrConv() != 'convs'
+        }"
+        class="w-1/2 rounded text-center p-2 hover:opacity-80 hover:no-underline"
+        >Conversations</a
+      >
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</main>
