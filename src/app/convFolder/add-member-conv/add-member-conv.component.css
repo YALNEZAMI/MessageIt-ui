@@ -96,12 +96,10 @@
 .UnselectedDiv{
 padding-top: 10px;
 color: var(--shadow-color-admin);
-height: max-content;
 }
 .selectedDiv{
     padding-top: 10px;
     color: var(--bg-color-admin);
-    height: max-content;
 }
 .form{
     margin: 0px;
