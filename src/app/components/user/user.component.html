@@ -31,6 +31,7 @@
     <button
       id="{{ user._id + '-Btn1' }}"
       class="btn1 mx-1"
+      [title]="user.operation"
       (click)="friendOperation(user)"
       [ngClass]="{
       'btn': true,
@@ -44,6 +45,7 @@
     </button>
     <!--refuse btn-->
     <button
+      title="refuse"
       id="{{ user._id + '-RefuseBtn' }}"
       class="refuseBtn myBtn"
       class="btn btn-danger myBtn refuseBtn"
@@ -68,6 +70,7 @@
     </button>
     <!--chat btn-->
     <button
+      title="chat"
       id="{{ user._id + '-ChatBtn' }}"
       class="btn btn-light chatBtn myBtn"
       *ngIf="user.operation == 'remove'"
