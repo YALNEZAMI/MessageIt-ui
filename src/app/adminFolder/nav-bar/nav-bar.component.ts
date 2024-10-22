@@ -6,6 +6,8 @@ import { UserService } from 'src/app/Services/user.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 import { NavItem } from 'src/app/Interfaces/navItem.interface';
+import { ConvService } from 'src/app/Services/conv.service';
+import { Conv } from 'src/app/Interfaces/conv.interface';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,12 +16,14 @@ import { NavItem } from 'src/app/Interfaces/navItem.interface';
 })
 export class NavBarComponent {
   nbrNotifs = 0;
+  nbrMessagesNotViewed = 0;
   navItems: NavItem[] = [
     {
       _id: 'convsInAdmin',
       name: 'Conversations',
       route: '/admin/convs',
-      counterExist: false,
+      counter: 0,
+
       svg: ` <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -40,7 +44,8 @@ export class NavBarComponent {
       _id: 'profileInAdmin',
       name: 'Profile',
       route: '/admin/profile',
-      counterExist: false,
+      counter: 0,
+
       svg: `<svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -58,7 +63,6 @@ export class NavBarComponent {
       _id: 'notifsInAdmin',
       name: 'Notifications',
       route: '/admin/notifs',
-      counterExist: true,
       counter: this.getNbrNotifs(),
       svg: `  <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +81,8 @@ export class NavBarComponent {
       _id: 'searchInAdmin',
       name: 'Search',
       route: '/admin/search/users',
-      counterExist: false,
+      counter: 0,
+
       svg: `<svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -95,7 +100,7 @@ export class NavBarComponent {
       _id: 'friendsInAdmin',
       name: 'Friends',
       route: '/admin/friends',
-      counterExist: false,
+      counter: 0,
       svg: `<svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -115,47 +120,58 @@ export class NavBarComponent {
     private friendService: FriendService,
     private webSocketService: WebSocketService,
     private sessionService: SessionService,
-    private userService: UserService
+    private userService: UserService,
+    private convService: ConvService
   ) {
-    //getInitialNotifs from local storage
-    if (this.sessionService.isAuthenticated()) {
-      if (this.sessionService.therAreNotifs()) {
-        this.nbrNotifs = this.sessionService.getThisNotifs().length;
-        this.setNotificationsNumber();
-      } else {
-        //getInitialNotifs from server
-        this.friendService.friendReqSentToMe().subscribe(async (data: any) => {
-          this.nbrNotifs = await data.length;
-          this.setNotificationsNumber();
+    //init nbrMessagesNotViewed
+    this.convService.getConvs().subscribe((convs: any) => {
+      convs.map((conv: Conv) => {
+        if (conv.lastMessage != null) {
+          if (!conv.lastMessage.vus.includes(this.getCurrentUser()._id)) {
+            this.nbrMessagesNotViewed++;
+            this.setNotificationsNumber(
+              'convsInAdmin',
+              this.nbrMessagesNotViewed
+            );
+          } //FIXME
+        }
+      });
+    });
 
-          //set local storage
-          this.sessionService.setThisNotifs(data);
-        });
+    //getInitialNotifs from server
+    this.friendService.friendReqSentToMe().subscribe((data: any) => {
+      this.nbrNotifs = data.length;
+      this.setNotificationsNumber('notifsAdmin', this.nbrNotifs);
+    });
+
+    this.webSocketService.onAddFriend().subscribe((data: any) => {
+      if (data.reciever._id == this.getCurrentUser()._id) {
+        this.nbrNotifs = this.sessionService.getThisNotifs().length;
+        this.setNotificationsNumber('notifsAdmin', this.nbrNotifs);
       }
-      this.webSocketService.onAddFriend().subscribe((data: any) => {
-        this.nbrNotifs = this.sessionService.getThisNotifs().length;
-        this.setNotificationsNumber();
-      });
-      this.webSocketService.onCancelFriend().subscribe((data: any) => {
-        this.nbrNotifs = this.sessionService.getThisNotifs().length;
-        this.setNotificationsNumber();
-      });
+    });
+    this.webSocketService.onCancelFriend().subscribe((data: any) => {
+      this.nbrNotifs = this.sessionService.getThisNotifs().length;
+      this.setNotificationsNumber('notifsAdmin', this.nbrNotifs);
+    });
 
-      //accept friend request event
-      this.webSocketService.onAcceptFriend().subscribe((data: any) => {
+    //accept friend request event
+    this.webSocketService.onAcceptFriend().subscribe((data: any) => {
+      if (data.accepted._id == this.getCurrentUser()._id) {
         this.nbrNotifs = this.sessionService.getThisNotifs().length;
-        this.setNotificationsNumber();
-      });
-    }
+        this.setNotificationsNumber('notifsAdmin', this.nbrNotifs);
+      }
+    });
   }
-  setNotificationsNumber() {
+  setNotificationsNumber(navItemID: string, number: number) {
     this.navItems = this.navItems.map((ni) => {
-      if (ni._id == 'notifsInAdmin') {
-        ni.counter = this.nbrNotifs;
+      if (ni._id == navItemID) {
+        ni.counter = number;
       }
       return ni;
     });
   }
+
   getCurrentUser() {
     return this.userService.getCurrentUser();
   }
