@@ -30,7 +30,9 @@ export class ConversationComponent {
     }
     //subscribe to recieve message event
     this.webSocketService.onRecievedMessage().subscribe((message: any) => {
-      this.conv.lastMessage.recievedBy = message.recievedBy;
+      if (this.conv.lastMessage != null && this.conv.lastMessage != undefined) {
+        this.conv.lastMessage.recievedBy = message.recievedBy;
+      }
     });
 
     //subscribe to change conv event
