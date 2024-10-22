@@ -445,6 +445,13 @@ export class MessageComponent implements OnInit {
         notEmoji: true,
       };
     }
+    if (this.conv.theme == 'basic') {
+      res = {
+        'text-white': true,
+        ...res,
+      };
+    }
+
     return res;
   }
   getInputSecondDivClasses() {
