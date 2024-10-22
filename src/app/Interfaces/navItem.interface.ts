@@ -3,7 +3,6 @@ export interface NavItem {
   name: string;
   route: string;
   icon?: string;
-  counterExist: boolean;
   counter?: number;
   svg: string;
 }
