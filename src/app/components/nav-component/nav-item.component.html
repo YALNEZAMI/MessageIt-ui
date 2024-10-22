@@ -9,7 +9,7 @@
   <div class="hidden md:block text-sm">{{ navItem.name }}</div>
   <!--counter section-->
   <div
-    *ngIf="navItem.counterExist && navItem.counter != 0"
+    *ngIf="navItem.counter != 0"
     id="nbrNotif"
     [ngClass]="{
       'px-2 -right-2': navItem.counter <= 9,
