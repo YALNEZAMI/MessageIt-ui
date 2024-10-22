@@ -41,7 +41,7 @@ margin-right: 15px;
 }
 #inputElementsGroup{
     position: fixed;
-    bottom: 45px;
+    bottom: 5px;
     left: 0px;
     z-index:3;
     width: 100%;

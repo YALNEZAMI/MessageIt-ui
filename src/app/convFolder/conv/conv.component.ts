@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Route, Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
@@ -88,18 +88,5 @@ export class ConvComponent implements OnInit {
   returnToConvs() {
     this.sessionService.removeConvFromLocalStorage();
     this.router.navigate(['admin/convs']);
-  }
-  isMessagesRoute() {
-    let url = this.router.url;
-    let splitted = url.split('/');
-
-    if (
-      splitted[splitted.length - 2] == 'conv' &&
-      splitted[splitted.length - 1] == 'messages'
-    ) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }
