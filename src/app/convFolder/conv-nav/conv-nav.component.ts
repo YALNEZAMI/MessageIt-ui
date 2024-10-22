@@ -13,7 +13,7 @@ export class ConvNavComponent {
       _id: 'messages',
       name: 'Messages',
       route: '/conv/messages',
-      counterExist: false,
+      counter: 0,
       svg: ` <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -34,7 +34,7 @@ export class ConvNavComponent {
       _id: 'searchInConv',
       name: 'Search',
       route: '/conv/search',
-      counterExist: false,
+      counter: 0,
       svg: `<svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -52,7 +52,7 @@ export class ConvNavComponent {
       _id: 'mediaInConv',
       name: 'Medias',
       route: '/conv/medias',
-      counterExist: false,
+      counter: 0,
       svg: `  <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -72,7 +72,7 @@ export class ConvNavComponent {
 
       name: 'Settings',
       route: '/conv/settings',
-      counterExist: false,
+      counter: 0,
       svg: `<svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -94,7 +94,7 @@ export class ConvNavComponent {
 
       name: 'Members',
       route: '/conv/members',
-      counterExist: false,
+      counter: 0,
       svg: ` <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
