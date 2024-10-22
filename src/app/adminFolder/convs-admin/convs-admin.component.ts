@@ -38,7 +38,11 @@ export class ConvsAdminComponent implements OnInit {
     //subscribe to recieve message event
     this.webSocketService.onRecievedMessage().subscribe((message: any) => {
       this.convs = this.convs.map((conv) => {
-        if (conv._id == message.conv) {
+        if (
+          conv.lastMessage != null &&
+          conv.lastMessage != undefined &&
+          conv._id == message.conv
+        ) {
           conv.lastMessage.recievedBy = message.recievedBy;
         }
         return conv;
