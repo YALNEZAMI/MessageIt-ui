@@ -1,10 +1,9 @@
 <div
   [id]="conv._id"
-  class="w-11/12 overflow-hidden flex rounded bg-white shadow-md m-2 p-2"
   [ngClass]="{
+    'w-full overflow-hidden flex rounded bg-white shadow-md m-2 p-2': true,
     boldBorderConv: !lastMsgIsSeen(),
-    'border-2 border-r-red-600': !lastMsgIsSeen(),
-    'w-max mx-auto': IsOnSide
+    'border-2 border-red-600': !lastMsgIsSeen(),
   }"
 >
   <!--profile photo and status-->
@@ -20,13 +19,14 @@
       [ngClass]="getStatusClasses(conv)"
     ></div>
   </div>
+
   <!--name and last Message-->
   <div
-    (click)="goToConv(conv)"
     [ngClass]="{
       'hidden md:flex': IsOnSide
     }"
-    class="nameAndLastMsg w-3/4 flex flex-col cursor-pointer mx-2"
+    (click)="goToConv(conv)"
+    class="nameAndLastMsg w-3/4 flex-col cursor-pointer mx-2"
   >
     <div class="name mt-1 text-xl font-bold truncate">
       {{ getShortConvName(conv.name) }}
@@ -90,9 +90,9 @@
   </div>
   <!--conv options and lastMessageStatus-->
   <div
-    class="flex flex-col"
+    class="flex-col"
     [ngClass]="{
-      'hidden md:flex': IsOnSide
+      'hidden lg:flex': IsOnSide
     }"
   >
     <!--conv options-->
