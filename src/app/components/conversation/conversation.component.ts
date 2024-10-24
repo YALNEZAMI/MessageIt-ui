@@ -4,6 +4,7 @@ import { Conv } from 'src/app/Interfaces/conv.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
 import { SessionService } from 'src/app/Services/session.service';
+import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -21,7 +22,8 @@ export class ConversationComponent {
     private router: Router,
     private webSocketService: WebSocketService,
     private sessionService: SessionService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private userService: UserService
   ) {
     //retrieve convs
     if (this.sessionService.thereAreConvs()) {
@@ -184,7 +186,7 @@ export class ConversationComponent {
     });
     //exept me
     result = result.filter((member) => {
-      return member._id != this.sessionService.getThisUser()._id;
+      return member._id != this.userService.getThisUser()._id;
     });
     return result;
   }

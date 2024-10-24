@@ -172,11 +172,9 @@ export class UserService {
   findForOtherAuthWays(id: string) {
     return this.http.get(`${this.uri}/user/findForOtherAuthWays/${id}`);
   }
-  getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user') || '{}');
-  }
+
   getTailwindThemeClasses() {
-    const theme = this.getCurrentUser().theme;
+    const theme = this.getThisUser().theme;
     switch (theme) {
       case 'basic':
         return {

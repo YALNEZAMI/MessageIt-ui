@@ -132,7 +132,7 @@ export class MembersComponent {
    * @returns the user from the local storage
    */
   getThisUser() {
-    return this.sessionService.getThisUser();
+    return this.userService.getThisUser();
   }
   /**
    *

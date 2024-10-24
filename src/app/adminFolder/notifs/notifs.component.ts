@@ -57,7 +57,7 @@ export class NotifsComponent implements OnDestroy {
         .onAcceptFriend()
         .subscribe((object: { accepter: any; accepted: any }) => {
           //if already friends
-          // if (object.accepted._id == this.sessionService.getThisUser()._id) {
+          // if (object.accepted._id == this.userService.getThisUser()._id) {
           //   this.notifs.unshift({
           //     user: object.accepter,
           //     date: new Date(),

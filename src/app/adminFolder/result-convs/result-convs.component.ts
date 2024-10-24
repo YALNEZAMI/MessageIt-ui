@@ -21,15 +21,13 @@ export class ResultConvsComponent {
     this.key = localStorage.getItem('key') || '';
     if (this.key.trim() != '') {
       this.done = false;
-      this.convService
-        .getConvsSearched(this.key)
-        .subscribe( (convs: any) => {
-          this.convs = convs; 
-          if (this.convs.length == 0) {
-            this.noRes = true;
-          }
-          this.done = true;
-        });
+      this.convService.getConvsSearched(this.key).subscribe((convs: any) => {
+        this.convs = convs;
+        if (this.convs.length == 0) {
+          this.noRes = true;
+        }
+        this.done = true;
+      });
     }
   }
   constructor(
@@ -52,7 +50,7 @@ export class ResultConvsComponent {
         this.key = await key;
         this.convService.getConvsSearched(this.key).subscribe((convs: any) => {
           this.convs = convs;
-          
+
           if (this.convs.length == 0) {
             this.noRes = true;
           }
@@ -271,7 +269,7 @@ export class ResultConvsComponent {
     });
     //exept me
     result = result.filter((member) => {
-      return member._id != this.sessionService.getThisUser()._id;
+      return member._id != this.userService.getThisUser()._id;
     });
     return result;
   }

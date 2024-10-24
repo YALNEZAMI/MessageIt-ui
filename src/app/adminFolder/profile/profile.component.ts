@@ -37,7 +37,7 @@ export class ProfileComponent implements AfterViewInit {
     private sessionService: SessionService,
     private convService: ConvService
   ) {
-    this.user = this.sessionService.getThisUser();
+    this.user = this.userService.getThisUser();
     this.photoUrl = this.user.photo;
     if (this.user.theme != undefined && this.user.theme != '') {
       this.selectedTheme = this.user.theme;

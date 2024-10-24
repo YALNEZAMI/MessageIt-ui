@@ -29,7 +29,7 @@ export class HeaderAdminComponent {
       });
   }
   getCurrentUser() {
-    return this.userService.getCurrentUser();
+    return this.userService.getThisUser();
   }
   goToProfile() {
     this.router.navigate(['/admin/profile']);

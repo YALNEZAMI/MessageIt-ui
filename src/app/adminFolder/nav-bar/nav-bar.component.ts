@@ -173,7 +173,7 @@ export class NavBarComponent {
   }
 
   getCurrentUser() {
-    return this.userService.getCurrentUser();
+    return this.userService.getThisUser();
   }
   goTo(path: string): void {
     this.router.navigate([path]);

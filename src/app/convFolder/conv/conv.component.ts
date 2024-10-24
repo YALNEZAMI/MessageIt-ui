@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
+import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 import env from 'src/env';
 
@@ -15,7 +16,8 @@ export class ConvComponent implements OnInit {
     private router: Router,
     private sessionService: SessionService,
     private convService: ConvService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private userService: UserService
   ) {
     //not authenticated case
     if (!this.sessionService.isAuthenticated()) {
@@ -40,7 +42,7 @@ export class ConvComponent implements OnInit {
       .subscribe((object: { idUser: string; conv: any }) => {
         //if the current user is removed from the current conv
         if (
-          object.idUser == this.sessionService.getThisUser()._id &&
+          object.idUser == this.userService.getThisUser()._id &&
           object.conv._id == this.sessionService.getThisConv()._id
         ) {
           //remove the conv from the local storage

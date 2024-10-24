@@ -7,6 +7,7 @@ import { Message } from '../Interfaces/message.interface';
 import { SessionService } from './session.service';
 import { Router } from '@angular/router';
 import { ConvService } from './conv.service';
+import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,7 +19,8 @@ export class WebSocketService {
     private socket: Socket, // private websocketSubject: WebSocketSubject<any>
     private sessionService: SessionService,
     private router: Router,
-    private convService: ConvService
+    private convService: ConvService,
+    private userService: UserService
   ) {}
 
   newMessage(): Observable<Message> {
@@ -70,7 +72,7 @@ export class WebSocketService {
             this.sessionService.setThisMessages(messages);
           } else {
             if (
-              object.idUser == this.sessionService.getThisUser()._id &&
+              object.idUser == this.userService.getThisUser()._id &&
               object.operation == 'deleteForMe'
             ) {
               //delete media from local storage
@@ -105,7 +107,7 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on('addFriend', (object: any) => {
         //chek if am concerned
-        if (object.reciever._id == this.sessionService.getThisUser()._id) {
+        if (object.reciever._id == this.userService.getThisUser()._id) {
           //add notif  to local storage
           this.sessionService.addNotif({
             type: object.type,
@@ -125,12 +127,12 @@ export class WebSocketService {
         'acceptFriend',
         (object: { accepter: any; accepted: any; date: Date }) => {
           //set local storage friends
-          if (object.accepter._id == this.sessionService.getThisUser()._id) {
+          if (object.accepter._id == this.userService.getThisUser()._id) {
             this.sessionService.addFriend(object.accepted);
             this.sessionService.iAccept(object.accepted._id);
             Observer.next(object);
           }
-          if (object.accepted._id == this.sessionService.getThisUser()._id) {
+          if (object.accepted._id == this.userService.getThisUser()._id) {
             this.sessionService.addFriend(object.accepter);
             //add a notif for accepted user
             this.sessionService.addNotif({
@@ -148,7 +150,7 @@ export class WebSocketService {
   onCancelFriend(): Observable<any> {
     return new Observable<any>((Observer) => {
       this.socket.on('cancelFriend', (object: any) => {
-        if (object.canceled == this.sessionService.getThisUser()._id) {
+        if (object.canceled == this.userService.getThisUser()._id) {
           let notifs = this.sessionService.getThisNotifs();
           notifs = notifs.filter((notif: any) => {
             return notif.user._id != object.canceler;
@@ -178,9 +180,7 @@ export class WebSocketService {
         //check if am concerned
 
         if (
-          convAndNewMembers.members.includes(
-            this.sessionService.getThisUser()._id
-          )
+          convAndNewMembers.members.includes(this.userService.getThisUser()._id)
         ) {
           this.sessionService.addConv(convAndNewMembers.conv);
         }
@@ -202,11 +202,11 @@ export class WebSocketService {
       this.socket.on(
         'removeFromGroupe',
         (object: { idUser: string; conv: any }) => {
-          if (object.idUser == this.sessionService.getThisUser()._id) {
+          if (object.idUser == this.userService.getThisUser()._id) {
             //case whare am in the conv
             if (
               this.sessionService.thereIsConv() &&
-              this.sessionService.getThisUser()._id == object.idUser
+              this.userService.getThisUser()._id == object.idUser
             ) {
               this.sessionService.removeConvFromLocalStorage();
               this.router.navigate(['/admin/convs']);
@@ -236,7 +236,7 @@ export class WebSocketService {
         //check if am concerned
         let amIn = false;
         conv.members.map((member: any) => {
-          if (member._id == this.sessionService.getThisUser()._id) {
+          if (member._id == this.userService.getThisUser()._id) {
             amIn = true;
           }
         });
@@ -265,9 +265,7 @@ export class WebSocketService {
             });
           });
           //am leaver case
-          if (
-            convAndLeaver.leaver._id == this.sessionService.getThisUser()._id
-          ) {
+          if (convAndLeaver.leaver._id == this.userService.getThisUser()._id) {
             convs = convs.filter((conv: any) => {
               return conv._id != convAndLeaver.conv._id;
             });
@@ -416,10 +414,10 @@ export class WebSocketService {
         'onRemoveFriend',
         (obj: { remover: string; removed: string }) => {
           //set local storage
-          if (this.sessionService.getThisUser()._id == obj.remover) {
+          if (this.userService.getThisUser()._id == obj.remover) {
             this.sessionService.removeFriend(obj.removed);
           }
-          if (this.sessionService.getThisUser()._id == obj.removed) {
+          if (this.userService.getThisUser()._id == obj.removed) {
             this.sessionService.removeFriend(obj.remover);
           }
           Observer.next(obj);
@@ -431,7 +429,7 @@ export class WebSocketService {
     return new Observable<any>((Observer) => {
       this.socket.on('onSomeUserUpdated', (user: any) => {
         //set local storage
-        if (user._id != this.sessionService.getThisUser()._id) {
+        if (user._id != this.userService.getThisUser()._id) {
           this.sessionService.updateOtherUser(user);
         }
         Observer.next(user);
