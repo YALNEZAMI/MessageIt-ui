@@ -6,6 +6,7 @@ export class Conv {
   members: string[];
   lastMessage: any;
   type: string;
+  theme: string;
   constructor(
     _id: string,
     photo: string,
@@ -22,5 +23,6 @@ export class Conv {
     this.members = members;
     this.lastMessage = lastMessage;
     this.type = type;
+    this.theme = 'basic';
   }
 }
