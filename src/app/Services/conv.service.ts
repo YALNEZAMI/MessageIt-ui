@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import env from 'src/env';
 import { SessionService } from './session.service';
+import { Conv } from '../Interfaces/conv.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class ConvService {
   getThisUser() {
     return JSON.parse(localStorage.getItem('user') || '{}');
   }
-  getThisConv() {
+  getThisConv(): Conv {
     return JSON.parse(localStorage.getItem('conv') || '{}');
   }
   getConvsByKey(key: string) {
