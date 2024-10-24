@@ -8,7 +8,7 @@ import { NotifsComponent } from './adminFolder/notifs/notifs.component';
 import { ProfileComponent } from './adminFolder/profile/profile.component';
 import { SearchAdminComponent } from './adminFolder/input-search-admin/search-admin.component';
 import { FriendsComponent } from './adminFolder/friends/friends.component';
-import { MessageComponent } from './convFolder/messages/messages.component';
+import { MessagesComponent } from './convFolder/messages/messages.component';
 import { SearchConvComponent } from './convFolder/search-conv/search-conv.component';
 import { ConvMediasComponent } from './convFolder/conv-medias/conv-medias.component';
 import { ConvSettingsComponent } from './convFolder/conv-settings/conv-settings.component';
@@ -68,7 +68,7 @@ const routes: Routes = [
     path: 'conv',
     component: ConvComponent,
     children: [
-      { path: 'messages', component: MessageComponent },
+      { path: 'messages', component: MessagesComponent },
       { path: 'search', component: SearchConvComponent },
       { path: 'medias', component: ConvMediasComponent },
       { path: 'settings', component: ConvSettingsComponent },

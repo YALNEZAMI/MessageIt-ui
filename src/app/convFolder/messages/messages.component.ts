@@ -411,7 +411,6 @@ export class MessagesComponent implements OnInit {
   }
   getImgSentContainer(msg: any) {
     let idUser = msg.sender._id;
-
     return {
       row: true,
       myPhotoSentContainer: idUser == this.getThisUser()._id,

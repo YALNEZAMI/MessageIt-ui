@@ -92,7 +92,15 @@
           class="chat-box"
           *ngFor="let msg of getMessages()"
         >
-          <app-message></app-message>
+          <app-message
+            [isClicked]="messageClicked == msg._id"
+            [message]="msg"
+            [isLastMessage]="isLastMsg(msg)"
+            (emitDisplayOptions)="displayOptions($event)"
+            (emitDisplayPhoto)="displayPhoto($event)"
+            (emitDisplayReacters)="displayReacters($event)"
+            (emitGoToReferedMessage)="goToMessage($event)"
+          ></app-message>
         </div>
         <div class="flex justify-center bg-white mt-2">
           <app-input class="flex flex-row-reverse w-full sm:w-3/4"></app-input>
