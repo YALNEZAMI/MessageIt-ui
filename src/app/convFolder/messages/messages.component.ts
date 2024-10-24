@@ -5,15 +5,15 @@ import { SessionService } from 'src/app/Services/session.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
-  selector: 'app-message',
-  templateUrl: './message.component.html',
+  selector: 'app-messages',
+  templateUrl: './messages.component.html',
   styleUrls: [
-    './message.component.css',
-    './message2.component.css',
-    './message3.component.css',
+    './messages.component.css',
+    './messages2.component.css',
+    './messages3.component.css',
   ],
 })
-export class MessageComponent implements OnInit {
+export class MessagesComponent implements OnInit {
   availablerReactions = ['👍', '❤️', '😂', '😯', '😢', '😡'];
   reacters: any[] = [];
   canDeleteMsgForAll = false; //if the user can delete the message for all

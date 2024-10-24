@@ -26,7 +26,7 @@ import { ProfileComponent } from './adminFolder/profile/profile.component';
 import { FriendsComponent } from './adminFolder/friends/friends.component';
 import { HeaderConvComponent } from './convFolder/header-conv/header-conv.component';
 import { SearchConvComponent } from './convFolder/search-conv/search-conv.component';
-import { MessageComponent } from './convFolder/message/message.component';
+import { MessagesComponent } from './convFolder/messages/messages.component';
 import { ConvNavComponent } from './convFolder/conv-nav/conv-nav.component';
 import { ConvSettingsComponent } from './convFolder/conv-settings/conv-settings.component';
 import { ConvMediasComponent } from './convFolder/conv-medias/conv-medias.component';
@@ -43,8 +43,9 @@ import { GroupeComponent } from './adminFolder/groupe/groupe.component';
 import { AddMemberConvComponent } from './convFolder/add-member-conv/add-member-conv.component';
 import { UserComponent } from './components/user/user.component';
 import { ConversationComponent } from './components/conversation/conversation.component';
-import { UrlifyPipe } from './convFolder/message/urlify.pipe';
+import { UrlifyPipe } from './convFolder/messages/urlify.pipe';
 import { NavItemComponent } from './components/nav-component/nav-item.component';
+import { MessageComponent } from './components/message/message.component';
 const config: SocketIoConfig = { url: env.api_url };
 
 @NgModule({
@@ -69,7 +70,7 @@ const config: SocketIoConfig = { url: env.api_url };
     FriendsComponent,
     HeaderConvComponent,
     SearchConvComponent,
-    MessageComponent,
+    MessagesComponent,
     ConvNavComponent,
     ConvSettingsComponent,
     ConvMediasComponent,
@@ -87,6 +88,7 @@ const config: SocketIoConfig = { url: env.api_url };
     UserComponent,
     ConversationComponent,
     NavItemComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,

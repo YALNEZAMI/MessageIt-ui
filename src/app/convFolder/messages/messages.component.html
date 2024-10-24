@@ -1,0 +1,207 @@
+<div class="main">
+  <div id="reactersCadre" (click)="displayReacters(null)">
+    <div id="reacters" class="col">
+      <div class="reactersDiv row" *ngFor="let reacter of reacters">
+        <img
+          onerror='src="/assets/images/user.png"'
+          [src]="reacter.user.photo"
+          class="imgReacter"
+          alt=""
+        />
+        <div class="reacterName">
+          {{ reacter.user.firstName }} {{ reacter.user.lastName }}
+        </div>
+        <div>{{ reacter.type }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div (click)="displayPhoto('')" id="cadrePhotoDisplayed" class="cadre">
+    <img
+      id="photoDisplayed"
+      class="photoDisplayed"
+      src="{{ photoDisplayedUrl }}"
+      alt=""
+    />
+    <br />
+    <div id="downloadPhotoDisplayedDiv">
+      <a
+        class="btn btn-warning flex justify-center items-center space-x-3"
+        id="downloadPhotoDisplayed"
+        href="{{ photoDisplayedUrl }}"
+        download
+      >
+        Download
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div
+    class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+    style="padding: 0%"
+  >
+    <!-- Row start -->
+    <div id="convsMessagesRow" class="flex flex-row">
+      <!-- side convs component -->
+      <!-- <div class="users-container"> -->
+      <app-conv-side class="w-1/3"></app-conv-side>
+      <!-- </div> -->
+      <div
+        id="chatContainer"
+        class="chat-container"
+        #chatContainer
+        (scroll)="checktop()"
+        (scroll)="updateBottom()"
+      >
+        <!--loading spiner-->
+        <div
+          *ngIf="loading && MoreMessages && !isBottom"
+          id="msgLoadingSpinner"
+          class="spinner-border"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+        <!--no messages popup-->
+        <div
+          *ngIf="getMessages().length == 0 && done"
+          class="flex justify-center my-2"
+        >
+          <div
+            class="bg-red-500 text-white rounded p-2 px-5 font-bold text-lg w-max"
+          >
+            No messages yet !
+          </div>
+        </div>
+        <!--message template-->
+        <div
+          id="{{ msg._id }}"
+          class="chat-box"
+          *ngFor="let msg of getMessages()"
+        >
+          <app-message></app-message>
+        </div>
+        <div class="flex justify-center bg-white mt-2">
+          <app-input class="flex flex-row-reverse w-full sm:w-3/4"></app-input>
+        </div>
+      </div>
+      <!--input component-->
+      <!-- </div> -->
+    </div>
+    <!-- Row end -->
+  </div>
+
+  <!--input elements group-->
+  <div *ngIf="done" id="inputElementsGroup">
+    <!--scrolldown or appendDown-->
+    <div [ngClass]="getInputSecondDivClasses()" id="InputSecondDiv">
+      <button
+        *ngIf="(!noMoreDown && isBottom) || (noMoreDown && !isBottom)"
+        (click)="appendDown()"
+        class="p-1 px-3 z-10 text-white bg-yellow-600 border-2 border-black rounded-md"
+      >
+        <!--appendDown:update down messages after a research-->
+        <svg
+          *ngIf="!noMoreDown && isBottom"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-arrow-clockwise"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
+          />
+          <path
+            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"
+          />
+        </svg>
+        <svg
+          *ngIf="noMoreDown && !isBottom"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-arrow-down-circle"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!--spinner-->
+  <div *ngIf="!done" class="d-flex align-items-center mySpinner">
+    <strong>Loading...</strong>
+    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+  </div>
+  <!--message options-->
+  <div (click)="displayOptions(null)" id="optionPopupCadre">
+    <div id="optionPopup">
+      <!--reaction-->
+      <div style="display: flex; justify-content: center; margin: 10px">
+        <div style="border-radius: 10px" class="row justify-center bg-primary">
+          <div
+            class="cursor-pointer"
+            style="margin: 5px"
+            [ngClass]="{
+              reactionEmojis: true,
+              reactionSelected: reaction == getMyReaction()
+            }"
+            *ngFor="let reaction of availablerReactions"
+            (click)="addReaction(reaction)"
+          >
+            {{ reaction }}
+          </div>
+        </div>
+      </div>
+      <!--first floor options-->
+      <div class="flex flex-row justify-center">
+        <!--delete for all-->
+        <div
+          *ngIf="canDeleteMsgForAll"
+          (click)="deleteMsgForAll()"
+          class="cursor-pointer text-center p-1 px-2 text-white bg-red-500 hover:opacity-85 rounded h-max text-sm"
+          id="deleteForAll"
+        >
+          Delete for all
+        </div>
+        <!--repondre-->
+        <div
+          (click)="setRep()"
+          style="width: 30%; margin-left: 10px; margin-right: 10px"
+          class="cursor-pointer text-center p-1 px-2 text-white bg-green-500 hover:opacity-85 rounded h-max text-sm"
+        >
+          Reply
+        </div>
+
+        <!--delete for me-->
+        <div
+          (click)="deleteMsgForMe()"
+          class="cursor-pointer text-center p-1 px-2 text-white bg-yellow-500 hover:opacity-85 rounded h-max text-sm"
+          id="deleteForMe"
+        >
+          Delete for me
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
