@@ -13,6 +13,8 @@ export class InputComponent implements OnInit {
   fileInput: any;
   emoji: string = '';
   message: Message = {
+    _id: '',
+    reactions: [],
     typeMsg: 'message',
     conv: '',
     text: '',
@@ -21,6 +23,7 @@ export class InputComponent implements OnInit {
     ref: '',
     visibility: [],
     sender: JSON.parse(localStorage.getItem('user') || '{}')._id,
+    // theme:'basic'
   };
   sendButton: boolean = false;
   photoRep: string = '';

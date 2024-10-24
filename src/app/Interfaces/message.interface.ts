@@ -1,10 +1,14 @@
+import { User } from './User.interface';
+
 export interface Message {
   conv: string;
   text: string;
-  files: File[];
+  files: File[] | any;
   date: Date;
-  ref: string;
+  ref: Message | any;
   visibility: string[];
-  sender: { _id: string };
+  sender: User;
   typeMsg: string;
+  _id: string;
+  reactions: any[];
 }
