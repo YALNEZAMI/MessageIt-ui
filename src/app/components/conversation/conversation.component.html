@@ -1,7 +1,9 @@
 <div
   [id]="conv._id"
   [ngClass]="{
-    'w-full overflow-hidden flex rounded bg-white shadow-md m-2 p-2': true,
+    ' overflow-hidden  flex rounded bg-white shadow-md m-2 p-2': true,
+    'justify-center w-11/12  md:justify-normal': IsOnSide,
+    'w-full':!IsOnSide,
     boldBorderConv: !lastMsgIsSeen(),
     'border-2 border-red-600': !lastMsgIsSeen(),
   }"
