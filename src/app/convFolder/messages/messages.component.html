@@ -1,17 +1,24 @@
 <div class="main">
-  <div id="reactersCadre" (click)="displayReacters(null)">
-    <div id="reacters" class="col">
-      <div class="reactersDiv row" *ngFor="let reacter of reacters">
-        <img
-          onerror='src="/assets/images/user.png"'
-          [src]="reacter.user.photo"
-          class="imgReacter"
-          alt=""
-        />
-        <div class="reacterName">
-          {{ reacter.user.firstName }} {{ reacter.user.lastName }}
-        </div>
-        <div>{{ reacter.type }}</div>
+  <!--reacters list-->
+  <div
+    *ngIf="isDisplayingReacters"
+    id="reacters-Cadre"
+    class="fixed left-0 top-0 z-20 w-screen h-screen flex justify-center items-center"
+    (click)="displayReacters(null)"
+  >
+    <div
+      class="fixed z-0 left-0 top-0 w-screen h-screen bg-black opacity-50"
+    ></div>
+    <div
+      id="reactersContainer"
+      class="flex flex-col z-10 rounded overflow-y-auto w-3/4 h-1/2 bg-white"
+    >
+      <div
+        class="reactersDiv flex items-center justify-between px-2"
+        *ngFor="let reacter of reacters"
+      >
+        <app-user [user]="reacter.user"></app-user>
+        <div class="text-2xl">{{ reacter.type }}</div>
       </div>
     </div>
   </div>
@@ -86,23 +93,33 @@
             No messages yet !
           </div>
         </div>
-        <!--message template-->
+        <!--messages container-->
         <div
-          id="{{ msg._id }}"
-          class="chat-box"
-          *ngFor="let msg of getMessages()"
+          class="messagesContainer overflow-x-hidden overflow-y-auto justify-end flex flex-col"
         >
-          <app-message
-            [isClicked]="messageClicked == msg._id"
-            [message]="msg"
-            [isLastMessage]="isLastMsg(msg)"
-            (emitDisplayOptions)="displayOptions($event)"
-            (emitDisplayPhoto)="displayPhoto($event)"
-            (emitDisplayReacters)="displayReacters($event)"
-            (emitGoToReferedMessage)="goToMessage($event)"
-          ></app-message>
+          <!--message template-->
+
+          <div
+            id="{{ msg._id }}"
+            class="chat-box"
+            style="min-height: 90%"
+            *ngFor="let msg of getMessages(); let i = index"
+          >
+            <app-message
+              [index]="i"
+              [precedentMessage]="getPrecedentMessage(i)"
+              [isClicked]="messageClicked == msg._id"
+              [message]="msg"
+              [isLastMessage]="isLastMsg(msg)"
+              (emitDisplayOptions)="displayOptions($event)"
+              (emitDisplayPhoto)="displayPhoto($event)"
+              (emitDisplayReacters)="displayReacters($event)"
+              (emitGoToReferedMessage)="goToMessage($event)"
+            ></app-message>
+          </div>
         </div>
-        <div class="flex justify-center bg-white mt-2">
+
+        <div class="flex justify-center bg-white mt-2 pb-2">
           <app-input class="flex flex-row-reverse w-full sm:w-3/4"></app-input>
         </div>
       </div>
