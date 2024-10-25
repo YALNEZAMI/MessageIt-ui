@@ -21,6 +21,7 @@
   </div>
   <!--btns group-->
   <div
+    *ngIf="user.operation || !noOptions"
     class="flex justify-center space-x-1"
     [ngClass]="{
       hidden: noOptions
