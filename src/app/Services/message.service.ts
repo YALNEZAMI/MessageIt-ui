@@ -33,8 +33,8 @@ export class MessageService {
       const file = message.files[i];
       formData.append('files', file);
     }
+    delete message._id;
     formData.append('message', JSON.stringify(message));
-
     return this.http.post(`${this.uri}/message`, formData);
   }
 
