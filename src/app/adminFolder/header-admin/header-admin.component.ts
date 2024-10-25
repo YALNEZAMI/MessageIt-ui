@@ -10,7 +10,6 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class HeaderAdminComponent {
   name: any;
-  displayingSideBar = false;
   constructor(
     private router: Router,
     private userService: UserService,
@@ -22,11 +21,6 @@ export class HeaderAdminComponent {
     this.userService.getNameChanged().subscribe((name) => {
       this.name = name;
     });
-    this.sidebarService
-      .getSideBarVisible()
-      .subscribe((isDisplayed: boolean) => {
-        this.displayingSideBar = isDisplayed;
-      });
   }
   getCurrentUser() {
     return this.userService.getThisUser();
@@ -36,8 +30,5 @@ export class HeaderAdminComponent {
   }
   getTailwindThemeClesses() {
     return this.userService.getTailwindThemeClasses();
-  }
-  sideBar() {
-    this.displayingSideBar = !this.displayingSideBar;
   }
 }

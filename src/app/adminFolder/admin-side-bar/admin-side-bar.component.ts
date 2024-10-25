@@ -23,7 +23,6 @@ export class AdminSideBarComponent {
     this.disapear();
   }
   disapear() {
-    this.disapeared = true;
     this.sidebarService.setSideBarVisible(false);
   }
   goToGroupe() {

@@ -1,9 +1,37 @@
-<div id="adminContainer">
+<div id="adminContainer" class="transition-all">
   <div id="headerAndNav">
     <div class="border-b-2 border-black">
       <app-header-admin></app-header-admin>
     </div>
     <div class="h-1"></div>
+    <div
+      (click)="toggleSidebar()"
+      class="absolute cursor-pointer p-2 rounded right-2 top-4 bg-white text-black"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+        />
+      </svg>
+    </div>
+
+    <!-- Sidebar -->
+    <app-admin-side-bar
+      [ngClass]="{
+        'fixed top-0 h-screen w-1/4 bg-white z-20 transition-transform duration-300': true,
+        'right-0': displayingSideBar,
+        hidden: !displayingSideBar
+      }"
+    ></app-admin-side-bar>
 
     <div><app-nav-bar></app-nav-bar></div>
   </div>

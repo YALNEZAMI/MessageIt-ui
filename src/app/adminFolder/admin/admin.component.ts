@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'src/app/Services/message.service';
 import { SessionService } from 'src/app/Services/session.service';
+import { SideBarService } from 'src/app/Services/side-bar.service';
 import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 import env from 'src/env';
@@ -10,11 +11,14 @@ import env from 'src/env';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit {
+  displayingSideBar = false;
+
   constructor(
     private sessionService: SessionService,
     private userService: UserService,
     private webSocketService: WebSocketService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private sideBarService: SideBarService
   ) {
     if (!this.sessionService.isAuthenticated()) {
       this.sessionService.logout();
@@ -52,8 +56,15 @@ export class AdminComponent implements OnInit {
     this.webSocketService.setVus().subscribe((message: any) => {});
     this.webSocketService.statusChange().subscribe((user: any) => {});
     this.webSocketService.onSomeUserUpdated().subscribe((user: any) => {});
+    //side bar
+    this.sideBarService.getSideBarVisible().subscribe((bool: boolean) => {
+      this.displayingSideBar = bool;
+    });
   }
   ngOnInit(): void {
     this.userService.setTheme();
+  }
+  toggleSidebar() {
+    this.displayingSideBar = !this.displayingSideBar;
   }
 }
