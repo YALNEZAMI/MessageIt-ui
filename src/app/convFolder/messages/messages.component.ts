@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Message } from 'src/app/Interfaces/message.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
 import { SessionService } from 'src/app/Services/session.service';
@@ -15,6 +16,7 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
 })
 export class MessagesComponent implements OnInit {
   availablerReactions = ['👍', '❤️', '😂', '😯', '😢', '😡'];
+  isDisplayingReacters: boolean = false;
   reacters: any[] = [];
   canDeleteMsgForAll = false; //if the user can delete the message for all
   photoDisplayedUrl: string = '';
@@ -89,6 +91,7 @@ export class MessagesComponent implements OnInit {
         this.sessionService.setThisConv(conv);
         //get messages from local storage
         this.messages = this.sessionService.getConvById(conv._id).messages;
+
         //set conv like seen by me
         this.messageService.setVus().subscribe((res: any) => {});
         //set a timoute for the loading of the page
@@ -636,18 +639,13 @@ export class MessagesComponent implements OnInit {
   //     reactionsContainer.style.display = 'flex';
   //   }
   // }
-  displayReacters(msg: any) {
-    let reacterCadre = document.getElementById('reactersCadre') as HTMLElement;
-    if (reacterCadre.style.display == 'block') {
-      //hide the div
-      reacterCadre.style.display = 'none';
+  displayReacters(msg: Message | null) {
+    console.log('msg', msg);
+    if (msg == null) {
+      this.isDisplayingReacters = false;
     } else {
-      //fill infos
-      if (msg != null) {
-        this.reacters = msg.reactions;
-      }
-      //display the div
-      reacterCadre.style.display = 'block';
+      this.reacters = msg.reactions;
+      this.isDisplayingReacters = true;
     }
   }
   // addReaction0(msg: any, reaction: any) {
@@ -709,5 +707,10 @@ export class MessagesComponent implements OnInit {
   recievedConditions(msg: any) {
     return this.isLastMsg(msg) && this.messageService.recievedConditions(msg);
   }
-  getMsgText(txt: string) {}
+  getPrecedentMessage(i: number): Message {
+    if (i == 0) {
+      return {} as Message;
+    }
+    return this.getMessages()[i - 1];
+  }
 }

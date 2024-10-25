@@ -1,68 +1,9 @@
-<div
-  class="globalMessageTemplate flex rounded m-1 p-1"
-  [ngClass]="{
-    'bg-white': getConv().theme == 'basic'
-  }"
->
-  <div [class]="getClassesOfStatus()">
-    <!--sent mark-->
-    <div class="sentMark" *ngIf="sentConditions()">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-check-circle"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-        />
-        <path
-          d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
-        />
-      </svg>
-    </div>
-    <!--recieved mark-->
-    <div class="recievedMark" *ngIf="recievedConditions()">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-check-circle-fill"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
-        />
-      </svg>
-    </div>
-
-    <div *ngFor="let member of getMembers()">
-      <div
-        *ngIf="
-          member.lastMsgSeen != undefined && member._id != getThisUser()._id
-        "
-      >
-        <img
-          *ngIf="member.lastMsgSeen._id == message._id"
-          class="img"
-          style="width: 15px; height: 15px; margin-left: 5px"
-          src="{{ member.photo }}"
-          onerror='src="/assets/images/user.png"'
-          alt="dsc"
-        />
-      </div>
-    </div>
-  </div>
+<div class="globalMessageTemplate flex rounded px-1">
+  <!--notif template-->
   <div
     [id]="message._id"
     *ngIf="message.typeMsg == 'notif'"
-    [class]="{
-       center:true,
-       notifs:true,
-     }"
+    class="text-white text-center w-full"
   >
     <small (click)="setMessageClicked()">{{ getNotifText() }}</small>
     <br />
@@ -70,9 +11,20 @@
       {{ date() }}
     </small>
   </div>
-  <div *ngIf="message.typeMsg == 'message'">
+  <!--regular message template-->
+  <div *ngIf="message.typeMsg == 'message'" class="w-full rounded p-1">
     <div [ngClass]="getChatClasses()">
-      <div class="chat-avatar w-full flex">
+      <div
+        *ngIf="
+          !precedentMessage.sender ||
+          index == 0 ||
+          (index != 0 && precedentMessage.sender._id != message.sender._id)
+        "
+        class="chat-avatar mb-2 w-full flex items-center space-x-2"
+        [ngClass]="{
+          'flex-row-reverse': getThisUser()._id == message.sender._id
+        }"
+      >
         <!--main user img-->
         <div class="center">
           <img
@@ -83,12 +35,42 @@
           />
         </div>
         <!--main user name-->
-        <div class="chat-name w-3/4">
+        <div
+          class="chat-name w-3/4 font-bold"
+          [ngClass]="{
+            'text-white': getConv().theme == 'basic',
+            'text-end pr-2': getThisUser()._id == message.sender._id
+          }"
+        >
           {{ message.sender.firstName }} {{ message.sender.lastName }}
         </div>
+      </div>
+      <div
+        class="flex justify-between px-2"
+        [ngClass]="{
+          ' flex-row-reverse ': getThisUser()._id == message.sender._id
+        }"
+      >
+        <div
+          [innerHtml]="message.text | urlify"
+          (click)="setMessageClicked()"
+          [ngClass]="{
+            'bg-white': getConv().theme == 'basic',
+            'mr-4': getThisUser()._id != message.sender._id,
+            'ml-4': getThisUser()._id == message.sender._id
+          }"
+          *ngIf="message.text != ''"
+          class="messageText w-max px-2 p-1 rounded-md"
+        ></div>
         <!--setting btn-->
         <div [ngClass]="getSettingsAndRepClasses()">
-          <div class="center msgSettings" (click)="displayOptions()">
+          <div
+            class="center msgSettings cursor-pointer mx-2"
+            [ngClass]="{
+              'text-white  hover:opacity-50': getConv().theme == 'basic'
+            }"
+            (click)="displayOptions()"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -104,13 +86,7 @@
           </div>
         </div>
       </div>
-      <div
-        [innerHtml]="message.text | urlify"
-        (click)="setMessageClicked()"
-        [ngClass]="textClasses()"
-        *ngIf="message.text != ''"
-        class="chat-text"
-      ></div>
+
       <div [ngClass]="getImgSentContainer()">
         <div *ngFor="let file of message.files">
           <img
@@ -131,19 +107,72 @@
             Your browser does not support the video tag.
           </video>
         </div>
-
-        <!-- {{ file }} -->
       </div>
-      <div
-        [ngClass]="{
-          myReactionGlobalRow: message.sender._id == getThisUser()._id,
-          otherReactionGlobalRow: message.sender._id != getThisUser()._id
-        }"
-      >
+      <!--status and reacters-->
+      <div class="flex justify-between px-2">
+        <!--message status (sent,pending,viwed)-->
+        <div
+          [class]="{
+            'text-white': getConv().theme == 'basic'
+          }"
+          *ngIf="message.typeMsg == 'message'"
+        >
+          <!--sent mark-->
+          <div class="sentMark" *ngIf="sentConditions()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-check-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"
+              />
+            </svg>
+          </div>
+          <!--recieved mark-->
+          <div class="recievedMark" *ngIf="recievedConditions()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-check-circle-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+              />
+            </svg>
+          </div>
+
+          <div *ngFor="let member of getMembers()">
+            <div
+              *ngIf="
+                member.lastMsgSeen != undefined &&
+                member._id != getThisUser()._id
+              "
+            >
+              <img
+                *ngIf="member.lastMsgSeen._id == message._id"
+                class="img"
+                style="width: 15px; height: 15px; margin-left: 5px"
+                src="{{ member.photo }}"
+                onerror='src="/assets/images/user.png"'
+                alt="dsc"
+              />
+            </div>
+          </div>
+        </div>
         <div class="row emojisRow">
           <div
             (click)="displayReacters()"
-            class="reactionTypeAndNbr"
+            class="reactionTypeAndNbr cursor-pointer hover:opacity-80"
             *ngFor="let reaction of getReactions()"
           >
             {{ reaction }}
@@ -154,9 +183,15 @@
         </div>
       </div>
 
-      <small class="center dateOfMessage" *ngIf="isClicked">
+      <div
+        class="w-full text-center text-xs"
+        [ngClass]="{
+          'text-white': getConv().theme == 'basic'
+        }"
+        *ngIf="isClicked"
+      >
         {{ date() }}
-      </small>
+      </div>
     </div>
   </div>
   <div

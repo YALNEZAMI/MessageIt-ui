@@ -21,6 +21,7 @@ export class MessageComponent {
   canDeleteMsgForAll: boolean = false;
   @Input() isClicked: boolean = false;
   members: User[] = [];
+  emojis = ['👍', '🌸', '❤️', '🐼'];
   @Input() isLastMessage: boolean = false;
   @Input() message: Message = {
     _id: '',
@@ -39,6 +40,8 @@ export class MessageComponent {
     typeMsg: '',
     reactions: [],
   };
+  @Input() precedentMessage: Message = this.message;
+  @Input() index: number = 0;
   constructor(
     private messageService: MessageService,
     private convService: ConvService,
@@ -52,22 +55,7 @@ export class MessageComponent {
   getConv() {
     return this.convService.getThisConv();
   }
-  getClassesOfStatus() {
-    if (this.message.typeMsg == 'message') {
-      return {
-        'd-flex': true,
-        'flex-row-reverse': true,
-        // 'flex-row-reverse': msg.sender._id == this.getThisUser()._id,
-        // 'flex-row': msg.sender._id != this.getThisUser()._id,
-        statusRow: true,
-      };
-    } else {
-      return {
-        'd-flex': true,
-        'flex-row-reverse': true,
-      };
-    }
-  }
+
   sentConditions() {
     return (
       this.isLastMessage && this.messageService.sentConditions(this.message)
@@ -81,7 +69,7 @@ export class MessageComponent {
   getMembers(): any[] {
     return this.members;
   }
-  getThisUser() {
+  getThisUser(): User {
     return this.userService.getThisUser();
   }
   setMessageClicked() {
@@ -119,29 +107,6 @@ export class MessageComponent {
     };
   }
 
-  textClasses() {
-    let text = this.message.text;
-    let emoji = ['👍', '🌸', '❤️', '🐼'];
-    let res;
-    if (emoji.includes(text)) {
-      res = {
-        emoji: true,
-        'chat-text': false,
-      };
-    } else {
-      res = {
-        notEmoji: true,
-      };
-    }
-    if (this.convService.getThisConv().theme == 'basic') {
-      res = {
-        'text-white': true,
-        ...res,
-      };
-    }
-
-    return res;
-  }
   getImgSentContainer() {
     let idUser = this.message.sender._id;
 
