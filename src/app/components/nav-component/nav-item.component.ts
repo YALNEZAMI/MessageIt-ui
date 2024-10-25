@@ -30,8 +30,7 @@ export class NavItemComponent implements AfterViewChecked {
         res += '/' + p;
       }
     });
-
-    return res;
+    return res.split('?')[0];
   }
   getCounter() {
     if (this.navItem.counter <= 9) {
