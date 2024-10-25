@@ -9,6 +9,6 @@ export interface Message {
   visibility: string[];
   sender: User;
   typeMsg: string;
-  _id: string;
+  _id?: string;
   reactions: any[];
 }
