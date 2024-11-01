@@ -128,7 +128,13 @@
         </div>
       </div>
       <!--status and reacters-->
-      <div class="flex justify-between px-2">
+      <div
+        class="flex justify-between"
+        [ngClass]="{
+          'pr-2': message.sender._id == getThisUser()._id,
+          'pl-2': message.sender._id != getThisUser()._id
+        }"
+      >
         <!--message status (sent,pending,viwed)-->
         <div
           [class]="{
@@ -201,7 +207,7 @@
           </div>
         </div>
       </div>
-
+      <!--date and hour-->
       <div
         class="w-full text-center text-xs"
         [ngClass]="{
@@ -213,6 +219,7 @@
       </div>
     </div>
   </div>
+  <!--refered message if exist-->
   <div
     (click)="goToReferedMessage(message.ref._id)"
     *ngIf="message.ref != ''"
