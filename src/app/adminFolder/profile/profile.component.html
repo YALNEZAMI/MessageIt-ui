@@ -23,7 +23,7 @@
         <button
           type="button"
           (click)="clickPhoto()"
-          class="btn btn-primary"
+          class="btny btn btn-primary px-1"
           id="editPhoto"
         >
           <svg
@@ -171,9 +171,18 @@
       {{ response.message }}
     </div>
     <div class="flex justify-center font-bold">
+      <style>
+        .btny {
+          background-color: rgb(151, 97, 233);
+          transition: background-color 1s ease-out;
+        }
+        .btny:hover {
+          background-color: rgb(98, 73, 227);
+        }
+      </style>
       <button
         type="submit"
-        class="rounded p-1 px-2 bg-green-600 hover:opacity-80 text-white font-bold flex justify-center space-x-2"
+        class="btny transition-all rounded p-1 px-2 bg-green-600 text-white font-bold flex justify-center space-x-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
