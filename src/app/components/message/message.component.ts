@@ -17,6 +17,8 @@ export class MessageComponent {
   @Output() emitDisplayPhoto: EventEmitter<string> = new EventEmitter();
   @Output() emitDisplayReacters: EventEmitter<Message> = new EventEmitter();
   @Output() emitGoToReferedMessage: EventEmitter<string> = new EventEmitter();
+  @Output() emitSelectedMessage: EventEmitter<Message> = new EventEmitter();
+
   @Output() emitSetMessageToDealWith: any = new EventEmitter();
   canDeleteMsgForAll: boolean = false;
   @Input() isClicked: boolean = false;
@@ -42,6 +44,8 @@ export class MessageComponent {
   };
   @Input() precedentMessage: Message = this.message;
   @Input() index: number = 0;
+  @Input() isSelected: boolean = false;
+  @Input() isSelectingMode: boolean = false;
   constructor(
     private messageService: MessageService,
     private convService: ConvService,
@@ -156,5 +160,8 @@ export class MessageComponent {
   }
   goToReferedMessage(id: string) {
     this.emitGoToReferedMessage.emit(id);
+  }
+  selectedMessage() {
+    this.emitSelectedMessage.emit(this.message);
   }
 }

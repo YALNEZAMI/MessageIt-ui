@@ -1,4 +1,32 @@
 <div class="main">
+  <!--multiple selected messages options-->
+  <div
+    *ngIf="isSelectingMode && selectedMessages.length > 0"
+    class="fixed h-max p-3 z-20 w-3/4 right-0 bottom-0 bg-white"
+  >
+    <h4 class="text-center">Actions on selection</h4>
+    <div class="flex justify-center space-x-2">
+      <button
+        (click)="deleteSelectionForMe()"
+        class="transition-colors hover:bg-yellow-600 bg-yellow-500 duration-300 px-2 p-1 text-white rounded"
+      >
+        Delete for me
+      </button>
+      <button
+        title="Delete message if you are the owner"
+        (click)="deleteSelectionForAllIfPossible()"
+        class="transition-colors hover:bg-red-600 bg-red-500 duration-300 px-2 p-1 text-white rounded"
+      >
+        Delete for all
+      </button>
+      <button
+        (click)="cancelSelection()"
+        class="transition-colors hover:bg-green-600 bg-green-500 duration-300 px-2 p-1 text-white rounded"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
   <!--reacters list-->
   <div
     *ngIf="isDisplayingReacters"
@@ -111,10 +139,13 @@
               [isClicked]="messageClicked == msg._id"
               [message]="msg"
               [isLastMessage]="isLastMsg(msg)"
+              [isSelected]="isSelectedMessage(msg)"
+              [isSelectingMode]="isSelectingMode"
               (emitDisplayOptions)="displayOptions($event)"
               (emitDisplayPhoto)="displayPhoto($event)"
               (emitDisplayReacters)="displayReacters($event)"
               (emitGoToReferedMessage)="goToMessage($event)"
+              (emitSelectedMessage)="onSelectingMessage($event)"
             ></app-message>
           </div>
         </div>
@@ -179,7 +210,8 @@
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
   <!--message options-->
-  <div (click)="displayOptions(null)" id="optionPopupCadre">
+  <div (click)="isDisplayingOptions = false" *ngIf="isDisplayingOptions">
+    <div class="fixed top-0 left-0 w-screen h-screen bg-black opacity-50"></div>
     <div id="optionPopup">
       <!--reaction-->
       <div style="display: flex; justify-content: center; margin: 10px">
@@ -199,32 +231,44 @@
         </div>
       </div>
       <!--first floor options-->
-      <div class="flex flex-row justify-center">
-        <!--delete for all-->
-        <div
-          *ngIf="canDeleteMsgForAll"
-          (click)="deleteMsgForAll()"
-          class="cursor-pointer text-center p-1 px-2 text-white bg-red-500 hover:opacity-85 rounded h-max text-sm"
-          id="deleteForAll"
-        >
-          Delete for all
-        </div>
-        <!--repondre-->
-        <div
-          (click)="setRep()"
-          style="width: 30%; margin-left: 10px; margin-right: 10px"
-          class="cursor-pointer text-center p-1 px-2 text-white bg-green-500 hover:opacity-85 rounded h-max text-sm"
-        >
-          Reply
+      <div class="flex flex-row justify-center space-x-2">
+        <div class="flex flex-col space-y-2 w-1/3">
+          <!--repondre-->
+          <div
+            (click)="setRep()"
+            class="cursor-pointer text-center p-1 px-2 text-white bg-green-500 hover:opacity-85 rounded h-max text-sm"
+          >
+            Reply
+          </div>
+          <!--select Message-->
+          <div
+            (click)="SelectMessage(messageToDealWith)"
+            class="cursor-pointer text-center p-1 px-2 text-white bg-blue-500 hover:opacity-85 rounded h-max text-sm"
+            id="SelectMessage"
+          >
+            Select
+          </div>
         </div>
 
-        <!--delete for me-->
-        <div
-          (click)="deleteMsgForMe()"
-          class="cursor-pointer text-center p-1 px-2 text-white bg-yellow-500 hover:opacity-85 rounded h-max text-sm"
-          id="deleteForMe"
-        >
-          Delete for me
+        <div class="flex flex-col space-y-2 w-1/3">
+          <!--delete for all-->
+          <div
+            *ngIf="canDeleteMsgForAll"
+            (click)="deleteMsgForAll()"
+            class="cursor-pointer w-full text-center p-1 px-2 text-white bg-red-500 hover:opacity-85 rounded text-sm"
+            id="delete-For-All"
+          >
+            Delete for all
+          </div>
+
+          <!--delete for me-->
+          <div
+            (click)="deleteMsgForMe()"
+            class="cursor-pointer text-center p-1 px-2 text-white bg-yellow-500 hover:opacity-85 rounded h-max text-sm"
+            id="delete-For-Me"
+          >
+            Delete for me
+          </div>
         </div>
       </div>
     </div>

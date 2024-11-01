@@ -15,6 +15,9 @@ import { WebSocketService } from 'src/app/Services/webSocket.service';
   ],
 })
 export class MessagesComponent implements OnInit {
+  selectedMessages: Message[] = [];
+  isDisplayingOptions: boolean = false;
+  isSelectingMode: boolean = false;
   availablerReactions = ['👍', '❤️', '😂', '😯', '😢', '😡'];
   isDisplayingReacters: boolean = false;
   reacters: any[] = [];
@@ -29,7 +32,7 @@ export class MessagesComponent implements OnInit {
   done: boolean = false;
   lastMsg: any;
   firstMsg: any;
-  msgToDealWith: any;
+  messageToDealWith: any;
   thereIsViewvers: boolean = false;
   //msg to reply to
   rep: any;
@@ -236,6 +239,8 @@ export class MessagesComponent implements OnInit {
     this.updateBottom();
   }
   ngOnInit(): void {
+    this.messageToDealWith = this.messages[0];
+
     this.setViewers();
   }
   getThisUser() {
@@ -543,36 +548,30 @@ export class MessagesComponent implements OnInit {
       this.canDeleteMsgForAll = false;
     }
     //set the concerned message
-    this.msgToDealWith = msg;
+    this.messageToDealWith = msg;
     //display or hide the options div
-    let optionPopupCadre = document.getElementById(
-      'optionPopupCadre'
-    ) as HTMLElement;
-
-    if (optionPopupCadre.style.display == 'block') {
-      optionPopupCadre.style.display = 'none';
-      this.msgToDealWith = null;
-    } else {
-      this.msgToDealWith = msg;
-      optionPopupCadre.style.display = 'block';
-    }
+    this.isDisplayingOptions = !this.isDisplayingOptions;
   }
   deleteMsgForAll() {
-    this.messageService.deleteMsgForAll(this.msgToDealWith).subscribe((res) => {
-      //update photo viewers
-      this.setViewers();
-    });
+    this.messageService
+      .deleteMsgForAll(this.messageToDealWith)
+      .subscribe((res) => {
+        //update photo viewers
+        this.setViewers();
+      });
   }
   deleteMsgForMe() {
-    this.messageService.deleteMsgForMe(this.msgToDealWith).subscribe((res) => {
-      //update photo viewers
-      this.setViewers();
-    });
+    this.messageService
+      .deleteMsgForMe(this.messageToDealWith)
+      .subscribe((res) => {
+        //update photo viewers
+        this.setViewers();
+      });
   }
 
   //rep
   getRepClasses() {
-    let idSender = this.msgToDealWith.sender._id;
+    let idSender = this.messageToDealWith.sender._id;
     let myid = this.getThisUser()._id;
     return {
       bi: true,
@@ -591,7 +590,7 @@ export class MessagesComponent implements OnInit {
     };
   }
   setRep() {
-    this.messageService.setRep(this.msgToDealWith);
+    this.messageService.setRep(this.messageToDealWith);
   }
   getRepOfMsgsClasses(msg: any) {
     return {
@@ -615,10 +614,10 @@ export class MessagesComponent implements OnInit {
   // }
   getMyReaction() {
     let reactions;
-    if (this.msgToDealWith == null || this.msgToDealWith == undefined) {
+    if (this.messageToDealWith == null || this.messageToDealWith == undefined) {
       reactions = [];
     } else {
-      reactions = this.msgToDealWith.reactions;
+      reactions = this.messageToDealWith.reactions;
     }
     for (let i = 0; i < reactions.length; i++) {
       const reaction = reactions[i];
@@ -653,9 +652,9 @@ export class MessagesComponent implements OnInit {
   //   this.messageService.addReaction(msg, reaction).subscribe((res) => {});
   // }
   addReaction(reaction: any) {
-    // this.displayReactions(this.msgToDealWith);
+    // this.displayReactions(this.messageToDealWith);
     this.messageService
-      .addReaction(this.msgToDealWith, reaction)
+      .addReaction(this.messageToDealWith, reaction)
       .subscribe((res) => {});
   }
   getReactions(msg: any) {
@@ -712,5 +711,51 @@ export class MessagesComponent implements OnInit {
       return {} as Message;
     }
     return this.getMessages()[i - 1];
+  }
+  SelectMessage(selectedMessage: Message): void {
+    this.onSelectingMessage(selectedMessage);
+    this.isSelectingMode = true;
+    this.isDisplayingOptions = false;
+  }
+  isSelectedMessage(selectedMessage: Message): boolean {
+    let res: boolean = false;
+    this.selectedMessages.map((sm) => {
+      if (sm._id == selectedMessage._id) {
+        res = true;
+      }
+    });
+    return res;
+  }
+  onSelectingMessage(selectedMessage: Message) {
+    if (this.isSelectedMessage(selectedMessage)) {
+      this.selectedMessages = this.selectedMessages.filter((sm) => {
+        return sm._id != selectedMessage._id;
+      });
+    } else {
+      this.selectedMessages.push(selectedMessage);
+    }
+  }
+  cancelSelection() {
+    this.isSelectingMode = false;
+    this.selectedMessages = [];
+  }
+  deleteSelectionForMe() {
+    this.selectedMessages.map((m) => {
+      this.messageToDealWith = m;
+      this.deleteMsgForMe();
+    });
+    this.cancelSelection();
+  }
+  deleteSelectionForAllIfPossible() {
+    this.selectedMessages.map((m) => {
+      this.messageToDealWith = m;
+      console.log('m', m);
+      if (m.sender._id == this.getThisUser()._id) {
+        this.deleteMsgForAll();
+      } else {
+        this.deleteMsgForMe();
+      }
+    });
+    this.cancelSelection();
   }
 }
