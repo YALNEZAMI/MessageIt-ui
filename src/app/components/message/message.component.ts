@@ -1,5 +1,4 @@
 import { Component, Input, Output } from '@angular/core';
-import { Conv } from 'src/app/Interfaces/conv.interface';
 import { Message } from 'src/app/Interfaces/message.interface';
 import { User } from 'src/app/Interfaces/User.interface';
 import { ConvService } from 'src/app/Services/conv.service';
