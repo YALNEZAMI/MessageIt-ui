@@ -1,13 +1,5 @@
 
-.main{
-    width: 100%;
-    /* padding-top:116px ; */
-    padding-bottom:45px ;
-    min-height: 600px;
-    max-height: 550px;
-    background-color: var(--font-color-conv);
-    overflow-y: hidden;
-}
+
 #convHeaderContainer{
     height: max-content;
 }

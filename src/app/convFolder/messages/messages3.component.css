@@ -138,14 +138,7 @@
         height: max-content;
         }
         @media (max-width: 767px) {
-            #chatContainer{
-                padding-bottom: 0px;
-                width: 80%;
-                height: 600px;
-                overflow-y: auto;
-                overflow-x: hidden;
-                background-color: var(--font-color-conv);
-            }
+           
             .photoDisplayed{
                 width: 50%;
                 height: 50%;
@@ -170,15 +163,7 @@
         }
         /*pc*/
         @media (min-width: 767px) {
-            #chatContainer{
-                padding-bottom: 0px;
-                padding-top: 10px;
-                width: 80%;
-                height: 600px;
-                overflow-y: auto;
-                overflow-x: hidden;
-                background-color: var(--font-color-conv);
-            }
+           
             .photoDisplayed{
                 width: 40%;
                 height: 80%;

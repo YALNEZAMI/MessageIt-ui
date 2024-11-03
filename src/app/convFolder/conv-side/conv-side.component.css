@@ -40,28 +40,11 @@
     }
    
 }
-.main{
-    width: 100%;
-    /* padding-top:116px ; */
-    padding-bottom:45px ;
-    min-height: 600px;
-    max-height: 550px;
-    background-color: #f0f4f8;
-    overflow-y: hidden;
 
-
-}
 #convHeaderContainer{
     height: max-content;
 }
-#chatContainer{
-    width: 80%;
-    max-height: 550px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    
 
-}
 #convsMessagesRow{
     width: 100%;
     min-height: 1000px;

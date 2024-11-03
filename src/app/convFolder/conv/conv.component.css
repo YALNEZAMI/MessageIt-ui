@@ -21,9 +21,7 @@ app-header-conv{
     width: 100%;
 
 }
-main{
-    padding-top: 132px;
-}
+
 #convContainer{
     min-height: 100vh;
 }

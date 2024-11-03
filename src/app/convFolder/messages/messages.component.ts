@@ -289,22 +289,10 @@ export class MessagesComponent implements OnInit {
       }
     }
   }
+  ImgDispledUrl = '';
   // setThisVus(data: any) {}
   displayPhoto(file: string) {
-    let cadrePhotoDisplayed = document.getElementById(
-      'cadrePhotoDisplayed'
-    ) as HTMLElement;
-    let photoDisplayed = document.getElementById(
-      'photoDisplayed'
-    ) as HTMLImageElement;
-    if (cadrePhotoDisplayed.style.display == 'block') {
-      cadrePhotoDisplayed.style.display = 'none';
-      photoDisplayed.src = '';
-
-      return;
-    }
-    cadrePhotoDisplayed.style.display = 'block';
-    photoDisplayed.src = file;
+    this.ImgDispledUrl = file;
   }
   setMessageClicked(id: string) {
     if (this.messageClicked == id) {
@@ -589,7 +577,9 @@ export class MessagesComponent implements OnInit {
       marginLeftSettingAndRep: idSender != myid,
     };
   }
+  isRepling = false;
   setRep() {
+    this.isRepling = true;
     this.messageService.setRep(this.messageToDealWith);
   }
   getRepOfMsgsClasses(msg: any) {
@@ -711,6 +701,12 @@ export class MessagesComponent implements OnInit {
       return {} as Message;
     }
     return this.getMessages()[i - 1];
+  }
+  getNextMessage(i: number): Message {
+    if (i == this.getMessages().length - 1) {
+      return {} as Message;
+    }
+    return this.getMessages()[i + 1];
   }
   SelectMessage(selectedMessage: Message): void {
     this.onSelectingMessage(selectedMessage);

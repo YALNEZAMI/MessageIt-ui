@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Message } from 'src/app/Interfaces/message.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
@@ -9,8 +9,10 @@ import { MessageService } from 'src/app/Services/message.service';
   styleUrls: ['./input.component.css'],
 })
 export class InputComponent implements OnInit {
+  @Output() emitCancelRepling: EventEmitter<boolean> = new EventEmitter();
   me = JSON.parse(localStorage.getItem('user') || '{}');
   fileInput: any;
+
   emoji: string = '';
   message: Message = {
     _id: '',
@@ -127,6 +129,7 @@ export class InputComponent implements OnInit {
     }
   }
   cancelRep() {
+    this.emitCancelRepling.emit(false);
     this.reinitRep();
   }
   reinitRep() {
