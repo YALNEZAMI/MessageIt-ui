@@ -49,7 +49,7 @@
             [ngClass]="getStatusClasses(user)"
           ></div>
         </div>
-        <div class="name w-11/12">
+        <div class="name w-3/4 flex items-end">
           {{ user.firstName + " " + user.lastName }}
           <ins *ngIf="isAdmin(user._id)">(admin)</ins>
           <ins *ngIf="isChef(user._id)">(chef)</ins>
