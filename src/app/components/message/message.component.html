@@ -3,7 +3,7 @@
   <div
     [id]="message._id"
     *ngIf="message.typeMsg == 'notif'"
-    class="text-white text-center w-full"
+    class="text-white text-center w-full underline"
   >
     <small (click)="setMessageClicked()">{{ getNotifText() }}</small>
     <br />
@@ -12,56 +12,123 @@
     </small>
   </div>
   <!--regular message template-->
-  <div *ngIf="message.typeMsg == 'message'" class="w-full rounded p-1">
+  <div
+    *ngIf="message.typeMsg == 'message'"
+    class="w-full rounded p-1 flex flex-col"
+  >
+    <!--refered message if exist-->
+    <div
+      (click)="goToReferedMessage(message.ref._id)"
+      *ngIf="message.ref != ''"
+      [ngClass]="{
+        'flex-row-reverse': isMyMessage()
+      }"
+      class="bg-gray-500 opacity-85 text-white flex p-1 space-x-3 rounded items-center cursor-pointer"
+    >
+      <img
+        onerror='src="/assets/images/user.png"'
+        class="rep-Sender-Photo rounded-full w-8"
+        src="{{ message.ref.sender.photo }}"
+        alt="refPhoto"
+      />
+      <div class="repMsgsText" *ngIf="message.ref.text != ''">
+        {{ message.ref.text }}
+      </div>
+      <!--if the refered message does not have text it implies it is a file(s)-->
+      <div *ngIf="message.ref.text == ''">
+        <!--file svg-->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-images"
+          viewBox="0 0 16 16"
+        >
+          <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+          <path
+            d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
+          />
+        </svg>
+      </div>
+    </div>
     <div [ngClass]="getChatClasses()">
       <div
-        *ngIf="
-          !precedentMessage.sender ||
-          index == 0 ||
-          (index != 0 && precedentMessage.sender._id != message.sender._id)
-        "
-        class="chat-avatar mb-2 w-full flex items-center space-x-2"
+        class="flex justify-between px-0"
         [ngClass]="{
-          'flex-row-reverse': getThisUser()._id == message.sender._id
+          ' flex-row-reverse ': isMyMessage()
         }"
       >
-        <!--main user img-->
-        <div class="center">
-          <img
-            onerror='src="/assets/images/user.png"'
-            class="img rounded-full w-14"
-            src="{{ message.sender.photo }}"
-            alt="{{ message.sender.firstName }} {{ message.sender.lastName }}"
-          />
-        </div>
-        <!--main user name-->
         <div
-          class="chat-name w-3/4 font-bold"
+          class="flex items-center"
           [ngClass]="{
-            'text-white': getConv().theme == 'basic',
-            'text-end pr-2': getThisUser()._id == message.sender._id
+            'flex-row': !isMyMessage(),
+            'flex-row-reverse': isMyMessage()
           }"
         >
-          {{ message.sender.firstName }} {{ message.sender.lastName }}
+          <!--main user img-->
+          <div
+            *ngIf="
+              (!nextMessage.sender ||
+                message.sender._id != nextMessage.sender._id) &&
+              !isMyMessage()
+            "
+            class="h-full flex items-end"
+          >
+            <img
+              onerror='src="/assets/images/user.png"'
+              class="img rounded-full w-12 mr-2"
+              src="{{ message.sender.photo }}"
+              alt="{{ message.sender.firstName }} {{ message.sender.lastName }}"
+            />
+          </div>
+          <div class="flex flex-col">
+            <!--userName-->
+            <div class="text-sm text-left" *ngIf="!isMyMessage() && isClicked">
+              {{ this.getThisUser().firstName }}
+            </div>
+            <!--message text content-->
+            <div class="relative">
+              <div
+                [innerHtml]="message.text | urlify"
+                (click)="setMessageClicked()"
+                [ngClass]="{
+                  'bg-white': getConv().theme == 'basic',
+                  'mr-4': !isMyMessage(),
+                  'ml-4': isMyMessage()
+                }"
+                *ngIf="message.text != ''"
+                class="message-Text relative w-max max-w-64 h-max px-2 p-1 rounded-md"
+              ></div>
+              <!-- triangle-->
+              <div
+                class="absolute top-1"
+                [ngClass]="{
+                  '-right-2 rightTriangle': isMyMessage(),
+                  '-left-2 leftTriangle': !isMyMessage()
+                }"
+              >
+                <style>
+                  .rightTriangle {
+                    width: 0;
+                    height: 0;
+                    border-left: 10px solid white;
+                    border-top: 5px solid transparent;
+                    border-bottom: 5px solid transparent;
+                  }
+                  .leftTriangle {
+                    width: 0;
+                    height: 0;
+                    border-right: 10px solid white;
+                    border-top: 5px solid transparent;
+                    border-bottom: 5px solid transparent;
+                  }
+                </style>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div
-        class="flex justify-between px-2"
-        [ngClass]="{
-          ' flex-row-reverse ': getThisUser()._id == message.sender._id
-        }"
-      >
-        <div
-          [innerHtml]="message.text | urlify"
-          (click)="setMessageClicked()"
-          [ngClass]="{
-            'bg-white': getConv().theme == 'basic',
-            'mr-4': getThisUser()._id != message.sender._id,
-            'ml-4': getThisUser()._id == message.sender._id
-          }"
-          *ngIf="message.text != ''"
-          class="messageText w-max px-2 p-1 rounded-md"
-        ></div>
+
         <!--setting and select box-->
         <div class="flex space-x-4 items-center">
           <!--setting btn-->
@@ -111,7 +178,7 @@
           <img
             (click)="displayPhoto(file)"
             *ngIf="fileType(file) == 'img'"
-            class="imgSent"
+            class="w-20 rounded"
             [src]="file"
             alt=""
           />
@@ -217,36 +284,6 @@
       >
         {{ date() }}
       </div>
-    </div>
-  </div>
-  <!--refered message if exist-->
-  <div
-    (click)="goToReferedMessage(message.ref._id)"
-    *ngIf="message.ref != ''"
-    [ngClass]="getRepOfMsgsClasses()"
-  >
-    <img
-      class="repSenderPhoto"
-      src="{{ message.ref.sender.photo }}"
-      alt="refPhoto"
-    />
-    <div class="repMsgsText" *ngIf="message.ref.text != ''">
-      {{ message.ref.text }}
-    </div>
-    <div *ngIf="message.ref.text == ''">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-images"
-        viewBox="0 0 16 16"
-      >
-        <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-        <path
-          d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
-        />
-      </svg>
     </div>
   </div>
 </div>

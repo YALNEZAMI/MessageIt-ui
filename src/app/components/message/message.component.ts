@@ -42,6 +42,7 @@ export class MessageComponent {
     reactions: [],
   };
   @Input() precedentMessage: Message = this.message;
+  @Input() nextMessage: Message = this.message;
   @Input() index: number = 0;
   @Input() isSelected: boolean = false;
   @Input() isSelectingMode: boolean = false;
@@ -76,7 +77,7 @@ export class MessageComponent {
     return this.userService.getThisUser();
   }
   setMessageClicked() {
-    this.isClicked = true;
+    this.isClicked = !this.isClicked;
   }
   getNotifText() {
     return this.messageService.getNotifText(this.message);
@@ -141,13 +142,7 @@ export class MessageComponent {
     });
     return nbr;
   }
-  getRepOfMsgsClasses() {
-    return {
-      row: true,
-      repRight: this.message.sender._id == this.getThisUser()._id,
-      repLeft: this.message.sender._id != this.getThisUser()._id,
-    };
-  }
+
   displayOptions() {
     this.emitDisplayOptions.emit(this.message);
   }
@@ -162,5 +157,16 @@ export class MessageComponent {
   }
   selectedMessage() {
     this.emitSelectedMessage.emit(this.message);
+  }
+  isSamePrecedent(): boolean {
+    return (
+      !this.precedentMessage.sender ||
+      this.index == 0 ||
+      (this.index != 0 &&
+        this.precedentMessage.sender._id != this.message.sender._id)
+    );
+  }
+  isMyMessage(): boolean {
+    return this.getThisUser()._id == this.message.sender._id;
   }
 }
