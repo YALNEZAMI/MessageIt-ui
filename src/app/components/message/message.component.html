@@ -20,9 +20,7 @@
     <div
       (click)="goToReferedMessage(message.ref._id)"
       *ngIf="message.ref != ''"
-      [ngClass]="{
-        'flex-row-reverse': isMyMessage()
-      }"
+      [ngClass]="getreferedMessageClassses()"
       class="bg-gray-500 opacity-85 text-white flex p-1 space-x-3 rounded items-center cursor-pointer"
     >
       <img

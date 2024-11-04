@@ -177,6 +177,26 @@ export class UserService {
   getTailwindThemeClasses(theme: Theme, level: number, justBG: boolean) {
     if (level == 1) {
       return {
+        'text-slate-700': theme == 'basic' && !justBG,
+        'bg-slate-300 ': theme == 'basic',
+        'bg-pink-300 ': theme == 'love',
+        'bg-green-300 ': theme == 'spring',
+        'text-white': theme == 'love' || (theme == 'spring' && !justBG),
+        'bg-slate-700 ': theme == 'panda',
+        'text-slate-200': theme == 'panda' && !justBG,
+      };
+    } else if (level == 2) {
+      return {
+        'text-slate-700': theme == 'basic' && !justBG,
+        'bg-slate-400 ': theme == 'basic',
+        'bg-pink-400 ': theme == 'love',
+        'bg-green-400 ': theme == 'spring',
+        'text-white': theme == 'love' || (theme == 'spring' && !justBG),
+        'bg-slate-700 ': theme == 'panda',
+        'text-slate-200': theme == 'panda' && !justBG,
+      };
+    } else if (level == 3) {
+      return {
         'bg-white text-black': theme == 'basic',
         'bg-pink-500 text-white': theme == 'love',
         'bg-green-500 text-white': theme == 'spring',

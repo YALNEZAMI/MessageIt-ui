@@ -177,7 +177,7 @@ export class MessageComponent {
       'border-l-pink-500': this.getConv().theme == 'love' && this.isMyMessage(),
       'border-l-black': this.getConv().theme == 'panda' && this.isMyMessage(),
       'border-l-green-500':
-        this.getConv().theme == 'spring' && !this.isMyMessage(),
+        this.getConv().theme == 'spring' && this.isMyMessage(),
       'border-r-white': this.getConv().theme == 'basic' && !this.isMyMessage(),
       'border-r-pink-500':
         this.getConv().theme == 'love' && !this.isMyMessage(),
@@ -188,11 +188,16 @@ export class MessageComponent {
       rightTriangle: this.isMyMessage(),
       leftTriangle: !this.isMyMessage(),
     };
-    //TODO make triangle color same than message bg
+  }
+  getreferedMessageClassses() {
+    return {
+      'flex-row-reverse': this.isMyMessage(),
+      ...this.getTailwindClasses(1, false),
+    };
   }
   getTextClasses() {
     return {
-      ...this.getTailwindClasses(1, false),
+      ...this.getTailwindClasses(3, false),
     };
   }
   isUserImgDisplayed() {

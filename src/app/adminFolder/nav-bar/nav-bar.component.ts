@@ -214,7 +214,7 @@ export class NavBarComponent {
   getTailwindThemeClesses() {
     return this.userService.getTailwindThemeClasses(
       this.getCurrentUser().theme,
-      1,
+      3,
       false
     );
   }
