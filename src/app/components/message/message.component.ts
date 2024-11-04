@@ -164,4 +164,42 @@ export class MessageComponent {
   isMyMessage(): boolean {
     return this.getThisUser()._id == this.message.sender._id;
   }
+  getTailwindClasses(level: number, justBg: boolean) {
+    return this.userService.getTailwindThemeClasses(
+      this.convService.getThisConv().theme,
+      level,
+      justBg
+    );
+  }
+  getTriangleClasses() {
+    return {
+      'border-l-white': this.getConv().theme == 'basic' && this.isMyMessage(),
+      'border-l-pink-500': this.getConv().theme == 'love' && this.isMyMessage(),
+      'border-l-black': this.getConv().theme == 'panda' && this.isMyMessage(),
+      'border-l-green-500':
+        this.getConv().theme == 'spring' && !this.isMyMessage(),
+      'border-r-white': this.getConv().theme == 'basic' && !this.isMyMessage(),
+      'border-r-pink-500':
+        this.getConv().theme == 'love' && !this.isMyMessage(),
+      'border-r-black': this.getConv().theme == 'panda' && !this.isMyMessage(),
+      'border-r-green-500':
+        this.getConv().theme == 'spring' && !this.isMyMessage(),
+
+      rightTriangle: this.isMyMessage(),
+      leftTriangle: !this.isMyMessage(),
+    };
+    //TODO make triangle color same than message bg
+  }
+  getTextClasses() {
+    return {
+      ...this.getTailwindClasses(1, false),
+    };
+  }
+  isUserImgDisplayed() {
+    return (
+      (!this.nextMessage.sender ||
+        this.message.sender._id != this.nextMessage.sender._id) &&
+      !this.isMyMessage()
+    );
+  }
 }

@@ -67,17 +67,10 @@
           }"
         >
           <!--main user img-->
-          <div
-            *ngIf="
-              (!nextMessage.sender ||
-                message.sender._id != nextMessage.sender._id) &&
-              !isMyMessage()
-            "
-            class="h-full flex items-end"
-          >
+          <div *ngIf="isUserImgDisplayed()" class="h-full flex items-end">
             <img
               onerror='src="/assets/images/user.png"'
-              class="img rounded-full w-12 mr-2"
+              class="img rounded-full w-10 mr-2"
               src="{{ message.sender.photo }}"
               alt="{{ message.sender.firstName }} {{ message.sender.lastName }}"
             />
@@ -88,43 +81,25 @@
               {{ this.getThisUser().firstName }}
             </div>
             <!--message text content-->
-            <div class="relative">
+            <div
+              class="relative"
+              [ngClass]="{
+                    'ml-5': !isUserImgDisplayed() ,
+
+            }"
+            >
               <div
                 [innerHtml]="message.text | urlify"
                 (click)="setMessageClicked()"
-                [ngClass]="{
-                  'bg-white': getConv().theme == 'basic',
-                  'mr-4': !isMyMessage(),
-                  'ml-4': isMyMessage()
-                }"
+                [ngClass]="getTextClasses()"
                 *ngIf="message.text != ''"
-                class="message-Text relative w-max max-w-64 h-max px-2 p-1 rounded-md"
+                class="message-Text relative min-h-max overflow-hidden max-w-40 sm:max-w-56 md:max-w-64 lg:max-w-72 w-max h-max px-2 p-1 rounded-md break-words whitespace-pre-wrap"
               ></div>
               <!-- triangle-->
               <div
-                class="absolute top-1"
-                [ngClass]="{
-                  '-right-2 rightTriangle': isMyMessage(),
-                  '-left-2 leftTriangle': !isMyMessage()
-                }"
-              >
-                <style>
-                  .rightTriangle {
-                    width: 0;
-                    height: 0;
-                    border-left: 10px solid white;
-                    border-top: 5px solid transparent;
-                    border-bottom: 5px solid transparent;
-                  }
-                  .leftTriangle {
-                    width: 0;
-                    height: 0;
-                    border-right: 10px solid white;
-                    border-top: 5px solid transparent;
-                    border-bottom: 5px solid transparent;
-                  }
-                </style>
-              </div>
+                class="absolute bottom-[3px] border-solid"
+                [ngClass]="getTriangleClasses()"
+              ></div>
             </div>
           </div>
         </div>

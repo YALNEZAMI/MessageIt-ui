@@ -56,6 +56,15 @@ html{
     top: 50%;
     left: 25%;
     width: 50%;
-
-   
 }
+
+/* tailwind classes*/
+
+.rightTriangle {
+    @apply -right-2 w-0 h-0 border-l-8  border-t-4 border-b-4 border-t-transparent border-b-transparent border-r-transparent;
+  }
+  
+  .leftTriangle {
+    @apply -left-2 w-0 h-0 border-r-8 border-t-4 border-b-4 border-t-transparent border-b-transparent border-l-transparent;
+  }
+  
