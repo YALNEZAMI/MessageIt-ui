@@ -3,7 +3,7 @@
     <div [ngClass]="getTailwindThemeClesses(2, false)">
       <app-header-admin></app-header-admin>
     </div>
-    <!--sidebar in admin page-->
+    <!--sidebar toogler in admin page-->
     <div
       (click)="toggleSidebar()"
       class="absolute transition-all duration-500 ease-in-out hover:text-slate-500 cursor-pointer p-2 rounded right-2 top-4 bg-white text-black"
@@ -27,7 +27,7 @@
     <!-- Sidebar -->
     <app-admin-side-bar
       [ngClass]="{
-        'fixed top-0 h-screen w-1/4 bg-white z-20 transition-transform duration-300': true,
+        'fixed top-0 h-screen w-1/4 bg-white z-20 ': true,
         'right-0': displayingSideBar,
         hidden: !displayingSideBar
       }"
