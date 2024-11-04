@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavItem } from 'src/app/Interfaces/navItem.interface';
+import { Theme } from 'src/app/Interfaces/Theme';
+import { ConvService } from 'src/app/Services/conv.service';
+import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   selector: 'app-conv-nav',
@@ -109,7 +112,11 @@ export class ConvNavComponent {
     </svg>`,
     },
   ];
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private convService: ConvService
+  ) {}
   goToMessages() {
     this.router.navigate(['conv/messages']);
   }
@@ -147,5 +154,12 @@ export class ConvNavComponent {
     });
 
     return res;
+  }
+  getTailwindClasses(level: number, justBg: boolean) {
+    return this.userService.getTailwindThemeClasses(
+      this.convService.getThisConv().theme,
+      level,
+      justBg
+    );
   }
 }

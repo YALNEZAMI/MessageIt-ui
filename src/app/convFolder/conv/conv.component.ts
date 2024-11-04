@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
 import { UserService } from 'src/app/Services/user.service';
@@ -14,11 +14,18 @@ import env from 'src/env';
 export class ConvComponent implements OnInit {
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private sessionService: SessionService,
     private convService: ConvService,
     private webSocketService: WebSocketService,
     private userService: UserService
   ) {
+    const idConv = route.snapshot.queryParamMap.get('conv_id');
+    if (idConv) {
+      this.convService.getConv(idConv).subscribe((c) => {
+        this.convService.setConvChanged(c);
+      });
+    }
     //not authenticated case
     if (!this.sessionService.isAuthenticated()) {
       this.sessionService.logout();
@@ -90,5 +97,12 @@ export class ConvComponent implements OnInit {
   returnToConvs() {
     this.sessionService.removeConvFromLocalStorage();
     this.router.navigate(['admin/convs']);
+  }
+  getTailwindClasses(level: number, justBg: boolean) {
+    return this.userService.getTailwindThemeClasses(
+      this.convService.getThisConv().theme,
+      level,
+      justBg
+    );
   }
 }

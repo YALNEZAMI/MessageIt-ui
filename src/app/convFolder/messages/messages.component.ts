@@ -3,6 +3,7 @@ import { Message } from 'src/app/Interfaces/message.interface';
 import { ConvService } from 'src/app/Services/conv.service';
 import { MessageService } from 'src/app/Services/message.service';
 import { SessionService } from 'src/app/Services/session.service';
+import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -45,7 +46,8 @@ export class MessagesComponent implements OnInit {
     private messageService: MessageService,
     private convService: ConvService,
     private webSocketService: WebSocketService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private userService: UserService
   ) {
     //subscribe to reactions
     this.webSocketService.onReaction().subscribe((reaction: any) => {
@@ -753,5 +755,12 @@ export class MessagesComponent implements OnInit {
       }
     });
     this.cancelSelection();
+  }
+  getTailwindClasses(level: number, justBg: boolean) {
+    return this.userService.getTailwindThemeClasses(
+      this.convService.getThisConv().theme,
+      level,
+      justBg
+    );
   }
 }

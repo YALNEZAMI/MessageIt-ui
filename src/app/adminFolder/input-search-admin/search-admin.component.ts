@@ -11,7 +11,7 @@ export class SearchAdminComponent implements OnInit {
   @Output() keyChange = new EventEmitter<string>();
   key: string = '';
 
-  constructor(private routes: Router, private userService: UserService) {
+  constructor(private userService: UserService) {
     this.key = localStorage.getItem('key') || '';
   }
   ngOnInit(): void {
@@ -27,6 +27,6 @@ export class SearchAdminComponent implements OnInit {
   cancel() {
     this.keyChange.emit('');
     this.key = '';
-    this.routes.navigate(['admin/convs']);
+    localStorage.removeItem('key');
   }
 }

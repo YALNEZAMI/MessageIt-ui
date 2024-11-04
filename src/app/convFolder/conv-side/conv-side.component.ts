@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
+import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class ConvSideComponent implements OnInit {
   constructor(
     private convService: ConvService,
     private webSocketService: WebSocketService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private userService: UserService
   ) {
     //retrieve convs
     if (this.sessionService.thereAreConvs()) {
@@ -187,5 +189,12 @@ export class ConvSideComponent implements OnInit {
       }
     }
     return this.convs;
+  }
+  getTailwindClasses(level: number, justBg: boolean) {
+    return this.userService.getTailwindThemeClasses(
+      this.convService.getThisConv().theme,
+      level,
+      justBg
+    );
   }
 }

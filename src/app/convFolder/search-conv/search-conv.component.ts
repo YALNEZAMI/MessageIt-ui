@@ -23,8 +23,8 @@ export class SearchConvComponent {
     this.messageService.setSearchKey(this.key);
   }
   cancel() {
+    console.log('ok');
     this.key = '';
     localStorage.removeItem('keySearchMessages');
-    this.router.navigate(['/conv/messages']);
   }
 }

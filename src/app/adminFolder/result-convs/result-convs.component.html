@@ -9,12 +9,15 @@
     <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
   </div>
 </div>
-<div class="flex items-center justify-center mt-40" *ngIf="noConvs() && done">
+<div
+  class="flex items-center justify-center mt-40 w-full"
+  *ngIf="noConvs() && done"
+>
   <div
-    class="text-base text-white text-center w-1/2 no-underline bg-red-500 p-3 rounded md:text-lg"
+    class="text-base text-white text-center w-3/4 no-underline bg-red-500 p-3 rounded md:text-lg"
   >
-    <span class="font-bold">No convs for "{{ key }}", </span>
-    <a class="bg-white px-2 p-1 my-2 rounded" routerLink="/admin/friends"
+    <span class="font-bold my-2">No convs for "{{ key }}", </span>
+    <a class="bg-white px-2 p-1 rounded" routerLink="/admin/friends"
       >Create new one !</a
     >
   </div>

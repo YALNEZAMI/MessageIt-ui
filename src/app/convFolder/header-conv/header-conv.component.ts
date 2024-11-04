@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ConvService } from 'src/app/Services/conv.service';
 import { SessionService } from 'src/app/Services/session.service';
+import { UserService } from 'src/app/Services/user.service';
 import { WebSocketService } from 'src/app/Services/webSocket.service';
 
 @Component({
@@ -19,7 +21,9 @@ export class HeaderConvComponent {
   constructor(
     private convService: ConvService,
     private webSocketService: WebSocketService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private userService: UserService,
+    private route: ActivatedRoute
   ) {
     //subscribe to typing event
     this.webSocketService.typing().subscribe((object: any) => {
@@ -46,15 +50,24 @@ export class HeaderConvComponent {
       this.setThisConv(conv);
       this.fillInfo();
     });
-
     //statusChange websocket subscription
     this.webSocketService.statusChange().subscribe((user: any) => {
-      let conv = this.sessionService.getThisConv();
-      conv.members.map((member: any) => {
-        if (member._id == user._id) {
-          this.status = user.status;
-        }
-      });
+      const idConv = route.snapshot.queryParamMap.get('conv_id');
+      if (idConv) {
+        this.convService.getConv(idConv).subscribe((c: any) => {
+          c.members.map((member: any) => {
+            if (member._id == user._id) {
+              this.status = user.status;
+            }
+          });
+        });
+      } else {
+        this.convService.getThisConv().members.map((member: any) => {
+          if (member._id == user._id) {
+            this.status = user.status;
+          }
+        });
+      }
     });
   }
   getThisConv() {
@@ -93,5 +106,12 @@ export class HeaderConvComponent {
   }
   getStatusClasses() {
     return this.convService.getStatusClassesForConv(this.getThisConv());
+  }
+  getTailwindClasses(level: number, justBg: boolean) {
+    return this.userService.getTailwindThemeClasses(
+      this.convService.getThisConv().theme,
+      level,
+      justBg
+    );
   }
 }

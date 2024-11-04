@@ -212,7 +212,11 @@ export class NavBarComponent {
     return this.sessionService.getThisNotifs().length;
   }
   getTailwindThemeClesses() {
-    return this.userService.getTailwindThemeClasses();
+    return this.userService.getTailwindThemeClasses(
+      this.getCurrentUser().theme,
+      1,
+      false
+    );
   }
   getSelectorLeft() {
     switch (this.getFinalPath()) {

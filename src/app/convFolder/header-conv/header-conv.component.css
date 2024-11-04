@@ -1,11 +1,4 @@
-#cf{
-    background-color: var(--bg-color-conv);
-    color: var(--font-color-conv);  
-    padding: 10px;
-    width: 100%;
-    margin: 0px;
 
-}
 #photoConv{
     width: 60px;
     height: 60px;

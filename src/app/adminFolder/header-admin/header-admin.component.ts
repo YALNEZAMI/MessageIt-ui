@@ -29,6 +29,10 @@ export class HeaderAdminComponent {
     this.router.navigate(['/admin/profile']);
   }
   getTailwindThemeClesses() {
-    return this.userService.getTailwindThemeClasses();
+    return this.userService.getTailwindThemeClasses(
+      this.getCurrentUser().theme,
+      1,
+      false
+    );
   }
 }

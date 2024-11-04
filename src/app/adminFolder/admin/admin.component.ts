@@ -67,4 +67,11 @@ export class AdminComponent implements OnInit {
   toggleSidebar() {
     this.displayingSideBar = !this.displayingSideBar;
   }
+  getTailwindThemeClesses(number: number, justBG: boolean) {
+    return this.userService.getTailwindThemeClasses(
+      this.userService.getThisUser().theme,
+      number,
+      justBG
+    );
+  }
 }

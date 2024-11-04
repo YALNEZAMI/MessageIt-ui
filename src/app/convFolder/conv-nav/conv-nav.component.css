@@ -20,8 +20,4 @@
     background-color: var(--font-color-conv);
     color: var(--bg-color-conv);  
   }
-  #navItemsContainer{
-    border-top: 1px solid var(--font-color-conv);
-    background-color: var(--bg-color-conv);
-    
-  }
+ 

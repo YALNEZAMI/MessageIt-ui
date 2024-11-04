@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import env from 'src/env';
 import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { Theme } from '../Interfaces/Theme';
 export interface User {
   _id: string;
   firstName: string;
@@ -173,30 +174,24 @@ export class UserService {
     return this.http.get(`${this.uri}/user/findForOtherAuthWays/${id}`);
   }
 
-  getTailwindThemeClasses() {
-    const theme = this.getThisUser().theme;
-    switch (theme) {
-      case 'basic':
-        return {
-          'bg-blue-500': true,
-        };
-      case 'love':
-        return {
-          'bg-pink-500': true,
-        };
-      case 'spring':
-        return {
-          'bg-green-500': true,
-        };
-      case 'panda':
-        return {
-          'bg-black': true,
-          'text-white': true,
-        };
-
-      default:
-        return {};
-        break;
+  getTailwindThemeClasses(theme: Theme, level: number, justBG: boolean) {
+    if (level == 1) {
+      return {
+        'bg-white text-black': theme == 'basic',
+        'bg-pink-500 text-white': theme == 'love',
+        'bg-green-500 text-white': theme == 'spring',
+        'bg-black text-white': theme == 'panda',
+      };
+    } else {
+      return {
+        'text-slate-700': theme == 'basic' && !justBG,
+        'bg-slate-300 ': theme == 'basic',
+        'bg-pink-300 ': theme == 'love',
+        'bg-green-300 ': theme == 'spring',
+        'text-white': theme == 'love' || (theme == 'spring' && !justBG),
+        'bg-slate-700 ': theme == 'panda',
+        'text-slate-200': theme == 'panda' && !justBG,
+      };
     }
   }
 }

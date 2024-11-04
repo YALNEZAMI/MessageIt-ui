@@ -1,4 +1,4 @@
-<div class="flex" id="cf">
+<div class="flex p-2" [ngClass]="getTailwindClasses(2, false)">
   <div class="flex justify-center items-center relative">
     <img
       id="photoConv"
@@ -13,8 +13,9 @@
       [ngClass]="getStatusClasses()"
     ></div>
   </div>
+  <!--name and lastconnection-->
   <div class="nameAndConOrTyping">
-    <div id="name" class="text-white flex flex-col pt-1">
+    <div id="name" class="flex flex-col pt-1">
       <div
         class="text-xl"
         [ngClass]="{

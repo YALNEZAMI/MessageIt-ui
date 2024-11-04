@@ -106,7 +106,6 @@ ul{
     height: 560px;    
     overflow-y: hidden;
     overflow-x: hidden;
-    background-color: var(--font-color-conv)
 }
 .right{
     direction: rtl;
@@ -167,7 +166,6 @@ app-conv-side{
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
-    background-color: var(--font-color-conv);
     overflow-y: hidden;
     /* max-width: 20%; */
    

@@ -1,12 +1,12 @@
 <div id="adminContainer" class="transition-all">
   <div id="headerAndNav">
-    <div class="border-b-2 border-black">
+    <div [ngClass]="getTailwindThemeClesses(2, false)">
       <app-header-admin></app-header-admin>
     </div>
-    <div class="h-1"></div>
+    <!--sidebar in admin page-->
     <div
       (click)="toggleSidebar()"
-      class="absolute cursor-pointer p-2 rounded right-2 top-4 bg-white text-black"
+      class="absolute transition-all duration-500 ease-in-out hover:text-slate-500 cursor-pointer p-2 rounded right-2 top-4 bg-white text-black"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +33,11 @@
       }"
     ></app-admin-side-bar>
 
-    <div><app-nav-bar></app-nav-bar></div>
+    <div [ngClass]="getTailwindThemeClesses(2, false)">
+      <app-nav-bar></app-nav-bar>
+    </div>
   </div>
-  <main class="pt-40"><router-outlet></router-outlet></main>
+  <main class="pt-40" [ngClass]="getTailwindThemeClesses(2, true)">
+    <router-outlet></router-outlet>
+  </main>
 </div>

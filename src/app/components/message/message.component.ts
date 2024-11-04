@@ -32,12 +32,7 @@ export class MessageComponent {
     date: new Date(),
     ref: '',
     visibility: [],
-    sender: {
-      _id: '',
-      photo: '',
-      firstName: '',
-      lastName: '',
-    },
+    sender: {} as User,
     typeMsg: '',
     reactions: [],
   };

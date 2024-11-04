@@ -1,3 +1,5 @@
+import { Theme } from './Theme';
+
 export class Conv {
   _id: string;
   photo: string;
@@ -6,7 +8,7 @@ export class Conv {
   members: string[];
   lastMessage: any;
   type: string;
-  theme: string;
+  theme: Theme;
   constructor(
     _id: string,
     photo: string,
