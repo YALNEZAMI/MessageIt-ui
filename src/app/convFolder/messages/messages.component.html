@@ -1,4 +1,4 @@
-<div id="messages" class="bg-pink-500 h-full w-full">
+<div id="messages" class="h-full w-full">
   <!--multiple selected messages options-->
   <div
     *ngIf="isSelectingMode && selectedMessages.length > 0"
@@ -54,39 +54,46 @@
   <div
     *ngIf="photoDisplayedUrl != ''"
     (click)="displayPhoto('')"
-    id="cadrePhotoDisplayed"
-    class="cadre"
+    id="cadre-Photo-Displayed"
+    class="flex justify-center items-center w-screen h-screen fixed left-0 top-0 z-30"
   >
-    <img
-      id="photoDisplayed"
-      class="photoDisplayed"
-      src="{{ photoDisplayedUrl }}"
-      alt=""
-    />
-    <br />
-    <div id="downloadPhotoDisplayedDiv">
-      <a
-        class="btn btn-warning flex justify-center items-center space-x-3"
-        id="downloadPhotoDisplayed"
-        href="{{ photoDisplayedUrl }}"
-        download
-      >
-        Download
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
+    <!--shadow effect-->
+    <div
+      class="fixed left-0 top-0 z-20 bg-black opacity-50 w-screen h-screen"
+    ></div>
+    <div class="z-40">
+      <img
+        id="photoDisplayed"
+        class="photoDisplayed"
+        [src]="photoDisplayedUrl"
+        alt=""
+      />
+      <br />
+      <div id="downloadPhotoDisplayedDiv">
+        <a
+          [ngClass]="getTailwindClasses(1, false)"
+          class="btn btn-warning flex justify-center items-center space-x-3"
+          id="downloadPhotoDisplayed"
+          href="{{ photoDisplayedUrl }}"
+          download
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-          />
-        </svg>
-      </a>
+          Download
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+            />
+          </svg>
+        </a>
+      </div>
     </div>
   </div>
   <div class="flex flex-row w-full h-full">
@@ -95,7 +102,7 @@
       [ngClass]="getTailwindClasses(3, false)"
       class="w-1/3"
     ></app-conv-side>
-    <div class="messagesAndInput relative flex flex-col w-3/4 bg-blue-400">
+    <div class="messagesAndInput relative flex flex-col space-y-0 w-3/4">
       <!--loading spiner-->
       <div
         *ngIf="loading && MoreMessages && !isBottom"
@@ -146,6 +153,7 @@
         ></app-message>
       </div>
       <div
+        [ngClass]="getThirdCommonColor()"
         class="flex justify-center items-center w-3/4 fixed right-0 bottom-0"
       >
         <!--scrolldown or appendDown-->
@@ -197,7 +205,7 @@
           </button>
         </div>
         <app-input
-          class="w-full md:w-3/4 lg:w-1/2"
+          class="w-full md:w-3/4"
           (emitCancelRepling)="isRepling = false"
         ></app-input>
       </div>

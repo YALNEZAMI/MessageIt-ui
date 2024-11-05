@@ -291,10 +291,10 @@ export class MessagesComponent implements OnInit {
       }
     }
   }
-  ImgDispledUrl = '';
   // setThisVus(data: any) {}
   displayPhoto(file: string) {
-    this.ImgDispledUrl = file;
+    this.photoDisplayedUrl = file;
+    console.log('photoDisplayedUrl', this.photoDisplayedUrl);
   }
   setMessageClicked(id: string) {
     if (this.messageClicked == id) {
@@ -762,5 +762,8 @@ export class MessagesComponent implements OnInit {
       level,
       justBg
     );
+  }
+  getThirdCommonColor() {
+    return this.userService.getThirdCommonColor();
   }
 }
