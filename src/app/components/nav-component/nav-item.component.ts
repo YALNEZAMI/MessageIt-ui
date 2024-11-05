@@ -1,6 +1,7 @@
 import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
 import { NavItem } from 'src/app/Interfaces/navItem.interface';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   selector: 'app-nav-item',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavItemComponent implements AfterViewChecked {
   @Input() navItem: NavItem | any;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userService: UserService) {}
   ngAfterViewChecked(): void {
     document.getElementById(this.navItem._id + '-svgContainer')!.innerHTML =
       this.navItem.svg;
@@ -37,5 +38,8 @@ export class NavItemComponent implements AfterViewChecked {
       return this.navItem.counter;
     }
     return '+9';
+  }
+  getThirdCommonColorClasses() {
+    return this.userService.getThirdCommonColor();
   }
 }

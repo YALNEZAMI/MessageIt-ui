@@ -1,7 +1,8 @@
 <div
   [id]="navItem._id"
   (click)="goTo()"
-  class="relative transition-all flex space-x-2 m-1 sm:mx-3 justify-center items-center rounded cursor-pointer bg-gray-600 shadow-md hover:opacity-80 text-white h-max mt-1 px-2 py-1 min-w-14 sm:min-w-28 w-max"
+  class="relative transition-all flex space-x-2 m-1 sm:mx-3 justify-center items-center rounded cursor-pointer shadow-md hover:opacity-80 h-max mt-1 px-2 py-1 min-w-14 sm:min-w-28 w-max"
+  [ngClass]="getThirdCommonColorClasses()"
 >
   <!--svg container-->
   <div [id]="navItem._id + '-svgContainer'"></div>
