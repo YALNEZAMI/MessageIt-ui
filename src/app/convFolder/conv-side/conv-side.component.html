@@ -10,7 +10,12 @@
         placeholder="Search"
       />
       <div class="input-group-btn">
-        <button (click)="search()" type="button" class="btn btn-info">
+        <button
+          (click)="search()"
+          type="button"
+          class="px-2 btn"
+          [ngClass]="getTailwindClasses(2, false)"
+        >
           <i class="fa fa-search"
             ><span class="material-symbols-outlined">
               <svg
