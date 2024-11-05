@@ -80,6 +80,7 @@
             </div>
             <!--message text content-->
             <div
+              *ngIf="message.text != ''"
               class="relative"
               [ngClass]="{
                     'ml-5': !isUserImgDisplayed() ,
@@ -90,8 +91,7 @@
                 [innerHtml]="message.text | urlify"
                 (click)="setMessageClicked()"
                 [ngClass]="getTextClasses()"
-                *ngIf="message.text != ''"
-                class="message-Text relative min-h-max overflow-hidden max-w-40 sm:max-w-56 md:max-w-64 lg:max-w-72 w-max h-max px-2 p-1 rounded-md break-words whitespace-pre-wrap"
+                class="message-Text relative shadow-md min-h-max overflow-hidden max-w-40 sm:max-w-56 md:max-w-64 lg:max-w-72 w-max h-max px-2 p-1 rounded-md break-words whitespace-pre-wrap"
               ></div>
               <!-- triangle-->
               <div
@@ -145,13 +145,18 @@
           </div>
         </div>
       </div>
-
-      <div [ngClass]="getImgSentContainer()">
+      <!--files-->
+      <div
+        class="flex space-x-2"
+        [ngClass]="{
+          'flex-row-reverse': isMyMessage()
+        }"
+      >
         <div *ngFor="let file of message.files">
           <img
             (click)="displayPhoto(file)"
             *ngIf="fileType(file) == 'img'"
-            class="w-20 rounded"
+            class="w-20 h-24 rounded"
             [src]="file"
             alt=""
           />
@@ -167,7 +172,7 @@
           </video>
         </div>
       </div>
-      <!--status and reacters-->
+      <!--message status and reacters-->
       <div
         class="flex justify-between"
         [ngClass]="{

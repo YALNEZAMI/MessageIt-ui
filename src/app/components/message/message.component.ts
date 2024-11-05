@@ -106,15 +106,6 @@ export class MessageComponent {
     };
   }
 
-  getImgSentContainer() {
-    let idUser = this.message.sender._id;
-
-    return {
-      row: true,
-      myPhotoSentContainer: idUser == this.getThisUser()._id,
-      otherPhotoSentContainer: idUser != this.getThisUser()._id,
-    };
-  }
   fileType(file: string) {
     return this.messageService.fileType(file);
   }
@@ -144,6 +135,7 @@ export class MessageComponent {
   displayPhoto(file: string) {
     this.emitDisplayPhoto.emit(file);
   }
+  //FIXME files hidden for other user
   displayReacters() {
     this.emitDisplayReacters.emit(this.message);
   }
@@ -174,15 +166,15 @@ export class MessageComponent {
   getTriangleClasses() {
     return {
       'border-l-white': this.getConv().theme == 'basic' && this.isMyMessage(),
-      'border-l-pink-500': this.getConv().theme == 'love' && this.isMyMessage(),
+      'border-l-pink-700': this.getConv().theme == 'love' && this.isMyMessage(),
       'border-l-black': this.getConv().theme == 'panda' && this.isMyMessage(),
-      'border-l-green-500':
+      'border-l-green-700':
         this.getConv().theme == 'spring' && this.isMyMessage(),
       'border-r-white': this.getConv().theme == 'basic' && !this.isMyMessage(),
-      'border-r-pink-500':
+      'border-r-pink-700':
         this.getConv().theme == 'love' && !this.isMyMessage(),
       'border-r-black': this.getConv().theme == 'panda' && !this.isMyMessage(),
-      'border-r-green-500':
+      'border-r-green-700':
         this.getConv().theme == 'spring' && !this.isMyMessage(),
 
       rightTriangle: this.isMyMessage(),
