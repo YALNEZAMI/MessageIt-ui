@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/Services/session.service';
 import { SideBarService } from 'src/app/Services/side-bar.service';
+import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   selector: 'app-admin-side-bar',
@@ -15,7 +16,8 @@ export class AdminSideBarComponent {
   constructor(
     private sessionService: SessionService,
     private sidebarService: SideBarService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
   async logout() {
     this.logingOut = true;
@@ -28,5 +30,8 @@ export class AdminSideBarComponent {
   goToGroupe() {
     this.disapear();
     this.router.navigate(['/admin/groupe']);
+  }
+  getThirdCommonColor() {
+    return this.userService.getThirdCommonColor();
   }
 }
