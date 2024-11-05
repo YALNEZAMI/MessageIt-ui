@@ -188,18 +188,18 @@ export class UserService {
     } else if (level == 2) {
       return {
         'text-slate-700': theme == 'basic' && !justBG,
-        'bg-slate-400 ': theme == 'basic',
-        'bg-pink-400 ': theme == 'love',
-        'bg-green-400 ': theme == 'spring',
+        'bg-slate-500 ': theme == 'basic',
+        'bg-pink-500 ': theme == 'love',
+        'bg-green-500 ': theme == 'spring',
         'text-white': theme == 'love' || (theme == 'spring' && !justBG),
-        'bg-slate-700 ': theme == 'panda',
+        'bg-slate-600 ': theme == 'panda',
         'text-slate-200': theme == 'panda' && !justBG,
       };
     } else if (level == 3) {
       return {
         'bg-white text-black': theme == 'basic',
-        'bg-pink-500 text-white': theme == 'love',
-        'bg-green-500 text-white': theme == 'spring',
+        'bg-pink-700 text-white': theme == 'love',
+        'bg-green-700 text-white': theme == 'spring',
         'bg-black text-white': theme == 'panda',
       };
     } else {
@@ -213,5 +213,8 @@ export class UserService {
         'text-slate-200': theme == 'panda' && !justBG,
       };
     }
+  }
+  getThirdCommonColor() {
+    return 'bg-gray-600 text-white';
   }
 }
